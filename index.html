@@ -4,13 +4,32 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Assistant Parents</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --terra:    #D96B4A;
+      --terra-dk: #C45E3F;
+      --terra-lt: #FDEEE6;
+      --sage:     #7BAF9E;
+      --sage-lt:  #E3F0EC;
+      --amber-lt: #FFF3DC;
+      --rose-lt:  #FFE8E3;
+      --lav-lt:   #EDE8F5;
+      --cream:    #FFF8F3;
+      --cream-dk: #FEF0E8;
+      --sand:     #EDE5DC;
+      --text:     #2C2A28;
+      --text-2:   #7A6F68;
+      --text-3:   #B5A99E;
+    }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: #FFF8F3;
-      color: #2C2A28;
+      font-family: 'DM Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--cream);
+      color: var(--text);
       height: 100dvh;
       display: flex;
       overflow: hidden;
@@ -186,12 +205,99 @@
       display: flex; flex-direction: column; gap: 14px;
     }
 
+    /* ══ ÉCRAN D'ACCUEIL ════════════════════════════════════ */
     .accueil {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      flex: 1; text-align: center; color: #B5A99E; gap: 10px; padding: 40px 20px; min-height: 180px;
+      display: flex; flex-direction: column; align-items: center;
+      flex: 1; gap: 20px; padding: 24px 16px 20px;
+      overflow-y: auto; scrollbar-width: none;
     }
-    .accueil .icone { font-size: 2rem; }
-    .accueil p { font-size: 0.9rem; line-height: 1.7; white-space: pre-line; }
+    .accueil::-webkit-scrollbar { display: none; }
+
+    .accueil-hero {
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dk) 100%);
+      border-radius: 24px; padding: 28px 24px 26px;
+      width: 100%; max-width: 520px; text-align: center;
+      box-shadow: 0 4px 28px rgba(217,107,74,0.09);
+      animation: fadeUp 0.5s ease both;
+    }
+    .accueil-hero::before {
+      content:''; position:absolute; top:-50px; right:-50px;
+      width:160px; height:160px; border-radius:50%;
+      background: radial-gradient(circle, rgba(217,107,74,0.14) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .accueil-hero::after {
+      content:''; position:absolute; bottom:-40px; left:-40px;
+      width:130px; height:130px; border-radius:50%;
+      background: radial-gradient(circle, rgba(123,175,158,0.18) 0%, transparent 68%);
+      pointer-events: none;
+    }
+    .accueil-deco {
+      font-size: 2.4rem; margin-bottom: 12px;
+      display: inline-block;
+      animation: floatLeaf 4s ease-in-out infinite;
+    }
+    @keyframes floatLeaf {
+      0%,100% { transform: translateY(0) rotate(-3deg); }
+      50%      { transform: translateY(-6px) rotate(3deg); }
+    }
+    .accueil-titre {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.75rem; font-weight: 700; color: var(--text);
+      margin-bottom: 10px; line-height: 1.2; position: relative;
+    }
+    .accueil-sous {
+      font-size: 0.9rem; color: var(--text-2);
+      line-height: 1.75; white-space: pre-line; position: relative;
+    }
+
+    /* ══ CARTES IDÉES ════════════════════════════════════════ */
+    .accueil-cartes {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 10px; width: 100%; max-width: 520px;
+    }
+    .carte-idee {
+      background: #fff; border-radius: 18px;
+      padding: 15px 13px; cursor: pointer;
+      display: flex; gap: 11px; align-items: flex-start;
+      box-shadow: 0 2px 14px rgba(0,0,0,0.055);
+      border: 1.5px solid transparent;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
+      animation: fadeUp 0.45s ease both;
+    }
+    .carte-idee:nth-child(1) { animation-delay: 0.08s; }
+    .carte-idee:nth-child(2) { animation-delay: 0.14s; }
+    .carte-idee:nth-child(3) { animation-delay: 0.20s; }
+    .carte-idee:nth-child(4) { animation-delay: 0.26s; }
+    .carte-idee:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
+      border-color: rgba(217,107,74,0.25);
+    }
+    .carte-idee:active { transform: scale(0.97); }
+    .carte-icone-bg {
+      width: 42px; height: 42px; border-radius: 13px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; font-size: 1.25rem;
+    }
+    .carte-crise   .carte-icone-bg { background: var(--rose-lt); }
+    .carte-repas   .carte-icone-bg { background: var(--amber-lt); }
+    .carte-sommeil .carte-icone-bg { background: var(--lav-lt); }
+    .carte-conseil .carte-icone-bg { background: var(--sage-lt); }
+    .carte-film    .carte-icone-bg { background: #E8F0FE; }
+    .carte-film { grid-column: 1 / -1; }
+    .carte-textes { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .carte-label {
+      font-weight: 600; font-size: 0.8rem; color: var(--text); line-height: 1.3;
+    }
+    .carte-ex {
+      font-size: 0.73rem; color: var(--text-3); line-height: 1.45; font-style: italic;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
     /* Bulles */
     .bulle { display: flex; flex-direction: column; max-width: 82%; }
@@ -238,13 +344,14 @@
     .raccourcis::-webkit-scrollbar { display: none; }
 
     .raccourci {
-      display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px;
-      background: #FFF8F3; border: 1.5px solid #E8DDD4; border-radius: 13px;
-      font-size: 0.79rem; font-family: inherit; color: #5A5048;
+      display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px;
+      background: var(--cream); border: 1.5px solid var(--sand); border-radius: 20px;
+      font-size: 0.8rem; font-family: inherit; color: var(--text-2); font-weight: 500;
       cursor: pointer; white-space: nowrap; flex-shrink: 0;
-      transition: background 0.15s, border-color 0.15s, color 0.15s;
+      transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
     }
-    .raccourci:hover { background: #FDEEE6; border-color: #D96B4A; color: #C45E3F; }
+    .raccourci:hover  { background: var(--terra-lt); border-color: var(--terra); color: var(--terra-dk); }
+    .raccourci:active { transform: scale(0.94); }
 
     .saisie-row { display: flex; gap: 7px; align-items: flex-end; }
 
@@ -515,6 +622,7 @@
         <button class="raccourci" onclick="raccourci('repas')"   data-i18n="rc_repas"></button>
         <button class="raccourci" onclick="raccourci('sommeil')" data-i18n="rc_sommeil"></button>
         <button class="raccourci" onclick="raccourci('conseil')" data-i18n="rc_conseil"></button>
+        <button class="raccourci" onclick="raccourci('film')"   data-i18n="rc_film"></button>
       </div>
       <div class="saisie-row">
         <textarea id="question" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
@@ -552,10 +660,12 @@
       confirmDeleteConv:'Supprimer cette conversation ?',
       rc_crise:'🤯 Gérer une crise', rc_repas:'🍽️ Idées de repas',
       rc_sommeil:'🌙 Sommeil', rc_conseil:'💡 Conseils du jour',
+      rc_film:'🎬 Film / vidéo',
       q_crise:  c=>`Mon enfant${c} pleure beaucoup et semble très agité. Comment l'aider ?`,
       q_repas:  c=>`Des idées de repas faciles et équilibrés pour un enfant${c} ?`,
       q_sommeil:c=>`Mon enfant${c} a du mal à dormir. Quels conseils ?`,
       q_conseil:c=>`Quels conseils pratiques pour un enfant${c} en ce moment ?`,
+      q_film:   c=>`Des idées de films ou dessins animés adaptés à mon enfant${c} ?`,
       ctx:(a,u)=>a?` de ${a} ${u}`:'',
       ageYears:(a,m)=>m?`${a} ans et ${m} mois`:`${a} ans`,
       ageMonths:m=>`${m} mois`,
@@ -583,11 +693,12 @@
       confirmDelete:'Delete this child?',
       confirmDeleteConv:'Delete this conversation?',
       rc_crise:'🤯 Handle a meltdown', rc_repas:'🍽️ Meal ideas',
-      rc_sommeil:'🌙 Sleep', rc_conseil:'💡 Tips of the day',
+      rc_sommeil:'🌙 Sleep', rc_conseil:'💡 Tips of the day', rc_film:'🎬 Film / video',
       q_crise:  c=>`My child${c} is crying a lot and seems very upset. How can I help?`,
       q_repas:  c=>`What are easy, balanced meal ideas for a child${c}?`,
       q_sommeil:c=>`My child${c} has trouble sleeping. Any advice?`,
       q_conseil:c=>`What practical tips do you have for a child${c} right now?`,
+      q_film:   c=>`Any film or cartoon ideas suited for my child${c}?`,
       ctx:(a,u)=>a?` aged ${a} ${u}`:'',
       ageYears:(a,m)=>m?`${a} yr${a>1?'s':''} ${m} mo`:`${a} yr${a>1?'s':''}`,
       ageMonths:m=>`${m} mo`,
@@ -615,11 +726,12 @@
       confirmDelete:'למחוק את הילד הזה?',
       confirmDeleteConv:'למחוק את השיחה הזו?',
       rc_crise:'🤯 התמודדות עם משבר', rc_repas:'🍽️ רעיונות לארוחות',
-      rc_sommeil:'🌙 שינה', rc_conseil:'💡 טיפים של היום',
+      rc_sommeil:'🌙 שינה', rc_conseil:'💡 טיפים של היום', rc_film:'🎬 סרט / סרטון',
       q_crise:  c=>`הילד שלי${c} בוכה הרבה ונראה מאוד נסער. איך אוכל לעזור לו?`,
       q_repas:  c=>`רעיונות לארוחות קלות ומאוזנות לילד${c}?`,
       q_sommeil:c=>`הילד שלי${c} מתקשה לישון. יש עצות?`,
       q_conseil:c=>`אילו טיפים מעשיים לרווחת ילד${c} כרגע?`,
+      q_film:   c=>`יש רעיונות לסרטים או קריקטורות מתאימים לילד${c}?`,
       ctx:(a,u)=>a?` בגיל ${a} ${u}`:'',
       ageYears:(a,m)=>m?`${a} שנים ו-${m} חודשים`:`${a} שנים`,
       ageMonths:m=>`${m} חודשים`,
@@ -647,11 +759,12 @@
       confirmDelete:'حذف هذا الطفل؟',
       confirmDeleteConv:'حذف هذه المحادثة؟',
       rc_crise:'🤯 التعامل مع نوبة', rc_repas:'🍽️ أفكار للوجبات',
-      rc_sommeil:'🌙 النوم', rc_conseil:'💡 نصائح اليوم',
+      rc_sommeil:'🌙 النوم', rc_conseil:'💡 نصائح اليوم', rc_film:'🎬 فيلم / فيديو',
       q_crise:  c=>`طفلي${c} يبكي كثيراً ويبدو منزعجاً. كيف أساعده؟`,
       q_repas:  c=>`أفكار لوجبات سهلة ومتوازنة لطفل${c}؟`,
       q_sommeil:c=>`طفلي${c} يجد صعوبة في النوم. ما النصائح؟`,
       q_conseil:c=>`ما النصائح العملية لرفاهية طفل${c} الآن؟`,
+      q_film:   c=>`هل من أفكار لأفلام أو رسوم متحركة مناسبة لطفل${c}؟`,
       ctx:(a,u)=>a?` عمره ${a} ${u}`:'',
       ageYears:(a,m)=>m?`${a} سنة و${m} شهر`:`${a} سنة`,
       ageMonths:m=>`${m} أشهر`,
@@ -678,11 +791,12 @@
       confirmDelete:'¿Eliminar este niño?',
       confirmDeleteConv:'¿Eliminar esta conversación?',
       rc_crise:'🤯 Manejar una crisis', rc_repas:'🍽️ Ideas de comidas',
-      rc_sommeil:'🌙 Sueño', rc_conseil:'💡 Consejos del día',
+      rc_sommeil:'🌙 Sueño', rc_conseil:'💡 Consejos del día', rc_film:'🎬 Peli / vídeo',
       q_crise:  c=>`Mi hijo${c} llora mucho y parece muy agitado. ¿Cómo ayudarle?`,
       q_repas:  c=>`¿Ideas de comidas fáciles y equilibradas para un niño${c}?`,
       q_sommeil:c=>`Mi hijo${c} tiene problemas para dormir. ¿Consejos?`,
       q_conseil:c=>`¿Consejos prácticos para el bienestar de un niño${c}?`,
+      q_film:   c=>`¿Ideas de películas o dibujos animados para mi hijo${c}?`,
       ctx:(a,u)=>a?` de ${a} ${u}`:'',
       ageYears:(a,m)=>m?`${a} año${a>1?'s':''} y ${m} mes${m>1?'es':''}`:`${a} año${a>1?'s':''}`,
       ageMonths:m=>`${m} mes${m>1?'es':''}`,
@@ -709,11 +823,12 @@
       confirmDelete:'Dieses Kind löschen?',
       confirmDeleteConv:'Dieses Gespräch löschen?',
       rc_crise:'🤯 Ausraster bewältigen', rc_repas:'🍽️ Mahlzeitenideen',
-      rc_sommeil:'🌙 Schlaf', rc_conseil:'💡 Tipp des Tages',
+      rc_sommeil:'🌙 Schlaf', rc_conseil:'💡 Tipp des Tages', rc_film:'🎬 Film / Video',
       q_crise:  c=>`Mein Kind${c} weint viel und wirkt sehr aufgewühlt. Wie helfen?`,
       q_repas:  c=>`Ideen für einfache, ausgewogene Mahlzeiten für ein Kind${c}?`,
       q_sommeil:c=>`Mein Kind${c} schläft schlecht. Hast du Tipps?`,
       q_conseil:c=>`Praktische Tipps für ein Kind${c} gerade?`,
+      q_film:   c=>`Ideen für Filme oder Zeichentrick für mein Kind${c}?`,
       ctx:(a,u)=>a?` (${a} ${u})`:'',
       ageYears:(a,m)=>m?`${a} J. ${m} Mo.`:`${a} J.`,
       ageMonths:m=>`${m} Mo.`,
@@ -740,11 +855,12 @@
       confirmDelete:'Eliminare questo bambino?',
       confirmDeleteConv:'Eliminare questa conversazione?',
       rc_crise:'🤯 Gestire una crisi', rc_repas:'🍽️ Idee pasti',
-      rc_sommeil:'🌙 Sonno', rc_conseil:'💡 Consigli del giorno',
+      rc_sommeil:'🌙 Sonno', rc_conseil:'💡 Consigli del giorno', rc_film:'🎬 Film / video',
       q_crise:  c=>`Il mio bambino${c} piange molto e sembra molto agitato. Come aiutarlo?`,
       q_repas:  c=>`Idee per pasti facili ed equilibrati per un bambino${c}?`,
       q_sommeil:c=>`Il mio bambino${c} ha difficoltà a dormire. Consigli?`,
       q_conseil:c=>`Consigli pratici per il benessere di un bambino${c}?`,
+      q_film:   c=>`Idee di film o cartoni animati per il mio bambino${c}?`,
       ctx:(a,u)=>a?` di ${a} ${u}`:'',
       ageYears:(a,m)=>m?`${a} ann${a>1?'i':'o'} e ${m} mesi`:`${a} ann${a>1?'i':'o'}`,
       ageMonths:m=>`${m} mesi`,
@@ -771,11 +887,12 @@
       confirmDelete:'Eliminar esta criança?',
       confirmDeleteConv:'Eliminar esta conversa?',
       rc_crise:'🤯 Gerir uma crise', rc_repas:'🍽️ Ideias de refeições',
-      rc_sommeil:'🌙 Sono', rc_conseil:'💡 Dicas do dia',
+      rc_sommeil:'🌙 Sono', rc_conseil:'💡 Dicas do dia', rc_film:'🎬 Filme / vídeo',
       q_crise:  c=>`O meu filho${c} chora muito e parece muito agitado. Como ajudar?`,
       q_repas:  c=>`Ideias de refeições fáceis para uma criança${c}?`,
       q_sommeil:c=>`O meu filho${c} dorme mal. Que conselhos?`,
       q_conseil:c=>`Dicas práticas para uma criança${c} agora?`,
+      q_film:   c=>`Ideias de filmes ou desenhos animados para meu filho${c}?`,
       ctx:(a,u)=>a?` de ${a} ${u}`:'',
       ageYears:(a,m)=>m?`${a} ano${a>1?'s':''} e ${m} mês`:`${a} ano${a>1?'s':''}`,
       ageMonths:m=>`${m} meses`,
@@ -802,11 +919,12 @@
       confirmDelete:'Удалить этого ребёнка?',
       confirmDeleteConv:'Удалить этот разговор?',
       rc_crise:'🤯 Справиться с кризисом', rc_repas:'🍽️ Идеи для еды',
-      rc_sommeil:'🌙 Сон', rc_conseil:'💡 Советы дня',
+      rc_sommeil:'🌙 Сон', rc_conseil:'💡 Советы дня', rc_film:'🎬 Фильм / видео',
       q_crise:  c=>`Мой ребёнок${c} много плачет и кажется очень взволнованным. Как помочь?`,
       q_repas:  c=>`Идеи лёгких и сбалансированных блюд для ребёнка${c}?`,
       q_sommeil:c=>`Мой ребёнок${c} плохо спит. Какие советы?`,
       q_conseil:c=>`Практические советы для ребёнка${c} прямо сейчас?`,
+      q_film:   c=>`Идеи фильмов или мультфильмов для ребёнка${c}?`,
       ctx:(a,u)=>a?` (${a} ${u})`:'',
       ageYears:(a,m)=>m?`${a} л. ${m} мес.`:`${a} л.`,
       ageMonths:m=>`${m} мес.`,
@@ -833,11 +951,12 @@
       confirmDelete:'删除这个孩子？',
       confirmDeleteConv:'删除这段对话？',
       rc_crise:'🤯 处理危机', rc_repas:'🍽️ 饮食建议',
-      rc_sommeil:'🌙 睡眠', rc_conseil:'💡 今日建议',
+      rc_sommeil:'🌙 睡眠', rc_conseil:'💡 今日建议', rc_film:'🎬 影片推荐',
       q_crise:  c=>`我的孩子${c}哭泣不止，情绪激动。我该怎么帮助？`,
       q_repas:  c=>`有什么适合${c}孩子的简单营养饮食建议？`,
       q_sommeil:c=>`我的孩子${c}睡眠不好。有什么建议？`,
       q_conseil:c=>`对${c}孩子有什么实用建议？`,
+      q_film:   c=>`有适合${c}孩子的电影或动画推荐吗？`,
       ctx:(a,u)=>a?`${a}${u}大`:'',
       ageYears:(a,m)=>m?`${a}岁${m}个月`:`${a}岁`,
       ageMonths:m=>`${m}个月`,
@@ -864,11 +983,12 @@
       confirmDelete:'この子どもを削除しますか？',
       confirmDeleteConv:'この会話を削除しますか？',
       rc_crise:'🤯 癇癪への対応', rc_repas:'🍽️ 食事のアイデア',
-      rc_sommeil:'🌙 睡眠', rc_conseil:'💡 今日のアドバイス',
+      rc_sommeil:'🌙 睡眠', rc_conseil:'💡 今日のアドバイス', rc_film:'🎬 映画・動画',
       q_crise:  c=>`子ども${c}がとても泣いていて落ち着きません。どうすれば助けられますか？`,
       q_repas:  c=>`${c}の子どもに簡単でバランスの良い食事のアイデアを教えてください。`,
       q_sommeil:c=>`${c}の子どもがよく眠れません。アドバイスはありますか？`,
       q_conseil:c=>`${c}の子どもへの実践的なアドバイスは？`,
+      q_film:   c=>`${c}の子どもに合った映画やアニメのおすすめは？`,
       ctx:(a,u)=>a?`（${a}${u}）`:'',
       ageYears:(a,m)=>m?`${a}歳${m}ヶ月`:`${a}歳`,
       ageMonths:m=>`${m}ヶ月`,
@@ -895,11 +1015,12 @@
       confirmDelete:'이 아이를 삭제하시겠습니까?',
       confirmDeleteConv:'이 대화를 삭제하시겠습니까?',
       rc_crise:'🤯 위기 대처', rc_repas:'🍽️ 식사 아이디어',
-      rc_sommeil:'🌙 수면', rc_conseil:'💡 오늘의 팁',
+      rc_sommeil:'🌙 수면', rc_conseil:'💡 오늘의 팁', rc_film:'🎬 영화 / 영상',
       q_crise:  c=>`아이${c}가 많이 울고 매우 불안해 보입니다. 어떻게 도울 수 있을까요?`,
       q_repas:  c=>`아이${c}를 위한 쉽고 균형 잡힌 식사 아이디어가 있나요?`,
       q_sommeil:c=>`아이${c}가 잠을 잘 못 잡니다. 조언이 있으신가요?`,
       q_conseil:c=>`아이${c}의 행복을 위한 실용적인 팁은?`,
+      q_film:   c=>`아이${c}에게 적합한 영화나 만화 추천이 있나요?`,
       ctx:(a,u)=>a?` ${a}${u}`:'',
       ageYears:(a,m)=>m?`${a}세 ${m}개월`:`${a}세`,
       ageMonths:m=>`${m}개월`,
@@ -926,11 +1047,12 @@
       confirmDelete:'Bu çocuğu sil?',
       confirmDeleteConv:'Bu sohbeti sil?',
       rc_crise:'🤯 Kriz yönetimi', rc_repas:'🍽️ Yemek fikirleri',
-      rc_sommeil:'🌙 Uyku', rc_conseil:'💡 Günün ipuçları',
+      rc_sommeil:'🌙 Uyku', rc_conseil:'💡 Günün ipuçları', rc_film:'🎬 Film / video',
       q_crise:  c=>`Çocuğum${c} çok ağlıyor ve çok sinirli görünüyor. Nasıl yardımcı olabilirim?`,
       q_repas:  c=>`Çocuk${c} için kolay ve dengeli yemek fikirleri nelerdir?`,
       q_sommeil:c=>`Çocuğum${c} uyumakta güçlük çekiyor. Önerileriniz?`,
       q_conseil:c=>`Çocuk${c} için pratik ipuçlarınız neler?`,
+      q_film:   c=>`Çocuk${c} için uygun film veya çizgi film öneriniz var mı?`,
       ctx:(a,u)=>a?` ${a} ${u}`:'',
       ageYears:(a,m)=>m?`${a} yaş ${m} ay`:`${a} yaş`,
       ageMonths:m=>`${m} ay`,
@@ -957,11 +1079,12 @@
       confirmDelete:'Dit kind verwijderen?',
       confirmDeleteConv:'Dit gesprek verwijderen?',
       rc_crise:'🤯 Driftbui aanpakken', rc_repas:'🍽️ Maaltijdideeën',
-      rc_sommeil:'🌙 Slaap', rc_conseil:'💡 Tip van de dag',
+      rc_sommeil:'🌙 Slaap', rc_conseil:'💡 Tip van de dag', rc_film:'🎬 Film / video',
       q_crise:  c=>`Mijn kind${c} huilt veel en lijkt erg overstuur. Hoe kan ik helpen?`,
       q_repas:  c=>`Ideeën voor makkelijke, evenwichtige maaltijden voor een kind${c}?`,
       q_sommeil:c=>`Mijn kind${c} slaapt slecht. Heb je advies?`,
       q_conseil:c=>`Praktische tips voor een kind${c} op dit moment?`,
+      q_film:   c=>`Ideeën voor films of tekenfilms voor mijn kind${c}?`,
       ctx:(a,u)=>a?` van ${a} ${u}`:'',
       ageYears:(a,m)=>m?`${a} jr. ${m} mnd.`:`${a} jr.`,
       ageMonths:m=>`${m} mnd.`,
@@ -988,11 +1111,12 @@
       confirmDelete:'Usunąć to dziecko?',
       confirmDeleteConv:'Usunąć tę rozmowę?',
       rc_crise:'🤯 Radzenie z kryzysem', rc_repas:'🍽️ Pomysły na posiłki',
-      rc_sommeil:'🌙 Sen', rc_conseil:'💡 Wskazówki dnia',
+      rc_sommeil:'🌙 Sen', rc_conseil:'💡 Wskazówki dnia', rc_film:'🎬 Film / wideo',
       q_crise:  c=>`Moje dziecko${c} dużo płacze i wydaje się wzburzone. Jak pomóc?`,
       q_repas:  c=>`Pomysły na łatwe i zrównoważone posiłki dla dziecka${c}?`,
       q_sommeil:c=>`Moje dziecko${c} ma problemy ze snem. Jakie masz rady?`,
       q_conseil:c=>`Praktyczne wskazówki dla dziecka${c} teraz?`,
+      q_film:   c=>`Pomysły na filmy lub bajki dla mojego dziecka${c}?`,
       ctx:(a,u)=>a?` ${a} ${u}`:'',
       ageYears:(a,m)=>m?`${a} l. ${m} mies.`:`${a} l.`,
       ageMonths:m=>`${m} mies.`,
@@ -1019,11 +1143,12 @@
       confirmDelete:'Ștergi acest copil?',
       confirmDeleteConv:'Ștergi această conversație?',
       rc_crise:'🤯 Gestionarea unei crize', rc_repas:'🍽️ Idei de mese',
-      rc_sommeil:'🌙 Somn', rc_conseil:'💡 Sfaturile zilei',
+      rc_sommeil:'🌙 Somn', rc_conseil:'💡 Sfaturile zilei', rc_film:'🎬 Film / video',
       q_crise:  c=>`Copilul meu${c} plânge mult și pare agitat. Cum îl pot ajuta?`,
       q_repas:  c=>`Idei de mese ușoare pentru un copil${c}?`,
       q_sommeil:c=>`Copilul meu${c} doarme greu. Ce sfaturi?`,
       q_conseil:c=>`Sfaturi practice pentru un copil${c} acum?`,
+      q_film:   c=>`Idei de filme sau desene animate pentru copilul meu${c}?`,
       ctx:(a,u)=>a?` de ${a} ${u}`:'',
       ageYears:(a,m)=>m?`${a} an${a>1?'i':''} și ${m} lun${m>1?'i':'ă'}`:`${a} an${a>1?'i':''}`,
       ageMonths:m=>`${m} lun${m>1?'i':'ă'}`,
@@ -1089,7 +1214,16 @@
     document.getElementById('conv-titre').textContent = convTitre;
 
     const accueil = document.getElementById('accueil');
-    if (accueil) accueil.querySelector('p').textContent = tr.welcome;
+    if (accueil) {
+      const w = WELCOME[l] || WELCOME.fr;
+      const titreEl = document.getElementById('accueil-titre');
+      const sousEl  = document.getElementById('accueil-sous');
+      if (titreEl) titreEl.textContent = w.title;
+      if (sousEl)  sousEl.textContent  = w.sub;
+      accueil.querySelectorAll('.carte-ex').forEach((el, i) => {
+        el.textContent = [w.crise, w.repas, w.sommeil, w.conseil, w.film][i] || '';
+      });
+    }
 
     document.getElementById('footer-medical').innerHTML = tr.footer || '';
 
@@ -1407,11 +1541,59 @@
     renderSidebar(); fermerSidebar();
   }
 
+  function buildAccueil() {
+    const w = WELCOME[lang] || WELCOME.fr;
+    return `<div class="accueil" id="accueil">
+      <div class="accueil-hero">
+        <div class="accueil-deco">🌿</div>
+        <h2 class="accueil-titre" id="accueil-titre">${esc(w.title)}</h2>
+        <p class="accueil-sous" id="accueil-sous">${esc(w.sub)}</p>
+      </div>
+      <div class="accueil-cartes">
+        <div class="carte-idee carte-crise"   onclick="raccourci('crise')">
+          <div class="carte-icone-bg">🌊</div>
+          <div class="carte-textes">
+            <div class="carte-label" data-i18n="rc_crise">${esc(t('rc_crise'))}</div>
+            <div class="carte-ex">${esc(w.crise)}</div>
+          </div>
+        </div>
+        <div class="carte-idee carte-repas"   onclick="raccourci('repas')">
+          <div class="carte-icone-bg">🍽️</div>
+          <div class="carte-textes">
+            <div class="carte-label" data-i18n="rc_repas">${esc(t('rc_repas'))}</div>
+            <div class="carte-ex">${esc(w.repas)}</div>
+          </div>
+        </div>
+        <div class="carte-idee carte-sommeil" onclick="raccourci('sommeil')">
+          <div class="carte-icone-bg">🌙</div>
+          <div class="carte-textes">
+            <div class="carte-label" data-i18n="rc_sommeil">${esc(t('rc_sommeil'))}</div>
+            <div class="carte-ex">${esc(w.sommeil)}</div>
+          </div>
+        </div>
+        <div class="carte-idee carte-conseil" onclick="raccourci('conseil')">
+          <div class="carte-icone-bg">✨</div>
+          <div class="carte-textes">
+            <div class="carte-label" data-i18n="rc_conseil">${esc(t('rc_conseil'))}</div>
+            <div class="carte-ex">${esc(w.conseil)}</div>
+          </div>
+        </div>
+        <div class="carte-idee carte-film" onclick="raccourci('film')">
+          <div class="carte-icone-bg">🎬</div>
+          <div class="carte-textes">
+            <div class="carte-label" data-i18n="rc_film">${esc(t('rc_film'))}</div>
+            <div class="carte-ex">${esc(w.film)}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
   function nouvelleConversation() {
     convId='conv-'+Date.now()+'-'+Math.random().toString(36).slice(2);
     conversation=[];
     document.getElementById('conv-titre').textContent=t('newConvTitle');
-    document.getElementById('fil').innerHTML=`<div class="accueil" id="accueil"><div class="icone">💬</div><p>${esc(t('welcome'))}</p></div>`;
+    document.getElementById('fil').innerHTML=buildAccueil();
     renderSidebar(); fermerSidebar();
     document.getElementById('question').focus();
   }
@@ -1449,6 +1631,28 @@
     '911','112','urgence','urgencia','emergency','notfall','emergenza','emergência',
     'urgência','urgentie','nödfall',
   ];
+
+  // ════════════════════════════════════════════════════════════
+  // TEXTES ÉCRAN D'ACCUEIL (par langue)
+  // ════════════════════════════════════════════════════════════
+  const WELCOME = {
+    fr: { title:'Bonjour 🌿', sub:'Je suis là pour vous accompagner,\nà chaque instant de votre parentalité.', crise:'Mon enfant pleure sans raison...', repas:'Que lui préparer ce soir ?', sommeil:'Comment l\'aider à s\'endormir ?', conseil:'Une idée d\'activité pour aujourd\'hui ?', film:'Un film adapté à son âge ?' },
+    en: { title:'Hello 🌿',  sub:"I'm here to support you,\nat every step of your parenting journey.", crise:'My child won\'t stop crying...', repas:'What should I cook tonight?', sommeil:'How can I help them fall asleep?', conseil:'Give me an activity idea for today', film:'A film suited to their age?' },
+    he: { title:'שלום 🌿',  sub:'אני כאן ללוות אתכם,\nבכל רגע של ההורות שלכם.', crise:'הילד שלי בוכה ולא מפסיק...', repas:'מה לבשל הערב?', sommeil:'איך לעזור לו לישון?', conseil:'רעיון לפעילות להיום?', film:'סרט מתאים לגילו?' },
+    ar: { title:'مرحباً 🌿', sub:'أنا هنا لمساعدتكم،\nفي كل لحظة من رحلة أبوتكم.', crise:'طفلي يبكي ولا يهدأ...', repas:'ماذا أطبخ الليلة؟', sommeil:'كيف أساعده على النوم؟', conseil:'فكرة نشاط لليوم؟', film:'فيلم مناسب لعمره؟' },
+    es: { title:'Hola 🌿',  sub:'Estoy aquí para acompañarte,\nen cada momento de tu parentalidad.', crise:'Mi hijo no para de llorar...', repas:'¿Qué cocinar esta noche?', sommeil:'¿Cómo ayudarle a dormir?', conseil:'¿Una idea de actividad para hoy?', film:'¿Una película para su edad?' },
+    de: { title:'Hallo 🌿', sub:'Ich bin für dich da,\nauf jedem Schritt deiner Elternschaft.', crise:'Mein Kind hört nicht auf zu weinen...', repas:'Was soll ich heute kochen?', sommeil:'Wie kann ich beim Schlafen helfen?', conseil:'Eine Spielidee für heute?', film:'Ein Film für sein Alter?' },
+    it: { title:'Ciao 🌿',  sub:'Sono qui per accompagnarti,\nin ogni momento della tua genitorialità.', crise:'Il mio bambino non smette di piangere...', repas:'Cosa preparare stasera?', sommeil:'Come aiutarlo a dormire?', conseil:'Un\'idea di attività per oggi?', film:'Un film adatto alla sua età?' },
+    pt: { title:'Olá 🌿',  sub:'Estou aqui para te acompanhar,\nem cada momento da tua parentalidade.', crise:'Meu filho não para de chorar...', repas:'O que preparar esta noite?', sommeil:'Como ajudá-lo a dormir?', conseil:'Uma ideia de atividade para hoje?', film:'Um filme para a sua idade?' },
+    ru: { title:'Привет 🌿', sub:'Я здесь, чтобы поддержать вас\nна каждом шагу родительства.', crise:'Мой ребёнок не перестаёт плакать...', repas:'Что приготовить сегодня?', sommeil:'Как помочь ему заснуть?', conseil:'Идея занятия на сегодня?', film:'Фильм по возрасту?' },
+    zh: { title:'你好 🌿',  sub:'我在这里陪伴您，\n在育儿的每一个时刻。', crise:'孩子哭个不停...', repas:'今晚做什么？', sommeil:'怎么帮他入睡？', conseil:'今天有什么活动创意？', film:'适合他年龄的影片？' },
+    ja: { title:'こんにちは 🌿', sub:'あなたの子育てのすべての瞬間に、\n寄り添います。', crise:'子どもが泣き止まない...', repas:'今夜は何を作ろう？', sommeil:'寝かしつけのコツは？', conseil:'今日のおすすめ遊びは？', film:'年齢に合った映画は？' },
+    ko: { title:'안녕하세요 🌿', sub:'육아의 모든 순간,\n함께하겠습니다.', crise:'아이가 계속 울어요...', repas:'오늘 저녁 뭘 만들까요?', sommeil:'잠드는 것을 어떻게 도와줄까요?', conseil:'오늘 활동 아이디어 주세요', film:'나이에 맞는 영화는?' },
+    tr: { title:'Merhaba 🌿', sub:'Her anınızda yanınızdayım,\nebeveynlik yolculuğunuzda.', crise:'Çocuğum ağlamayı durduramıyor...', repas:'Bu gece ne pişireyim?', sommeil:'Uyumasına nasıl yardımcı olurum?', conseil:'Bugün için bir aktivite fikri?', film:'Yaşına uygun bir film?' },
+    nl: { title:'Hallo 🌿', sub:'Ik ben er voor jou,\nop elk moment van je ouderschap.', crise:'Mijn kind blijft maar huilen...', repas:'Wat kook ik vanavond?', sommeil:'Hoe help ik slapen?', conseil:'Een activiteitenidee voor vandaag?', film:'Een film voor zijn leeftijd?' },
+    pl: { title:'Cześć 🌿', sub:'Jestem tu, by Ci towarzyszyć\nna każdym etapie rodzicielstwa.', crise:'Moje dziecko nie przestaje płakać...', repas:'Co ugotować dziś wieczorem?', sommeil:'Jak pomóc mu zasnąć?', conseil:'Pomysł na aktywność na dziś?', film:'Film odpowiedni do jego wieku?' },
+    ro: { title:'Bună 🌿',  sub:'Sunt aici pentru tine,\nîn fiecare moment al parentalității tale.', crise:'Copilul meu nu se oprește din plâns...', repas:'Ce să gătesc în seara asta?', sommeil:'Cum îl ajut să doarmă?', conseil:'O idee de activitate pentru azi?', film:'Un film potrivit vârstei lui?' },
+  };
 
   function estUrgence(texte) {
     const t = texte.toLowerCase();

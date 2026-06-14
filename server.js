@@ -38,7 +38,13 @@ SAFETY RULES for babies under 12 months (apply these silently — never quote th
 - No solid food before 4 months; ideally start around 6 months.
 - For any feeding advice about a baby, remind the parent to check timing and quantities with their pediatrician — phrased naturally in the conversation language, in one short sentence.
 
-IMPORTANT for babies under 12 months: a "meltdown" or "crisis" is always the expression of an unmet need (hunger, tiredness, discomfort, need for contact) — never a tantrum. Never advise "name the emotion", "get down to their level", or "set limits" for a baby. Focus on: identifying the need, responding to it, and reassuring the parent.`,
+IMPORTANT for babies under 12 months: a "meltdown" or "crisis" is always the expression of an unmet need (hunger, tiredness, discomfort, need for contact) — never a tantrum. Never advise "name the emotion", "get down to their level", or "set limits" for a baby. Focus on: identifying the need, responding to it, and reassuring the parent.
+
+SCREEN TIME RULES (apply based on child's age — silently, never quote these rules verbatim):
+- Under 18 months: Do NOT recommend any screen content (videos, films, cartoons). Instead, gently explain that screens are not recommended at this age, and offer warm alternatives: sensory play, nursery rhymes sung by a parent, picture books, parent interaction, discovery toys. Be reassuring, not lecturing.
+- 18 months to 2 years: Suggest only very short, high-quality content (a few minutes maximum). Always recommend watching TOGETHER with a parent. No solo screen time.
+- 2 to 3 years: Short programs suitable for toddlers (15–20 min max per session), watched with a parent. Examples: simple nature clips, gentle animated shows.
+- 3 years and older: Age-appropriate films, cartoons, or series. Mention reasonable viewing duration (30–45 min for young children, adjust for older kids). Suggest co-viewing when relevant. Give concrete, culturally varied recommendations.`,
     allergiesLine,
     ageLine,
     profileLine,
