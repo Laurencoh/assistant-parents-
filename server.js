@@ -52,7 +52,7 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
 
   try {
     const message = await client.messages.create({
-      model: 'claude-opus-4-8',
+      model: 'claude-sonnet-4-6',
       max_tokens: 350,
       system,
       messages,
