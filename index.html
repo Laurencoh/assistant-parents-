@@ -1,0 +1,1566 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Assistant Parents</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #FFF8F3;
+      color: #2C2A28;
+      height: 100dvh;
+      display: flex;
+      overflow: hidden;
+    }
+
+    /* ══ SIDEBAR ══════════════════════════════════════════════ */
+    .sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      background: #FFF;
+      border-inline-end: 1px solid #EDE5DC;
+      display: flex;
+      flex-direction: column;
+      height: 100dvh;
+      transition: transform 0.25s ease;
+    }
+
+    .sidebar-header {
+      padding: 16px 14px 12px;
+      border-bottom: 1px solid #EDE5DC;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .sidebar-logo { font-size: 1.1rem; }
+
+    .sidebar-title {
+      font-family: Georgia, serif;
+      font-size: 0.95rem;
+      font-weight: normal;
+      color: #2C2A28;
+      flex: 1;
+    }
+
+    .btn-nouvelle-sidebar {
+      width: 100%;
+      margin: 10px 0 0;
+      padding: 10px 14px;
+      background: #D96B4A;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .btn-nouvelle-sidebar:hover { background: #C45E3F; }
+
+    .sidebar-body { flex: 1; overflow-y: auto; padding: 6px 8px 20px; }
+
+    .sidebar-section-label {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; color: #C4B8B0; padding: 12px 8px 4px;
+    }
+
+    .conv-item {
+      padding: 9px 10px; border-radius: 10px; cursor: pointer;
+      transition: background 0.15s; margin-bottom: 2px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .conv-item:hover  { background: #FFF0E8; }
+    .conv-item.active { background: #FDEEE6; }
+    .conv-item-body { flex: 1; min-width: 0; }
+    .conv-item-title {
+      font-size: 0.85rem; color: #2C2A28; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis; line-height: 1.4;
+    }
+    .conv-item.active .conv-item-title { color: #C45E3F; font-weight: 600; }
+    .conv-item-date { font-size: 0.72rem; color: #C4B8B0; margin-top: 2px; }
+    .btn-suppr-conv {
+      flex-shrink: 0; background: none; border: none; cursor: pointer;
+      font-size: 0.85rem; color: #D4C8C0; padding: 3px 4px; border-radius: 6px;
+      opacity: 0; transition: opacity 0.15s, color 0.15s, background 0.15s;
+      line-height: 1;
+    }
+    .conv-item:hover .btn-suppr-conv { opacity: 1; }
+    .btn-suppr-conv:hover { color: #e05050; background: #fdeaea; }
+    .sidebar-empty { padding: 24px 12px; color: #C4B8B0; font-size: 0.83rem; text-align: center; line-height: 1.6; }
+
+    /* ══ ZONE PRINCIPALE ══════════════════════════════════════ */
+    .main { flex: 1; display: flex; flex-direction: column; min-width: 0; height: 100dvh; }
+
+    header {
+      background: #FFF;
+      border-bottom: 1px solid #EDE5DC;
+      padding: 10px 14px;
+      flex-shrink: 0;
+    }
+
+    .header-row {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+    }
+
+    .btn-hamburger {
+      display: none; background: none; border: none; font-size: 1.2rem;
+      cursor: pointer; padding: 4px; color: #5A5048; line-height: 1; flex-shrink: 0;
+    }
+
+    .header-title { display: flex; align-items: center; gap: 5px; flex: 1; min-width: 0; }
+    .header-title span { font-size: 0.95rem; flex-shrink: 0; }
+    h1 {
+      font-family: Georgia, serif; font-size: 0.97rem; font-weight: normal;
+      color: #2C2A28; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .lang-select {
+      padding: 5px 22px 5px 8px; border: 1.5px solid #E8DDD4; border-radius: 9px;
+      font-size: 0.82rem; font-family: inherit; color: #5A5048; background: #FDFAF7;
+      cursor: pointer; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238A7F74' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 7px center;
+      flex-shrink: 0; transition: border-color 0.2s; max-width: 120px;
+    }
+    [dir="rtl"] .lang-select { padding: 5px 8px 5px 22px; background-position: left 7px center; }
+    .lang-select:focus { outline: none; border-color: #D96B4A; }
+
+    /* Rangée enfant */
+    .child-row {
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    .child-selector {
+      flex: 1; min-width: 0; padding: 6px 26px 6px 10px;
+      border: 1.5px solid #E8DDD4; border-radius: 10px;
+      font-size: 0.88rem; font-family: inherit; color: #2C2A28; background: #FDFAF7;
+      cursor: pointer; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238A7F74' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 8px center;
+      transition: border-color 0.2s; overflow: hidden; text-overflow: ellipsis;
+    }
+    [dir="rtl"] .child-selector { padding: 6px 10px 6px 26px; background-position: left 8px center; }
+    .child-selector:focus { outline: none; border-color: #D96B4A; }
+    .child-selector.has-child { border-color: #D96B4A; color: #C45E3F; font-weight: 600; }
+
+    .btn-enfants {
+      padding: 6px 10px; border: 1.5px solid #E8DDD4; border-radius: 10px;
+      background: none; font-size: 0.82rem; font-family: inherit; color: #8A7F74;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0; transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-enfants:hover { border-color: #D96B4A; color: #D96B4A; }
+
+    /* Age manuel (quand aucun enfant sélectionné) */
+    .age-row { display: flex; align-items: center; gap: 7px; }
+    .age-label { font-size: 0.78rem; color: #8A7F74; font-weight: 600; white-space: nowrap; }
+
+    input[type="number"] {
+      width: 66px; padding: 6px 8px; border: 1.5px solid #E8DDD4; border-radius: 10px;
+      font-size: 0.88rem; font-family: inherit; color: #2C2A28; background: #FDFAF7;
+      -moz-appearance: textfield; transition: border-color 0.2s;
+    }
+    input[type="number"]::-webkit-inner-spin-button { opacity: 1; }
+    input[type="number"]:focus { outline: none; border-color: #D96B4A; }
+
+    .unite-select {
+      padding: 6px 24px 6px 8px; border: 1.5px solid #E8DDD4; border-radius: 10px;
+      font-size: 0.88rem; font-family: inherit; color: #2C2A28; background: #FDFAF7;
+      cursor: pointer; appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238A7F74' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 7px center; transition: border-color 0.2s;
+    }
+    [dir="rtl"] .unite-select { padding: 6px 8px 6px 24px; background-position: left 7px center; }
+    .unite-select:focus { outline: none; border-color: #D96B4A; }
+
+    /* ══ FIL ══════════════════════════════════════════════════ */
+    .fil {
+      flex: 1; overflow-y: auto; padding: 18px 14px;
+      display: flex; flex-direction: column; gap: 14px;
+    }
+
+    .accueil {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      flex: 1; text-align: center; color: #B5A99E; gap: 10px; padding: 40px 20px; min-height: 180px;
+    }
+    .accueil .icone { font-size: 2rem; }
+    .accueil p { font-size: 0.9rem; line-height: 1.7; white-space: pre-line; }
+
+    /* Bulles */
+    .bulle { display: flex; flex-direction: column; max-width: 82%; }
+    .bulle.user      { align-self: flex-end;   align-items: flex-end; }
+    .bulle.assistant { align-self: flex-start; align-items: flex-start; }
+    [dir="rtl"] .bulle.user      { align-self: flex-start; align-items: flex-start; }
+    [dir="rtl"] .bulle.assistant { align-self: flex-end;   align-items: flex-end; }
+
+    .bulle-nom {
+      font-size: 0.69rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.05em; margin-bottom: 4px; color: #C4B8B0;
+    }
+
+    .bulle-contenu { padding: 10px 14px; border-radius: 16px; font-size: 0.94rem; line-height: 1.65; }
+
+    .bulle.user .bulle-contenu { background: #D96B4A; color: #FFF; border-end-end-radius: 4px; }
+    [dir="rtl"] .bulle.user .bulle-contenu { border-end-end-radius: 16px; border-end-start-radius: 4px; }
+    .bulle.assistant .bulle-contenu { background: #FFF; color: #2C2A28; border-end-start-radius: 4px; box-shadow: 0 1px 5px rgba(0,0,0,0.07); }
+    [dir="rtl"] .bulle.assistant .bulle-contenu { border-end-start-radius: 16px; border-end-end-radius: 4px; }
+
+    .bulle.assistant p { margin: 0 0 8px; }
+    .bulle.assistant p:last-child { margin-bottom: 0; }
+    .bulle.assistant strong { font-weight: 700; }
+    .bulle.assistant ul, .bulle.assistant ol { margin: 5px 0 8px; padding-inline-start: 18px; }
+    .bulle.assistant li { margin-bottom: 3px; }
+    .bulle.assistant h2, .bulle.assistant h3 {
+      font-family: Georgia, serif; font-size: 0.94rem; font-weight: bold; margin: 12px 0 5px;
+    }
+    .bulle.assistant h2:first-child { margin-top: 0; }
+
+    .typing .bulle-contenu { display: flex; align-items: center; gap: 5px; padding: 13px 17px; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: #D96B4A; animation: pulse 1.2s ease-in-out infinite; }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes pulse {
+      0%, 80%, 100% { transform: translateY(0); opacity: 0.35; }
+      40%            { transform: translateY(-5px); opacity: 1; }
+    }
+
+    /* ══ ZONE SAISIE ══════════════════════════════════════════ */
+    .zone-saisie { background: #FFF; border-top: 1px solid #EDE5DC; padding: 9px 14px 13px; flex-shrink: 0; }
+
+    .raccourcis { display: flex; gap: 6px; margin-bottom: 8px; overflow-x: auto; scrollbar-width: none; }
+    .raccourcis::-webkit-scrollbar { display: none; }
+
+    .raccourci {
+      display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px;
+      background: #FFF8F3; border: 1.5px solid #E8DDD4; border-radius: 13px;
+      font-size: 0.79rem; font-family: inherit; color: #5A5048;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0;
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+    .raccourci:hover { background: #FDEEE6; border-color: #D96B4A; color: #C45E3F; }
+
+    .saisie-row { display: flex; gap: 7px; align-items: flex-end; }
+
+    textarea {
+      flex: 1; padding: 9px 12px; border: 1.5px solid #E8DDD4; border-radius: 12px;
+      font-size: 0.94rem; font-family: inherit; color: #2C2A28; background: #FDFAF7;
+      resize: none; min-height: 40px; max-height: 120px; overflow-y: auto; line-height: 1.5;
+      transition: border-color 0.2s;
+    }
+    textarea::placeholder { color: #C4B8B0; }
+    textarea:focus { outline: none; border-color: #D96B4A; }
+
+    .btn-envoyer {
+      width: 40px; height: 40px; border-radius: 50%; border: none;
+      background: #D96B4A; color: #fff; font-size: 0.95rem; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; transition: background 0.2s, transform 0.1s;
+    }
+    .btn-envoyer:hover:not(:disabled) { background: #C45E3F; }
+    .btn-envoyer:active:not(:disabled) { transform: scale(0.92); }
+    .btn-envoyer:disabled { opacity: 0.45; cursor: default; }
+
+    /* ══ FOOTER MÉDICAL ═══════════════════════════════════════ */
+    .footer-medical {
+      background: #FFF; border-top: 1px solid #EDE5DC;
+      padding: 7px 14px; text-align: center;
+      font-size: 0.72rem; color: #C4B8B0; line-height: 1.4; flex-shrink: 0;
+    }
+    .footer-medical strong { color: #B5A99E; }
+
+    /* ══ BANDEAU URGENCE ══════════════════════════════════════ */
+    .bandeau-urgence {
+      display: flex; align-items: center; gap: 10px;
+      background: #FFF3CD; border: 1.5px solid #F0B429;
+      border-radius: 12px; padding: 11px 14px; margin: 0;
+      font-size: 0.88rem; font-weight: 600; color: #7A5C00; line-height: 1.4;
+      animation: slideDown 0.2s ease;
+    }
+    @keyframes slideDown { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }
+    .bandeau-urgence .urgence-icon { font-size: 1.2rem; flex-shrink: 0; }
+
+    /* ══ MOBILE ════════════════════════════════════════════════ */
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 10; }
+
+    @media (max-width: 640px) {
+      .sidebar {
+        position: fixed; inset-inline-start: 0; top: 0; z-index: 20;
+        height: 100dvh; box-shadow: 4px 0 20px rgba(0,0,0,0.1);
+      }
+      html[dir="ltr"] .sidebar { transform: translateX(-100%); }
+      html[dir="ltr"] .sidebar.open { transform: translateX(0); }
+      html[dir="rtl"] .sidebar { transform: translateX(100%); }
+      html[dir="rtl"] .sidebar.open { transform: translateX(0); }
+      .overlay.open { display: block; }
+      .btn-hamburger { display: block; }
+      .bulle { max-width: 90%; }
+    }
+
+    @media (min-width: 641px) {
+      .fil { padding: 22px 18px; }
+      .zone-saisie { padding: 11px 18px 14px; }
+      .bulle { max-width: 75%; }
+    }
+
+    /* ══ MODAL ENFANTS ════════════════════════════════════════ */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.4); z-index: 40;
+      align-items: flex-end; justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+
+    @media (min-width: 500px) { .modal-overlay { align-items: center; } }
+
+    .modal-panel {
+      background: #FFF; border-radius: 20px 20px 0 0;
+      width: 100%; max-width: 520px; max-height: 90dvh;
+      overflow-y: auto; box-shadow: 0 -4px 30px rgba(0,0,0,0.12);
+      animation: slideUp 0.22s ease; display: flex; flex-direction: column;
+    }
+    @media (min-width: 500px) { .modal-panel { border-radius: 20px; box-shadow: 0 8px 40px rgba(0,0,0,0.15); } }
+    @keyframes slideUp { from { transform: translateY(24px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 20px 14px; border-bottom: 1px solid #EDE5DC; flex-shrink: 0;
+    }
+    .modal-header h2 { font-family: Georgia, serif; font-size: 1.05rem; font-weight: normal; color: #2C2A28; }
+    .btn-modal-close { background: none; border: none; font-size: 1.3rem; cursor: pointer; color: #B5A99E; padding: 4px; }
+    .btn-modal-close:hover { color: #5A5048; }
+
+    .modal-body { padding: 16px 20px 24px; flex: 1; overflow-y: auto; }
+
+    /* Liste d'enfants */
+    .enfants-liste { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+
+    .enfant-card {
+      border: 1.5px solid #E8DDD4; border-radius: 14px; padding: 13px 14px;
+      background: #FDFAF7; transition: border-color 0.2s;
+    }
+    .enfant-card.selected { border-color: #D96B4A; background: #FFF8F5; }
+
+    .enfant-card-top { display: flex; align-items: center; gap: 10px; }
+    .enfant-avatar { font-size: 1.4rem; flex-shrink: 0; }
+    .enfant-info { flex: 1; min-width: 0; }
+    .enfant-nom { font-weight: 600; font-size: 0.95rem; color: #2C2A28; }
+    .enfant-age { font-size: 0.8rem; color: #8A7F74; margin-top: 2px; }
+    .enfant-allergies { font-size: 0.78rem; color: #D96B4A; margin-top: 3px; font-weight: 600; }
+
+    .enfant-actions { display: flex; gap: 6px; flex-shrink: 0; }
+    .btn-enfant-action {
+      padding: 5px 10px; border: 1.5px solid #E8DDD4; border-radius: 8px;
+      background: none; font-size: 0.78rem; font-family: inherit; color: #8A7F74;
+      cursor: pointer; transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-enfant-action:hover { border-color: #D96B4A; color: #D96B4A; }
+    .btn-enfant-action.danger:hover { border-color: #e05050; color: #e05050; }
+
+    /* Formulaire inline */
+    .enfant-form { margin-top: 12px; padding-top: 12px; border-top: 1px solid #EDE5DC; }
+    .form-field { margin-bottom: 12px; }
+    .form-label {
+      display: block; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.05em; color: #8A7F74; margin-bottom: 5px;
+    }
+    .form-input, .form-textarea {
+      width: 100%; padding: 9px 11px; border: 1.5px solid #E8DDD4; border-radius: 10px;
+      font-size: 0.92rem; font-family: inherit; color: #2C2A28; background: #FDFAF7;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus, .form-textarea:focus { outline: none; border-color: #D96B4A; }
+    .form-textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+    .form-age-preview { margin-top: 4px; font-size: 0.8rem; color: #D96B4A; font-weight: 600; min-height: 1.1em; }
+
+    .form-actions { display: flex; gap: 8px; margin-top: 14px; }
+    .btn-form-save {
+      flex: 1; padding: 10px; background: #D96B4A; color: #fff; border: none;
+      border-radius: 10px; font-size: 0.9rem; font-weight: 600; font-family: inherit;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-form-save:hover { background: #C45E3F; }
+    .btn-form-cancel {
+      padding: 10px 16px; border: 1.5px solid #E8DDD4; border-radius: 10px;
+      background: none; font-size: 0.9rem; font-family: inherit; color: #8A7F74;
+      cursor: pointer; transition: border-color 0.2s;
+    }
+    .btn-form-cancel:hover { border-color: #D96B4A; }
+
+    .btn-add-child {
+      width: 100%; padding: 11px; border: 2px dashed #E8DDD4; border-radius: 12px;
+      background: none; font-size: 0.88rem; font-family: inherit; color: #B5A99E;
+      cursor: pointer; transition: border-color 0.2s, color 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 7px;
+    }
+    .btn-add-child:hover { border-color: #D96B4A; color: #D96B4A; }
+    .btn-add-child.hidden { display: none; }
+  </style>
+</head>
+<body>
+
+  <div class="overlay" id="overlay" onclick="fermerSidebar()"></div>
+
+  <!-- Modal gestion des enfants -->
+  <div class="modal-overlay" id="modal-enfants" onclick="fermerModalSiClic(event)">
+    <div class="modal-panel" id="modal-panel">
+      <div class="modal-header">
+        <h2 id="modal-titre">👶 Mes enfants</h2>
+        <button class="btn-modal-close" onclick="fermerModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="enfants-liste" id="enfants-liste"></div>
+        <button class="btn-add-child" id="btn-add-child" onclick="ouvrirFormulaireAjout()">
+          <span>＋</span> <span id="lbl-add-child">Ajouter un enfant</span>
+        </button>
+        <!-- Formulaire ajout/édition -->
+        <div id="enfant-form-container" style="display:none;margin-top:16px;">
+          <div class="enfant-form">
+            <input type="hidden" id="form-child-id" />
+            <div class="form-field">
+              <label class="form-label" id="lbl-prenom">Prénom</label>
+              <input class="form-input" id="form-prenom" type="text" autocomplete="off" />
+            </div>
+            <div class="form-field">
+              <label class="form-label" id="lbl-dob">Date de naissance</label>
+              <input class="form-input" id="form-dob" type="date" oninput="majAgePreview()" />
+              <div class="form-age-preview" id="form-age-preview"></div>
+            </div>
+            <div class="form-field">
+              <label class="form-label" id="lbl-allergies">Allergies / régime</label>
+              <input class="form-input" id="form-allergies" type="text" autocomplete="off" />
+            </div>
+            <div class="form-field">
+              <label class="form-label" id="lbl-notes">Notes</label>
+              <textarea class="form-textarea" id="form-notes"></textarea>
+            </div>
+            <div class="form-actions">
+              <button class="btn-form-save" onclick="sauvegarderEnfant()" id="btn-form-save">Enregistrer</button>
+              <button class="btn-form-cancel" onclick="fermerFormulaire()" id="btn-form-cancel">Annuler</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-logo">🌿</span>
+      <span class="sidebar-title" data-i18n="appTitle"></span>
+    </div>
+    <div style="padding:0 8px 8px;">
+      <button class="btn-nouvelle-sidebar" onclick="nouvelleConversation()" data-i18n="newConv"></button>
+    </div>
+    <div class="sidebar-body" id="sidebar-body"></div>
+  </aside>
+
+  <!-- Zone principale -->
+  <div class="main">
+    <header>
+      <div class="header-row">
+        <button class="btn-hamburger" onclick="toggleSidebar()">☰</button>
+        <div class="header-title">
+          <span>💬</span>
+          <h1 id="conv-titre"></h1>
+        </div>
+        <select class="lang-select" id="lang-select" onchange="setLang(this.value)">
+          <option value="fr">Français</option>
+          <option value="en">English</option>
+          <option value="he">עברית</option>
+          <option value="ar">العربية</option>
+          <option value="es">Español</option>
+          <option value="de">Deutsch</option>
+          <option value="it">Italiano</option>
+          <option value="pt">Português</option>
+          <option value="ru">Русский</option>
+          <option value="zh">中文</option>
+          <option value="ja">日本語</option>
+          <option value="ko">한국어</option>
+          <option value="tr">Türkçe</option>
+          <option value="nl">Nederlands</option>
+          <option value="pl">Polski</option>
+          <option value="ro">Română</option>
+        </select>
+      </div>
+      <div class="child-row">
+        <select class="child-selector" id="child-selector" onchange="selectionnerEnfant(this.value)">
+          <option value="" data-i18n="noChild"></option>
+        </select>
+        <button class="btn-enfants" onclick="ouvrirModal()" data-i18n="manageBtn"></button>
+      </div>
+      <!-- Âge manuel (visible seulement si aucun enfant sélectionné) -->
+      <div class="age-row" id="age-row" style="margin-top:8px;">
+        <span class="age-label" data-i18n="ageLabel"></span>
+        <input type="number" id="age" min="0" max="99" placeholder="6" />
+        <select class="unite-select" id="unite">
+          <option value="ans"  data-i18n="ans"></option>
+          <option value="mois" data-i18n="mois"></option>
+        </select>
+      </div>
+    </header>
+
+    <div class="fil" id="fil"></div>
+
+    <div class="zone-saisie">
+      <div class="raccourcis">
+        <button class="raccourci" onclick="raccourci('crise')"   data-i18n="rc_crise"></button>
+        <button class="raccourci" onclick="raccourci('repas')"   data-i18n="rc_repas"></button>
+        <button class="raccourci" onclick="raccourci('sommeil')" data-i18n="rc_sommeil"></button>
+        <button class="raccourci" onclick="raccourci('conseil')" data-i18n="rc_conseil"></button>
+      </div>
+      <div class="saisie-row">
+        <textarea id="question" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="btn-envoyer" id="btn-envoyer" onclick="envoyer()">➤</button>
+      </div>
+    </div>
+    <div class="footer-medical" id="footer-medical"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+  // ════════════════════════════════════════════════════════════
+  // TRADUCTIONS
+  // ════════════════════════════════════════════════════════════
+  const T = {
+    fr: {
+      dir:'ltr', appTitle:'Assistant Parents', newConv:'✦ Nouvelle conversation',
+      ageLabel:"Âge de l'enfant", ans:'ans', mois:'mois',
+      placeholder:'Écrivez votre question…', vous:'Vous', assistant:'Assistant',
+      today:"Aujourd'hui", yesterday:'Hier',
+      emptyHist:'Vos conversations apparaîtront ici.',
+      errServer:'Impossible de contacter le serveur.',
+      newConvTitle:'Nouvelle conversation',
+      welcome:"Bonjour ! Posez votre question\nou choisissez un raccourci.",
+      noChild:'— Aucun enfant sélectionné —',
+      manageBtn:'👶 Mes enfants',
+      modalTitre:'👶 Mes enfants',
+      addChild:'＋ Ajouter un enfant',
+      fPrenom:'Prénom', fDob:'Date de naissance',
+      fAllergies:'Allergies / régime alimentaire',
+      fNotes:'Notes (défis, ce qui fonctionne…)',
+      fSave:'Enregistrer', fCancel:'Annuler',
+      fEdit:'Modifier', fDelete:'Supprimer',
+      confirmDelete:'Supprimer cet enfant ?',
+      confirmDeleteConv:'Supprimer cette conversation ?',
+      rc_crise:'🤯 Gérer une crise', rc_repas:'🍽️ Idées de repas',
+      rc_sommeil:'🌙 Sommeil', rc_conseil:'💡 Conseils du jour',
+      q_crise:  c=>`Mon enfant${c} pleure beaucoup et semble très agité. Comment l'aider ?`,
+      q_repas:  c=>`Des idées de repas faciles et équilibrés pour un enfant${c} ?`,
+      q_sommeil:c=>`Mon enfant${c} a du mal à dormir. Quels conseils ?`,
+      q_conseil:c=>`Quels conseils pratiques pour un enfant${c} en ce moment ?`,
+      ctx:(a,u)=>a?` de ${a} ${u}`:'',
+      ageYears:(a,m)=>m?`${a} ans et ${m} mois`:`${a} ans`,
+      ageMonths:m=>`${m} mois`,
+      footer:'Cet assistant ne remplace pas l\'avis d\'un médecin. En cas d\'urgence, appelez le <strong>101</strong>.',
+      urgence:'⚠️ Si c\'est une urgence, appelez le <strong>101</strong> immédiatement.',
+    },
+    en: {
+      dir:'ltr', appTitle:'Parent Assistant', newConv:'✦ New conversation',
+      ageLabel:"Child's age", ans:'years', mois:'months',
+      placeholder:'Write your question…', vous:'You', assistant:'Assistant',
+      today:'Today', yesterday:'Yesterday',
+      emptyHist:'Your conversations will appear here.',
+      errServer:'Unable to reach the server.',
+      newConvTitle:'New conversation',
+      welcome:"Hello! Ask your question\nor choose a shortcut.",
+      noChild:'— No child selected —',
+      manageBtn:'👶 My children',
+      modalTitre:'👶 My children',
+      addChild:'＋ Add a child',
+      fPrenom:'First name', fDob:'Date of birth',
+      fAllergies:'Allergies / diet',
+      fNotes:'Notes (challenges, what works…)',
+      fSave:'Save', fCancel:'Cancel',
+      fEdit:'Edit', fDelete:'Delete',
+      confirmDelete:'Delete this child?',
+      confirmDeleteConv:'Delete this conversation?',
+      rc_crise:'🤯 Handle a meltdown', rc_repas:'🍽️ Meal ideas',
+      rc_sommeil:'🌙 Sleep', rc_conseil:'💡 Tips of the day',
+      q_crise:  c=>`My child${c} is crying a lot and seems very upset. How can I help?`,
+      q_repas:  c=>`What are easy, balanced meal ideas for a child${c}?`,
+      q_sommeil:c=>`My child${c} has trouble sleeping. Any advice?`,
+      q_conseil:c=>`What practical tips do you have for a child${c} right now?`,
+      ctx:(a,u)=>a?` aged ${a} ${u}`:'',
+      ageYears:(a,m)=>m?`${a} yr${a>1?'s':''} ${m} mo`:`${a} yr${a>1?'s':''}`,
+      ageMonths:m=>`${m} mo`,
+      footer:'This assistant does not replace medical advice. In an emergency, call <strong>101</strong>.',
+      urgence:'⚠️ If this is an emergency, call <strong>101</strong> immediately.',
+    },
+    he: {
+      dir:'rtl', appTitle:'עוזר להורים', newConv:'✦ שיחה חדשה',
+      ageLabel:'גיל הילד', ans:'שנים', mois:'חודשים',
+      placeholder:'כתבו את שאלתכם…', vous:'אתם', assistant:'עוזר',
+      today:'היום', yesterday:'אתמול',
+      emptyHist:'השיחות שלכם יופיעו כאן.',
+      errServer:'לא ניתן ליצור קשר עם השרת.',
+      newConvTitle:'שיחה חדשה',
+      welcome:'!שלום\n.שאלו את שאלתכם או בחרו קיצור דרך',
+      noChild:'— לא נבחר ילד —',
+      manageBtn:'👶 הילדים שלי',
+      modalTitre:'👶 הילדים שלי',
+      addChild:'＋ הוסף ילד',
+      fPrenom:'שם פרטי', fDob:'תאריך לידה',
+      fAllergies:'אלרגיות / תזונה',
+      fNotes:'הערות',
+      fSave:'שמור', fCancel:'ביטול',
+      fEdit:'עריכה', fDelete:'מחיקה',
+      confirmDelete:'למחוק את הילד הזה?',
+      confirmDeleteConv:'למחוק את השיחה הזו?',
+      rc_crise:'🤯 התמודדות עם משבר', rc_repas:'🍽️ רעיונות לארוחות',
+      rc_sommeil:'🌙 שינה', rc_conseil:'💡 טיפים של היום',
+      q_crise:  c=>`הילד שלי${c} בוכה הרבה ונראה מאוד נסער. איך אוכל לעזור לו?`,
+      q_repas:  c=>`רעיונות לארוחות קלות ומאוזנות לילד${c}?`,
+      q_sommeil:c=>`הילד שלי${c} מתקשה לישון. יש עצות?`,
+      q_conseil:c=>`אילו טיפים מעשיים לרווחת ילד${c} כרגע?`,
+      ctx:(a,u)=>a?` בגיל ${a} ${u}`:'',
+      ageYears:(a,m)=>m?`${a} שנים ו-${m} חודשים`:`${a} שנים`,
+      ageMonths:m=>`${m} חודשים`,
+      footer:'עוזר זה אינו מחליף ייעוץ רפואי. במקרה חירום, התקשרו ל-<strong>101</strong>.',
+      urgence:'⚠️ אם מדובר בחירום, התקשרו ל-<strong>101</strong> מיד.',
+    },
+    ar: {
+      dir:'rtl', appTitle:'مساعد الوالدين', newConv:'✦ محادثة جديدة',
+      ageLabel:'عمر الطفل', ans:'سنوات', mois:'أشهر',
+      placeholder:'اكتب سؤالك…', vous:'أنت', assistant:'المساعد',
+      today:'اليوم', yesterday:'أمس',
+      emptyHist:'ستظهر محادثاتك هنا.',
+      errServer:'تعذّر الاتصال بالخادم.',
+      newConvTitle:'محادثة جديدة',
+      welcome:'!مرحباً\n.اطرح سؤالك أو اختر اختصاراً',
+      noChild:'— لم يُختر طفل —',
+      manageBtn:'👶 أطفالي',
+      modalTitre:'👶 أطفالي',
+      addChild:'＋ إضافة طفل',
+      fPrenom:'الاسم', fDob:'تاريخ الميلاد',
+      fAllergies:'الحساسية / النظام الغذائي',
+      fNotes:'ملاحظات',
+      fSave:'حفظ', fCancel:'إلغاء',
+      fEdit:'تعديل', fDelete:'حذف',
+      confirmDelete:'حذف هذا الطفل؟',
+      confirmDeleteConv:'حذف هذه المحادثة؟',
+      rc_crise:'🤯 التعامل مع نوبة', rc_repas:'🍽️ أفكار للوجبات',
+      rc_sommeil:'🌙 النوم', rc_conseil:'💡 نصائح اليوم',
+      q_crise:  c=>`طفلي${c} يبكي كثيراً ويبدو منزعجاً. كيف أساعده؟`,
+      q_repas:  c=>`أفكار لوجبات سهلة ومتوازنة لطفل${c}؟`,
+      q_sommeil:c=>`طفلي${c} يجد صعوبة في النوم. ما النصائح؟`,
+      q_conseil:c=>`ما النصائح العملية لرفاهية طفل${c} الآن؟`,
+      ctx:(a,u)=>a?` عمره ${a} ${u}`:'',
+      ageYears:(a,m)=>m?`${a} سنة و${m} شهر`:`${a} سنة`,
+      ageMonths:m=>`${m} أشهر`,
+      footer:'هذا المساعد لا يُغني عن الرأي الطبي. في حالات الطوارئ، اتصل بـ <strong>101</strong>.',
+      urgence:'⚠️ إذا كانت هذه حالة طوارئ، اتصل بـ <strong>101</strong> فوراً.',
+    },
+    es: {
+      dir:'ltr', appTitle:'Asistente de Padres', newConv:'✦ Nueva conversación',
+      ageLabel:'Edad del niño', ans:'años', mois:'meses',
+      placeholder:'Escribe tu pregunta…', vous:'Tú', assistant:'Asistente',
+      today:'Hoy', yesterday:'Ayer',
+      emptyHist:'Tus conversaciones aparecerán aquí.',
+      errServer:'No se puede contactar el servidor.',
+      newConvTitle:'Nueva conversación',
+      welcome:"¡Hola! Haz tu pregunta\no elige un acceso directo.",
+      noChild:'— Sin niño seleccionado —',
+      manageBtn:'👶 Mis hijos',
+      modalTitre:'👶 Mis hijos',
+      addChild:'＋ Añadir un niño',
+      fPrenom:'Nombre', fDob:'Fecha de nacimiento',
+      fAllergies:'Alergias / dieta', fNotes:'Notas',
+      fSave:'Guardar', fCancel:'Cancelar',
+      fEdit:'Editar', fDelete:'Eliminar',
+      confirmDelete:'¿Eliminar este niño?',
+      confirmDeleteConv:'¿Eliminar esta conversación?',
+      rc_crise:'🤯 Manejar una crisis', rc_repas:'🍽️ Ideas de comidas',
+      rc_sommeil:'🌙 Sueño', rc_conseil:'💡 Consejos del día',
+      q_crise:  c=>`Mi hijo${c} llora mucho y parece muy agitado. ¿Cómo ayudarle?`,
+      q_repas:  c=>`¿Ideas de comidas fáciles y equilibradas para un niño${c}?`,
+      q_sommeil:c=>`Mi hijo${c} tiene problemas para dormir. ¿Consejos?`,
+      q_conseil:c=>`¿Consejos prácticos para el bienestar de un niño${c}?`,
+      ctx:(a,u)=>a?` de ${a} ${u}`:'',
+      ageYears:(a,m)=>m?`${a} año${a>1?'s':''} y ${m} mes${m>1?'es':''}`:`${a} año${a>1?'s':''}`,
+      ageMonths:m=>`${m} mes${m>1?'es':''}`,
+      footer:'Este asistente no reemplaza el consejo médico. En caso de emergencia, llama al <strong>101</strong>.',
+      urgence:'⚠️ Si es una emergencia, llama al <strong>101</strong> inmediatamente.',
+    },
+    de: {
+      dir:'ltr', appTitle:'Eltern-Assistent', newConv:'✦ Neues Gespräch',
+      ageLabel:'Alter des Kindes', ans:'Jahre', mois:'Monate',
+      placeholder:'Schreib deine Frage…', vous:'Du', assistant:'Assistent',
+      today:'Heute', yesterday:'Gestern',
+      emptyHist:'Deine Gespräche erscheinen hier.',
+      errServer:'Server nicht erreichbar.',
+      newConvTitle:'Neues Gespräch',
+      welcome:"Hallo! Stell deine Frage\noder wähle eine Schnellantwort.",
+      noChild:'— Kein Kind ausgewählt —',
+      manageBtn:'👶 Meine Kinder',
+      modalTitre:'👶 Meine Kinder',
+      addChild:'＋ Kind hinzufügen',
+      fPrenom:'Vorname', fDob:'Geburtsdatum',
+      fAllergies:'Allergien / Diät', fNotes:'Notizen',
+      fSave:'Speichern', fCancel:'Abbrechen',
+      fEdit:'Bearbeiten', fDelete:'Löschen',
+      confirmDelete:'Dieses Kind löschen?',
+      confirmDeleteConv:'Dieses Gespräch löschen?',
+      rc_crise:'🤯 Ausraster bewältigen', rc_repas:'🍽️ Mahlzeitenideen',
+      rc_sommeil:'🌙 Schlaf', rc_conseil:'💡 Tipp des Tages',
+      q_crise:  c=>`Mein Kind${c} weint viel und wirkt sehr aufgewühlt. Wie helfen?`,
+      q_repas:  c=>`Ideen für einfache, ausgewogene Mahlzeiten für ein Kind${c}?`,
+      q_sommeil:c=>`Mein Kind${c} schläft schlecht. Hast du Tipps?`,
+      q_conseil:c=>`Praktische Tipps für ein Kind${c} gerade?`,
+      ctx:(a,u)=>a?` (${a} ${u})`:'',
+      ageYears:(a,m)=>m?`${a} J. ${m} Mo.`:`${a} J.`,
+      ageMonths:m=>`${m} Mo.`,
+      footer:'Dieser Assistent ersetzt keinen ärztlichen Rat. Im Notfall rufe <strong>101</strong> an.',
+      urgence:'⚠️ Wenn es ein Notfall ist, ruf sofort <strong>101</strong> an.',
+    },
+    it: {
+      dir:'ltr', appTitle:'Assistente Genitori', newConv:'✦ Nuova conversazione',
+      ageLabel:'Età del bambino', ans:'anni', mois:'mesi',
+      placeholder:'Scrivi la tua domanda…', vous:'Tu', assistant:'Assistente',
+      today:'Oggi', yesterday:'Ieri',
+      emptyHist:'Le tue conversazioni appariranno qui.',
+      errServer:'Impossibile contattare il server.',
+      newConvTitle:'Nuova conversazione',
+      welcome:"Ciao! Fai la tua domanda\no scegli un'opzione rapida.",
+      noChild:'— Nessun bambino selezionato —',
+      manageBtn:'👶 I miei bambini',
+      modalTitre:'👶 I miei bambini',
+      addChild:'＋ Aggiungi un bambino',
+      fPrenom:'Nome', fDob:'Data di nascita',
+      fAllergies:'Allergie / dieta', fNotes:'Note',
+      fSave:'Salva', fCancel:'Annulla',
+      fEdit:'Modifica', fDelete:'Elimina',
+      confirmDelete:'Eliminare questo bambino?',
+      confirmDeleteConv:'Eliminare questa conversazione?',
+      rc_crise:'🤯 Gestire una crisi', rc_repas:'🍽️ Idee pasti',
+      rc_sommeil:'🌙 Sonno', rc_conseil:'💡 Consigli del giorno',
+      q_crise:  c=>`Il mio bambino${c} piange molto e sembra molto agitato. Come aiutarlo?`,
+      q_repas:  c=>`Idee per pasti facili ed equilibrati per un bambino${c}?`,
+      q_sommeil:c=>`Il mio bambino${c} ha difficoltà a dormire. Consigli?`,
+      q_conseil:c=>`Consigli pratici per il benessere di un bambino${c}?`,
+      ctx:(a,u)=>a?` di ${a} ${u}`:'',
+      ageYears:(a,m)=>m?`${a} ann${a>1?'i':'o'} e ${m} mesi`:`${a} ann${a>1?'i':'o'}`,
+      ageMonths:m=>`${m} mesi`,
+      footer:'Questo assistente non sostituisce il parere medico. In caso di emergenza, chiama il <strong>101</strong>.',
+      urgence:'⚠️ Se è un\'emergenza, chiama il <strong>101</strong> immediatamente.',
+    },
+    pt: {
+      dir:'ltr', appTitle:'Assistente de Pais', newConv:'✦ Nova conversa',
+      ageLabel:'Idade da criança', ans:'anos', mois:'meses',
+      placeholder:'Escreva a sua pergunta…', vous:'Você', assistant:'Assistente',
+      today:'Hoje', yesterday:'Ontem',
+      emptyHist:'As suas conversas aparecerão aqui.',
+      errServer:'Não foi possível contactar o servidor.',
+      newConvTitle:'Nova conversa',
+      welcome:"Olá! Faça a sua pergunta\nou escolha um atalho.",
+      noChild:'— Nenhuma criança selecionada —',
+      manageBtn:'👶 Os meus filhos',
+      modalTitre:'👶 Os meus filhos',
+      addChild:'＋ Adicionar criança',
+      fPrenom:'Nome', fDob:'Data de nascimento',
+      fAllergies:'Alergias / dieta', fNotes:'Notas',
+      fSave:'Guardar', fCancel:'Cancelar',
+      fEdit:'Editar', fDelete:'Eliminar',
+      confirmDelete:'Eliminar esta criança?',
+      confirmDeleteConv:'Eliminar esta conversa?',
+      rc_crise:'🤯 Gerir uma crise', rc_repas:'🍽️ Ideias de refeições',
+      rc_sommeil:'🌙 Sono', rc_conseil:'💡 Dicas do dia',
+      q_crise:  c=>`O meu filho${c} chora muito e parece muito agitado. Como ajudar?`,
+      q_repas:  c=>`Ideias de refeições fáceis para uma criança${c}?`,
+      q_sommeil:c=>`O meu filho${c} dorme mal. Que conselhos?`,
+      q_conseil:c=>`Dicas práticas para uma criança${c} agora?`,
+      ctx:(a,u)=>a?` de ${a} ${u}`:'',
+      ageYears:(a,m)=>m?`${a} ano${a>1?'s':''} e ${m} mês`:`${a} ano${a>1?'s':''}`,
+      ageMonths:m=>`${m} meses`,
+      footer:'Este assistente não substitui o conselho médico. Em caso de emergência, ligue para o <strong>101</strong>.',
+      urgence:'⚠️ Se for uma emergência, ligue para o <strong>101</strong> imediatamente.',
+    },
+    ru: {
+      dir:'ltr', appTitle:'Помощник Родителей', newConv:'✦ Новый разговор',
+      ageLabel:'Возраст ребёнка', ans:'лет', mois:'месяцев',
+      placeholder:'Напишите ваш вопрос…', vous:'Вы', assistant:'Ассистент',
+      today:'Сегодня', yesterday:'Вчера',
+      emptyHist:'Ваши разговоры появятся здесь.',
+      errServer:'Не удалось связаться с сервером.',
+      newConvTitle:'Новый разговор',
+      welcome:"Здравствуйте! Задайте вопрос\nили выберите подсказку.",
+      noChild:'— Ребёнок не выбран —',
+      manageBtn:'👶 Мои дети',
+      modalTitre:'👶 Мои дети',
+      addChild:'＋ Добавить ребёнка',
+      fPrenom:'Имя', fDob:'Дата рождения',
+      fAllergies:'Аллергии / диета', fNotes:'Заметки',
+      fSave:'Сохранить', fCancel:'Отмена',
+      fEdit:'Изменить', fDelete:'Удалить',
+      confirmDelete:'Удалить этого ребёнка?',
+      confirmDeleteConv:'Удалить этот разговор?',
+      rc_crise:'🤯 Справиться с кризисом', rc_repas:'🍽️ Идеи для еды',
+      rc_sommeil:'🌙 Сон', rc_conseil:'💡 Советы дня',
+      q_crise:  c=>`Мой ребёнок${c} много плачет и кажется очень взволнованным. Как помочь?`,
+      q_repas:  c=>`Идеи лёгких и сбалансированных блюд для ребёнка${c}?`,
+      q_sommeil:c=>`Мой ребёнок${c} плохо спит. Какие советы?`,
+      q_conseil:c=>`Практические советы для ребёнка${c} прямо сейчас?`,
+      ctx:(a,u)=>a?` (${a} ${u})`:'',
+      ageYears:(a,m)=>m?`${a} л. ${m} мес.`:`${a} л.`,
+      ageMonths:m=>`${m} мес.`,
+      footer:'Этот помощник не заменяет медицинскую консультацию. В экстренных случаях звоните <strong>101</strong>.',
+      urgence:'⚠️ Если это экстренная ситуация, звоните <strong>101</strong> немедленно.',
+    },
+    zh: {
+      dir:'ltr', appTitle:'家长助手', newConv:'✦ 新对话',
+      ageLabel:'孩子的年龄', ans:'岁', mois:'个月',
+      placeholder:'输入您的问题…', vous:'您', assistant:'助手',
+      today:'今天', yesterday:'昨天',
+      emptyHist:'您的对话将显示在这里。',
+      errServer:'无法连接到服务器。',
+      newConvTitle:'新对话',
+      welcome:"您好！请提出您的问题\n或选择一个快捷方式。",
+      noChild:'— 未选择孩子 —',
+      manageBtn:'👶 我的孩子',
+      modalTitre:'👶 我的孩子',
+      addChild:'＋ 添加孩子',
+      fPrenom:'姓名', fDob:'出生日期',
+      fAllergies:'过敏 / 饮食', fNotes:'备注',
+      fSave:'保存', fCancel:'取消',
+      fEdit:'编辑', fDelete:'删除',
+      confirmDelete:'删除这个孩子？',
+      confirmDeleteConv:'删除这段对话？',
+      rc_crise:'🤯 处理危机', rc_repas:'🍽️ 饮食建议',
+      rc_sommeil:'🌙 睡眠', rc_conseil:'💡 今日建议',
+      q_crise:  c=>`我的孩子${c}哭泣不止，情绪激动。我该怎么帮助？`,
+      q_repas:  c=>`有什么适合${c}孩子的简单营养饮食建议？`,
+      q_sommeil:c=>`我的孩子${c}睡眠不好。有什么建议？`,
+      q_conseil:c=>`对${c}孩子有什么实用建议？`,
+      ctx:(a,u)=>a?`${a}${u}大`:'',
+      ageYears:(a,m)=>m?`${a}岁${m}个月`:`${a}岁`,
+      ageMonths:m=>`${m}个月`,
+      footer:'此助手不能替代医疗建议。紧急情况请拨打 <strong>101</strong>。',
+      urgence:'⚠️ 如果是紧急情况，请立即拨打 <strong>101</strong>。',
+    },
+    ja: {
+      dir:'ltr', appTitle:'子育てアシスタント', newConv:'✦ 新しい会話',
+      ageLabel:'子どもの年齢', ans:'歳', mois:'ヶ月',
+      placeholder:'質問を入力してください…', vous:'あなた', assistant:'アシスタント',
+      today:'今日', yesterday:'昨日',
+      emptyHist:'会話履歴がここに表示されます。',
+      errServer:'サーバーに接続できません。',
+      newConvTitle:'新しい会話',
+      welcome:"こんにちは！質問を入力するか\nショートカットを選んでください。",
+      noChild:'— 子どもが選択されていません —',
+      manageBtn:'👶 わが子',
+      modalTitre:'👶 わが子',
+      addChild:'＋ 子どもを追加',
+      fPrenom:'お名前', fDob:'生年月日',
+      fAllergies:'アレルギー・食事制限', fNotes:'メモ',
+      fSave:'保存', fCancel:'キャンセル',
+      fEdit:'編集', fDelete:'削除',
+      confirmDelete:'この子どもを削除しますか？',
+      confirmDeleteConv:'この会話を削除しますか？',
+      rc_crise:'🤯 癇癪への対応', rc_repas:'🍽️ 食事のアイデア',
+      rc_sommeil:'🌙 睡眠', rc_conseil:'💡 今日のアドバイス',
+      q_crise:  c=>`子ども${c}がとても泣いていて落ち着きません。どうすれば助けられますか？`,
+      q_repas:  c=>`${c}の子どもに簡単でバランスの良い食事のアイデアを教えてください。`,
+      q_sommeil:c=>`${c}の子どもがよく眠れません。アドバイスはありますか？`,
+      q_conseil:c=>`${c}の子どもへの実践的なアドバイスは？`,
+      ctx:(a,u)=>a?`（${a}${u}）`:'',
+      ageYears:(a,m)=>m?`${a}歳${m}ヶ月`:`${a}歳`,
+      ageMonths:m=>`${m}ヶ月`,
+      footer:'このアシスタントは医療アドバイスに代わるものではありません。緊急の場合は <strong>101</strong> に電話してください。',
+      urgence:'⚠️ 緊急事態の場合は、すぐに <strong>101</strong> に電話してください。',
+    },
+    ko: {
+      dir:'ltr', appTitle:'부모 도우미', newConv:'✦ 새 대화',
+      ageLabel:'아이의 나이', ans:'세', mois:'개월',
+      placeholder:'질문을 입력하세요…', vous:'나', assistant:'도우미',
+      today:'오늘', yesterday:'어제',
+      emptyHist:'대화 내용이 여기에 표시됩니다.',
+      errServer:'서버에 연결할 수 없습니다.',
+      newConvTitle:'새 대화',
+      welcome:"안녕하세요! 질문을 입력하거나\n빠른 선택을 누르세요.",
+      noChild:'— 선택된 아이 없음 —',
+      manageBtn:'👶 내 아이들',
+      modalTitre:'👶 내 아이들',
+      addChild:'＋ 아이 추가',
+      fPrenom:'이름', fDob:'생년월일',
+      fAllergies:'알레르기 / 식이요법', fNotes:'메모',
+      fSave:'저장', fCancel:'취소',
+      fEdit:'수정', fDelete:'삭제',
+      confirmDelete:'이 아이를 삭제하시겠습니까?',
+      confirmDeleteConv:'이 대화를 삭제하시겠습니까?',
+      rc_crise:'🤯 위기 대처', rc_repas:'🍽️ 식사 아이디어',
+      rc_sommeil:'🌙 수면', rc_conseil:'💡 오늘의 팁',
+      q_crise:  c=>`아이${c}가 많이 울고 매우 불안해 보입니다. 어떻게 도울 수 있을까요?`,
+      q_repas:  c=>`아이${c}를 위한 쉽고 균형 잡힌 식사 아이디어가 있나요?`,
+      q_sommeil:c=>`아이${c}가 잠을 잘 못 잡니다. 조언이 있으신가요?`,
+      q_conseil:c=>`아이${c}의 행복을 위한 실용적인 팁은?`,
+      ctx:(a,u)=>a?` ${a}${u}`:'',
+      ageYears:(a,m)=>m?`${a}세 ${m}개월`:`${a}세`,
+      ageMonths:m=>`${m}개월`,
+      footer:'이 어시스턴트는 의료 조언을 대체하지 않습니다. 응급상황 시 <strong>101</strong>로 전화하세요.',
+      urgence:'⚠️ 응급상황이라면 즉시 <strong>101</strong>로 전화하세요.',
+    },
+    tr: {
+      dir:'ltr', appTitle:'Ebeveyn Asistanı', newConv:'✦ Yeni sohbet',
+      ageLabel:'Çocuğun yaşı', ans:'yaş', mois:'aylık',
+      placeholder:'Sorunuzu yazın…', vous:'Siz', assistant:'Asistan',
+      today:'Bugün', yesterday:'Dün',
+      emptyHist:'Sohbetleriniz burada görünecek.',
+      errServer:'Sunucuya bağlanılamıyor.',
+      newConvTitle:'Yeni sohbet',
+      welcome:"Merhaba! Sorunuzu sorun\nveya bir kısayol seçin.",
+      noChild:'— Çocuk seçilmedi —',
+      manageBtn:'👶 Çocuklarım',
+      modalTitre:'👶 Çocuklarım',
+      addChild:'＋ Çocuk ekle',
+      fPrenom:'Ad', fDob:'Doğum tarihi',
+      fAllergies:'Alerjiler / diyet', fNotes:'Notlar',
+      fSave:'Kaydet', fCancel:'İptal',
+      fEdit:'Düzenle', fDelete:'Sil',
+      confirmDelete:'Bu çocuğu sil?',
+      confirmDeleteConv:'Bu sohbeti sil?',
+      rc_crise:'🤯 Kriz yönetimi', rc_repas:'🍽️ Yemek fikirleri',
+      rc_sommeil:'🌙 Uyku', rc_conseil:'💡 Günün ipuçları',
+      q_crise:  c=>`Çocuğum${c} çok ağlıyor ve çok sinirli görünüyor. Nasıl yardımcı olabilirim?`,
+      q_repas:  c=>`Çocuk${c} için kolay ve dengeli yemek fikirleri nelerdir?`,
+      q_sommeil:c=>`Çocuğum${c} uyumakta güçlük çekiyor. Önerileriniz?`,
+      q_conseil:c=>`Çocuk${c} için pratik ipuçlarınız neler?`,
+      ctx:(a,u)=>a?` ${a} ${u}`:'',
+      ageYears:(a,m)=>m?`${a} yaş ${m} ay`:`${a} yaş`,
+      ageMonths:m=>`${m} ay`,
+      footer:'Bu asistan tıbbi tavsiyenin yerini tutmaz. Acil durumda <strong>101</strong>\'i arayın.',
+      urgence:'⚠️ Bu bir acil durum ise hemen <strong>101</strong>\'i arayın.',
+    },
+    nl: {
+      dir:'ltr', appTitle:'Ouder Assistent', newConv:'✦ Nieuw gesprek',
+      ageLabel:'Leeftijd van het kind', ans:'jaar', mois:'maanden',
+      placeholder:'Schrijf je vraag…', vous:'Jij', assistant:'Assistent',
+      today:'Vandaag', yesterday:'Gisteren',
+      emptyHist:'Je gesprekken verschijnen hier.',
+      errServer:'Kan de server niet bereiken.',
+      newConvTitle:'Nieuw gesprek',
+      welcome:"Hallo! Stel je vraag\nof kies een snelkoppeling.",
+      noChild:'— Geen kind geselecteerd —',
+      manageBtn:'👶 Mijn kinderen',
+      modalTitre:'👶 Mijn kinderen',
+      addChild:'＋ Kind toevoegen',
+      fPrenom:'Voornaam', fDob:'Geboortedatum',
+      fAllergies:'Allergieën / dieet', fNotes:'Notities',
+      fSave:'Opslaan', fCancel:'Annuleren',
+      fEdit:'Bewerken', fDelete:'Verwijderen',
+      confirmDelete:'Dit kind verwijderen?',
+      confirmDeleteConv:'Dit gesprek verwijderen?',
+      rc_crise:'🤯 Driftbui aanpakken', rc_repas:'🍽️ Maaltijdideeën',
+      rc_sommeil:'🌙 Slaap', rc_conseil:'💡 Tip van de dag',
+      q_crise:  c=>`Mijn kind${c} huilt veel en lijkt erg overstuur. Hoe kan ik helpen?`,
+      q_repas:  c=>`Ideeën voor makkelijke, evenwichtige maaltijden voor een kind${c}?`,
+      q_sommeil:c=>`Mijn kind${c} slaapt slecht. Heb je advies?`,
+      q_conseil:c=>`Praktische tips voor een kind${c} op dit moment?`,
+      ctx:(a,u)=>a?` van ${a} ${u}`:'',
+      ageYears:(a,m)=>m?`${a} jr. ${m} mnd.`:`${a} jr.`,
+      ageMonths:m=>`${m} mnd.`,
+      footer:'Deze assistent vervangt geen medisch advies. Bel bij nood <strong>101</strong>.',
+      urgence:'⚠️ Als dit een noodgeval is, bel dan onmiddellijk <strong>101</strong>.',
+    },
+    pl: {
+      dir:'ltr', appTitle:'Asystent Rodziców', newConv:'✦ Nowa rozmowa',
+      ageLabel:'Wiek dziecka', ans:'lat', mois:'miesięcy',
+      placeholder:'Napisz swoje pytanie…', vous:'Ty', assistant:'Asystent',
+      today:'Dzisiaj', yesterday:'Wczoraj',
+      emptyHist:'Twoje rozmowy pojawią się tutaj.',
+      errServer:'Nie można połączyć się z serwerem.',
+      newConvTitle:'Nowa rozmowa',
+      welcome:"Cześć! Zadaj pytanie\nlub wybierz skrót.",
+      noChild:'— Nie wybrano dziecka —',
+      manageBtn:'👶 Moje dzieci',
+      modalTitre:'👶 Moje dzieci',
+      addChild:'＋ Dodaj dziecko',
+      fPrenom:'Imię', fDob:'Data urodzenia',
+      fAllergies:'Alergie / dieta', fNotes:'Notatki',
+      fSave:'Zapisz', fCancel:'Anuluj',
+      fEdit:'Edytuj', fDelete:'Usuń',
+      confirmDelete:'Usunąć to dziecko?',
+      confirmDeleteConv:'Usunąć tę rozmowę?',
+      rc_crise:'🤯 Radzenie z kryzysem', rc_repas:'🍽️ Pomysły na posiłki',
+      rc_sommeil:'🌙 Sen', rc_conseil:'💡 Wskazówki dnia',
+      q_crise:  c=>`Moje dziecko${c} dużo płacze i wydaje się wzburzone. Jak pomóc?`,
+      q_repas:  c=>`Pomysły na łatwe i zrównoważone posiłki dla dziecka${c}?`,
+      q_sommeil:c=>`Moje dziecko${c} ma problemy ze snem. Jakie masz rady?`,
+      q_conseil:c=>`Praktyczne wskazówki dla dziecka${c} teraz?`,
+      ctx:(a,u)=>a?` ${a} ${u}`:'',
+      ageYears:(a,m)=>m?`${a} l. ${m} mies.`:`${a} l.`,
+      ageMonths:m=>`${m} mies.`,
+      footer:'Ten asystent nie zastępuje porady lekarskiej. W nagłych przypadkach dzwoń pod <strong>101</strong>.',
+      urgence:'⚠️ Jeśli to nagły przypadek, zadzwoń natychmiast pod <strong>101</strong>.',
+    },
+    ro: {
+      dir:'ltr', appTitle:'Asistent Părinți', newConv:'✦ Conversație nouă',
+      ageLabel:'Vârsta copilului', ans:'ani', mois:'luni',
+      placeholder:'Scrie întrebarea ta…', vous:'Tu', assistant:'Asistent',
+      today:'Azi', yesterday:'Ieri',
+      emptyHist:'Conversațiile tale vor apărea aici.',
+      errServer:'Nu se poate contacta serverul.',
+      newConvTitle:'Conversație nouă',
+      welcome:"Bună! Pune întrebarea ta\nsau alege o comandă rapidă.",
+      noChild:'— Niciun copil selectat —',
+      manageBtn:'👶 Copiii mei',
+      modalTitre:'👶 Copiii mei',
+      addChild:'＋ Adaugă copil',
+      fPrenom:'Prenume', fDob:'Data nașterii',
+      fAllergies:'Alergii / dietă', fNotes:'Notițe',
+      fSave:'Salvează', fCancel:'Anulează',
+      fEdit:'Editează', fDelete:'Șterge',
+      confirmDelete:'Ștergi acest copil?',
+      confirmDeleteConv:'Ștergi această conversație?',
+      rc_crise:'🤯 Gestionarea unei crize', rc_repas:'🍽️ Idei de mese',
+      rc_sommeil:'🌙 Somn', rc_conseil:'💡 Sfaturile zilei',
+      q_crise:  c=>`Copilul meu${c} plânge mult și pare agitat. Cum îl pot ajuta?`,
+      q_repas:  c=>`Idei de mese ușoare pentru un copil${c}?`,
+      q_sommeil:c=>`Copilul meu${c} doarme greu. Ce sfaturi?`,
+      q_conseil:c=>`Sfaturi practice pentru un copil${c} acum?`,
+      ctx:(a,u)=>a?` de ${a} ${u}`:'',
+      ageYears:(a,m)=>m?`${a} an${a>1?'i':''} și ${m} lun${m>1?'i':'ă'}`:`${a} an${a>1?'i':''}`,
+      ageMonths:m=>`${m} lun${m>1?'i':'ă'}`,
+      footer:'Acest asistent nu înlocuiește sfatul medical. În caz de urgență, sunați la <strong>101</strong>.',
+      urgence:'⚠️ Dacă este o urgență, sunați imediat la <strong>101</strong>.',
+    },
+  };
+
+  // ════════════════════════════════════════════════════════════
+  // ÉTAT
+  // ════════════════════════════════════════════════════════════
+  let lang         = detectLang();
+  let convId       = null;
+  let conversation = [];
+  let enCours      = false;
+  let selectedChildId = null;
+
+  const STORAGE_KEY  = 'assistant-parents-convs';
+  const CHILDREN_KEY = 'assistant-parents-children';
+  const SEL_KEY      = 'assistant-parents-selected-child';
+
+  function detectLang() {
+    const nav = (navigator.language || 'fr').toLowerCase();
+    const map = { he:'he', iw:'he', ar:'ar', en:'en', es:'es', de:'de', it:'it',
+                  pt:'pt', ru:'ru', zh:'zh', ja:'ja', ko:'ko', tr:'tr', nl:'nl', pl:'pl', ro:'ro' };
+    for (const [k,v] of Object.entries(map)) if (nav.startsWith(k)) return v;
+    return 'fr';
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // I18N
+  // ════════════════════════════════════════════════════════════
+  function t(k) { return T[lang][k] ?? k; }
+
+  function setLang(l) {
+    if (!T[l]) return;
+    lang = l;
+    const tr = T[l];
+    document.documentElement.setAttribute('dir',  tr.dir);
+    document.documentElement.setAttribute('lang', l);
+    document.getElementById('lang-select').value = l;
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const k = el.getAttribute('data-i18n');
+      if (tr[k] !== undefined) el.textContent = tr[k];
+    });
+
+    document.querySelector('#unite option[value="ans"]').textContent  = tr.ans;
+    document.querySelector('#unite option[value="mois"]').textContent = tr.mois;
+    document.getElementById('question').placeholder = tr.placeholder;
+    document.getElementById('modal-titre').textContent = tr.modalTitre;
+    document.getElementById('lbl-add-child').textContent = tr.addChild.replace('＋ ','');
+    document.getElementById('lbl-prenom').textContent    = tr.fPrenom;
+    document.getElementById('lbl-dob').textContent       = tr.fDob;
+    document.getElementById('lbl-allergies').textContent = tr.fAllergies;
+    document.getElementById('lbl-notes').textContent     = tr.fNotes;
+    document.getElementById('btn-form-save').textContent   = tr.fSave;
+    document.getElementById('btn-form-cancel').textContent = tr.fCancel;
+
+    const convTitre = convId
+      ? (chargerTout().find(c=>c.id===convId)?.titre || tr.newConvTitle)
+      : tr.newConvTitle;
+    document.getElementById('conv-titre').textContent = convTitre;
+
+    const accueil = document.getElementById('accueil');
+    if (accueil) accueil.querySelector('p').textContent = tr.welcome;
+
+    document.getElementById('footer-medical').innerHTML = tr.footer || '';
+
+    renderChildSelector();
+    renderSidebar();
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // ENFANTS — CRUD
+  // ════════════════════════════════════════════════════════════
+  function chargerEnfants() {
+    try { return JSON.parse(localStorage.getItem(CHILDREN_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function sauvegarderEnfants(enfants) {
+    localStorage.setItem(CHILDREN_KEY, JSON.stringify(enfants));
+  }
+
+  function ageDepuisNaissance(dob) {
+    if (!dob) return null;
+    const n = new Date(dob), now = new Date();
+    let y = now.getFullYear()-n.getFullYear(), m = now.getMonth()-n.getMonth();
+    if (now.getDate() < n.getDate()) m--;
+    if (m < 0) { y--; m += 12; }
+    return { years: Math.max(0,y), months: Math.max(0,m) };
+  }
+
+  function ageLabel(dob) {
+    const a = ageDepuisNaissance(dob);
+    if (!a) return '';
+    const tr = T[lang];
+    return a.years >= 1 ? tr.ageYears(a.years, a.months) : tr.ageMonths(a.months);
+  }
+
+  function ageEnAnsEtMois(dob) {
+    const a = ageDepuisNaissance(dob);
+    if (!a) return { age: '', unite: 'ans' };
+    const total = a.years*12 + a.months;
+    return total < 24
+      ? { age: String(total), unite: 'mois' }
+      : { age: String(a.years), unite: 'ans' };
+  }
+
+  function majAgePreview() {
+    const dob = document.getElementById('form-dob').value;
+    const el  = document.getElementById('form-age-preview');
+    el.textContent = dob ? ageLabel(dob) : '';
+  }
+
+  // ── Rendu liste enfants dans la modal ──
+  function renderEnfantsList() {
+    const enfants = chargerEnfants();
+    const liste   = document.getElementById('enfants-liste');
+    liste.innerHTML = '';
+
+    if (enfants.length === 0) {
+      liste.innerHTML = `<p style="color:#C4B8B0;font-size:0.85rem;text-align:center;padding:12px 0;">${esc(t('emptyHist').replace('conversations','enfants'))}</p>`;
+    }
+
+    enfants.forEach(e => {
+      const age = e.dob ? ` · ${ageLabel(e.dob)}` : '';
+      const div = document.createElement('div');
+      div.className = 'enfant-card' + (e.id === selectedChildId ? ' selected' : '');
+      div.innerHTML = `
+        <div class="enfant-card-top">
+          <span class="enfant-avatar">${e.prenom ? e.prenom[0].toUpperCase() : '?'}</span>
+          <div class="enfant-info">
+            <div class="enfant-nom">${esc(e.prenom || '—')}</div>
+            <div class="enfant-age">${esc(age)}</div>
+            ${e.allergies ? `<div class="enfant-allergies">⚠️ ${esc(e.allergies)}</div>` : ''}
+          </div>
+          <div class="enfant-actions">
+            <button class="btn-enfant-action" onclick="ouvrirFormulaireEdit('${e.id}')">${esc(t('fEdit'))}</button>
+            <button class="btn-enfant-action danger" onclick="supprimerEnfant('${e.id}')">${esc(t('fDelete'))}</button>
+          </div>
+        </div>`;
+      liste.appendChild(div);
+    });
+  }
+
+  // ── Sélecteur d'enfant dans le header ──
+  function renderChildSelector() {
+    const enfants  = chargerEnfants();
+    const sel      = document.getElementById('child-selector');
+    const ageRow   = document.getElementById('age-row');
+    sel.innerHTML  = `<option value="">${esc(t('noChild'))}</option>`;
+
+    enfants.forEach(e => {
+      const age   = e.dob ? ` (${ageLabel(e.dob)})` : '';
+      const opt   = document.createElement('option');
+      opt.value   = e.id;
+      opt.textContent = (e.prenom || '?') + age;
+      sel.appendChild(opt);
+    });
+
+    sel.value = selectedChildId || '';
+    sel.classList.toggle('has-child', !!selectedChildId);
+    ageRow.style.display = selectedChildId ? 'none' : 'flex';
+
+    if (selectedChildId) {
+      const enfant = enfants.find(e => e.id === selectedChildId);
+      if (enfant?.dob) {
+        const { age, unite } = ageEnAnsEtMois(enfant.dob);
+        document.getElementById('age').value   = age;
+        document.getElementById('unite').value = unite;
+      }
+    }
+  }
+
+  function selectionnerEnfant(id) {
+    selectedChildId = id || null;
+    localStorage.setItem(SEL_KEY, id || '');
+    renderChildSelector();
+  }
+
+  // ── Formulaire add/edit ──
+  function ouvrirFormulaireAjout() {
+    document.getElementById('form-child-id').value  = '';
+    document.getElementById('form-prenom').value    = '';
+    document.getElementById('form-dob').value       = '';
+    document.getElementById('form-allergies').value = '';
+    document.getElementById('form-notes').value     = '';
+    document.getElementById('form-age-preview').textContent = '';
+    document.getElementById('btn-add-child').classList.add('hidden');
+    document.getElementById('enfant-form-container').style.display = 'block';
+    document.getElementById('form-prenom').focus();
+  }
+
+  function ouvrirFormulaireEdit(id) {
+    const e = chargerEnfants().find(x => x.id === id);
+    if (!e) return;
+    document.getElementById('form-child-id').value  = e.id;
+    document.getElementById('form-prenom').value    = e.prenom    || '';
+    document.getElementById('form-dob').value       = e.dob       || '';
+    document.getElementById('form-allergies').value = e.allergies || '';
+    document.getElementById('form-notes').value     = e.notes     || '';
+    majAgePreview();
+    document.getElementById('btn-add-child').classList.add('hidden');
+    document.getElementById('enfant-form-container').style.display = 'block';
+    document.getElementById('form-prenom').focus();
+  }
+
+  function fermerFormulaire() {
+    document.getElementById('enfant-form-container').style.display = 'none';
+    document.getElementById('btn-add-child').classList.remove('hidden');
+  }
+
+  function sauvegarderEnfant() {
+    const id       = document.getElementById('form-child-id').value;
+    const prenom   = document.getElementById('form-prenom').value.trim();
+    const dob      = document.getElementById('form-dob').value;
+    const allergies= document.getElementById('form-allergies').value.trim();
+    const notes    = document.getElementById('form-notes').value.trim();
+
+    const enfants = chargerEnfants();
+    if (id) {
+      const idx = enfants.findIndex(e => e.id === id);
+      if (idx >= 0) enfants[idx] = { id, prenom, dob, allergies, notes };
+    } else {
+      enfants.push({ id: 'child-'+Date.now(), prenom, dob, allergies, notes });
+    }
+    sauvegarderEnfants(enfants);
+    fermerFormulaire();
+    renderEnfantsList();
+    renderChildSelector();
+  }
+
+  function supprimerEnfant(id) {
+    if (!confirm(t('confirmDelete'))) return;
+    let enfants = chargerEnfants().filter(e => e.id !== id);
+    sauvegarderEnfants(enfants);
+    if (selectedChildId === id) selectionnerEnfant('');
+    renderEnfantsList();
+    renderChildSelector();
+  }
+
+  // ── Modal ──
+  function ouvrirModal() {
+    fermerFormulaire();
+    renderEnfantsList();
+    document.getElementById('modal-enfants').classList.add('open');
+  }
+
+  function fermerModal() {
+    document.getElementById('modal-enfants').classList.remove('open');
+  }
+
+  function fermerModalSiClic(e) {
+    if (e.target === document.getElementById('modal-enfants')) fermerModal();
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // PROFIL → PROMPT
+  // ════════════════════════════════════════════════════════════
+  function construireProfilePrompt() {
+    if (!selectedChildId) return '';
+    const e = chargerEnfants().find(x => x.id === selectedChildId);
+    if (!e) return '';
+    const lignes = [];
+    if (e.prenom) lignes.push(`- Name: ${e.prenom}`);
+    if (e.dob) {
+      const a = ageDepuisNaissance(e.dob);
+      if (a) {
+        const ageStr = a.years >= 1
+          ? (a.months ? `${a.years} year${a.years>1?'s':''} and ${a.months} month${a.months>1?'s':''}` : `${a.years} year${a.years>1?'s':''}`)
+          : `${a.months} month${a.months>1?'s':''}`;
+        lignes.push(`- Age: ${ageStr} (born ${e.dob})`);
+      }
+    }
+    if (e.allergies) lignes.push(`- Allergies / diet: ${e.allergies}`);
+    if (e.notes)     lignes.push(`- Notes: ${e.notes}`);
+    return lignes.join('\n');
+  }
+
+  function getAllergiesEnfant() {
+    if (!selectedChildId) return '';
+    const e = chargerEnfants().find(x => x.id === selectedChildId);
+    return e?.allergies || '';
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // PERSISTANCE CONVERSATIONS
+  // ════════════════════════════════════════════════════════════
+  function chargerTout() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+    catch { return []; }
+  }
+
+  function sauvegarderTout(convs) { localStorage.setItem(STORAGE_KEY, JSON.stringify(convs)); }
+
+  function titreDepuisMessages(msgs) {
+    const m = msgs.find(x => x.role === 'user');
+    if (!m) return t('newConvTitle');
+    return m.content.length > 45 ? m.content.slice(0,42)+'…' : m.content;
+  }
+
+  function sauvegarderConvCourante() {
+    if (!convId) return;
+    const convs = chargerTout();
+    const idx   = convs.findIndex(c => c.id === convId);
+    const obj   = {
+      id: convId,
+      titre: titreDepuisMessages(conversation),
+      date:  new Date().toISOString(),
+      age:   document.getElementById('age').value.trim(),
+      unite: document.getElementById('unite').value,
+      lang, messages: conversation,
+    };
+    if (idx >= 0) convs[idx] = obj; else convs.unshift(obj);
+    sauvegarderTout(convs);
+    renderSidebar();
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // SIDEBAR
+  // ════════════════════════════════════════════════════════════
+  function renderSidebar() {
+    const convs = chargerTout();
+    const body  = document.getElementById('sidebar-body');
+    if (convs.length === 0) { body.innerHTML = `<p class="sidebar-empty">${esc(t('emptyHist'))}</p>`; return; }
+
+    const locale = { he:'he-IL',ar:'ar-SA',zh:'zh-CN',ja:'ja-JP',ko:'ko-KR',ru:'ru-RU',tr:'tr-TR' }[lang] || (lang+'-'+lang.toUpperCase());
+    const groupes = {};
+    convs.forEach(c => {
+      const d=new Date(c.date),auj=new Date(),hier=new Date(); hier.setDate(hier.getDate()-1);
+      const label=d.toDateString()===auj.toDateString()?t('today'):d.toDateString()===hier.toDateString()?t('yesterday'):d.toLocaleDateString(locale,{day:'numeric',month:'long'});
+      (groupes[label]=groupes[label]||[]).push(c);
+    });
+
+    body.innerHTML='';
+    Object.entries(groupes).forEach(([label,items])=>{
+      const sec=document.createElement('div');
+      sec.innerHTML=`<div class="sidebar-section-label">${esc(label)}</div>`;
+      items.forEach(c=>{
+        const div=document.createElement('div');
+        div.className='conv-item'+(c.id===convId?' active':'');
+        div.innerHTML=`<div class="conv-item-body">
+            <div class="conv-item-title">${esc(c.titre)}</div>
+            <div class="conv-item-date">${new Date(c.date).toLocaleTimeString(locale,{hour:'2-digit',minute:'2-digit'})}</div>
+          </div>
+          <button class="btn-suppr-conv" title="Supprimer" onclick="event.stopPropagation();supprimerConversation('${c.id}')">🗑️</button>`;
+        div.onclick=()=>ouvrirConversation(c.id);
+        sec.appendChild(div);
+      });
+      body.appendChild(sec);
+    });
+  }
+
+  function supprimerConversation(id) {
+    if (!confirm(t('confirmDeleteConv'))) return;
+    const convs = chargerTout().filter(c => c.id !== id);
+    sauvegarderTout(convs);
+    if (convId === id) {
+      convId = null;
+      conversation = [];
+      nouvelleConversation();
+    } else {
+      renderSidebar();
+    }
+  }
+
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+  function ouvrirConversation(id) {
+    const c=chargerTout().find(x=>x.id===id);
+    if(!c) return;
+    convId=c.id; conversation=c.messages;
+    if(c.lang&&T[c.lang]) setLang(c.lang);
+    document.getElementById('age').value=c.age||'';
+    document.getElementById('unite').value=c.unite||'ans';
+    document.getElementById('conv-titre').textContent=c.titre;
+    const fil=document.getElementById('fil'); fil.innerHTML='';
+    conversation.forEach(m=>ajouterBulle(m.role,m.content));
+    renderSidebar(); fermerSidebar();
+  }
+
+  function nouvelleConversation() {
+    convId='conv-'+Date.now()+'-'+Math.random().toString(36).slice(2);
+    conversation=[];
+    document.getElementById('conv-titre').textContent=t('newConvTitle');
+    document.getElementById('fil').innerHTML=`<div class="accueil" id="accueil"><div class="icone">💬</div><p>${esc(t('welcome'))}</p></div>`;
+    renderSidebar(); fermerSidebar();
+    document.getElementById('question').focus();
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // SIDEBAR MOBILE
+  // ════════════════════════════════════════════════════════════
+  function toggleSidebar(){document.getElementById('sidebar').classList.toggle('open');document.getElementById('overlay').classList.toggle('open');}
+  function fermerSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('open');}
+
+  // ════════════════════════════════════════════════════════════
+  // DÉTECTION URGENCE
+  // ════════════════════════════════════════════════════════════
+  const MOTS_URGENCE = [
+    // Français
+    'respire mal','respire pas','ne respire plus','étouffe','s\'étouffe',
+    'forte fièvre','convulsion','convulsions','inconscient','inconsciente',
+    'évanoui','évanouie','saigne beaucoup','a avalé','avale','brûlure grave',
+    'brûlure profonde','perte de connaissance','ne répond plus','ne réagit plus',
+    'bleuit','bleu','s\'étrangle','étrangle','paralysie','pas de pouls',
+    // English
+    'can\'t breathe','not breathing','choking','high fever','seizure','seizures',
+    'unconscious','fainted','bleeding heavily','swallowed','severe burn','deep burn',
+    'unresponsive','turning blue','no pulse','overdose','allergic reaction',
+    // Hebrew
+    'לא נושם','לא נושמת','מחנק','חום גבוה','עוויתות','עוויתה','עילפון','מאבד הכרה',
+    'מאבדת הכרה','דימום חמור','בלע','בלעה','כוויה חמורה','ללא דופק','חסימת נשימה',
+    // Arabic
+    'لا يتنفس','لا تتنفس','اختناق','حمى شديدة','تشنج','تشنجات','إغماء','فقدان الوعي',
+    'نزيف حاد','ابتلع','حروق شديدة','لا نبض',
+    // Spanish
+    'no respira','se ahoga','fiebre alta','convulsión','inconsciente','desmayado',
+    'sangrado abundante','se tragó','quemadura grave',
+    // Generic / multi-language
+    '911','112','urgence','urgencia','emergency','notfall','emergenza','emergência',
+    'urgência','urgentie','nödfall',
+  ];
+
+  function estUrgence(texte) {
+    const t = texte.toLowerCase();
+    return MOTS_URGENCE.some(m => t.includes(m));
+  }
+
+  function afficherBandeauUrgence() {
+    const fil = document.getElementById('fil');
+    const div = document.createElement('div');
+    div.className = 'bandeau-urgence';
+    div.innerHTML = `<span class="urgence-icon">🚨</span><span>${T[lang].urgence || '⚠️ Si c\'est une urgence, appelez le <strong>101</strong> immédiatement.'}</span>`;
+    fil.appendChild(div);
+    div.scrollIntoView({behavior:'smooth', block:'end'});
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // CHAT
+  // ════════════════════════════════════════════════════════════
+  function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
+  function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();envoyer();}}
+
+  function raccourci(type) {
+    const age   = document.getElementById('age').value.trim();
+    const unite = document.getElementById('unite').value;
+    const ctx   = T[lang].ctx(age, T[lang][unite]||unite);
+    document.getElementById('question').value=T[lang][`q_${type}`](ctx);
+    autoResize(document.getElementById('question'));
+    envoyer();
+  }
+
+  function isRTL(s){return /[֐-׿؀-ۿ]/.test(s);}
+
+  function ajouterBulle(role,texte,typing=false){
+    const accueil=document.getElementById('accueil');
+    if(accueil) accueil.remove();
+    const fil=document.getElementById('fil');
+    const bulle=document.createElement('div'); bulle.className=`bulle ${role}`;
+    const nom=document.createElement('div'); nom.className='bulle-nom';
+    nom.textContent=role==='user'?t('vous'):t('assistant');
+    const contenu=document.createElement('div'); contenu.className='bulle-contenu';
+    if(typing){
+      bulle.classList.add('typing');
+      contenu.innerHTML='<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+    } else if(role==='assistant'){
+      contenu.innerHTML=marked.parse(texte);
+      if(isRTL(texte)) contenu.setAttribute('dir','rtl');
+    } else {
+      contenu.textContent=texte;
+      if(isRTL(texte)) contenu.setAttribute('dir','rtl');
+    }
+    bulle.appendChild(nom); bulle.appendChild(contenu);
+    fil.appendChild(bulle);
+    bulle.scrollIntoView({behavior:'smooth',block:'end'});
+    return bulle;
+  }
+
+  async function envoyer() {
+    if(enCours) return;
+    const textarea=document.getElementById('question');
+    const texte=textarea.value.trim();
+    if(!texte) return;
+    if(!convId) convId='conv-'+Date.now()+'-'+Math.random().toString(36).slice(2);
+
+    const age  =document.getElementById('age').value.trim();
+    const unite=document.getElementById('unite').value;
+
+    conversation.push({role:'user',content:texte});
+    ajouterBulle('user',texte);
+    textarea.value=''; textarea.style.height='auto';
+
+    enCours=true;
+    document.getElementById('btn-envoyer').disabled=true;
+    const bulleTyping=ajouterBulle('assistant',null,true);
+
+    try {
+      const res=await fetch('/api/ask',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          messages:conversation, age, unite,
+          profile:  construireProfilePrompt(),
+          allergies:getAllergiesEnfant(),
+        }),
+      });
+      const data=await res.json();
+      const reponse=data.answer??data.error??'...';
+      conversation.push({role:'assistant',content:reponse});
+      bulleTyping.remove();
+      if(estUrgence(texte)) afficherBandeauUrgence();
+      ajouterBulle('assistant',reponse);
+      document.getElementById('conv-titre').textContent=titreDepuisMessages(conversation);
+      sauvegarderConvCourante();
+    } catch(e){
+      bulleTyping.remove();
+      ajouterBulle('assistant',t('errServer'));
+    } finally {
+      enCours=false;
+      document.getElementById('btn-envoyer').disabled=false;
+      textarea.focus();
+    }
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // INIT
+  // ════════════════════════════════════════════════════════════
+  selectedChildId = localStorage.getItem(SEL_KEY) || null;
+  // Valider que l'enfant existe encore
+  if (selectedChildId && !chargerEnfants().find(e=>e.id===selectedChildId)) selectedChildId=null;
+
+  setLang(lang);
+  renderChildSelector();
+  nouvelleConversation();
+  </script>
+</body>
+</html>
