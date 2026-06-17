@@ -1345,6 +1345,8 @@
   const SEL_KEY      = 'assistant-parents-selected-child';
 
   function detectLang() {
+    const saved = localStorage.getItem('ap-lang');
+    if (saved && T[saved]) return saved;
     const nav = (navigator.language || 'fr').toLowerCase();
     const map = { he:'he', iw:'he', ar:'ar', en:'en', es:'es', de:'de', it:'it',
                   pt:'pt', ru:'ru', zh:'zh', ja:'ja', ko:'ko', tr:'tr', nl:'nl', pl:'pl', ro:'ro' };
@@ -1360,6 +1362,7 @@
   function setLang(l) {
     if (!T[l]) return;
     lang = l;
+    localStorage.setItem('ap-lang', l);
     const tr = T[l];
     document.documentElement.setAttribute('dir',  tr.dir);
     document.documentElement.setAttribute('lang', l);
