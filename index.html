@@ -494,7 +494,7 @@
       .btn-hamburger { display: block; }
       .bulle { max-width: 90%; }
 
-      /* Header enfant bien visible sur mobile */
+      /* Header enfant mobile */
       .child-row { gap: 6px; }
       .child-selector { font-size: 0.85rem; padding: 7px 26px 7px 10px; }
       .btn-enfants {
@@ -502,6 +502,19 @@
         background: var(--terra-lt); border-color: var(--terra);
         color: var(--terra-dk); font-weight: 600;
       }
+      /* Bouton mobile pleine largeur quand pas d'enfant */
+      .btn-enfants-mobile-cta {
+        display: none;
+        width: 100%; padding: 10px 16px;
+        background: var(--terra); color: #2E3A2C;
+        border: none; border-radius: 12px;
+        font-size: 0.92rem; font-family: inherit; font-weight: 700;
+        cursor: pointer; text-align: center;
+        box-shadow: 0 2px 8px rgba(140,190,134,0.3);
+      }
+      .no-child-mobile .child-selector { display: none; }
+      .no-child-mobile .btn-enfants { display: none; }
+      .no-child-mobile .btn-enfants-mobile-cta { display: block; }
 
       /* Banner invitation plus compact sur mobile */
       .invite-enfant { padding: 16px; }
@@ -713,6 +726,7 @@
           <option value="" data-i18n="noChild"></option>
         </select>
         <button class="btn-enfants" onclick="ouvrirModal()" data-i18n="manageBtn"></button>
+        <button class="btn-enfants-mobile-cta" onclick="ouvrirModal()">＋ Ajouter mon enfant</button>
       </div>
       <!-- Âge manuel (visible seulement si aucun enfant sélectionné) -->
       <div class="age-row" id="age-row" style="margin-top:8px;">
@@ -1443,6 +1457,10 @@
     // Masque/affiche le banner d'invitation selon présence d'enfants
     const banner = document.getElementById('invite-enfant');
     if (banner) banner.style.display = enfants.length > 0 ? 'none' : 'flex';
+
+    // Sur mobile, bouton CTA pleine largeur quand aucun enfant sélectionné
+    const childRow = document.querySelector('.child-row');
+    if (childRow) childRow.classList.toggle('no-child-mobile', !selectedChildId);
 
     if (selectedChildId) {
       const enfant = enfants.find(e => e.id === selectedChildId);
