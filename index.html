@@ -727,7 +727,7 @@
           <option value="" data-i18n="noChild"></option>
         </select>
         <button class="btn-enfants" onclick="ouvrirModal()" data-i18n="manageBtn"></button>
-        <button class="btn-enfants-mobile-cta" onclick="ouvrirModal()">＋ Ajouter mon enfant</button>
+        <button class="btn-enfants-mobile-cta" id="btn-mobile-cta" onclick="ouvrirModal()">＋ Ajouter mon enfant</button>
       </div>
       <!-- Âge manuel (visible seulement si aucun enfant sélectionné) -->
       <div class="age-row" id="age-row" style="margin-top:8px;">
@@ -777,6 +777,9 @@
       manageBtn:'👶 Mes enfants',
       modalTitre:'👶 Mes enfants',
       addChild:'＋ Ajouter un enfant',
+      inviteTitle:'Pour des conseils vraiment adaptés,\najoutez le profil de votre enfant',
+      inviteSub:'Âge, allergies, notes personnelles — l\'assistant s\'adapte automatiquement',
+      inviteBtn:'＋ Ajouter mon enfant',
       fPrenom:'Prénom', fDob:'Date de naissance',
       fAllergies:'Allergies / régime alimentaire',
       fNotes:'Notes (défis, ce qui fonctionne…)',
@@ -811,6 +814,9 @@
       manageBtn:'👶 My children',
       modalTitre:'👶 My children',
       addChild:'＋ Add a child',
+      inviteTitle:'For advice tailored to your child,\nadd their profile',
+      inviteSub:'Age, allergies, personal notes — the assistant adapts automatically',
+      inviteBtn:'＋ Add my child',
       fPrenom:'First name', fDob:'Date of birth',
       fAllergies:'Allergies / diet',
       fNotes:'Notes (challenges, what works…)',
@@ -844,6 +850,9 @@
       manageBtn:'👶 הילדים שלי',
       modalTitre:'👶 הילדים שלי',
       addChild:'＋ הוסף ילד',
+      inviteTitle:'לייעוץ המותאם לילד שלך,\nהוסף את הפרופיל שלו',
+      inviteSub:'גיל, אלרגיות, הערות אישיות — העוזר מסתגל אוטומטית',
+      inviteBtn:'＋ הוסף את הילד שלי',
       fPrenom:'שם פרטי', fDob:'תאריך לידה',
       fAllergies:'אלרגיות / תזונה',
       fNotes:'הערות',
@@ -877,6 +886,9 @@
       manageBtn:'👶 أطفالي',
       modalTitre:'👶 أطفالي',
       addChild:'＋ إضافة طفل',
+      inviteTitle:'للحصول على نصائح مخصصة لطفلك،\nأضف ملفه الشخصي',
+      inviteSub:'العمر، الحساسيات، ملاحظات شخصية — يتكيف المساعد تلقائياً',
+      inviteBtn:'＋ إضافة طفلي',
       fPrenom:'الاسم', fDob:'تاريخ الميلاد',
       fAllergies:'الحساسية / النظام الغذائي',
       fNotes:'ملاحظات',
@@ -910,6 +922,9 @@
       manageBtn:'👶 Mis hijos',
       modalTitre:'👶 Mis hijos',
       addChild:'＋ Añadir un niño',
+      inviteTitle:'Para consejos adaptados a tu hijo,\nagrégalo a su perfil',
+      inviteSub:'Edad, alergias, notas personales — el asistente se adapta automáticamente',
+      inviteBtn:'＋ Agregar a mi hijo',
       fPrenom:'Nombre', fDob:'Fecha de nacimiento',
       fAllergies:'Alergias / dieta', fNotes:'Notas',
       fSave:'Guardar', fCancel:'Cancelar',
@@ -942,6 +957,9 @@
       manageBtn:'👶 Meine Kinder',
       modalTitre:'👶 Meine Kinder',
       addChild:'＋ Kind hinzufügen',
+      inviteTitle:'Für auf Ihr Kind zugeschnittene Ratschläge,\nfügen Sie das Profil hinzu',
+      inviteSub:'Alter, Allergien, persönliche Notizen — der Assistent passt sich automatisch an',
+      inviteBtn:'＋ Mein Kind hinzufügen',
       fPrenom:'Vorname', fDob:'Geburtsdatum',
       fAllergies:'Allergien / Diät', fNotes:'Notizen',
       fSave:'Speichern', fCancel:'Abbrechen',
@@ -974,6 +992,9 @@
       manageBtn:'👶 I miei bambini',
       modalTitre:'👶 I miei bambini',
       addChild:'＋ Aggiungi un bambino',
+      inviteTitle:'Per consigli davvero adatti a tuo figlio,\naggiungi il suo profilo',
+      inviteSub:'Età, allergie, note personali — l\'assistente si adatta automaticamente',
+      inviteBtn:'＋ Aggiungi mio figlio',
       fPrenom:'Nome', fDob:'Data di nascita',
       fAllergies:'Allergie / dieta', fNotes:'Note',
       fSave:'Salva', fCancel:'Annulla',
@@ -1006,6 +1027,9 @@
       manageBtn:'👶 Os meus filhos',
       modalTitre:'👶 Os meus filhos',
       addChild:'＋ Adicionar criança',
+      inviteTitle:'Para conselhos adaptados ao seu filho,\nadicione o perfil dele',
+      inviteSub:'Idade, alergias, notas pessoais — o assistente adapta-se automaticamente',
+      inviteBtn:'＋ Adicionar meu filho',
       fPrenom:'Nome', fDob:'Data de nascimento',
       fAllergies:'Alergias / dieta', fNotes:'Notas',
       fSave:'Guardar', fCancel:'Cancelar',
@@ -1038,6 +1062,9 @@
       manageBtn:'👶 Мои дети',
       modalTitre:'👶 Мои дети',
       addChild:'＋ Добавить ребёнка',
+      inviteTitle:'Для советов, адаптированных к вашему ребёнку,\nдобавьте его профиль',
+      inviteSub:'Возраст, аллергии, личные заметки — ассистент адаптируется автоматически',
+      inviteBtn:'＋ Добавить моего ребёнка',
       fPrenom:'Имя', fDob:'Дата рождения',
       fAllergies:'Аллергии / диета', fNotes:'Заметки',
       fSave:'Сохранить', fCancel:'Отмена',
@@ -1070,6 +1097,9 @@
       manageBtn:'👶 我的孩子',
       modalTitre:'👶 我的孩子',
       addChild:'＋ 添加孩子',
+      inviteTitle:'为获得为您的孩子量身定制的建议，\n请添加他/她的档案',
+      inviteSub:'年龄、过敏症、个人备注 — 助手将自动适应',
+      inviteBtn:'＋ 添加我的孩子',
       fPrenom:'姓名', fDob:'出生日期',
       fAllergies:'过敏 / 饮食', fNotes:'备注',
       fSave:'保存', fCancel:'取消',
@@ -1102,6 +1132,9 @@
       manageBtn:'👶 わが子',
       modalTitre:'👶 わが子',
       addChild:'＋ 子どもを追加',
+      inviteTitle:'お子さまに合ったアドバイスのために、\nプロフィールを追加してください',
+      inviteSub:'年齢、アレルギー、メモ — アシスタントが自動的に対応します',
+      inviteBtn:'＋ 子どもを追加する',
       fPrenom:'お名前', fDob:'生年月日',
       fAllergies:'アレルギー・食事制限', fNotes:'メモ',
       fSave:'保存', fCancel:'キャンセル',
@@ -1134,6 +1167,9 @@
       manageBtn:'👶 내 아이들',
       modalTitre:'👶 내 아이들',
       addChild:'＋ 아이 추가',
+      inviteTitle:'아이에게 맞춤화된 조언을 위해\n프로필을 추가해 주세요',
+      inviteSub:'나이, 알레르기, 개인 메모 — 어시스턴트가 자동으로 맞춰드립니다',
+      inviteBtn:'＋ 내 아이 추가하기',
       fPrenom:'이름', fDob:'생년월일',
       fAllergies:'알레르기 / 식이요법', fNotes:'메모',
       fSave:'저장', fCancel:'취소',
@@ -1166,6 +1202,9 @@
       manageBtn:'👶 Çocuklarım',
       modalTitre:'👶 Çocuklarım',
       addChild:'＋ Çocuk ekle',
+      inviteTitle:'Çocuğunuza özel tavsiyeler için\nprofil ekleyin',
+      inviteSub:'Yaş, alerjiler, kişisel notlar — asistan otomatik olarak uyum sağlar',
+      inviteBtn:'＋ Çocuğumu ekle',
       fPrenom:'Ad', fDob:'Doğum tarihi',
       fAllergies:'Alerjiler / diyet', fNotes:'Notlar',
       fSave:'Kaydet', fCancel:'İptal',
@@ -1198,6 +1237,9 @@
       manageBtn:'👶 Mijn kinderen',
       modalTitre:'👶 Mijn kinderen',
       addChild:'＋ Kind toevoegen',
+      inviteTitle:'Voor advies op maat voor uw kind,\nvoeg het profiel toe',
+      inviteSub:'Leeftijd, allergieën, persoonlijke notities — de assistent past zich automatisch aan',
+      inviteBtn:'＋ Mijn kind toevoegen',
       fPrenom:'Voornaam', fDob:'Geboortedatum',
       fAllergies:'Allergieën / dieet', fNotes:'Notities',
       fSave:'Opslaan', fCancel:'Annuleren',
@@ -1230,6 +1272,9 @@
       manageBtn:'👶 Moje dzieci',
       modalTitre:'👶 Moje dzieci',
       addChild:'＋ Dodaj dziecko',
+      inviteTitle:'Aby uzyskać porady dopasowane do Twojego dziecka,\ndodaj jego profil',
+      inviteSub:'Wiek, alergie, notatki — asystent dostosowuje się automatycznie',
+      inviteBtn:'＋ Dodaj moje dziecko',
       fPrenom:'Imię', fDob:'Data urodzenia',
       fAllergies:'Alergie / dieta', fNotes:'Notatki',
       fSave:'Zapisz', fCancel:'Anuluj',
@@ -1262,6 +1307,9 @@
       manageBtn:'👶 Copiii mei',
       modalTitre:'👶 Copiii mei',
       addChild:'＋ Adaugă copil',
+      inviteTitle:'Pentru sfaturi adaptate copilului tău,\nadaugă profilul lui',
+      inviteSub:'Vârstă, alergii, notițe personale — asistentul se adaptează automat',
+      inviteBtn:'＋ Adaugă copilul meu',
       fPrenom:'Prenume', fDob:'Data nașterii',
       fAllergies:'Alergii / dietă', fNotes:'Notițe',
       fSave:'Salvează', fCancel:'Anulează',
@@ -1333,6 +1381,9 @@
     document.getElementById('lbl-notes').textContent     = tr.fNotes;
     document.getElementById('btn-form-save').textContent   = tr.fSave;
     document.getElementById('btn-form-cancel').textContent = tr.fCancel;
+
+    const btnMobileCta = document.getElementById('btn-mobile-cta');
+    if (btnMobileCta) btnMobileCta.textContent = tr.inviteBtn || tr.addChild;
 
     const convTitre = convId
       ? (chargerTout().find(c=>c.id===convId)?.titre || tr.newConvTitle)
@@ -1686,9 +1737,9 @@
     const inviteBanner = hasChildren ? '' : `
       <div class="invite-enfant" id="invite-enfant">
         <div class="invite-enfant-emoji">🌱</div>
-        <div class="invite-enfant-titre">Pour des conseils vraiment adaptés,<br>ajoutez le profil de votre enfant</div>
-        <div class="invite-enfant-sous">Âge, allergies, notes personnelles — l'assistant s'adapte automatiquement</div>
-        <button class="btn-invite-enfant" onclick="ouvrirModal()">＋ Ajouter mon enfant</button>
+        <div class="invite-enfant-titre">${esc(t('inviteTitle')).replace('\n','<br>')}</div>
+        <div class="invite-enfant-sous">${esc(t('inviteSub'))}</div>
+        <button class="btn-invite-enfant" onclick="ouvrirModal()">${esc(t('inviteBtn'))}</button>
       </div>`;
     return `<div class="accueil" id="accueil">
       ${inviteBanner}
