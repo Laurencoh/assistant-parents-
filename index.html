@@ -1405,6 +1405,12 @@
         const raw = tr[keys[i]] || '';
         el.textContent = raw.replace(/^\S+\s/, '');
       });
+      const invTitre = accueil.querySelector('.invite-enfant-titre');
+      const invSous  = accueil.querySelector('.invite-enfant-sous');
+      const invBtn   = accueil.querySelector('.btn-invite-enfant');
+      if (invTitre) invTitre.innerHTML = esc(tr.inviteTitle || '').replace('\n','<br>');
+      if (invSous)  invSous.textContent  = tr.inviteSub  || '';
+      if (invBtn)   invBtn.textContent   = tr.inviteBtn  || '';
     }
 
     document.getElementById('footer-medical').innerHTML = tr.footer || '';
