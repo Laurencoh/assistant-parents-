@@ -423,6 +423,50 @@
     }
     .footer-medical strong { color: var(--text-2); }
 
+    /* ══ INVITATION PROFIL ENFANT ════════════════════════════ */
+    .invite-enfant {
+      margin: 0 0 16px;
+      background: linear-gradient(135deg, #EAF6E8 0%, #F5F0E8 100%);
+      border: 1.5px solid #B8DDB8;
+      border-radius: 16px;
+      padding: 18px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+      animation: slideDown 0.25s ease;
+    }
+    .invite-enfant-emoji { font-size: 2rem; line-height: 1; }
+    .invite-enfant-titre {
+      font-family: Georgia, serif;
+      font-size: 1rem;
+      color: var(--forest);
+      font-weight: normal;
+      line-height: 1.4;
+    }
+    .invite-enfant-sous {
+      font-size: 0.82rem;
+      color: var(--text-2);
+      line-height: 1.5;
+    }
+    .btn-invite-enfant {
+      margin-top: 4px;
+      padding: 10px 24px;
+      background: var(--terra);
+      color: #2E3A2C;
+      border: none;
+      border-radius: 24px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      box-shadow: 0 2px 8px rgba(140,190,134,0.35);
+    }
+    .btn-invite-enfant:hover { background: var(--terra-dk); color: #fff; }
+    .btn-invite-enfant:active { transform: scale(0.96); }
+
     /* ══ BANDEAU URGENCE ══════════════════════════════════════ */
     .bandeau-urgence {
       display: flex; align-items: center; gap: 10px;
@@ -449,6 +493,19 @@
       .overlay.open { display: block; }
       .btn-hamburger { display: block; }
       .bulle { max-width: 90%; }
+
+      /* Header enfant bien visible sur mobile */
+      .child-row { gap: 6px; }
+      .child-selector { font-size: 0.85rem; padding: 7px 26px 7px 10px; }
+      .btn-enfants {
+        padding: 7px 11px; font-size: 0.8rem;
+        background: var(--terra-lt); border-color: var(--terra);
+        color: var(--terra-dk); font-weight: 600;
+      }
+
+      /* Banner invitation plus compact sur mobile */
+      .invite-enfant { padding: 16px; }
+      .invite-enfant-titre { font-size: 0.93rem; }
     }
 
     @media (min-width: 641px) {
@@ -1383,6 +1440,10 @@
     sel.classList.toggle('has-child', !!selectedChildId);
     ageRow.style.display = selectedChildId ? 'none' : 'flex';
 
+    // Masque/affiche le banner d'invitation selon présence d'enfants
+    const banner = document.getElementById('invite-enfant');
+    if (banner) banner.style.display = enfants.length > 0 ? 'none' : 'flex';
+
     if (selectedChildId) {
       const enfant = enfants.find(e => e.id === selectedChildId);
       if (enfant?.dob) {
@@ -1602,7 +1663,16 @@
 
   function buildAccueil() {
     const w = WELCOME[lang] || WELCOME.fr;
+    const hasChildren = chargerEnfants().length > 0;
+    const inviteBanner = hasChildren ? '' : `
+      <div class="invite-enfant" id="invite-enfant">
+        <div class="invite-enfant-emoji">🌱</div>
+        <div class="invite-enfant-titre">Pour des conseils vraiment adaptés,<br>ajoutez le profil de votre enfant</div>
+        <div class="invite-enfant-sous">Âge, allergies, notes personnelles — l'assistant s'adapte automatiquement</div>
+        <button class="btn-invite-enfant" onclick="ouvrirModal()">＋ Ajouter mon enfant</button>
+      </div>`;
     return `<div class="accueil" id="accueil">
+      ${inviteBanner}
       <div class="accueil-hero">
         <!-- Feuilles décoratives coins -->
         <svg class="hero-deco-leaf" style="top:10px;left:12px" viewBox="0 0 60 60" width="54" height="54" xmlns="http://www.w3.org/2000/svg">
