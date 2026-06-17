@@ -9,20 +9,30 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --terra:    #D96B4A;
-      --terra-dk: #C45E3F;
-      --terra-lt: #FDEEE6;
-      --sage:     #7BAF9E;
-      --sage-lt:  #E3F0EC;
-      --amber-lt: #FFF3DC;
-      --rose-lt:  #FFE8E3;
-      --lav-lt:   #EDE8F5;
-      --cream:    #FFF8F3;
-      --cream-dk: #FEF0E8;
-      --sand:     #EDE5DC;
-      --text:     #2C2A28;
-      --text-2:   #7A6F68;
-      --text-3:   #B5A99E;
+      --terra:    #8CBE86;
+      --terra-dk: #5C8C5A;
+      --terra-lt: #E8F4E6;
+      --sage:     #5C8C5A;
+      --sage-dk:  #4A7248;
+      --sage-lt:  #D4EBD2;
+      --forest:   #2E3A2C;
+      --cream:    #F7F3EA;
+      --cream-dk: #EDE8DA;
+      --sand:     #DDD8C8;
+      --text:     #2E3A2C;
+      --text-2:   #586658;
+      --text-3:   #98A896;
+      /* Couleurs vives par carte */
+      --c-crise:    #C86868;
+      --c-repas:    #C8A840;
+      --c-sommeil:  #5878C0;
+      --c-conseil:  #D07830;
+      --c-film:     #8A5AB8;
+      --cb-crise:   #F5E8E8;
+      --cb-repas:   #F5F0D8;
+      --cb-sommeil: #E0E4F8;
+      --cb-conseil: #FAECD8;
+      --cb-film:    #EDE0F8;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -39,8 +49,8 @@
     .sidebar {
       width: 260px;
       flex-shrink: 0;
-      background: #FFF;
-      border-inline-end: 1px solid #EDE5DC;
+      background: #F5F2EA;
+      border-inline-end: 1px solid var(--sand);
       display: flex;
       flex-direction: column;
       height: 100dvh;
@@ -48,11 +58,12 @@
     }
 
     .sidebar-header {
-      padding: 16px 14px 12px;
-      border-bottom: 1px solid #EDE5DC;
+      padding: 16px 14px 14px;
+      border-bottom: none;
       display: flex;
       align-items: center;
       gap: 8px;
+      background: var(--forest);
     }
 
     .sidebar-logo { font-size: 1.1rem; }
@@ -61,7 +72,7 @@
       font-family: Georgia, serif;
       font-size: 0.95rem;
       font-weight: normal;
-      color: #2C2A28;
+      color: #EAF4E8;
       flex: 1;
     }
 
@@ -69,7 +80,7 @@
       width: 100%;
       margin: 10px 0 0;
       padding: 10px 14px;
-      background: #D96B4A;
+      background: var(--sage);
       color: #fff;
       border: none;
       border-radius: 10px;
@@ -82,13 +93,13 @@
       align-items: center;
       gap: 7px;
     }
-    .btn-nouvelle-sidebar:hover { background: #C45E3F; }
+    .btn-nouvelle-sidebar:hover { background: var(--sage-dk); }
 
     .sidebar-body { flex: 1; overflow-y: auto; padding: 6px 8px 20px; }
 
     .sidebar-section-label {
       font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.07em; color: #C4B8B0; padding: 12px 8px 4px;
+      letter-spacing: 0.07em; color: var(--text-3); padding: 12px 8px 4px;
     }
 
     .conv-item {
@@ -96,31 +107,31 @@
       transition: background 0.15s; margin-bottom: 2px;
       display: flex; align-items: center; gap: 6px;
     }
-    .conv-item:hover  { background: #FFF0E8; }
-    .conv-item.active { background: #FDEEE6; }
+    .conv-item:hover  { background: #E4EEE2; }
+    .conv-item.active { background: #D8EBD6; }
     .conv-item-body { flex: 1; min-width: 0; }
     .conv-item-title {
-      font-size: 0.85rem; color: #2C2A28; white-space: nowrap;
+      font-size: 0.85rem; color: var(--text); white-space: nowrap;
       overflow: hidden; text-overflow: ellipsis; line-height: 1.4;
     }
-    .conv-item.active .conv-item-title { color: #C45E3F; font-weight: 600; }
-    .conv-item-date { font-size: 0.72rem; color: #C4B8B0; margin-top: 2px; }
+    .conv-item.active .conv-item-title { color: var(--terra-dk); font-weight: 600; }
+    .conv-item-date { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
     .btn-suppr-conv {
       flex-shrink: 0; background: none; border: none; cursor: pointer;
-      font-size: 0.85rem; color: #D4C8C0; padding: 3px 4px; border-radius: 6px;
+      font-size: 0.85rem; color: #C8B8C4; padding: 3px 4px; border-radius: 6px;
       opacity: 0; transition: opacity 0.15s, color 0.15s, background 0.15s;
       line-height: 1;
     }
     .conv-item:hover .btn-suppr-conv { opacity: 1; }
     .btn-suppr-conv:hover { color: #e05050; background: #fdeaea; }
-    .sidebar-empty { padding: 24px 12px; color: #C4B8B0; font-size: 0.83rem; text-align: center; line-height: 1.6; }
+    .sidebar-empty { padding: 24px 12px; color: var(--text-3); font-size: 0.83rem; text-align: center; line-height: 1.6; }
 
     /* ══ ZONE PRINCIPALE ══════════════════════════════════════ */
     .main { flex: 1; display: flex; flex-direction: column; min-width: 0; height: 100dvh; }
 
     header {
-      background: #FFF;
-      border-bottom: 1px solid #EDE5DC;
+      background: #F7F3EA;
+      border-bottom: 1px solid var(--sand);
       padding: 10px 14px;
       flex-shrink: 0;
     }
@@ -138,19 +149,19 @@
     .header-title span { font-size: 0.95rem; flex-shrink: 0; }
     h1 {
       font-family: Georgia, serif; font-size: 0.97rem; font-weight: normal;
-      color: #2C2A28; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
 
     .lang-select {
-      padding: 5px 22px 5px 8px; border: 1.5px solid #E8DDD4; border-radius: 9px;
-      font-size: 0.82rem; font-family: inherit; color: #5A5048; background: #FDFAF7;
+      padding: 5px 22px 5px 8px; border: 1.5px solid var(--sand); border-radius: 9px;
+      font-size: 0.82rem; font-family: inherit; color: var(--text-2); background: #F7F3EA;
       cursor: pointer; appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238A7F74' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: right 7px center;
       flex-shrink: 0; transition: border-color 0.2s; max-width: 120px;
     }
     [dir="rtl"] .lang-select { padding: 5px 8px 5px 22px; background-position: left 7px center; }
-    .lang-select:focus { outline: none; border-color: #D96B4A; }
+    .lang-select:focus { outline: none; border-color: var(--terra); }
 
     /* Rangée enfant */
     .child-row {
@@ -159,16 +170,16 @@
 
     .child-selector {
       flex: 1; min-width: 0; padding: 6px 26px 6px 10px;
-      border: 1.5px solid #E8DDD4; border-radius: 10px;
-      font-size: 0.88rem; font-family: inherit; color: #2C2A28; background: #FDFAF7;
+      border: 1.5px solid var(--sand); border-radius: 10px;
+      font-size: 0.88rem; font-family: inherit; color: var(--text); background: #F7F3EA;
       cursor: pointer; appearance: none;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238A7F74' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: right 8px center;
       transition: border-color 0.2s; overflow: hidden; text-overflow: ellipsis;
     }
     [dir="rtl"] .child-selector { padding: 6px 10px 6px 26px; background-position: left 8px center; }
-    .child-selector:focus { outline: none; border-color: #D96B4A; }
-    .child-selector.has-child { border-color: #D96B4A; color: #C45E3F; font-weight: 600; }
+    .child-selector:focus { outline: none; border-color: var(--terra); }
+    .child-selector.has-child { border-color: var(--terra); color: var(--terra-dk); font-weight: 600; }
 
     .btn-enfants {
       padding: 6px 10px; border: 1.5px solid #E8DDD4; border-radius: 10px;
@@ -215,33 +226,35 @@
 
     .accueil-hero {
       position: relative; overflow: hidden;
-      background: linear-gradient(135deg, var(--cream) 0%, var(--cream-dk) 100%);
-      border-radius: 24px; padding: 28px 24px 26px;
+      background: linear-gradient(150deg, #F7F3EA 0%, #DDF0D8 45%, #EBF5E8 100%);
+      border-radius: 26px; padding: 28px 24px 26px;
       width: 100%; max-width: 520px; text-align: center;
-      box-shadow: 0 4px 28px rgba(217,107,74,0.09);
+      box-shadow: 0 6px 32px rgba(191,68,48,0.16), 0 1px 4px rgba(191,68,48,0.08);
+      border: 1.5px solid rgba(191,68,48,0.14);
       animation: fadeUp 0.5s ease both;
+      flex-shrink: 0;
     }
     .accueil-hero::before {
-      content:''; position:absolute; top:-50px; right:-50px;
-      width:160px; height:160px; border-radius:50%;
-      background: radial-gradient(circle, rgba(217,107,74,0.14) 0%, transparent 68%);
+      content:''; position:absolute; top:-60px; right:-60px;
+      width:200px; height:200px; border-radius:50%;
+      background: radial-gradient(circle, rgba(140,190,134,0.28) 0%, transparent 65%);
       pointer-events: none;
     }
     .accueil-hero::after {
-      content:''; position:absolute; bottom:-40px; left:-40px;
-      width:130px; height:130px; border-radius:50%;
-      background: radial-gradient(circle, rgba(123,175,158,0.18) 0%, transparent 68%);
+      content:''; position:absolute; bottom:-50px; left:-50px;
+      width:170px; height:170px; border-radius:50%;
+      background: radial-gradient(circle, rgba(92,140,90,0.2) 0%, transparent 65%);
       pointer-events: none;
     }
-    .accueil-deco {
-      font-size: 2.4rem; margin-bottom: 12px;
-      display: inline-block;
-      animation: floatLeaf 4s ease-in-out infinite;
-    }
-    @keyframes floatLeaf {
-      0%,100% { transform: translateY(0) rotate(-3deg); }
-      50%      { transform: translateY(-6px) rotate(3deg); }
-    }
+    .accueil-deco { display: flex; justify-content: center; margin-bottom: 4px; }
+
+    @keyframes pAccSway  { 0%,100%{transform:rotate(-2deg)} 50%{transform:rotate(2deg)} }
+    @keyframes pAccWave  { 0%,100%{transform:rotate(0deg)} 20%{transform:rotate(-42deg)} 55%{transform:rotate(14deg)} 80%{transform:rotate(-10deg)} }
+    @keyframes pAccBlink { 0%,84%,100%{transform:scaleY(1)} 88%{transform:scaleY(0.06)} 91%{transform:scaleY(1)} }
+
+    .pacc-body  { animation: pAccSway  3.5s ease-in-out infinite; transform-origin: 50px 111px; transform-box: view-box; }
+    .pacc-leaf  { animation: pAccWave  2s   ease-in-out infinite; transform-origin: 50px 51px;  transform-box: view-box; }
+    .pacc-eyes  { animation: pAccBlink 5.5s ease-in-out infinite; transform-origin: 50px 74px;  transform-box: view-box; }
     .accueil-titre {
       font-family: 'Playfair Display', Georgia, serif;
       font-size: 1.75rem; font-weight: 700; color: var(--text);
@@ -258,10 +271,10 @@
       gap: 10px; width: 100%; max-width: 520px;
     }
     .carte-idee {
-      background: #fff; border-radius: 18px;
-      padding: 15px 13px; cursor: pointer;
-      display: flex; gap: 11px; align-items: flex-start;
-      box-shadow: 0 2px 14px rgba(0,0,0,0.055);
+      border-radius: 20px;
+      padding: 15px 14px; cursor: pointer;
+      display: flex; gap: 13px; align-items: flex-start;
+      box-shadow: 0 2px 12px rgba(44,42,40,0.07);
       border: 1.5px solid transparent;
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s;
       animation: fadeUp 0.45s ease both;
@@ -270,28 +283,45 @@
     .carte-idee:nth-child(2) { animation-delay: 0.14s; }
     .carte-idee:nth-child(3) { animation-delay: 0.20s; }
     .carte-idee:nth-child(4) { animation-delay: 0.26s; }
-    .carte-idee:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.10);
-      border-color: rgba(217,107,74,0.25);
-    }
     .carte-idee:active { transform: scale(0.97); }
+
+    /* Fond coloré de chaque carte */
+    .carte-crise   { background: var(--cb-crise);   border-color: rgba(229,72,56,0.18); }
+    .carte-repas   { background: var(--cb-repas);   border-color: rgba(232,146,58,0.2); }
+    .carte-sommeil { background: var(--cb-sommeil); border-color: rgba(112,96,192,0.18); }
+    .carte-conseil { background: var(--cb-conseil); border-color: rgba(208,120,48,0.22); }
+    .carte-film    { background: var(--cb-film);    border-color: rgba(138,90,184,0.22); }
+
+    /* Hover teinté par couleur de carte */
+    .carte-crise:hover   { transform:translateY(-4px); box-shadow:0 10px 24px rgba(229,72,56,0.18);   border-color:rgba(229,72,56,0.35); }
+    .carte-repas:hover   { transform:translateY(-4px); box-shadow:0 10px 24px rgba(232,146,58,0.16);  border-color:rgba(232,146,58,0.4); }
+    .carte-sommeil:hover { transform:translateY(-4px); box-shadow:0 10px 24px rgba(112,96,192,0.18); border-color:rgba(112,96,192,0.35); }
+    .carte-conseil:hover { transform:translateY(-4px); box-shadow:0 10px 24px rgba(58,144,128,0.18);  border-color:rgba(58,144,128,0.38); }
+    .carte-film:hover    { transform:translateY(-4px); box-shadow:0 10px 24px rgba(58,104,184,0.18);  border-color:rgba(58,104,184,0.35); }
+
     .carte-icone-bg {
-      width: 42px; height: 42px; border-radius: 13px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center; font-size: 1.25rem;
+      width: 46px; height: 46px; border-radius: 14px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
     }
-    .carte-crise   .carte-icone-bg { background: var(--rose-lt); }
-    .carte-repas   .carte-icone-bg { background: var(--amber-lt); }
-    .carte-sommeil .carte-icone-bg { background: var(--lav-lt); }
-    .carte-conseil .carte-icone-bg { background: var(--sage-lt); }
-    .carte-film    .carte-icone-bg { background: #E8F0FE; }
-    .carte-film { grid-column: 1 / -1; }
+    /* Icône vivante = couleur pleine */
+    .carte-crise   .carte-icone-bg { background: var(--c-crise); }
+    .carte-repas   .carte-icone-bg { background: var(--c-repas); }
+    .carte-sommeil .carte-icone-bg { background: var(--c-sommeil); }
+    .carte-conseil .carte-icone-bg { background: var(--c-conseil); }
+    .carte-film    .carte-icone-bg { background: var(--c-film); }
+
+    .carte-film { grid-column: 1 / -1; justify-content: center; }
     .carte-textes { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
     .carte-label {
-      font-weight: 600; font-size: 0.8rem; color: var(--text); line-height: 1.3;
+      font-weight: 700; font-size: 0.82rem; color: var(--text); line-height: 1.3;
     }
     .carte-ex {
-      font-size: 0.73rem; color: var(--text-3); line-height: 1.45; font-style: italic;
+      font-size: 0.74rem; color: var(--text-2); line-height: 1.45; font-style: italic;
+    }
+
+    /* Décorations organiques hero */
+    .hero-deco-leaf {
+      position: absolute; pointer-events: none; opacity: 0.55;
     }
 
     @keyframes fadeUp {
@@ -313,9 +343,9 @@
 
     .bulle-contenu { padding: 10px 14px; border-radius: 16px; font-size: 0.94rem; line-height: 1.65; }
 
-    .bulle.user .bulle-contenu { background: #D96B4A; color: #FFF; border-end-end-radius: 4px; }
+    .bulle.user .bulle-contenu { background: #D6EEDA; color: #2E3A2C; border-end-end-radius: 4px; border: 1px solid #B8DDB8; }
     [dir="rtl"] .bulle.user .bulle-contenu { border-end-end-radius: 16px; border-end-start-radius: 4px; }
-    .bulle.assistant .bulle-contenu { background: #FFF; color: #2C2A28; border-end-start-radius: 4px; box-shadow: 0 1px 5px rgba(0,0,0,0.07); }
+    .bulle.assistant .bulle-contenu { background: #F7F3EA; color: #2E3A2C; border-end-start-radius: 4px; box-shadow: 0 1px 5px rgba(46,58,44,0.06); border: 1px solid #E3DECF; }
     [dir="rtl"] .bulle.assistant .bulle-contenu { border-end-start-radius: 16px; border-end-end-radius: 4px; }
 
     .bulle.assistant p { margin: 0 0 8px; }
@@ -328,59 +358,70 @@
     }
     .bulle.assistant h2:first-child { margin-top: 0; }
 
-    .typing .bulle-contenu { display: flex; align-items: center; gap: 5px; padding: 13px 17px; }
-    .dot { width: 7px; height: 7px; border-radius: 50%; background: #D96B4A; animation: pulse 1.2s ease-in-out infinite; }
-    .dot:nth-child(2) { animation-delay: 0.2s; }
-    .dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes pulse {
-      0%, 80%, 100% { transform: translateY(0); opacity: 0.35; }
-      40%            { transform: translateY(-5px); opacity: 1; }
-    }
+    .typing .bulle-contenu { background: transparent !important; box-shadow: none !important; padding: 0 !important; }
+    @keyframes pousseThink { 0%,100%{transform:rotate(-1.5deg)} 50%{transform:rotate(1.5deg)} }
+    @keyframes pousseFloat { 0%,100%{transform:translateY(0) scale(1);opacity:.75} 50%{transform:translateY(-4px) scale(1.05);opacity:1} }
+    @keyframes pousseDot   { 0%,100%{opacity:.35;transform:scale(.8)} 50%{opacity:1;transform:scale(1)} }
+    .pousse-think-body { animation: pousseThink 3s ease-in-out infinite; transform-origin: 50px 111px; transform-box: view-box; }
+    .pousse-think-bubble { animation: pousseFloat 2.2s ease-in-out infinite; }
+    .pdot1 { animation: pousseDot 1.2s ease-in-out infinite; }
+    .pdot2 { animation: pousseDot 1.2s ease-in-out infinite .2s; }
+    .pdot3 { animation: pousseDot 1.2s ease-in-out infinite .4s; }
 
     /* ══ ZONE SAISIE ══════════════════════════════════════════ */
-    .zone-saisie { background: #FFF; border-top: 1px solid #EDE5DC; padding: 9px 14px 13px; flex-shrink: 0; }
+    .zone-saisie { background: #F7F3EA; border-top: 1px solid var(--sand); padding: 9px 14px 13px; flex-shrink: 0; }
 
     .raccourcis { display: flex; gap: 6px; margin-bottom: 8px; overflow-x: auto; scrollbar-width: none; }
     .raccourcis::-webkit-scrollbar { display: none; }
 
     .raccourci {
       display: inline-flex; align-items: center; gap: 5px; padding: 6px 12px;
-      background: var(--cream); border: 1.5px solid var(--sand); border-radius: 20px;
+      background: #fff; border: 1.5px solid var(--sand); border-radius: 20px;
       font-size: 0.8rem; font-family: inherit; color: var(--text-2); font-weight: 500;
       cursor: pointer; white-space: nowrap; flex-shrink: 0;
       transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
+      box-shadow: 0 1px 4px rgba(44,42,40,0.06);
     }
-    .raccourci:hover  { background: var(--terra-lt); border-color: var(--terra); color: var(--terra-dk); }
     .raccourci:active { transform: scale(0.94); }
+    .raccourci[onclick*="crise"]   { background: var(--cb-crise);   border-color: #E09090; color: #904040; }
+    .raccourci[onclick*="repas"]   { background: var(--cb-repas);   border-color: #D4B850; color: #806800; }
+    .raccourci[onclick*="sommeil"] { background: var(--cb-sommeil); border-color: #8898D8; color: #344898; }
+    .raccourci[onclick*="conseil"] { background: var(--cb-conseil); border-color: #E09848; color: #904800; }
+    .raccourci[onclick*="film"]    { background: var(--cb-film);    border-color: #B080D8; color: #6030A0; }
+    .raccourci[onclick*="crise"]:hover   { filter: brightness(0.96); }
+    .raccourci[onclick*="repas"]:hover   { filter: brightness(0.96); }
+    .raccourci[onclick*="sommeil"]:hover { filter: brightness(0.96); }
+    .raccourci[onclick*="conseil"]:hover { filter: brightness(0.96); }
+    .raccourci[onclick*="film"]:hover    { filter: brightness(0.96); }
 
     .saisie-row { display: flex; gap: 7px; align-items: flex-end; }
 
     textarea {
-      flex: 1; padding: 9px 12px; border: 1.5px solid #E8DDD4; border-radius: 12px;
-      font-size: 0.94rem; font-family: inherit; color: #2C2A28; background: #FDFAF7;
+      flex: 1; padding: 9px 12px; border: 1.5px solid var(--sand); border-radius: 12px;
+      font-size: 0.94rem; font-family: inherit; color: var(--text); background: #FDFAF4;
       resize: none; min-height: 40px; max-height: 120px; overflow-y: auto; line-height: 1.5;
       transition: border-color 0.2s;
     }
-    textarea::placeholder { color: #C4B8B0; }
-    textarea:focus { outline: none; border-color: #D96B4A; }
+    textarea::placeholder { color: var(--text-3); }
+    textarea:focus { outline: none; border-color: var(--terra); }
 
     .btn-envoyer {
       width: 40px; height: 40px; border-radius: 50%; border: none;
-      background: #D96B4A; color: #fff; font-size: 0.95rem; cursor: pointer;
+      background: var(--terra); color: #fff; font-size: 0.95rem; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0; transition: background 0.2s, transform 0.1s;
     }
-    .btn-envoyer:hover:not(:disabled) { background: #C45E3F; }
+    .btn-envoyer:hover:not(:disabled) { background: var(--terra-dk); }
     .btn-envoyer:active:not(:disabled) { transform: scale(0.92); }
     .btn-envoyer:disabled { opacity: 0.45; cursor: default; }
 
     /* ══ FOOTER MÉDICAL ═══════════════════════════════════════ */
     .footer-medical {
-      background: #FFF; border-top: 1px solid #EDE5DC;
+      background: #F7F3EA; border-top: 1px solid var(--sand);
       padding: 7px 14px; text-align: center;
-      font-size: 0.72rem; color: #C4B8B0; line-height: 1.4; flex-shrink: 0;
+      font-size: 0.72rem; color: var(--text-3); line-height: 1.4; flex-shrink: 0;
     }
-    .footer-medical strong { color: #B5A99E; }
+    .footer-medical strong { color: var(--text-2); }
 
     /* ══ BANDEAU URGENCE ══════════════════════════════════════ */
     .bandeau-urgence {
@@ -560,7 +601,20 @@
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
-      <span class="sidebar-logo">🌿</span>
+      <svg class="sidebar-logo" viewBox="0 0 100 125" width="28" height="35" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <ellipse cx="50" cy="111" rx="36" ry="12" fill="#8B6B4E" opacity="0.5"/>
+        <ellipse cx="50" cy="79" rx="27" ry="31" fill="#7BAF9E"/>
+        <line x1="50" y1="51" x2="50" y2="62" stroke="#4E8A75" stroke-width="4.5" stroke-linecap="round"/>
+        <ellipse cx="36.5" cy="39" rx="14" ry="6" fill="#4E8A75" transform="rotate(-38 36.5 39)"/>
+        <ellipse cx="63.5" cy="39" rx="14" ry="6" fill="#4E8A75" transform="rotate(38 63.5 39)"/>
+        <circle cx="32" cy="81" r="7" fill="#D96B4A" opacity="0.18"/>
+        <circle cx="68" cy="81" r="7" fill="#D96B4A" opacity="0.18"/>
+        <circle cx="41" cy="74" r="4" fill="#2C2A28"/>
+        <circle cx="59" cy="74" r="4" fill="#2C2A28"/>
+        <circle cx="42.5" cy="72.5" r="1.4" fill="white"/>
+        <circle cx="60.5" cy="72.5" r="1.4" fill="white"/>
+        <path d="M 41 85 Q 50 92 59 85" stroke="#2C2A28" stroke-width="2" fill="none" stroke-linecap="round"/>
+      </svg>
       <span class="sidebar-title" data-i18n="appTitle"></span>
     </div>
     <div style="padding:0 8px 8px;">
@@ -1223,6 +1277,11 @@
       accueil.querySelectorAll('.carte-ex').forEach((el, i) => {
         el.textContent = [w.crise, w.repas, w.sommeil, w.conseil, w.film][i] || '';
       });
+      accueil.querySelectorAll('.carte-label').forEach((el, i) => {
+        const keys = ['rc_crise','rc_repas','rc_sommeil','rc_conseil','rc_film'];
+        const raw = tr[keys[i]] || '';
+        el.textContent = raw.replace(/^\S+\s/, '');
+      });
     }
 
     document.getElementById('footer-medical').innerHTML = tr.footer || '';
@@ -1545,43 +1604,144 @@
     const w = WELCOME[lang] || WELCOME.fr;
     return `<div class="accueil" id="accueil">
       <div class="accueil-hero">
-        <div class="accueil-deco">🌿</div>
+        <!-- Feuilles décoratives coins -->
+        <svg class="hero-deco-leaf" style="top:10px;left:12px" viewBox="0 0 60 60" width="54" height="54" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="22" cy="38" rx="18" ry="7" fill="#5F9E8C" transform="rotate(-50 22 38)" opacity="0.35"/>
+          <ellipse cx="18" cy="24" rx="14" ry="5.5" fill="#4E8A75" transform="rotate(-65 18 24)" opacity="0.3"/>
+          <line x1="22" y1="38" x2="12" y2="55" stroke="#4E8A75" stroke-width="1.8" stroke-linecap="round" opacity="0.35"/>
+        </svg>
+        <svg class="hero-deco-leaf" style="bottom:12px;right:14px" viewBox="0 0 60 60" width="50" height="50" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="36" cy="20" rx="17" ry="6.5" fill="#C8553C" transform="rotate(42 36 20)" opacity="0.22"/>
+          <ellipse cx="42" cy="34" rx="13" ry="5" fill="#5F9E8C" transform="rotate(28 42 34)" opacity="0.28"/>
+          <circle cx="28" cy="42" r="3" fill="#C8553C" opacity="0.15"/>
+        </svg>
+        <div class="accueil-deco">
+          <svg viewBox="0 0 100 125" width="130" height="162" xmlns="http://www.w3.org/2000/svg">
+            <g class="pacc-body">
+              <ellipse cx="50" cy="111" rx="36" ry="12" fill="#8B6B4E" opacity="0.5"/>
+              <ellipse cx="50" cy="109" rx="30" ry="6" fill="#A07B5A" opacity="0.3"/>
+              <ellipse cx="50" cy="79" rx="27" ry="31" fill="#7BAF9E"/>
+              <ellipse cx="41" cy="64" rx="11" ry="9" fill="#9FCABC" opacity="0.5"/>
+              <line x1="50" y1="51" x2="50" y2="62" stroke="#4E8A75" stroke-width="4.5" stroke-linecap="round"/>
+              <ellipse cx="36.5" cy="39" rx="14" ry="6" fill="#4E8A75" transform="rotate(-38 36.5 39)"/>
+              <ellipse cx="36.5" cy="39" rx="11" ry="3.5" fill="#6BA898" opacity="0.4" transform="rotate(-38 36.5 39)"/>
+              <g class="pacc-leaf">
+                <ellipse cx="63.5" cy="39" rx="14" ry="6" fill="#4E8A75" transform="rotate(38 63.5 39)"/>
+                <ellipse cx="63.5" cy="39" rx="11" ry="3.5" fill="#6BA898" opacity="0.4" transform="rotate(38 63.5 39)"/>
+              </g>
+              <circle cx="32" cy="81" r="7.5" fill="#D96B4A" opacity="0.2"/>
+              <circle cx="68" cy="81" r="7.5" fill="#D96B4A" opacity="0.2"/>
+              <g class="pacc-eyes">
+                <circle cx="41" cy="74" r="4.5" fill="#2C2A28"/>
+                <circle cx="59" cy="74" r="4.5" fill="#2C2A28"/>
+                <circle cx="42.8" cy="72.4" r="1.7" fill="white"/>
+                <circle cx="60.8" cy="72.4" r="1.7" fill="white"/>
+              </g>
+              <path d="M 41 85 Q 50 93 59 85" stroke="#2C2A28" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
         <h2 class="accueil-titre" id="accueil-titre">${esc(w.title)}</h2>
         <p class="accueil-sous" id="accueil-sous">${esc(w.sub)}</p>
       </div>
       <div class="accueil-cartes">
         <div class="carte-idee carte-crise"   onclick="raccourci('crise')">
-          <div class="carte-icone-bg">🌊</div>
+          <div class="carte-icone-bg">
+            <!-- visage triste sur fond corail vif -->
+            <svg viewBox="0 0 36 36" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="18" cy="18" r="11" fill="#F07060"/>
+              <circle cx="13" cy="13.5" r="3.5" fill="white" opacity="0.18"/>
+              <path d="M13.5 15.5 Q15.2 13.8 17 15.5" stroke="#6A1508" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+              <path d="M20 15.5 Q21.8 13.8 23.5 15.5" stroke="#6A1508" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+              <ellipse cx="16" cy="18.5" rx="1.8" ry="2" fill="#380A02"/>
+              <ellipse cx="22" cy="18.5" rx="1.8" ry="2" fill="#380A02"/>
+              <path d="M14.5 23.5 Q18 21 21.5 23.5" stroke="#6A1508" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+              <ellipse cx="15" cy="22" rx="1.2" ry="1.8" fill="#A0D4F0"/>
+              <ellipse cx="15" cy="24.2" rx="1.1" ry="0.8" fill="#A0D4F0"/>
+            </svg>
+          </div>
           <div class="carte-textes">
-            <div class="carte-label" data-i18n="rc_crise">${esc(t('rc_crise'))}</div>
+            <div class="carte-label">${esc(t('rc_crise').replace(/^\S+\s/,''))}</div>
             <div class="carte-ex">${esc(w.crise)}</div>
           </div>
         </div>
         <div class="carte-idee carte-repas"   onclick="raccourci('repas')">
-          <div class="carte-icone-bg">🍽️</div>
+          <div class="carte-icone-bg">
+            <!-- bol fumant sur fond ambre vif -->
+            <svg viewBox="0 0 36 36" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 20 Q7 30 18 30 Q29 30 29 20Z" fill="#C07020"/>
+              <ellipse cx="18" cy="20" rx="11" ry="5" fill="#F8C460"/>
+              <ellipse cx="18" cy="18" rx="8"  ry="4.5" fill="#ECA840"/>
+              <ellipse cx="18" cy="16.5" rx="5.5" ry="2.8" fill="#FFDF88"/>
+              <path d="M12 14 Q13.2 10 12 6" stroke="#7A4008" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+              <path d="M18 13 Q19.2 9  18 5" stroke="#7A4008" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+              <path d="M24 14 Q25.2 10 24 6" stroke="#7A4008" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+            </svg>
+          </div>
           <div class="carte-textes">
-            <div class="carte-label" data-i18n="rc_repas">${esc(t('rc_repas'))}</div>
+            <div class="carte-label">${esc(t('rc_repas').replace(/^\S+\s/,''))}</div>
             <div class="carte-ex">${esc(w.repas)}</div>
           </div>
         </div>
         <div class="carte-idee carte-sommeil" onclick="raccourci('sommeil')">
-          <div class="carte-icone-bg">🌙</div>
+          <div class="carte-icone-bg">
+            <!-- croissant de lune sur fond indigo vif -->
+            <svg viewBox="0 0 36 36" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <clipPath id="moon-clip">
+                  <circle cx="15" cy="19" r="12"/>
+                </clipPath>
+              </defs>
+              <circle cx="15" cy="19" r="12" fill="#C8BAFF"/>
+              <!-- découpe crescent = cercle de la couleur du fond icône -->
+              <circle cx="22" cy="13" r="11" fill="#5878C0" clip-path="url(#moon-clip)"/>
+              <circle cx="28" cy="7"  r="2.2" fill="white" opacity="0.88"/>
+              <circle cx="32" cy="17" r="1.4" fill="white" opacity="0.72"/>
+              <circle cx="29" cy="25" r="1.8" fill="white" opacity="0.78"/>
+            </svg>
+          </div>
           <div class="carte-textes">
-            <div class="carte-label" data-i18n="rc_sommeil">${esc(t('rc_sommeil'))}</div>
+            <div class="carte-label">${esc(t('rc_sommeil').replace(/^\S+\s/,''))}</div>
             <div class="carte-ex">${esc(w.sommeil)}</div>
           </div>
         </div>
         <div class="carte-idee carte-conseil" onclick="raccourci('conseil')">
-          <div class="carte-icone-bg">✨</div>
+          <div class="carte-icone-bg">
+            <!-- mini Pousse + étoile sur fond sauge vif -->
+            <svg viewBox="0 0 36 36" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="18" cy="33" rx="9" ry="3" fill="#1C5048" opacity="0.7"/>
+              <ellipse cx="18" cy="25" rx="7" ry="8" fill="#72C2AE"/>
+              <line x1="18" y1="17" x2="18" y2="22" stroke="#1C5048" stroke-width="3" stroke-linecap="round"/>
+              <ellipse cx="13" cy="14" rx="6.5" ry="2.6" fill="#1C5048" transform="rotate(-38 13 14)"/>
+              <ellipse cx="23" cy="14" rx="6.5" ry="2.6" fill="#1C5048" transform="rotate(38 23 14)"/>
+              <path d="M27 3 L28.2 6.5 L32 6.5 L29.2 8.8 L30.4 12.2 L27 10 L23.6 12.2 L24.8 8.8 L22 6.5 L25.8 6.5Z" fill="#FFE060"/>
+            </svg>
+          </div>
           <div class="carte-textes">
-            <div class="carte-label" data-i18n="rc_conseil">${esc(t('rc_conseil'))}</div>
+            <div class="carte-label">${esc(t('rc_conseil').replace(/^\S+\s/,''))}</div>
             <div class="carte-ex">${esc(w.conseil)}</div>
           </div>
         </div>
         <div class="carte-idee carte-film" onclick="raccourci('film')">
-          <div class="carte-icone-bg">🎬</div>
+          <div class="carte-icone-bg">
+            <!-- écran + popcorn sur fond bleu vif -->
+            <svg viewBox="0 0 36 36" width="30" height="30" xmlns="http://www.w3.org/2000/svg">
+              <rect x="2" y="7" width="32" height="18" rx="5" fill="#2A52A0"/>
+              <rect x="4" y="9" width="28" height="14" rx="3.5" fill="#6090D8"/>
+              <polygon points="15,12 15,20 24,16" fill="white" opacity="0.95"/>
+              <rect x="2"  y="9"  width="3" height="3" rx="1" fill="#1E3E88"/>
+              <rect x="2"  y="14" width="3" height="3" rx="1" fill="#1E3E88"/>
+              <rect x="2"  y="19" width="3" height="3" rx="1" fill="#1E3E88"/>
+              <rect x="31" y="9"  width="3" height="3" rx="1" fill="#1E3E88"/>
+              <rect x="31" y="14" width="3" height="3" rx="1" fill="#1E3E88"/>
+              <rect x="31" y="19" width="3" height="3" rx="1" fill="#1E3E88"/>
+              <path d="M11 34 Q11 28 13.5 28 Q15 26 16.5 28 Q18 26 19.5 28 Q21 26 22.5 28 Q25 28 25 34Z" fill="#FFDE60"/>
+              <ellipse cx="18" cy="34" rx="7" ry="2.8" fill="#FFDE60"/>
+              <ellipse cx="18" cy="28.5" rx="6.5" ry="2.2" fill="#FFF0A8"/>
+            </svg>
+          </div>
           <div class="carte-textes">
-            <div class="carte-label" data-i18n="rc_film">${esc(t('rc_film'))}</div>
+            <div class="carte-label">${esc(t('rc_film').replace(/^\S+\s/,''))}</div>
             <div class="carte-ex">${esc(w.film)}</div>
           </div>
         </div>
@@ -1636,22 +1796,22 @@
   // TEXTES ÉCRAN D'ACCUEIL (par langue)
   // ════════════════════════════════════════════════════════════
   const WELCOME = {
-    fr: { title:'Bonjour 🌿', sub:'Je suis là pour vous accompagner,\nà chaque instant de votre parentalité.', crise:'Mon enfant pleure sans raison...', repas:'Que lui préparer ce soir ?', sommeil:'Comment l\'aider à s\'endormir ?', conseil:'Une idée d\'activité pour aujourd\'hui ?', film:'Un film adapté à son âge ?' },
-    en: { title:'Hello 🌿',  sub:"I'm here to support you,\nat every step of your parenting journey.", crise:'My child won\'t stop crying...', repas:'What should I cook tonight?', sommeil:'How can I help them fall asleep?', conseil:'Give me an activity idea for today', film:'A film suited to their age?' },
-    he: { title:'שלום 🌿',  sub:'אני כאן ללוות אתכם,\nבכל רגע של ההורות שלכם.', crise:'הילד שלי בוכה ולא מפסיק...', repas:'מה לבשל הערב?', sommeil:'איך לעזור לו לישון?', conseil:'רעיון לפעילות להיום?', film:'סרט מתאים לגילו?' },
-    ar: { title:'مرحباً 🌿', sub:'أنا هنا لمساعدتكم،\nفي كل لحظة من رحلة أبوتكم.', crise:'طفلي يبكي ولا يهدأ...', repas:'ماذا أطبخ الليلة؟', sommeil:'كيف أساعده على النوم؟', conseil:'فكرة نشاط لليوم؟', film:'فيلم مناسب لعمره؟' },
-    es: { title:'Hola 🌿',  sub:'Estoy aquí para acompañarte,\nen cada momento de tu parentalidad.', crise:'Mi hijo no para de llorar...', repas:'¿Qué cocinar esta noche?', sommeil:'¿Cómo ayudarle a dormir?', conseil:'¿Una idea de actividad para hoy?', film:'¿Una película para su edad?' },
-    de: { title:'Hallo 🌿', sub:'Ich bin für dich da,\nauf jedem Schritt deiner Elternschaft.', crise:'Mein Kind hört nicht auf zu weinen...', repas:'Was soll ich heute kochen?', sommeil:'Wie kann ich beim Schlafen helfen?', conseil:'Eine Spielidee für heute?', film:'Ein Film für sein Alter?' },
-    it: { title:'Ciao 🌿',  sub:'Sono qui per accompagnarti,\nin ogni momento della tua genitorialità.', crise:'Il mio bambino non smette di piangere...', repas:'Cosa preparare stasera?', sommeil:'Come aiutarlo a dormire?', conseil:'Un\'idea di attività per oggi?', film:'Un film adatto alla sua età?' },
-    pt: { title:'Olá 🌿',  sub:'Estou aqui para te acompanhar,\nem cada momento da tua parentalidade.', crise:'Meu filho não para de chorar...', repas:'O que preparar esta noite?', sommeil:'Como ajudá-lo a dormir?', conseil:'Uma ideia de atividade para hoje?', film:'Um filme para a sua idade?' },
-    ru: { title:'Привет 🌿', sub:'Я здесь, чтобы поддержать вас\nна каждом шагу родительства.', crise:'Мой ребёнок не перестаёт плакать...', repas:'Что приготовить сегодня?', sommeil:'Как помочь ему заснуть?', conseil:'Идея занятия на сегодня?', film:'Фильм по возрасту?' },
-    zh: { title:'你好 🌿',  sub:'我在这里陪伴您，\n在育儿的每一个时刻。', crise:'孩子哭个不停...', repas:'今晚做什么？', sommeil:'怎么帮他入睡？', conseil:'今天有什么活动创意？', film:'适合他年龄的影片？' },
-    ja: { title:'こんにちは 🌿', sub:'あなたの子育てのすべての瞬間に、\n寄り添います。', crise:'子どもが泣き止まない...', repas:'今夜は何を作ろう？', sommeil:'寝かしつけのコツは？', conseil:'今日のおすすめ遊びは？', film:'年齢に合った映画は？' },
-    ko: { title:'안녕하세요 🌿', sub:'육아의 모든 순간,\n함께하겠습니다.', crise:'아이가 계속 울어요...', repas:'오늘 저녁 뭘 만들까요?', sommeil:'잠드는 것을 어떻게 도와줄까요?', conseil:'오늘 활동 아이디어 주세요', film:'나이에 맞는 영화는?' },
-    tr: { title:'Merhaba 🌿', sub:'Her anınızda yanınızdayım,\nebeveynlik yolculuğunuzda.', crise:'Çocuğum ağlamayı durduramıyor...', repas:'Bu gece ne pişireyim?', sommeil:'Uyumasına nasıl yardımcı olurum?', conseil:'Bugün için bir aktivite fikri?', film:'Yaşına uygun bir film?' },
-    nl: { title:'Hallo 🌿', sub:'Ik ben er voor jou,\nop elk moment van je ouderschap.', crise:'Mijn kind blijft maar huilen...', repas:'Wat kook ik vanavond?', sommeil:'Hoe help ik slapen?', conseil:'Een activiteitenidee voor vandaag?', film:'Een film voor zijn leeftijd?' },
-    pl: { title:'Cześć 🌿', sub:'Jestem tu, by Ci towarzyszyć\nna każdym etapie rodzicielstwa.', crise:'Moje dziecko nie przestaje płakać...', repas:'Co ugotować dziś wieczorem?', sommeil:'Jak pomóc mu zasnąć?', conseil:'Pomysł na aktywność na dziś?', film:'Film odpowiedni do jego wieku?' },
-    ro: { title:'Bună 🌿',  sub:'Sunt aici pentru tine,\nîn fiecare moment al parentalității tale.', crise:'Copilul meu nu se oprește din plâns...', repas:'Ce să gătesc în seara asta?', sommeil:'Cum îl ajut să doarmă?', conseil:'O idee de activitate pentru azi?', film:'Un film potrivit vârstei lui?' },
+    fr: { title:'Bonjour', sub:'Je suis là pour vous accompagner,\nà chaque instant de votre parentalité.', crise:'Mon enfant pleure sans raison...', repas:'Que lui préparer ce soir ?', sommeil:'Comment l\'aider à s\'endormir ?', conseil:'Une idée d\'activité pour aujourd\'hui ?', film:'Un film adapté à son âge ?' },
+    en: { title:'Hello',  sub:"I'm here to support you,\nat every step of your parenting journey.", crise:'My child won\'t stop crying...', repas:'What should I cook tonight?', sommeil:'How can I help them fall asleep?', conseil:'Give me an activity idea for today', film:'A film suited to their age?' },
+    he: { title:'שלום',  sub:'אני כאן ללוות אתכם,\nבכל רגע של ההורות שלכם.', crise:'הילד שלי בוכה ולא מפסיק...', repas:'מה לבשל הערב?', sommeil:'איך לעזור לו לישון?', conseil:'רעיון לפעילות להיום?', film:'סרט מתאים לגילו?' },
+    ar: { title:'مرحباً', sub:'أنا هنا لمساعدتكم،\nفي كل لحظة من رحلة أبوتكم.', crise:'طفلي يبكي ولا يهدأ...', repas:'ماذا أطبخ الليلة؟', sommeil:'كيف أساعده على النوم؟', conseil:'فكرة نشاط لليوم؟', film:'فيلم مناسب لعمره؟' },
+    es: { title:'Hola',  sub:'Estoy aquí para acompañarte,\nen cada momento de tu parentalidad.', crise:'Mi hijo no para de llorar...', repas:'¿Qué cocinar esta noche?', sommeil:'¿Cómo ayudarle a dormir?', conseil:'¿Una idea de actividad para hoy?', film:'¿Una película para su edad?' },
+    de: { title:'Hallo', sub:'Ich bin für dich da,\nauf jedem Schritt deiner Elternschaft.', crise:'Mein Kind hört nicht auf zu weinen...', repas:'Was soll ich heute kochen?', sommeil:'Wie kann ich beim Schlafen helfen?', conseil:'Eine Spielidee für heute?', film:'Ein Film für sein Alter?' },
+    it: { title:'Ciao',  sub:'Sono qui per accompagnarti,\nin ogni momento della tua genitorialità.', crise:'Il mio bambino non smette di piangere...', repas:'Cosa preparare stasera?', sommeil:'Come aiutarlo a dormire?', conseil:'Un\'idea di attività per oggi?', film:'Un film adatto alla sua età?' },
+    pt: { title:'Olá',  sub:'Estou aqui para te acompanhar,\nem cada momento da tua parentalidade.', crise:'Meu filho não para de chorar...', repas:'O que preparar esta noite?', sommeil:'Como ajudá-lo a dormir?', conseil:'Uma ideia de atividade para hoje?', film:'Um filme para a sua idade?' },
+    ru: { title:'Привет', sub:'Я здесь, чтобы поддержать вас\nна каждом шагу родительства.', crise:'Мой ребёнок не перестаёт плакать...', repas:'Что приготовить сегодня?', sommeil:'Как помочь ему заснуть?', conseil:'Идея занятия на сегодня?', film:'Фильм по возрасту?' },
+    zh: { title:'你好',  sub:'我在这里陪伴您，\n在育儿的每一个时刻。', crise:'孩子哭个不停...', repas:'今晚做什么？', sommeil:'怎么帮他入睡？', conseil:'今天有什么活动创意？', film:'适合他年龄的影片？' },
+    ja: { title:'こんにちは', sub:'あなたの子育てのすべての瞬間に、\n寄り添います。', crise:'子どもが泣き止まない...', repas:'今夜は何を作ろう？', sommeil:'寝かしつけのコツは？', conseil:'今日のおすすめ遊びは？', film:'年齢に合った映画は？' },
+    ko: { title:'안녕하세요', sub:'육아의 모든 순간,\n함께하겠습니다.', crise:'아이가 계속 울어요...', repas:'오늘 저녁 뭘 만들까요?', sommeil:'잠드는 것을 어떻게 도와줄까요?', conseil:'오늘 활동 아이디어 주세요', film:'나이에 맞는 영화는?' },
+    tr: { title:'Merhaba', sub:'Her anınızda yanınızdayım,\nebeveynlik yolculuğunuzda.', crise:'Çocuğum ağlamayı durduramıyor...', repas:'Bu gece ne pişireyim?', sommeil:'Uyumasına nasıl yardımcı olurum?', conseil:'Bugün için bir aktivite fikri?', film:'Yaşına uygun bir film?' },
+    nl: { title:'Hallo', sub:'Ik ben er voor jou,\nop elk moment van je ouderschap.', crise:'Mijn kind blijft maar huilen...', repas:'Wat kook ik vanavond?', sommeil:'Hoe help ik slapen?', conseil:'Een activiteitenidee voor vandaag?', film:'Een film voor zijn leeftijd?' },
+    pl: { title:'Cześć', sub:'Jestem tu, by Ci towarzyszyć\nna każdym etapie rodzicielstwa.', crise:'Moje dziecko nie przestaje płakać...', repas:'Co ugotować dziś wieczorem?', sommeil:'Jak pomóc mu zasnąć?', conseil:'Pomysł na aktywność na dziś?', film:'Film odpowiedni do jego wieku?' },
+    ro: { title:'Bună',  sub:'Sunt aici pentru tine,\nîn fiecare moment al parentalității tale.', crise:'Copilul meu nu se oprește din plâns...', repas:'Ce să gătesc în seara asta?', sommeil:'Cum îl ajut să doarmă?', conseil:'O idee de activitate pentru azi?', film:'Un film potrivit vârstei lui?' },
   };
 
   function estUrgence(texte) {
@@ -1695,7 +1855,64 @@
     const contenu=document.createElement('div'); contenu.className='bulle-contenu';
     if(typing){
       bulle.classList.add('typing');
-      contenu.innerHTML='<div class="dot"></div><div class="dot"></div><div class="dot"></div>';
+      contenu.innerHTML=`<svg viewBox="0 0 130 112" width="120" height="104" xmlns="http://www.w3.org/2000/svg">
+        <!-- corps qui se balance -->
+        <g>
+          <animateTransform attributeName="transform" type="rotate"
+            values="-1.8,50,100; 1.8,50,100; -1.8,50,100"
+            dur="3.2s" repeatCount="indefinite" calcMode="spline"
+            keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"/>
+          <ellipse cx="50" cy="101" rx="33" ry="10" fill="#8B6B4E" opacity="0.45"/>
+          <ellipse cx="50" cy="99"  rx="26" ry="6"  fill="#A07B5A" opacity="0.28"/>
+          <ellipse cx="50" cy="72"  rx="24" ry="27" fill="#7BAF9E"/>
+          <ellipse cx="42" cy="58"  rx="9"  ry="7"  fill="#9FCABC" opacity="0.45"/>
+          <line x1="50" y1="45" x2="50" y2="54" stroke="#4E8A75" stroke-width="4" stroke-linecap="round"/>
+          <!-- feuille gauche -->
+          <ellipse cx="37" cy="34" rx="12" ry="5.5" fill="#4E8A75" transform="rotate(-38 37 34)"/>
+          <!-- feuille droite -->
+          <ellipse cx="63" cy="34" rx="12" ry="5.5" fill="#4E8A75" transform="rotate(38 63 34)"/>
+          <!-- joues -->
+          <circle cx="33" cy="75" r="6.5" fill="#D96B4A" opacity="0.16"/>
+          <circle cx="67" cy="75" r="6.5" fill="#D96B4A" opacity="0.16"/>
+          <!-- yeux qui regardent en haut (réflexion) -->
+          <circle cx="42" cy="66" r="4"   fill="#2C2A28"/>
+          <circle cx="58" cy="66" r="4"   fill="#2C2A28"/>
+          <circle cx="43.8" cy="64.2" r="1.4" fill="white"/>
+          <circle cx="59.8" cy="64.2" r="1.4" fill="white"/>
+          <!-- clignement des yeux -->
+          <rect x="38" y="62" width="8" height="8" fill="#7BAF9E" rx="1">
+            <animate attributeName="height" values="0;0;0;0;0;0;0;0;8;0;8" dur="6s" repeatCount="indefinite"/>
+            <animate attributeName="y"      values="66;66;66;66;66;66;66;66;62;66;62" dur="6s" repeatCount="indefinite"/>
+          </rect>
+          <rect x="54" y="62" width="8" height="8" fill="#7BAF9E" rx="1">
+            <animate attributeName="height" values="0;0;0;0;0;0;0;0;8;0;8" dur="6s" repeatCount="indefinite"/>
+            <animate attributeName="y"      values="66;66;66;66;66;66;66;66;62;66;62" dur="6s" repeatCount="indefinite"/>
+          </rect>
+          <!-- sourire fermé (hmm) -->
+          <path d="M 44 78 Q 50 83 56 78" stroke="#2C2A28" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+        </g>
+        <!-- bulle de pensée qui flotte -->
+        <g>
+          <animateTransform attributeName="transform" type="translate"
+            values="0,0; 0,-4; 0,0"
+            dur="2.4s" repeatCount="indefinite" calcMode="spline"
+            keySplines="0.45 0 0.55 1; 0.45 0 0.55 1"/>
+          <circle cx="68" cy="57" r="2.2" fill="#EDE5DC"/>
+          <circle cx="76" cy="47" r="3.2" fill="#EDE5DC"/>
+          <circle cx="87" cy="38" r="4.5" fill="#EDE5DC"/>
+          <ellipse cx="106" cy="25" rx="17" ry="12" fill="#FFFDF9" stroke="#EDE5DC" stroke-width="1.6"/>
+          <!-- points • •• ••• -->
+          <circle cx="97"  cy="25" r="2.2" fill="#C4B8B0">
+            <animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" begin="0s"    repeatCount="indefinite"/>
+          </circle>
+          <circle cx="106" cy="25" r="2.2" fill="#C4B8B0">
+            <animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" begin="0.22s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="115" cy="25" r="2.2" fill="#C4B8B0">
+            <animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" begin="0.44s" repeatCount="indefinite"/>
+          </circle>
+        </g>
+      </svg>`;
     } else if(role==='assistant'){
       contenu.innerHTML=marked.parse(texte);
       if(isRTL(texte)) contenu.setAttribute('dir','rtl');
