@@ -42,6 +42,8 @@
       --cb-sommeil: #E0E4F8;
       --cb-conseil: #FAECD8;
       --cb-film:    #EDE0F8;
+      --c-histoire: #C8983A;
+      --cb-histoire:#FEF3DC;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -301,6 +303,7 @@
     .carte-sommeil { background: var(--cb-sommeil); border-color: rgba(112,96,192,0.18); }
     .carte-conseil { background: var(--cb-conseil); border-color: rgba(208,120,48,0.22); }
     .carte-film    { background: var(--cb-film);    border-color: rgba(138,90,184,0.22); }
+    .carte-histoire{ background: var(--cb-histoire);border-color: rgba(200,152,58,0.22); }
 
     /* Hover teinté par couleur de carte */
     .carte-crise:hover   { transform:translateY(-4px); box-shadow:0 10px 24px rgba(229,72,56,0.18);   border-color:rgba(229,72,56,0.35); }
@@ -1906,6 +1909,28 @@
             <div class="carte-ex">${esc(w.film)}</div>
           </div>
         </div>
+        <div class="carte-idee carte-histoire" onclick="raccourci('histoire')">
+          <div class="carte-icone-bg">
+            <svg viewBox="0 0 36 36" width="28" height="28" xmlns="http://www.w3.org/2000/svg">
+              <!-- livre ouvert -->
+              <path d="M4 8 Q4 6 6 6 L16 7 L16 30 L6 29 Q4 29 4 27Z" fill="#C8A060"/>
+              <path d="M32 8 Q32 6 30 6 L20 7 L20 30 L30 29 Q32 29 32 27Z" fill="#E8B870"/>
+              <path d="M16 7 L18 6.5 L20 7 L20 30 L18 31 L16 30Z" fill="#A07030"/>
+              <line x1="7" y1="12" x2="14" y2="12" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+              <line x1="7" y1="16" x2="14" y2="16" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+              <line x1="7" y1="20" x2="12" y2="20" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+              <line x1="22" y1="12" x2="29" y2="12" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+              <line x1="22" y1="16" x2="29" y2="16" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+              <line x1="22" y1="20" x2="27" y2="20" stroke="white" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+              <!-- étoile -->
+              <path d="M18 2 L19 5 L22 5 L20 7 L21 10 L18 8.5 L15 10 L16 7 L14 5 L17 5Z" fill="#FFD84A"/>
+            </svg>
+          </div>
+          <div class="carte-textes">
+            <div class="carte-label">${esc(t('rc_histoire').replace(/^\S+\s/,''))}</div>
+            <div class="carte-ex">${esc(w.histoire)}</div>
+          </div>
+        </div>
       </div>
     </div>`;
   }
@@ -1957,22 +1982,22 @@
   // TEXTES ÉCRAN D'ACCUEIL (par langue)
   // ════════════════════════════════════════════════════════════
   const WELCOME = {
-    fr: { title:'Bonjour', sub:'Je suis là pour vous accompagner,\nà chaque instant de votre parentalité.', crise:'Mon enfant pleure sans raison...', repas:'Que lui préparer ce soir ?', sommeil:'Comment l\'aider à s\'endormir ?', conseil:'Une idée d\'activité pour aujourd\'hui ?', film:'Un film adapté à son âge ?' },
-    en: { title:'Hello',  sub:"I'm here to support you,\nat every step of your parenting journey.", crise:'My child won\'t stop crying...', repas:'What should I cook tonight?', sommeil:'How can I help them fall asleep?', conseil:'Give me an activity idea for today', film:'A film suited to their age?' },
-    he: { title:'שלום',  sub:'אני כאן ללוות אתכם,\nבכל רגע של ההורות שלכם.', crise:'הילד שלי בוכה ולא מפסיק...', repas:'מה לבשל הערב?', sommeil:'איך לעזור לו לישון?', conseil:'רעיון לפעילות להיום?', film:'סרט מתאים לגילו?' },
-    ar: { title:'مرحباً', sub:'أنا هنا لمساعدتكم،\nفي كل لحظة من رحلة أبوتكم.', crise:'طفلي يبكي ولا يهدأ...', repas:'ماذا أطبخ الليلة؟', sommeil:'كيف أساعده على النوم؟', conseil:'فكرة نشاط لليوم؟', film:'فيلم مناسب لعمره؟' },
-    es: { title:'Hola',  sub:'Estoy aquí para acompañarte,\nen cada momento de tu parentalidad.', crise:'Mi hijo no para de llorar...', repas:'¿Qué cocinar esta noche?', sommeil:'¿Cómo ayudarle a dormir?', conseil:'¿Una idea de actividad para hoy?', film:'¿Una película para su edad?' },
-    de: { title:'Hallo', sub:'Ich bin für dich da,\nauf jedem Schritt deiner Elternschaft.', crise:'Mein Kind hört nicht auf zu weinen...', repas:'Was soll ich heute kochen?', sommeil:'Wie kann ich beim Schlafen helfen?', conseil:'Eine Spielidee für heute?', film:'Ein Film für sein Alter?' },
-    it: { title:'Ciao',  sub:'Sono qui per accompagnarti,\nin ogni momento della tua genitorialità.', crise:'Il mio bambino non smette di piangere...', repas:'Cosa preparare stasera?', sommeil:'Come aiutarlo a dormire?', conseil:'Un\'idea di attività per oggi?', film:'Un film adatto alla sua età?' },
-    pt: { title:'Olá',  sub:'Estou aqui para te acompanhar,\nem cada momento da tua parentalidade.', crise:'Meu filho não para de chorar...', repas:'O que preparar esta noite?', sommeil:'Como ajudá-lo a dormir?', conseil:'Uma ideia de atividade para hoje?', film:'Um filme para a sua idade?' },
-    ru: { title:'Привет', sub:'Я здесь, чтобы поддержать вас\nна каждом шагу родительства.', crise:'Мой ребёнок не перестаёт плакать...', repas:'Что приготовить сегодня?', sommeil:'Как помочь ему заснуть?', conseil:'Идея занятия на сегодня?', film:'Фильм по возрасту?' },
-    zh: { title:'你好',  sub:'我在这里陪伴您，\n在育儿的每一个时刻。', crise:'孩子哭个不停...', repas:'今晚做什么？', sommeil:'怎么帮他入睡？', conseil:'今天有什么活动创意？', film:'适合他年龄的影片？' },
-    ja: { title:'こんにちは', sub:'あなたの子育てのすべての瞬間に、\n寄り添います。', crise:'子どもが泣き止まない...', repas:'今夜は何を作ろう？', sommeil:'寝かしつけのコツは？', conseil:'今日のおすすめ遊びは？', film:'年齢に合った映画は？' },
-    ko: { title:'안녕하세요', sub:'육아의 모든 순간,\n함께하겠습니다.', crise:'아이가 계속 울어요...', repas:'오늘 저녁 뭘 만들까요?', sommeil:'잠드는 것을 어떻게 도와줄까요?', conseil:'오늘 활동 아이디어 주세요', film:'나이에 맞는 영화는?' },
-    tr: { title:'Merhaba', sub:'Her anınızda yanınızdayım,\nebeveynlik yolculuğunuzda.', crise:'Çocuğum ağlamayı durduramıyor...', repas:'Bu gece ne pişireyim?', sommeil:'Uyumasına nasıl yardımcı olurum?', conseil:'Bugün için bir aktivite fikri?', film:'Yaşına uygun bir film?' },
-    nl: { title:'Hallo', sub:'Ik ben er voor jou,\nop elk moment van je ouderschap.', crise:'Mijn kind blijft maar huilen...', repas:'Wat kook ik vanavond?', sommeil:'Hoe help ik slapen?', conseil:'Een activiteitenidee voor vandaag?', film:'Een film voor zijn leeftijd?' },
-    pl: { title:'Cześć', sub:'Jestem tu, by Ci towarzyszyć\nna każdym etapie rodzicielstwa.', crise:'Moje dziecko nie przestaje płakać...', repas:'Co ugotować dziś wieczorem?', sommeil:'Jak pomóc mu zasnąć?', conseil:'Pomysł na aktywność na dziś?', film:'Film odpowiedni do jego wieku?' },
-    ro: { title:'Bună',  sub:'Sunt aici pentru tine,\nîn fiecare moment al parentalității tale.', crise:'Copilul meu nu se oprește din plâns...', repas:'Ce să gătesc în seara asta?', sommeil:'Cum îl ajut să doarmă?', conseil:'O idee de activitate pentru azi?', film:'Un film potrivit vârstei lui?' },
+    fr: { title:'Bonjour', sub:'Je suis là pour vous accompagner,\nà chaque instant de votre parentalité.', crise:'Mon enfant pleure sans raison...', repas:'Que lui préparer ce soir ?', sommeil:'Comment l\'aider à s\'endormir ?', conseil:'Une idée d\'activité pour aujourd\'hui ?', film:'Un film adapté à son âge ?', histoire:'Une histoire pour ce soir ?' },
+    en: { title:'Hello',  sub:"I'm here to support you,\nat every step of your parenting journey.", crise:'My child won\'t stop crying...', repas:'What should I cook tonight?', sommeil:'How can I help them fall asleep?', conseil:'Give me an activity idea for today', film:'A film suited to their age?', histoire:'A bedtime story for tonight?' },
+    he: { title:'שלום',  sub:'אני כאן ללוות אתכם,\nבכל רגע של ההורות שלכם.', crise:'הילד שלי בוכה ולא מפסיק...', repas:'מה לבשל הערב?', sommeil:'איך לעזור לו לישון?', conseil:'רעיון לפעילות להיום?', film:'סרט מתאים לגילו?', histoire:'סיפור לפני השינה הלילה?' },
+    ar: { title:'مرحباً', sub:'أنا هنا لمساعدتكم،\nفي كل لحظة من رحلة أبوتكم.', crise:'طفلي يبكي ولا يهدأ...', repas:'ماذا أطبخ الليلة؟', sommeil:'كيف أساعده على النوم؟', conseil:'فكرة نشاط لليوم؟', film:'فيلم مناسب لعمره؟', histoire:'قصة لهذه الليلة؟' },
+    es: { title:'Hola',  sub:'Estoy aquí para acompañarte,\nen cada momento de tu parentalidad.', crise:'Mi hijo no para de llorar...', repas:'¿Qué cocinar esta noche?', sommeil:'¿Cómo ayudarle a dormir?', conseil:'¿Una idea de actividad para hoy?', film:'¿Una película para su edad?', histoire:'¿Un cuento para esta noche?' },
+    de: { title:'Hallo', sub:'Ich bin für dich da,\nauf jedem Schritt deiner Elternschaft.', crise:'Mein Kind hört nicht auf zu weinen...', repas:'Was soll ich heute kochen?', sommeil:'Wie kann ich beim Schlafen helfen?', conseil:'Eine Spielidee für heute?', film:'Ein Film für sein Alter?', histoire:'Eine Geschichte für heute Abend?' },
+    it: { title:'Ciao',  sub:'Sono qui per accompagnarti,\nin ogni momento della tua genitorialità.', crise:'Il mio bambino non smette di piangere...', repas:'Cosa preparare stasera?', sommeil:'Come aiutarlo a dormire?', conseil:'Un\'idea di attività per oggi?', film:'Un film adatto alla sua età?', histoire:'Una storia per stasera?' },
+    pt: { title:'Olá',  sub:'Estou aqui para te acompanhar,\nem cada momento da tua parentalidade.', crise:'Meu filho não para de chorar...', repas:'O que preparar esta noite?', sommeil:'Como ajudá-lo a dormir?', conseil:'Uma ideia de atividade para hoje?', film:'Um filme para a sua idade?', histoire:'Uma história para esta noite?' },
+    ru: { title:'Привет', sub:'Я здесь, чтобы поддержать вас\nна каждом шагу родительства.', crise:'Мой ребёнок не перестаёт плакать...', repas:'Что приготовить сегодня?', sommeil:'Как помочь ему заснуть?', conseil:'Идея занятия на сегодня?', film:'Фильм по возрасту?', histoire:'Сказка на ночь?' },
+    zh: { title:'你好',  sub:'我在这里陪伴您，\n在育儿的每一个时刻。', crise:'孩子哭个不停...', repas:'今晚做什么？', sommeil:'怎么帮他入睡？', conseil:'今天有什么活动创意？', film:'适合他年龄的影片？', histoire:'今晚讲个故事？' },
+    ja: { title:'こんにちは', sub:'あなたの子育てのすべての瞬間に、\n寄り添います。', crise:'子どもが泣き止まない...', repas:'今夜は何を作ろう？', sommeil:'寝かしつけのコツは？', conseil:'今日のおすすめ遊びは？', film:'年齢に合った映画は？', histoire:'今夜のおやすみのお話は？' },
+    ko: { title:'안녕하세요', sub:'육아의 모든 순간,\n함께하겠습니다.', crise:'아이가 계속 울어요...', repas:'오늘 저녁 뭘 만들까요?', sommeil:'잠드는 것을 어떻게 도와줄까요?', conseil:'오늘 활동 아이디어 주세요', film:'나이에 맞는 영화는?', histoire:'오늘 밤 이야기 한 편?' },
+    tr: { title:'Merhaba', sub:'Her anınızda yanınızdayım,\nebeveynlik yolculuğunuzda.', crise:'Çocuğum ağlamayı durduramıyor...', repas:'Bu gece ne pişireyim?', sommeil:'Uyumasına nasıl yardımcı olurum?', conseil:'Bugün için bir aktivite fikri?', film:'Yaşına uygun bir film?', histoire:'Bu gece için bir hikaye?' },
+    nl: { title:'Hallo', sub:'Ik ben er voor jou,\nop elk moment van je ouderschap.', crise:'Mijn kind blijft maar huilen...', repas:'Wat kook ik vanavond?', sommeil:'Hoe help ik slapen?', conseil:'Een activiteitenidee voor vandaag?', film:'Een film voor zijn leeftijd?', histoire:'Een verhaaltje voor vanavond?' },
+    pl: { title:'Cześć', sub:'Jestem tu, by Ci towarzyszyć\nna każdym etapie rodzicielstwa.', crise:'Moje dziecko nie przestaje płakać...', repas:'Co ugotować dziś wieczorem?', sommeil:'Jak pomóc mu zasnąć?', conseil:'Pomysł na aktywność na dziś?', film:'Film odpowiedni do jego wieku?', histoire:'Bajka na dobranoc?' },
+    ro: { title:'Bună',  sub:'Sunt aici pentru tine,\nîn fiecare moment al parentalității tale.', crise:'Copilul meu nu se oprește din plâns...', repas:'Ce să gătesc în seara asta?', sommeil:'Cum îl ajut să doarmă?', conseil:'O idee de activitate pentru azi?', film:'Un film potrivit vârstei lui?', histoire:'O poveste pentru diseară?' },
   };
 
   function detectsEmergency(text) {
