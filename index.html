@@ -4,6 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Lovéa</title>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -394,6 +403,8 @@
     .raccourci[onclick*="sommeil"]:hover { filter: brightness(0.96); }
     .raccourci[onclick*="conseil"]:hover { filter: brightness(0.96); }
     .raccourci[onclick*="film"]:hover    { filter: brightness(0.96); }
+    .raccourci[onclick*="histoire"] { background: #F4EEF8; border-color: #C4A8DC; color: #6A3898; }
+    .raccourci[onclick*="histoire"]:hover { filter: brightness(0.96); }
 
     .saisie-row { display: flex; gap: 7px; align-items: flex-end; }
 
@@ -748,7 +759,8 @@
         <button class="raccourci" onclick="raccourci('repas')"   data-i18n="rc_repas"></button>
         <button class="raccourci" onclick="raccourci('sommeil')" data-i18n="rc_sommeil"></button>
         <button class="raccourci" onclick="raccourci('conseil')" data-i18n="rc_conseil"></button>
-        <button class="raccourci" onclick="raccourci('film')"   data-i18n="rc_film"></button>
+        <button class="raccourci" onclick="raccourci('film')"    data-i18n="rc_film"></button>
+        <button class="raccourci" onclick="raccourci('histoire')" data-i18n="rc_histoire"></button>
       </div>
       <div class="saisie-row">
         <textarea id="question" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
@@ -789,7 +801,7 @@
       confirmDeleteConv:'Supprimer cette conversation ?',
       rc_crise:'🤯 Gérer une crise', rc_repas:'🍽️ Idées de repas',
       rc_sommeil:'🌙 Sommeil', rc_conseil:'💡 Conseils du jour',
-      rc_film:'🎬 Film / vidéo',
+      rc_film:'🎬 Film / vidéo', rc_histoire:'📖 Histoire',
       q_crise:  c=>`Mon enfant${c} pleure beaucoup et semble très agité. Comment l'aider ?`,
       q_repas:  c=>`Des idées de repas faciles et équilibrés pour un enfant${c} ?`,
       q_sommeil:c=>`Mon enfant${c} a du mal à dormir. Quels conseils ?`,
@@ -825,7 +837,7 @@
       confirmDelete:'Delete this child?',
       confirmDeleteConv:'Delete this conversation?',
       rc_crise:'🤯 Handle a meltdown', rc_repas:'🍽️ Meal ideas',
-      rc_sommeil:'🌙 Sleep', rc_conseil:'💡 Tips of the day', rc_film:'🎬 Film / video',
+      rc_sommeil:'🌙 Sleep', rc_conseil:'💡 Tips of the day', rc_film:'🎬 Film / video', rc_histoire:'📖 Story',
       q_crise:  c=>`My child${c} is crying a lot and seems very upset. How can I help?`,
       q_repas:  c=>`What are easy, balanced meal ideas for a child${c}?`,
       q_sommeil:c=>`My child${c} has trouble sleeping. Any advice?`,
@@ -861,7 +873,7 @@
       confirmDelete:'למחוק את הילד הזה?',
       confirmDeleteConv:'למחוק את השיחה הזו?',
       rc_crise:'🤯 התמודדות עם משבר', rc_repas:'🍽️ רעיונות לארוחות',
-      rc_sommeil:'🌙 שינה', rc_conseil:'💡 טיפים של היום', rc_film:'🎬 סרט / סרטון',
+      rc_sommeil:'🌙 שינה', rc_conseil:'💡 טיפים של היום', rc_film:'🎬 סרט / סרטון', rc_histoire:'📖 סיפור',
       q_crise:  c=>`הילד שלי${c} בוכה הרבה ונראה מאוד נסער. איך אוכל לעזור לו?`,
       q_repas:  c=>`רעיונות לארוחות קלות ומאוזנות לילד${c}?`,
       q_sommeil:c=>`הילד שלי${c} מתקשה לישון. יש עצות?`,
@@ -897,7 +909,7 @@
       confirmDelete:'حذف هذا الطفل؟',
       confirmDeleteConv:'حذف هذه المحادثة؟',
       rc_crise:'🤯 التعامل مع نوبة', rc_repas:'🍽️ أفكار للوجبات',
-      rc_sommeil:'🌙 النوم', rc_conseil:'💡 نصائح اليوم', rc_film:'🎬 فيلم / فيديو',
+      rc_sommeil:'🌙 النوم', rc_conseil:'💡 نصائح اليوم', rc_film:'🎬 فيلم / فيديو', rc_histoire:'📖 قصة',
       q_crise:  c=>`طفلي${c} يبكي كثيراً ويبدو منزعجاً. كيف أساعده؟`,
       q_repas:  c=>`أفكار لوجبات سهلة ومتوازنة لطفل${c}؟`,
       q_sommeil:c=>`طفلي${c} يجد صعوبة في النوم. ما النصائح؟`,
@@ -932,7 +944,7 @@
       confirmDelete:'¿Eliminar este niño?',
       confirmDeleteConv:'¿Eliminar esta conversación?',
       rc_crise:'🤯 Manejar una crisis', rc_repas:'🍽️ Ideas de comidas',
-      rc_sommeil:'🌙 Sueño', rc_conseil:'💡 Consejos del día', rc_film:'🎬 Peli / vídeo',
+      rc_sommeil:'🌙 Sueño', rc_conseil:'💡 Consejos del día', rc_film:'🎬 Peli / vídeo', rc_histoire:'📖 Historia',
       q_crise:  c=>`Mi hijo${c} llora mucho y parece muy agitado. ¿Cómo ayudarle?`,
       q_repas:  c=>`¿Ideas de comidas fáciles y equilibradas para un niño${c}?`,
       q_sommeil:c=>`Mi hijo${c} tiene problemas para dormir. ¿Consejos?`,
@@ -967,7 +979,7 @@
       confirmDelete:'Dieses Kind löschen?',
       confirmDeleteConv:'Dieses Gespräch löschen?',
       rc_crise:'🤯 Ausraster bewältigen', rc_repas:'🍽️ Mahlzeitenideen',
-      rc_sommeil:'🌙 Schlaf', rc_conseil:'💡 Tipp des Tages', rc_film:'🎬 Film / Video',
+      rc_sommeil:'🌙 Schlaf', rc_conseil:'💡 Tipp des Tages', rc_film:'🎬 Film / Video', rc_histoire:'📖 Geschichte',
       q_crise:  c=>`Mein Kind${c} weint viel und wirkt sehr aufgewühlt. Wie helfen?`,
       q_repas:  c=>`Ideen für einfache, ausgewogene Mahlzeiten für ein Kind${c}?`,
       q_sommeil:c=>`Mein Kind${c} schläft schlecht. Hast du Tipps?`,
@@ -1002,7 +1014,7 @@
       confirmDelete:'Eliminare questo bambino?',
       confirmDeleteConv:'Eliminare questa conversazione?',
       rc_crise:'🤯 Gestire una crisi', rc_repas:'🍽️ Idee pasti',
-      rc_sommeil:'🌙 Sonno', rc_conseil:'💡 Consigli del giorno', rc_film:'🎬 Film / video',
+      rc_sommeil:'🌙 Sonno', rc_conseil:'💡 Consigli del giorno', rc_film:'🎬 Film / video', rc_histoire:'📖 Story',
       q_crise:  c=>`Il mio bambino${c} piange molto e sembra molto agitato. Come aiutarlo?`,
       q_repas:  c=>`Idee per pasti facili ed equilibrati per un bambino${c}?`,
       q_sommeil:c=>`Il mio bambino${c} ha difficoltà a dormire. Consigli?`,
@@ -1037,7 +1049,7 @@
       confirmDelete:'Eliminar esta criança?',
       confirmDeleteConv:'Eliminar esta conversa?',
       rc_crise:'🤯 Gerir uma crise', rc_repas:'🍽️ Ideias de refeições',
-      rc_sommeil:'🌙 Sono', rc_conseil:'💡 Dicas do dia', rc_film:'🎬 Filme / vídeo',
+      rc_sommeil:'🌙 Sono', rc_conseil:'💡 Dicas do dia', rc_film:'🎬 Filme / vídeo', rc_histoire:'📖 História',
       q_crise:  c=>`O meu filho${c} chora muito e parece muito agitado. Como ajudar?`,
       q_repas:  c=>`Ideias de refeições fáceis para uma criança${c}?`,
       q_sommeil:c=>`O meu filho${c} dorme mal. Que conselhos?`,
@@ -1072,7 +1084,7 @@
       confirmDelete:'Удалить этого ребёнка?',
       confirmDeleteConv:'Удалить этот разговор?',
       rc_crise:'🤯 Справиться с кризисом', rc_repas:'🍽️ Идеи для еды',
-      rc_sommeil:'🌙 Сон', rc_conseil:'💡 Советы дня', rc_film:'🎬 Фильм / видео',
+      rc_sommeil:'🌙 Сон', rc_conseil:'💡 Советы дня', rc_film:'🎬 Фильм / видео', rc_histoire:'📖 История',
       q_crise:  c=>`Мой ребёнок${c} много плачет и кажется очень взволнованным. Как помочь?`,
       q_repas:  c=>`Идеи лёгких и сбалансированных блюд для ребёнка${c}?`,
       q_sommeil:c=>`Мой ребёнок${c} плохо спит. Какие советы?`,
@@ -1107,7 +1119,7 @@
       confirmDelete:'删除这个孩子？',
       confirmDeleteConv:'删除这段对话？',
       rc_crise:'🤯 处理危机', rc_repas:'🍽️ 饮食建议',
-      rc_sommeil:'🌙 睡眠', rc_conseil:'💡 今日建议', rc_film:'🎬 影片推荐',
+      rc_sommeil:'🌙 睡眠', rc_conseil:'💡 今日建议', rc_film:'🎬 影片推荐', rc_histoire:'📖 故事',
       q_crise:  c=>`我的孩子${c}哭泣不止，情绪激动。我该怎么帮助？`,
       q_repas:  c=>`有什么适合${c}孩子的简单营养饮食建议？`,
       q_sommeil:c=>`我的孩子${c}睡眠不好。有什么建议？`,
@@ -1142,7 +1154,7 @@
       confirmDelete:'この子どもを削除しますか？',
       confirmDeleteConv:'この会話を削除しますか？',
       rc_crise:'🤯 癇癪への対応', rc_repas:'🍽️ 食事のアイデア',
-      rc_sommeil:'🌙 睡眠', rc_conseil:'💡 今日のアドバイス', rc_film:'🎬 映画・動画',
+      rc_sommeil:'🌙 睡眠', rc_conseil:'💡 今日のアドバイス', rc_film:'🎬 映画・動画', rc_histoire:'📖 お話',
       q_crise:  c=>`子ども${c}がとても泣いていて落ち着きません。どうすれば助けられますか？`,
       q_repas:  c=>`${c}の子どもに簡単でバランスの良い食事のアイデアを教えてください。`,
       q_sommeil:c=>`${c}の子どもがよく眠れません。アドバイスはありますか？`,
@@ -1177,7 +1189,7 @@
       confirmDelete:'이 아이를 삭제하시겠습니까?',
       confirmDeleteConv:'이 대화를 삭제하시겠습니까?',
       rc_crise:'🤯 위기 대처', rc_repas:'🍽️ 식사 아이디어',
-      rc_sommeil:'🌙 수면', rc_conseil:'💡 오늘의 팁', rc_film:'🎬 영화 / 영상',
+      rc_sommeil:'🌙 수면', rc_conseil:'💡 오늘의 팁', rc_film:'🎬 영화 / 영상', rc_histoire:'📖 이야기',
       q_crise:  c=>`아이${c}가 많이 울고 매우 불안해 보입니다. 어떻게 도울 수 있을까요?`,
       q_repas:  c=>`아이${c}를 위한 쉽고 균형 잡힌 식사 아이디어가 있나요?`,
       q_sommeil:c=>`아이${c}가 잠을 잘 못 잡니다. 조언이 있으신가요?`,
@@ -1212,7 +1224,7 @@
       confirmDelete:'Bu çocuğu sil?',
       confirmDeleteConv:'Bu sohbeti sil?',
       rc_crise:'🤯 Kriz yönetimi', rc_repas:'🍽️ Yemek fikirleri',
-      rc_sommeil:'🌙 Uyku', rc_conseil:'💡 Günün ipuçları', rc_film:'🎬 Film / video',
+      rc_sommeil:'🌙 Uyku', rc_conseil:'💡 Günün ipuçları', rc_film:'🎬 Film / video', rc_histoire:'📖 Story',
       q_crise:  c=>`Çocuğum${c} çok ağlıyor ve çok sinirli görünüyor. Nasıl yardımcı olabilirim?`,
       q_repas:  c=>`Çocuk${c} için kolay ve dengeli yemek fikirleri nelerdir?`,
       q_sommeil:c=>`Çocuğum${c} uyumakta güçlük çekiyor. Önerileriniz?`,
@@ -1247,7 +1259,7 @@
       confirmDelete:'Dit kind verwijderen?',
       confirmDeleteConv:'Dit gesprek verwijderen?',
       rc_crise:'🤯 Driftbui aanpakken', rc_repas:'🍽️ Maaltijdideeën',
-      rc_sommeil:'🌙 Slaap', rc_conseil:'💡 Tip van de dag', rc_film:'🎬 Film / video',
+      rc_sommeil:'🌙 Slaap', rc_conseil:'💡 Tip van de dag', rc_film:'🎬 Film / video', rc_histoire:'📖 Story',
       q_crise:  c=>`Mijn kind${c} huilt veel en lijkt erg overstuur. Hoe kan ik helpen?`,
       q_repas:  c=>`Ideeën voor makkelijke, evenwichtige maaltijden voor een kind${c}?`,
       q_sommeil:c=>`Mijn kind${c} slaapt slecht. Heb je advies?`,
@@ -1282,7 +1294,7 @@
       confirmDelete:'Usunąć to dziecko?',
       confirmDeleteConv:'Usunąć tę rozmowę?',
       rc_crise:'🤯 Radzenie z kryzysem', rc_repas:'🍽️ Pomysły na posiłki',
-      rc_sommeil:'🌙 Sen', rc_conseil:'💡 Wskazówki dnia', rc_film:'🎬 Film / wideo',
+      rc_sommeil:'🌙 Sen', rc_conseil:'💡 Wskazówki dnia', rc_film:'🎬 Film / wideo', rc_histoire:'📖 Historia',
       q_crise:  c=>`Moje dziecko${c} dużo płacze i wydaje się wzburzone. Jak pomóc?`,
       q_repas:  c=>`Pomysły na łatwe i zrównoważone posiłki dla dziecka${c}?`,
       q_sommeil:c=>`Moje dziecko${c} ma problemy ze snem. Jakie masz rady?`,
@@ -1317,7 +1329,7 @@
       confirmDelete:'Ștergi acest copil?',
       confirmDeleteConv:'Ștergi această conversație?',
       rc_crise:'🤯 Gestionarea unei crize', rc_repas:'🍽️ Idei de mese',
-      rc_sommeil:'🌙 Somn', rc_conseil:'💡 Sfaturile zilei', rc_film:'🎬 Film / video',
+      rc_sommeil:'🌙 Somn', rc_conseil:'💡 Sfaturile zilei', rc_film:'🎬 Film / video', rc_histoire:'📖 Story',
       q_crise:  c=>`Copilul meu${c} plânge mult și pare agitat. Cum îl pot ajuta?`,
       q_repas:  c=>`Idei de mese ușoare pentru un copil${c}?`,
       q_sommeil:c=>`Copilul meu${c} doarme greu. Ce sfaturi?`,
@@ -2098,6 +2110,13 @@
         "Une série sympa pour regarder avec mon enfant ?",
         "Qu'est-ce qu'on pourrait regarder ce soir ?",
       ],
+      histoire: [
+        "Raconte-moi une histoire adaptée à l'âge de mon enfant.",
+        "Invente une histoire avec mon enfant comme héros principal.",
+        "Une histoire du soir douce et apaisante pour mon enfant ?",
+        "Raconte une aventure rigolote adaptée à l'âge de mon enfant.",
+        "Une histoire courte avec une belle morale pour mon enfant ?",
+      ],
     },
     en: {
       crise: [
@@ -2135,6 +2154,13 @@
         "A nice series to watch with my child?",
         "What could we watch tonight?",
       ],
+      histoire: [
+        "Tell me a story suited to my child's age.",
+        "Invent a story with my child as the main hero.",
+        "A soft and soothing bedtime story for my child?",
+        "Tell a funny adventure suited to my child's age.",
+        "A short story with a nice moral for my child?",
+      ],
     },
     he: {
       crise: [
@@ -2171,6 +2197,13 @@
         "סרט אנימציה המתאים לגיל הילד שלי?",
         "סדרה כיפית לצפות עם הילד שלי?",
         "מה נוכל לצפות הערב?",
+      ],
+      histoire: [
+        "ספר לי סיפור המתאים לגיל הילד שלי.",
+        "המצא סיפור עם הילד שלי כגיבור הראשי.",
+        "סיפור לילה רך ומרגיע לילד שלי?",
+        "ספר הרפתקה מצחיקה המתאימה לגיל הילד שלי.",
+        "סיפור קצר עם מוסר השכל יפה לילד שלי?",
       ],
     },
   };
