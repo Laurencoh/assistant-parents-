@@ -2061,11 +2061,132 @@
   function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px';}
   function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();envoyer();}}
 
+  const shortcutMessages = {
+    fr: {
+      crise: [
+        "Mon enfant fait une crise, comment réagir ?",
+        "Mon enfant pleure et je ne sais plus quoi faire.",
+        "Mon enfant est très agité en ce moment, comment l'aider ?",
+        "Mon enfant pique une grosse colère, comment gérer ça ?",
+        "Mon enfant est inconsolable, que faire ?",
+      ],
+      repas: [
+        "Donne-moi une idée de repas pour ce soir.",
+        "Qu'est-ce que je peux cuisiner de rapide et équilibré ?",
+        "Je manque d'inspiration pour le dîner, tu as des idées ?",
+        "Une recette simple et adaptée à l'âge de mon enfant ?",
+        "Qu'est-ce que je peux préparer avec peu d'ingrédients ?",
+      ],
+      sommeil: [
+        "Mon enfant dort mal, comment l'aider ?",
+        "Mon enfant ne veut pas aller se coucher, que faire ?",
+        "Comment améliorer le sommeil de mon enfant ?",
+        "Mon enfant se réveille souvent la nuit, des conseils ?",
+        "Quelle routine du soir me conseilles-tu ?",
+      ],
+      conseil: [
+        "Tu as un conseil pour aujourd'hui ?",
+        "Donne-moi une astuce parentale pour bien démarrer la journée.",
+        "Un conseil pratique adapté à l'âge de mon enfant ?",
+        "Qu'est-ce que tu me conseilles de faire avec mon enfant aujourd'hui ?",
+        "Une activité sympa à faire avec mon enfant aujourd'hui ?",
+      ],
+      film: [
+        "Tu as un film à me recommander pour ce soir ?",
+        "On cherche quelque chose à regarder en famille, des idées ?",
+        "Un dessin animé adapté à l'âge de mon enfant ?",
+        "Une série sympa pour regarder avec mon enfant ?",
+        "Qu'est-ce qu'on pourrait regarder ce soir ?",
+      ],
+    },
+    en: {
+      crise: [
+        "My child is having a meltdown, how should I react?",
+        "My child won't stop crying and I don't know what to do.",
+        "My child is really upset right now, how can I help?",
+        "My child is throwing a huge tantrum, how do I handle this?",
+        "My child is inconsolable, what should I do?",
+      ],
+      repas: [
+        "Give me a meal idea for tonight.",
+        "What can I cook that's quick and balanced?",
+        "I'm out of dinner inspiration, any ideas?",
+        "A simple recipe suited to my child's age?",
+        "What can I make with just a few ingredients?",
+      ],
+      sommeil: [
+        "My child sleeps badly, how can I help?",
+        "My child doesn't want to go to bed, what should I do?",
+        "How can I improve my child's sleep?",
+        "My child wakes up often at night, any advice?",
+        "What bedtime routine would you suggest?",
+      ],
+      conseil: [
+        "Do you have a tip for today?",
+        "Give me a parenting tip to start the day well.",
+        "A practical tip suited to my child's age?",
+        "What would you suggest I do with my child today?",
+        "A fun activity to do with my child today?",
+      ],
+      film: [
+        "Can you recommend a film for tonight?",
+        "We're looking for something to watch as a family, any ideas?",
+        "A cartoon suited to my child's age?",
+        "A nice series to watch with my child?",
+        "What could we watch tonight?",
+      ],
+    },
+    he: {
+      crise: [
+        "הילד שלי עושה קריזה, איך להגיב?",
+        "הילד שלי בוכה ולא יודע מה לעשות.",
+        "הילד שלי מאוד נסער עכשיו, איך לעזור?",
+        "הילד שלי עושה התקף זעם, איך מתמודדים?",
+        "הילד שלי לא מצליח להירגע, מה עושים?",
+      ],
+      repas: [
+        "תן לי רעיון לארוחת ערב הלילה.",
+        "מה אני יכול לבשל מהיר ומאוזן?",
+        "אין לי השראה לארוחת ערב, יש לך רעיונות?",
+        "מתכון פשוט המתאים לגיל הילד שלי?",
+        "מה אפשר להכין עם מעט מרכיבים?",
+      ],
+      sommeil: [
+        "הילד שלי ישן רע, איך לעזור?",
+        "הילד שלי לא רוצה ללכת לישון, מה לעשות?",
+        "איך לשפר את השינה של הילד שלי?",
+        "הילד שלי מתעורר הרבה בלילה, יש עצות?",
+        "איזה שגרת ערב את ממליצה?",
+      ],
+      conseil: [
+        "יש לך עצה להיום?",
+        "תן לי טיפ הורי להתחיל את היום טוב.",
+        "עצה מעשית המתאימה לגיל הילד שלי?",
+        "מה תמליץ לי לעשות עם הילד שלי היום?",
+        "פעילות כיפית לעשות עם הילד שלי היום?",
+      ],
+      film: [
+        "יש לך סרט להמליץ לערב?",
+        "אנחנו מחפשים משהו לצפות כמשפחה, רעיונות?",
+        "סרט אנימציה המתאים לגיל הילד שלי?",
+        "סדרה כיפית לצפות עם הילד שלי?",
+        "מה נוכל לצפות הערב?",
+      ],
+    },
+  };
+
   function raccourci(type) {
     const age   = document.getElementById('age').value.trim();
     const unite = document.getElementById('unite').value;
     const ctx   = T[lang].ctx(age, T[lang][unite]||unite);
-    document.getElementById('question').value=T[lang][`q_${type}`](ctx);
+
+    const langVariants = shortcutMessages[lang] || shortcutMessages.fr;
+    const variants = langVariants?.[type];
+    const msg = variants?.length
+      ? variants[Math.floor(Math.random() * variants.length)]
+      : T[lang][`q_${type}`](ctx);
+
+    document.getElementById('question').value = msg;
     autoResize(document.getElementById('question'));
     envoyer();
   }
