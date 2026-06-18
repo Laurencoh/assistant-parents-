@@ -1969,23 +1969,78 @@
       .normalize("NFD")
       .replace(/[̀-ͯ]/g, "");
 
-    const keywords = [
+    const latinKeywords = [
+      // Français
       "fievre elevee", "forte fievre", "fievre forte", "fievre",
       "convulsion", "convulsions",
       "difficulte a respirer", "du mal a respirer", "respire mal", "ne respire plus",
       "perte de connaissance", "inconscient", "inconsciente",
       "allergie grave", "choc allergique", "anaphylaxie",
       "empoisonnement", "intoxication", "a avale", "ingere",
-      "chute grave", "tete", "fracture",
+      "chute grave", "fracture",
       "ne repond plus", "ne reagit plus",
-      "bleue", "bleu", "livres bleues",
       "urgence", "appeler le medecin", "appeler le 15", "samu",
-      "sang", "hemorragie", "saigne beaucoup",
+      "hemorragie", "saigne beaucoup",
       "brulure grave", "brulure",
       "noyade", "etouffement", "etouffe",
+      // English
+      "high fever", "fever", "seizure", "convulsion",
+      "can't breathe", "cannot breathe", "not breathing", "choking",
+      "loss of consciousness", "unconscious", "unresponsive",
+      "severe allergy", "allergic reaction", "anaphylaxis",
+      "poisoning", "swallowed", "ingested",
+      "severe fall", "fracture",
+      "turning blue", "blue lips",
+      "emergency", "call doctor", "call 911", "call 112",
+      "bleeding heavily", "hemorrhage",
+      "severe burn", "burn",
+      "drowning", "suffocation",
+      // Español
+      "fiebre alta", "fiebre", "convulsion", "no respira", "se ahoga",
+      "perdida de conciencia", "inconsciente", "sangrado abundante",
+      "se trago", "quemadura grave", "emergencia", "urgencia",
+      // Deutsch
+      "hohes fieber", "fieber", "krampf", "atemnot", "bewusstlos",
+      "nicht reagiert", "starke blutung", "vergiftung", "notfall",
+      // Italiano
+      "febbre alta", "febbre", "convulsione", "non respira", "soffoca",
+      "perdita di coscienza", "incosciente", "emorragia", "emergenza",
+      // Português
+      "febre alta", "febre", "convulsao", "nao respira", "engasgou",
+      "perda de consciencia", "inconsciente", "hemorragia", "emergencia",
+      // Русский (transliterated for normalization)
+      "skoraya", "skoruyu", "poteryala soznanie", "ne dyshet",
+      // Generic
+      "911", "112", "15", "samu",
     ];
 
-    return keywords.some(k => normalized.includes(k));
+    if (latinKeywords.some(k => normalized.includes(k))) return true;
+
+    // Non-latin scripts — check original text (lowercase only)
+    const raw = text.toLowerCase();
+    const nonLatinKeywords = [
+      // עברית
+      "חום גבוה", "חום", "עוויתות", "עוויתה", "קשיי נשימה", "לא נושם", "לא נושמת",
+      "איבד הכרה", "איבדה הכרה", "מאבד הכרה", "מאבדת הכרה", "חסימת נשימה",
+      "דימום חמור", "בלע", "בלעה", "כוויה חמורה", "ללא דופק", "חירום", "מגן דוד",
+      "מחנק", "טביעה",
+      // العربية
+      "حمى شديدة", "حمى", "تشنج", "تشنجات", "لا يتنفس", "لا تتنفس", "اختناق",
+      "فقدان الوعي", "إغماء", "نزيف حاد", "ابتلع", "حروق شديدة", "لا نبض", "طوارئ",
+      // 中文
+      "高烧", "发烧", "抽搐", "呼吸困难", "失去意识", "昏迷", "大出血", "急救", "紧急",
+      // 日本語
+      "高熱", "発熱", "けいれん", "呼吸困難", "意識不明", "出血", "救急",
+      // 한국어
+      "고열", "발열", "경련", "호흡곤란", "의식불명", "출혈", "응급",
+      // Türkçe
+      "yüksek ateş", "ateş", "nefes alamıyor", "bilinç kaybı", "acil",
+      // Русский
+      "высокая температура", "температура", "судороги", "не дышит",
+      "потеря сознания", "без сознания", "скорую", "скорая",
+    ];
+
+    return nonLatinKeywords.some(k => raw.includes(k));
   }
 
   let bandeauUrgenceActif = null;
