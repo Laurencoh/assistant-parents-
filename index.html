@@ -1963,18 +1963,49 @@
     ro: { title:'Bună',  sub:'Sunt aici pentru tine,\nîn fiecare moment al parentalității tale.', crise:'Copilul meu nu se oprește din plâns...', repas:'Ce să gătesc în seara asta?', sommeil:'Cum îl ajut să doarmă?', conseil:'O idee de activitate pentru azi?', film:'Un film potrivit vârstei lui?' },
   };
 
-  function estUrgence(texte) {
-    const t = texte.toLowerCase();
-    return MOTS_URGENCE.some(m => t.includes(m));
+  function detectsEmergency(text) {
+    const normalized = text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[̀-ͯ]/g, "");
+
+    const keywords = [
+      "fievre elevee", "forte fievre", "fievre forte", "fievre",
+      "convulsion", "convulsions",
+      "difficulte a respirer", "du mal a respirer", "respire mal", "ne respire plus",
+      "perte de connaissance", "inconscient", "inconsciente",
+      "allergie grave", "choc allergique", "anaphylaxie",
+      "empoisonnement", "intoxication", "a avale", "ingere",
+      "chute grave", "tete", "fracture",
+      "ne repond plus", "ne reagit plus",
+      "bleue", "bleu", "livres bleues",
+      "urgence", "appeler le medecin", "appeler le 15", "samu",
+      "sang", "hemorragie", "saigne beaucoup",
+      "brulure grave", "brulure",
+      "noyade", "etouffement", "etouffe",
+    ];
+
+    return keywords.some(k => normalized.includes(k));
   }
 
+  let bandeauUrgenceActif = null;
+
   function afficherBandeauUrgence() {
+    if (bandeauUrgenceActif) return;
     const fil = document.getElementById('fil');
     const div = document.createElement('div');
     div.className = 'bandeau-urgence';
-    div.innerHTML = `<span class="urgence-icon">🚨</span><span>${T[lang].urgence || '⚠️ Si c\'est une urgence, appelez le <strong>101</strong> immédiatement.'}</span>`;
+    div.innerHTML = `<span class="urgence-icon">🚨</span><span style="flex:1">${T[lang].urgence || '⚠️ Si c\'est une urgence, appelez le <strong>101</strong> immédiatement.'}</span><button onclick="fermerBandeauUrgence()" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:#7A5C00;padding:0 0 0 8px;flex-shrink:0;" aria-label="Fermer">✕</button>`;
     fil.appendChild(div);
+    bandeauUrgenceActif = div;
     div.scrollIntoView({behavior:'smooth', block:'end'});
+  }
+
+  function fermerBandeauUrgence() {
+    if (bandeauUrgenceActif) {
+      bandeauUrgenceActif.remove();
+      bandeauUrgenceActif = null;
+    }
   }
 
   // ════════════════════════════════════════════════════════════
@@ -2107,7 +2138,7 @@
       const reponse=data.answer??data.error??'...';
       conversation.push({role:'assistant',content:reponse});
       bulleTyping.remove();
-      if(estUrgence(texte)) afficherBandeauUrgence();
+      if(detectsEmergency(texte)) afficherBandeauUrgence();
       ajouterBulle('assistant',reponse);
       document.getElementById('conv-titre').textContent=titreDepuisMessages(conversation);
       sauvegarderConvCourante();
