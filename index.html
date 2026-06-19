@@ -1597,7 +1597,11 @@
       const idx = enfants.findIndex(e => e.id === id);
       if (idx >= 0) enfants[idx] = { id, prenom, dob, allergies, notes };
     } else {
-      enfants.push({ id: 'child-'+Date.now(), prenom, dob, allergies, notes });
+      const newId = 'child-'+Date.now();
+      enfants.push({ id: newId, prenom, dob, allergies, notes });
+      // Auto-sélectionner le nouvel enfant
+      selectedChildId = newId;
+      localStorage.setItem(SEL_KEY, newId);
     }
     sauvegarderEnfants(enfants);
     fermerFormulaire();
