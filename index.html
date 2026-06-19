@@ -2338,8 +2338,23 @@
     if(!texte) return;
     if(!convId) convId='conv-'+Date.now()+'-'+Math.random().toString(36).slice(2);
 
-    const age  =document.getElementById('age').value.trim();
-    const unite=document.getElementById('unite').value;
+    // Résoudre age/unite depuis le profil actif (fiable sur mobile)
+    let age, unite;
+    if (selectedChildId) {
+      const enfant = chargerEnfants().find(e => e.id === selectedChildId);
+      console.log('[Lovéa] Profil actif :', JSON.stringify(enfant));
+      if (enfant?.dob) {
+        const calc = ageEnAnsEtMois(enfant.dob);
+        age   = calc.age;
+        unite = calc.unite;
+      } else {
+        age   = document.getElementById('age').value.trim();
+        unite = document.getElementById('unite').value;
+      }
+    } else {
+      age   = document.getElementById('age').value.trim();
+      unite = document.getElementById('unite').value;
+    }
 
     conversation.push({role:'user',content:texte});
     ajouterBulle('user',texte);
@@ -2350,14 +2365,16 @@
     const bulleTyping=ajouterBulle('assistant',null,true);
 
     try {
+      const payload={
+        messages:conversation, age, unite,
+        profile:  construireProfilePrompt(),
+        allergies:getAllergiesEnfant(),
+      };
+      console.log('[Lovéa] Payload envoyé au serveur :', JSON.stringify({age:payload.age, unite:payload.unite, profile:payload.profile, allergies:payload.allergies}));
       const res=await fetch('/api/ask',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({
-          messages:conversation, age, unite,
-          profile:  construireProfilePrompt(),
-          allergies:getAllergiesEnfant(),
-        }),
+        body:JSON.stringify(payload),
       });
       const data=await res.json();
       const reponse=data.answer??data.error??'...';

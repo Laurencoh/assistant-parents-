@@ -14,6 +14,7 @@ app.post('/api/ask', async (req, res) => {
   if (!messages || !messages.length) {
     return res.status(400).json({ error: 'Messages vides.' });
   }
+  console.log('[Lovéa] Reçu du client :', JSON.stringify({ age, unite, allergies, profile: profile?.slice(0,200) }));
 
   const ageLine = age ? `The child is ${age} ${unite ?? 'years'} old — adapt all advice to this age throughout the conversation.` : '';
   const allergiesLine = allergies
