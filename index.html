@@ -481,6 +481,35 @@
     .btn-invite-enfant:hover { background: var(--terra-dk); color: #fff; }
     .btn-invite-enfant:active { transform: scale(0.96); }
 
+    /* ══ CONSEIL DU JOUR ════════════════════════════════════ */
+    .conseil-du-jour {
+      width: 100%; max-width: 520px;
+      background: linear-gradient(135deg, #EAF6E8 0%, #F5F2E4 100%);
+      border: 1.5px solid #B8DDB8;
+      border-radius: 18px;
+      padding: 16px 18px;
+      display: flex; flex-direction: column; gap: 8px;
+      animation: fadeUp 0.5s ease both 0.15s;
+      flex-shrink: 0;
+    }
+    .conseil-du-jour-header {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--terra-dk);
+    }
+    .conseil-du-jour-body {
+      font-size: 0.88rem; color: var(--text);
+      line-height: 1.65; white-space: pre-line;
+    }
+    .conseil-du-jour-skeleton {
+      height: 14px; border-radius: 8px;
+      background: linear-gradient(90deg, #D4EBD2 25%, #E8F4E6 50%, #D4EBD2 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      margin-bottom: 6px;
+    }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+
     /* ══ BANDEAU URGENCE ══════════════════════════════════════ */
     .bandeau-urgence {
       display: flex; align-items: center; gap: 10px;
@@ -1811,6 +1840,10 @@
         <h2 class="accueil-titre" id="accueil-titre">${esc(w.title)}</h2>
         <p class="accueil-sous" id="accueil-sous">${esc(w.sub)}</p>
       </div>
+      <div class="conseil-du-jour" id="conseil-du-jour" style="display:none">
+        <div class="conseil-du-jour-header">☀️ <span id="conseil-du-jour-titre">Conseil du jour</span></div>
+        <div class="conseil-du-jour-body" id="conseil-du-jour-body"></div>
+      </div>
       <div class="accueil-cartes">
         <div class="carte-idee carte-crise"   onclick="raccourci('crise')">
           <div class="carte-icone-bg">
@@ -1944,7 +1977,6 @@
     document.getElementById('conv-titre').textContent=t('newConvTitle');
     document.getElementById('fil').innerHTML=buildAccueil();
     renderSidebar(); fermerSidebar();
-    document.getElementById('question').focus();
   }
 
   // ════════════════════════════════════════════════════════════
@@ -2236,6 +2268,90 @@
     },
   };
 
+  // ════════════════════════════════════════════════════════════
+  // CONSEIL DU JOUR
+  // ════════════════════════════════════════════════════════════
+  const CONSEIL_KEY_PREFIX = 'lovea-conseil-';
+
+  function conseilCacheKey(childId) {
+    const today = new Date().toISOString().slice(0, 10);
+    return `${CONSEIL_KEY_PREFIX}${childId}-${today}`;
+  }
+
+  function conseilTitre() {
+    const titres = { fr:'Conseil du jour', en:'Tip of the day', he:'טיפ של היום', ar:'نصيحة اليوم',
+      es:'Consejo del día', de:'Tipp des Tages', it:'Consiglio del giorno', pt:'Dica do dia',
+      ru:'Совет дня', zh:'今日建议', ja:'今日のアドバイス', ko:'오늘의 팁', tr:'Günün tavsiyesi',
+      nl:'Tip van de dag', pl:'Rada dnia', ro:'Sfatul zilei' };
+    return titres[lang] || titres.fr;
+  }
+
+  function conseilPrompt(enfant) {
+    const a = enfant.dob ? ageDepuisNaissance(enfant.dob) : null;
+    const ageStr = a
+      ? (a.years >= 1
+          ? (a.months ? `${a.years} an${a.years>1?'s':''} et ${a.months} mois` : `${a.years} an${a.years>1?'s':''}`)
+          : `${a.months} mois`)
+      : '';
+    const ageCtx = ageStr ? `d'un enfant de ${ageStr}` : "d'un jeune enfant";
+    return `Génère un conseil du jour court et bienveillant pour le parent ${ageCtx}. Le conseil doit être pratique, positif, et porter sur un des thèmes suivants (choisi aléatoirement) : développement de l'enfant, activité à faire ensemble, alimentation, sommeil, ou éveil. Maximum 3-4 lignes. Commence directement par le conseil, sans introduction ni titre.`;
+  }
+
+  function afficherConseil(texte) {
+    const box   = document.getElementById('conseil-du-jour');
+    const body  = document.getElementById('conseil-du-jour-body');
+    const titre = document.getElementById('conseil-du-jour-titre');
+    if (!box) return;
+    if (titre) titre.textContent = conseilTitre();
+    if (body)  body.textContent = texte;
+    box.style.display = 'flex';
+  }
+
+  function afficherConseilSkeleton() {
+    const box  = document.getElementById('conseil-du-jour');
+    const body = document.getElementById('conseil-du-jour-body');
+    const titre = document.getElementById('conseil-du-jour-titre');
+    if (!box) return;
+    if (titre) titre.textContent = conseilTitre();
+    if (body)  body.innerHTML = '<div class="conseil-du-jour-skeleton" style="width:90%"></div><div class="conseil-du-jour-skeleton" style="width:75%"></div><div class="conseil-du-jour-skeleton" style="width:60%"></div>';
+    box.style.display = 'flex';
+  }
+
+  async function chargerConseilDuJour() {
+    if (!selectedChildId) return;
+    const enfant = chargerEnfants().find(e => e.id === selectedChildId);
+    if (!enfant) return;
+
+    const cacheKey = conseilCacheKey(selectedChildId);
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) { afficherConseil(cached); return; }
+
+    afficherConseilSkeleton();
+    try {
+      const profile = construireProfilePrompt();
+      const allergies = getAllergiesEnfant();
+      const { age, unite } = enfant.dob ? ageEnAnsEtMois(enfant.dob) : { age: '', unite: 'ans' };
+      const res = await fetch('/api/ask', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [{ role: 'user', content: conseilPrompt(enfant) }],
+          age, unite, profile, allergies,
+        }),
+      });
+      const data = await res.json();
+      const texte = data.answer?.trim();
+      if (texte) {
+        localStorage.setItem(cacheKey, texte);
+        afficherConseil(texte);
+      } else {
+        document.getElementById('conseil-du-jour').style.display = 'none';
+      }
+    } catch {
+      document.getElementById('conseil-du-jour').style.display = 'none';
+    }
+  }
+
   function raccourci(type) {
     const age   = document.getElementById('age').value.trim();
     const unite = document.getElementById('unite').value;
@@ -2408,6 +2524,7 @@
   setLang(lang);
   renderChildSelector();
   nouvelleConversation();
+  chargerConseilDuJour();
   </script>
 </body>
 </html>
