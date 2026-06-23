@@ -815,6 +815,7 @@
       emptyHist:'Vos conversations apparaîtront ici.',
       errServer:'Une erreur est survenue. Réessaie dans un moment.',
       errOverloaded:'Lovéa est très sollicitée en ce moment 🌿 Réessaie dans quelques secondes.',
+      errAuth:'Une erreur de configuration est survenue. Contacte le support.',
       newConvTitle:'Nouvelle conversation',
       welcome:"Bonjour ! Posez votre question\nou choisissez un raccourci.",
       noChild:'— Aucun enfant sélectionné —',
@@ -853,6 +854,7 @@
       emptyHist:'Your conversations will appear here.',
       errServer:'Something went wrong. Please try again in a moment.',
       errOverloaded:'Lovéa is very busy right now 🌿 Try again in a few seconds.',
+      errAuth:'A configuration error occurred. Please contact support.',
       newConvTitle:'New conversation',
       welcome:"Hello! Ask your question\nor choose a shortcut.",
       noChild:'— No child selected —',
@@ -2545,6 +2547,8 @@
         bulleTyping.remove();
         const errMsg = data.error === 'overloaded_error'
           ? (T[lang]?.errOverloaded || 'Lovéa est très sollicitée en ce moment 🌿 Réessaie dans quelques secondes.')
+          : data.error === 'authentication_error'
+          ? (T[lang]?.errAuth      || 'Une erreur de configuration est survenue. Contacte le support.')
           : (T[lang]?.errServer    || 'Une erreur est survenue. Réessaie dans un moment.');
         ajouterBulle('assistant', errMsg);
         enCours=false;
