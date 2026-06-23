@@ -813,7 +813,8 @@
       placeholder:'Écrivez votre question…', vous:'Vous', assistant:'Assistant',
       today:"Aujourd'hui", yesterday:'Hier',
       emptyHist:'Vos conversations apparaîtront ici.',
-      errServer:'Impossible de contacter le serveur.',
+      errServer:'Une erreur est survenue. Réessaie dans un moment.',
+      errOverloaded:'Lovéa est très sollicitée en ce moment 🌿 Réessaie dans quelques secondes.',
       newConvTitle:'Nouvelle conversation',
       welcome:"Bonjour ! Posez votre question\nou choisissez un raccourci.",
       noChild:'— Aucun enfant sélectionné —',
@@ -850,7 +851,8 @@
       placeholder:'Write your question…', vous:'You', assistant:'Assistant',
       today:'Today', yesterday:'Yesterday',
       emptyHist:'Your conversations will appear here.',
-      errServer:'Unable to reach the server.',
+      errServer:'Something went wrong. Please try again in a moment.',
+      errOverloaded:'Lovéa is very busy right now 🌿 Try again in a few seconds.',
       newConvTitle:'New conversation',
       welcome:"Hello! Ask your question\nor choose a shortcut.",
       noChild:'— No child selected —',
@@ -1387,26 +1389,45 @@
   const CHILDREN_KEY = 'assistant-parents-children';
   const SEL_KEY      = 'assistant-parents-selected-child';
 
-  const emergencyNumbers = {
-    fr: { number: '15',  label: 'SAMU' },
-    he: { number: '101', label: 'מד״א' },
-    en: { number: '911', label: 'Emergency' },
-    es: { number: '112', label: 'Emergencias' },
-    ar: { number: '101', label: 'طوارئ' },
-    de: { number: '112', label: 'Notruf' },
-    it: { number: '118', label: 'Emergenza' },
-    pt: { number: '112', label: 'Emergência' },
-    ru: { number: '103', label: 'Скорая' },
-    nl: { number: '112', label: 'Noodgeval' },
+  const emergencyByCountry = {
+    IL: { number: '101', label: 'מד״א' },
+    FR: { number: '15',  label: 'SAMU' },
+    US: { number: '911', label: 'Emergency' },
+    GB: { number: '999', label: 'Emergency' },
+    DE: { number: '112', label: 'Notruf' },
+    ES: { number: '112', label: 'Emergencias' },
+    IT: { number: '118', label: 'Emergenza' },
+    PT: { number: '112', label: 'Emergência' },
+    RU: { number: '103', label: 'Скорая' },
+    NL: { number: '112', label: 'Noodgeval' },
+    BE: { number: '112', label: 'Urgences' },
+    CH: { number: '144', label: 'Urgences' },
+    CA: { number: '911', label: 'Emergency' },
+    AU: { number: '000', label: 'Emergency' },
   };
 
-  function getEmergency(l) {
-    return emergencyNumbers[l] || { number: '112', label: 'Emergency' };
+  let detectedEmergency = { number: '112', label: 'Emergency' };
+
+  function injectEmergencyNumber(html) {
+    const { number, label } = detectedEmergency;
+    return html.replace(/<strong>\d+<\/strong>/g, `<strong>${number}</strong> (${label})`);
   }
 
-  function injectEmergencyNumber(html, l) {
-    const { number, label } = getEmergency(l);
-    return html.replace(/<strong>\d+<\/strong>/g, `<strong>${number}</strong> (${label})`);
+  function updateFooterEmergency() {
+    const footer = document.getElementById('footer-medical');
+    if (!footer) return;
+    footer.innerHTML = injectEmergencyNumber(T[lang]?.footer || '');
+  }
+
+  async function detectEmergencyByCountry() {
+    try {
+      const res = await fetch('https://ipapi.co/json/');
+      const data = await res.json();
+      detectedEmergency = emergencyByCountry[data.country_code] || { number: '112', label: 'Emergency' };
+    } catch {
+      // conserve la valeur par défaut (112)
+    }
+    updateFooterEmergency();
   }
 
   function detectLang() {
@@ -2520,7 +2541,17 @@
         body:JSON.stringify(payload),
       });
       const data=await res.json();
-      const reponse=data.answer??data.error??'...';
+      if (!res.ok) {
+        bulleTyping.remove();
+        const errMsg = data.error === 'overloaded_error'
+          ? (T[lang]?.errOverloaded || 'Lovéa est très sollicitée en ce moment 🌿 Réessaie dans quelques secondes.')
+          : (T[lang]?.errServer    || 'Une erreur est survenue. Réessaie dans un moment.');
+        ajouterBulle('assistant', errMsg);
+        enCours=false;
+        document.getElementById('btn-envoyer').disabled=false;
+        return;
+      }
+      const reponse=data.answer??'...';
       conversation.push({role:'assistant',content:reponse});
       bulleTyping.remove();
       if(detectsEmergency(texte)) afficherBandeauUrgence();

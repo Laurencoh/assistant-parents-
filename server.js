@@ -72,7 +72,8 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
     res.json({ answer: text });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ error: 'Une erreur est survenue. Vérifiez votre clé API.' });
+    const type = err?.error?.type || err?.type || 'unknown';
+    res.status(500).json({ error: type });
   }
 });
 
