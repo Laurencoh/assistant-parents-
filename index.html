@@ -575,6 +575,47 @@
       .bulle { max-width: 75%; }
     }
 
+    /* ══ MODAL PLANS ════════════════════════════════════════ */
+    .plans-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 10px; padding: 18px 20px 24px;
+    }
+    @media (max-width: 500px) { .plans-grid { grid-template-columns: 1fr; gap: 12px; } }
+
+    .plan-card {
+      border-radius: 16px; padding: 16px 14px;
+      display: flex; flex-direction: column; gap: 10px;
+      border: 2px solid transparent; position: relative;
+    }
+    .plan-card.free     { background: #F7F3EA; border-color: #DDD8C8; }
+    .plan-card.famille  { background: linear-gradient(160deg,#EAF6E8,#F5F0E8); border-color: #8CBE86; }
+    .plan-card.pro      { background: linear-gradient(160deg,#EDE0F8,#F5F0E8); border-color: #8A5AB8; }
+    .plan-card.famille::before {
+      content: '✨ Recommandé'; position: absolute; top: -11px; left: 50%; transform: translateX(-50%);
+      background: var(--terra-dk); color: #fff; font-size: 0.65rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px; white-space: nowrap; letter-spacing: 0.04em;
+    }
+    .plan-nom   { font-family: Georgia,serif; font-size: 0.95rem; font-weight: bold; color: var(--forest); }
+    .plan-prix  { font-size: 1.4rem; font-weight: 800; color: var(--forest); line-height: 1; }
+    .plan-prix span { font-size: 0.75rem; font-weight: 400; color: var(--text-2); }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 6px; flex: 1; }
+    .plan-features li { font-size: 0.78rem; color: var(--text-2); display: flex; align-items: flex-start; gap: 5px; }
+    .plan-features li::before { content: '✓'; color: var(--terra-dk); font-weight: 700; flex-shrink: 0; }
+    .plan-features li.off { color: var(--text-3); }
+    .plan-features li.off::before { content: '–'; color: var(--text-3); }
+    .btn-plan {
+      margin-top: 4px; padding: 9px 0; border: none; border-radius: 12px;
+      font-family: inherit; font-size: 0.82rem; font-weight: 700; cursor: pointer;
+      width: 100%; transition: opacity 0.15s;
+    }
+    .btn-plan:active { opacity: 0.8; }
+    .btn-plan.famille { background: var(--terra); color: #2E3A2C; }
+    .btn-plan.pro     { background: #8A5AB8; color: #fff; }
+    .btn-plan.current { background: var(--cream-dk); color: var(--text-2); cursor: default; font-weight: 500; }
+    .plans-header { padding: 20px 20px 0; text-align: center; }
+    .plans-header h2 { font-family: Georgia,serif; font-size: 1.05rem; font-weight: normal; color: var(--forest); }
+    .plans-header p  { font-size: 0.82rem; color: var(--text-2); margin-top: 6px; }
+
     /* ══ MODAL ENFANTS ════════════════════════════════════════ */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
@@ -711,6 +752,57 @@
               <button class="btn-form-cancel" onclick="fermerFormulaire()" id="btn-form-cancel">Annuler</button>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Plans -->
+  <div class="modal-overlay" id="modal-plans" onclick="if(event.target===this)fermerModalPlans()">
+    <div class="modal-panel" style="max-width:600px">
+      <div class="modal-header">
+        <h2>🌱 Choisir un plan</h2>
+        <button class="btn-modal-close" onclick="fermerModalPlans()">✕</button>
+      </div>
+      <div class="plans-header">
+        <p id="plans-subtitle">Débloque toutes les fonctionnalités de Lovéa</p>
+      </div>
+      <div class="plans-grid">
+        <!-- Gratuit -->
+        <div class="plan-card free">
+          <div class="plan-nom">Gratuit</div>
+          <div class="plan-prix">0€</div>
+          <ul class="plan-features">
+            <li>1 profil enfant</li>
+            <li>20 messages / jour</li>
+            <li class="off">Historique des conversations</li>
+            <li class="off">Gestion des allergies</li>
+          </ul>
+          <button class="btn-plan current" disabled>Plan actuel</button>
+        </div>
+        <!-- Famille -->
+        <div class="plan-card famille">
+          <div class="plan-nom">Famille</div>
+          <div class="plan-prix">4,99€<span> /mois</span></div>
+          <ul class="plan-features">
+            <li>3 profils enfants</li>
+            <li>Messages illimités</li>
+            <li>Historique des conversations</li>
+            <li>Gestion des allergies</li>
+          </ul>
+          <button class="btn-plan famille" onclick="afficherBientotDispo()">Choisir ce plan</button>
+        </div>
+        <!-- Pro -->
+        <div class="plan-card pro">
+          <div class="plan-nom">Pro</div>
+          <div class="plan-prix">9,99€<span> /mois</span></div>
+          <ul class="plan-features">
+            <li>Profils illimités</li>
+            <li>Messages illimités</li>
+            <li>Historique des conversations</li>
+            <li>Gestion des allergies</li>
+          </ul>
+          <button class="btn-plan pro" onclick="afficherBientotDispo()">Choisir ce plan</button>
         </div>
       </div>
     </div>
@@ -1707,9 +1799,7 @@
     } else {
       const maxProfiles = PLAN_LIMITS[getCurrentPlan()].maxProfiles;
       if (enfants.length >= maxProfiles) {
-        alert(maxProfiles === 1
-          ? 'Le plan gratuit permet 1 profil enfant. Passe au plan Famille pour en ajouter jusqu\'à 3 🌱'
-          : `Tu as atteint la limite de ${maxProfiles} profils pour ton plan.`);
+        ouvrirModalPlans('profiles');
         return;
       }
       const newId = 'child-'+Date.now();
@@ -1746,6 +1836,29 @@
 
   function fermerModalSiClic(e) {
     if (e.target === document.getElementById('modal-enfants')) fermerModal();
+  }
+
+  // ════════════════════════════════════════════════════════════
+  // MODAL PLANS
+  // ════════════════════════════════════════════════════════════
+  function ouvrirModalPlans(reason) {
+    const subtitle = document.getElementById('plans-subtitle');
+    if (subtitle) {
+      subtitle.textContent = reason === 'limit'
+        ? 'Tu as atteint ta limite de 20 messages aujourd\'hui 🌿'
+        : reason === 'profiles'
+        ? 'Ajoute jusqu\'à 3 enfants avec le plan Famille 🌱'
+        : 'Débloque toutes les fonctionnalités de Lovéa';
+    }
+    document.getElementById('modal-plans').classList.add('open');
+  }
+
+  function fermerModalPlans() {
+    document.getElementById('modal-plans').classList.remove('open');
+  }
+
+  function afficherBientotDispo() {
+    alert('Bientôt disponible 🌱\nLe paiement en ligne arrive très prochainement !');
   }
 
   // ════════════════════════════════════════════════════════════
@@ -2546,7 +2659,7 @@
     if(!texte) return;
 
     if (hasReachedDailyLimit()) {
-      ajouterBulle('assistant', 'Tu as atteint ta limite de 20 messages aujourd\'hui. Passe au plan Famille pour continuer 🌱');
+      ouvrirModalPlans('limit');
       return;
     }
 
