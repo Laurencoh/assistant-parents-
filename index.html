@@ -1396,6 +1396,35 @@
   const CHILDREN_KEY = 'assistant-parents-children';
   const SEL_KEY      = 'assistant-parents-selected-child';
 
+  // ════════════════════════════════════════════════════════════
+  // PLAN MANAGER
+  // ════════════════════════════════════════════════════════════
+  const PLAN_LIMITS = {
+    free:    { maxProfiles: 1, maxMessagesPerDay: 20, history: false, allergies: false },
+    famille: { maxProfiles: 3, maxMessagesPerDay: Infinity, history: true, allergies: true },
+    pro:     { maxProfiles: Infinity, maxMessagesPerDay: Infinity, history: true, allergies: true },
+  };
+
+  function getCurrentPlan() { return localStorage.getItem('lovea_plan') || 'free'; }
+
+  function getDailyMessageCount() {
+    const today = new Date().toDateString();
+    const stored = JSON.parse(localStorage.getItem('lovea_daily_messages') || '{}');
+    return stored.date === today ? (stored.count || 0) : 0;
+  }
+
+  function incrementDailyMessageCount() {
+    const today = new Date().toDateString();
+    const count = getDailyMessageCount() + 1;
+    localStorage.setItem('lovea_daily_messages', JSON.stringify({ date: today, count }));
+    return count;
+  }
+
+  function hasReachedDailyLimit() {
+    const limit = PLAN_LIMITS[getCurrentPlan()].maxMessagesPerDay;
+    return limit !== Infinity && getDailyMessageCount() >= limit;
+  }
+
   const emergencyByCountry = {
     IL: { number: '101', label: 'מד״א' },
     FR: { number: '15',  label: 'SAMU' },
@@ -1676,6 +1705,13 @@
       const idx = enfants.findIndex(e => e.id === id);
       if (idx >= 0) enfants[idx] = { id, prenom, dob, allergies, notes };
     } else {
+      const maxProfiles = PLAN_LIMITS[getCurrentPlan()].maxProfiles;
+      if (enfants.length >= maxProfiles) {
+        alert(maxProfiles === 1
+          ? 'Le plan gratuit permet 1 profil enfant. Passe au plan Famille pour en ajouter jusqu\'à 3 🌱'
+          : `Tu as atteint la limite de ${maxProfiles} profils pour ton plan.`);
+        return;
+      }
       const newId = 'child-'+Date.now();
       enfants.push({ id: newId, prenom, dob, allergies, notes });
       // Auto-sélectionner le nouvel enfant
@@ -2508,6 +2544,12 @@
     const textarea=document.getElementById('question');
     const texte=textarea.value.trim();
     if(!texte) return;
+
+    if (hasReachedDailyLimit()) {
+      ajouterBulle('assistant', 'Tu as atteint ta limite de 20 messages aujourd\'hui. Passe au plan Famille pour continuer 🌱');
+      return;
+    }
+
     if(!convId) convId='conv-'+Date.now()+'-'+Math.random().toString(36).slice(2);
 
     // Résoudre age/unite depuis le profil actif (fiable sur mobile)
@@ -2563,6 +2605,7 @@
       }
       const reponse=data.answer??'...';
       conversation.push({role:'assistant',content:reponse});
+      incrementDailyMessageCount();
       bulleTyping.remove();
       if(detectsEmergency(texte)) afficherBandeauUrgence();
       ajouterBulle('assistant',reponse);
