@@ -2627,7 +2627,7 @@
     const unite = document.getElementById('unite').value;
     const ctx   = T[lang].ctx(age, T[lang][unite]||unite);
 
-    const langVariants = shortcutMessages[lang] || shortcutMessages.fr;
+    const langVariants = shortcutMessages[lang];
     const variants = langVariants?.[type];
     const msg = variants?.length
       ? variants[Math.floor(Math.random() * variants.length)]
