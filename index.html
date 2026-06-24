@@ -18,6 +18,13 @@
     }
   </script>
 
+  <!-- Paddle -->
+  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
+  <script>
+    Paddle.Environment.set("sandbox");
+    Paddle.Initialize({ token: "test_721e31a1d611bf78100604f3e60" });
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -790,7 +797,7 @@
             <li>Historique des conversations</li>
             <li>Gestion des allergies</li>
           </ul>
-          <button class="btn-plan famille" onclick="afficherBientotDispo()">Choisir ce plan</button>
+          <button class="btn-plan famille" onclick="ouvrirCheckout('famille')">Choisir ce plan</button>
         </div>
         <!-- Pro -->
         <div class="plan-card pro">
@@ -802,7 +809,7 @@
             <li>Historique des conversations</li>
             <li>Gestion des allergies</li>
           </ul>
-          <button class="btn-plan pro" onclick="afficherBientotDispo()">Choisir ce plan</button>
+          <button class="btn-plan pro" onclick="ouvrirCheckout('pro')">Choisir ce plan</button>
         </div>
       </div>
     </div>
@@ -1857,8 +1864,22 @@
     document.getElementById('modal-plans').classList.remove('open');
   }
 
-  function afficherBientotDispo() {
-    alert('Bientôt disponible 🌱\nLe paiement en ligne arrive très prochainement !');
+  const PADDLE_PRICES = {
+    famille: 'pri_01kvwerdzw8fqnh07dpqw9e6hm',
+    pro:     'pri_01kvwf8fkxanyfs6tbmwzjsev7',
+  };
+
+  function ouvrirCheckout(plan) {
+    fermerModalPlans();
+    Paddle.Checkout.open({
+      items: [{ priceId: PADDLE_PRICES[plan], quantity: 1 }],
+      settings: { successUrl: window.location.href },
+      eventCallback: function(data) {
+        if (data.name === 'checkout.completed') {
+          localStorage.setItem('lovea_plan', plan);
+        }
+      },
+    });
   }
 
   // ════════════════════════════════════════════════════════════
