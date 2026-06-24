@@ -77,6 +77,10 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
   }
 });
 
+app.get('/terms', (req, res) => res.sendFile(path.join(__dirname, 'terms.html')));
+app.get('/privacy', (req, res) => res.sendFile(path.join(__dirname, 'privacy.html')));
+app.get('/refunds', (req, res) => res.sendFile(path.join(__dirname, 'refunds.html')));
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Serveur lancé sur http://localhost:${PORT}`);
