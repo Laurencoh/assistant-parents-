@@ -2521,7 +2521,7 @@
 
   function conseilCacheKey(childId) {
     const today = new Date().toISOString().slice(0, 10);
-    return `${CONSEIL_KEY_PREFIX}${childId}-${today}`;
+    return `${CONSEIL_KEY_PREFIX}${childId}-${lang}-${today}`;
   }
 
   function conseilTitre() {
@@ -2533,14 +2533,18 @@
   }
 
   function conseilPrompt(enfant) {
+    const langNames = { fr:'French', en:'English', he:'Hebrew', ar:'Arabic', es:'Spanish', de:'German',
+      it:'Italian', pt:'Portuguese', ru:'Russian', zh:'Chinese', ja:'Japanese', ko:'Korean',
+      tr:'Turkish', nl:'Dutch', pl:'Polish', ro:'Romanian' };
+    const targetLang = langNames[lang] || 'French';
     const a = enfant.dob ? ageDepuisNaissance(enfant.dob) : null;
     const ageStr = a
       ? (a.years >= 1
-          ? (a.months ? `${a.years} an${a.years>1?'s':''} et ${a.months} mois` : `${a.years} an${a.years>1?'s':''}`)
-          : `${a.months} mois`)
+          ? (a.months ? `${a.years} year${a.years>1?'s':''} and ${a.months} month${a.months>1?'s':''}` : `${a.years} year${a.years>1?'s':''}`)
+          : `${a.months} month${a.months>1?'s':''}`)
       : '';
-    const ageCtx = ageStr ? `d'un enfant de ${ageStr}` : "d'un jeune enfant";
-    return `Génère un conseil du jour court et bienveillant pour le parent ${ageCtx}. Le conseil doit être pratique, positif, et porter sur un des thèmes suivants (choisi aléatoirement) : développement de l'enfant, activité à faire ensemble, alimentation, sommeil, ou éveil. Maximum 3-4 lignes. Commence directement par le conseil, sans introduction ni titre.`;
+    const ageCtx = ageStr ? `for a parent of a ${ageStr} old child` : 'for a parent of a young child';
+    return `Generate a short, warm tip of the day ${ageCtx}. The tip must be practical, positive, and cover one of these topics (chosen randomly): child development, activity to do together, nutrition, sleep, or stimulation. Maximum 3-4 lines. Start directly with the tip, no introduction or title. Reply in ${targetLang}.`;
   }
 
   function afficherConseil(texte) {
@@ -2585,8 +2589,28 @@
           age, unite, profile, allergies,
         }),
       });
-      const data = await res.json();
-      const texte = data.answer?.trim();
+      if (!res.ok) { document.getElementById('conseil-du-jour').style.display = 'none'; return; }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      let texte = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const raw = line.slice(6);
+          if (raw === '[DONE]') break;
+          try { const p = JSON.parse(raw); if (p.text) texte += p.text; } catch {}
+        }
+      }
+
+      texte = texte.trim();
       if (texte) {
         localStorage.setItem(cacheKey, texte);
         afficherConseil(texte);
