@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tarifs — Lovéa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --terra:#8CBE86; --terra-dk:#5C8C5A; --terra-lt:#E8F4E6;
+      --forest:#2E3A2C; --cream:#F7F3EA; --text:#2E3A2C; --text-2:#586658;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); line-height: 1.7; }
+    .container { max-width: 800px; margin: 0 auto; padding: 48px 24px 80px; }
+    .back { display: inline-flex; align-items: center; gap: 6px; color: var(--terra); font-size: 0.88rem; font-weight: 600; text-decoration: none; margin-bottom: 32px; }
+    .back:hover { opacity: 0.8; }
+    h1 { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--forest); margin-bottom: 8px; }
+    .subtitle { font-size: 0.95rem; color: var(--text-2); margin-bottom: 48px; }
+
+    .plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    @media (max-width: 640px) { .plans { grid-template-columns: 1fr; } }
+
+    .plan-card {
+      background: #fff;
+      border: 1.5px solid #E0D8C8;
+      border-radius: 16px;
+      padding: 28px 24px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+    }
+    .plan-card.featured {
+      border-color: var(--terra);
+      box-shadow: 0 4px 20px rgba(140,190,134,0.18);
+    }
+    .badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--terra);
+      color: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 14px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .plan-header { text-align: center; }
+    .plan-name { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--forest); font-weight: 700; }
+    .plan-price { margin-top: 8px; }
+    .plan-amount { font-size: 2.2rem; font-weight: 700; color: var(--forest); line-height: 1; }
+    .plan-period { font-size: 0.82rem; color: var(--text-2); }
+    .plan-desc { font-size: 0.82rem; color: var(--text-2); margin-top: 6px; }
+
+    .features { list-style: none; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+    .features li { display: flex; align-items: flex-start; gap: 9px; font-size: 0.88rem; color: var(--text-2); }
+    .features li .icon { flex-shrink: 0; width: 18px; height: 18px; margin-top: 2px; }
+    .icon-check { color: var(--terra-dk); }
+    .icon-cross { color: #C8C0B0; }
+
+    .plan-cta {
+      display: block;
+      text-align: center;
+      padding: 11px 20px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: opacity 0.15s;
+    }
+    .plan-cta:hover { opacity: 0.85; }
+    .plan-cta.free { background: var(--terra-lt); color: var(--terra-dk); }
+    .plan-cta.paid { background: var(--terra); color: #fff; }
+
+    .note { margin-top: 40px; text-align: center; font-size: 0.82rem; color: var(--text-2); }
+    .note a { color: var(--terra); }
+    hr { border: none; border-top: 1px solid #E0D8C8; margin: 48px 0 32px; }
+    .faq-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--forest); margin-bottom: 24px; }
+    .faq-item { margin-bottom: 20px; }
+    .faq-q { font-weight: 600; font-size: 0.92rem; color: var(--forest); margin-bottom: 4px; }
+    .faq-a { font-size: 0.88rem; color: var(--text-2); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="/">← Retour à Lovéa</a>
+    <h1>Nos tarifs</h1>
+    <p class="subtitle">Simple et transparent. Commencez gratuitement, évoluez à votre rythme.</p>
+
+    <div class="plans">
+
+      <!-- Plan Gratuit -->
+      <div class="plan-card">
+        <div class="plan-header">
+          <div class="plan-name">Gratuit</div>
+          <div class="plan-price">
+            <span class="plan-amount">0€</span>
+          </div>
+          <div class="plan-desc">Pour découvrir Lovéa</div>
+        </div>
+        <ul class="features">
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>20 messages par jour</span>
+          </li>
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>1 profil enfant</span>
+          </li>
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Conseil du jour</span>
+          </li>
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Idées de repas, activités, histoires</span>
+          </li>
+          <li>
+            <svg class="icon icon-cross" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            <span>Gestion des allergies</span>
+          </li>
+          <li>
+            <svg class="icon icon-cross" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            <span>Historique des conversations</span>
+          </li>
+        </ul>
+        <a class="plan-cta free" href="/">Commencer gratuitement</a>
+      </div>
+
+      <!-- Plan Famille -->
+      <div class="plan-card featured">
+        <div class="badge">Le plus populaire</div>
+        <div class="plan-header">
+          <div class="plan-name">Famille</div>
+          <div class="plan-price">
+            <span class="plan-amount">4,99€</span>
+            <span class="plan-period"> / mois</span>
+          </div>
+          <div class="plan-desc">Pour les familles actives</div>
+        </div>
+        <ul class="features">
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Messages illimités</span>
+          </li>
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Jusqu'à 3 profils enfants</span>
+          </li>
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Conseil du jour</span>
+          </li>
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Idées de repas, activités, histoires</span>
+          </li>
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Gestion des allergies</span>
+          </li>
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Historique des conversations</span>
+          </li>
+        </ul>
+        <a class="plan-cta paid" href="/" onclick="sessionStorage.setItem('lovea_open_plan','famille');return true;">Choisir ce plan</a>
+      </div>
+
+      <!-- Plan Pro -->
+      <div class="plan-card">
+        <div class="plan-header">
+          <div class="plan-name">Pro</div>
+          <div class="plan-price">
+            <span class="plan-amount">9,99€</span>
+            <span class="plan-period"> / mois</span>
+          </div>
+          <div class="plan-desc">Pour les professionnels de l'enfance</div>
+        </div>
+        <ul class="features">
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Messages illimités</span>
+          </li>
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Profils enfants illimités</span>
+          </li>
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Conseil du jour</span>
+          </li>
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Idées de repas, activités, histoires</span>
+          </li>
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Gestion des allergies</span>
+          </li>
+          <li>
+            <svg class="icon icon-check" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 00-1.414 0L8 12.586 4.707 9.293a1 1 0 00-1.414 1.414l4 4a1 1 0 001.414 0l8-8a1 1 0 000-1.414z" clip-rule="evenodd"/></svg>
+            <span>Historique des conversations</span>
+          </li>
+        </ul>
+        <a class="plan-cta paid" href="/" onclick="sessionStorage.setItem('lovea_open_plan','pro');return true;">Choisir ce plan</a>
+      </div>
+
+    </div>
+
+    <p class="note">
+      Sans engagement · Annulation à tout moment ·
+      Paiement sécurisé par <strong>Paddle</strong> ·
+      <a href="/refunds">Politique de remboursement</a>
+    </p>
+
+    <hr>
+
+    <div class="faq-title">Questions fréquentes</div>
+
+    <div class="faq-item">
+      <div class="faq-q">Puis-je annuler à tout moment ?</div>
+      <div class="faq-a">Oui, sans engagement. L'annulation prend effet à la fin de la période en cours.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Y a-t-il une période d'essai gratuite ?</div>
+      <div class="faq-a">Le plan Gratuit est disponible sans limite de durée. Vous pouvez passer à un plan payant quand vous le souhaitez.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Mes données sont-elles en sécurité ?</div>
+      <div class="faq-a">Vos profils et conversations sont stockés uniquement sur votre appareil. Nous ne conservons aucune base de données personnelle. <a href="/privacy">En savoir plus</a>.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">À qui est destiné le plan Pro ?</div>
+      <div class="faq-a">Aux professionnels de la petite enfance (assistantes maternelles, crèches, nounous) qui suivent plusieurs enfants avec des profils distincts.</div>
+    </div>
+
+    <hr>
+    <p style="font-size:0.8rem;color:#98A896;text-align:center">© 2026 Lovéa — Lauren Dahan, Israël · <a href="/terms" style="color:#98A896">CGU</a> · <a href="/privacy" style="color:#98A896">Confidentialité</a></p>
+  </div>
+</body>
+</html>
