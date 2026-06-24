@@ -10,12 +10,16 @@ app.use(express.static(__dirname));
 const client = new Anthropic.default({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 app.post('/api/ask', async (req, res) => {
-  const { messages, age, unite, profile, allergies } = req.body;
+  const { messages, age, unite, lang, profile, allergies } = req.body;
   if (!messages || !messages.length) {
     return res.status(400).json({ error: 'Messages vides.' });
   }
   console.log('[Lovéa] Reçu du client :', JSON.stringify({ age, unite, allergies, profile: profile?.slice(0,200) }));
 
+  const langNames = { fr:'French', en:'English', he:'Hebrew', ar:'Arabic', es:'Spanish', de:'German',
+    it:'Italian', pt:'Portuguese', ru:'Russian', zh:'Chinese', ja:'Japanese', ko:'Korean',
+    tr:'Turkish', nl:'Dutch', pl:'Polish', ro:'Romanian' };
+  const langLine = lang ? `IMPORTANT: Always reply in ${langNames[lang] || lang}. Never switch to another language.` : '';
   const ageLine = age ? `The child is ${age} ${unite ?? 'years'} old — adapt all advice to this age throughout the conversation.` : '';
   const allergiesLine = allergies
     ? `## ABSOLUTE ALLERGY RULE — NON-NEGOTIABLE\nThe child is allergic or has dietary restrictions: ${allergies}.\nNEVER suggest any food, ingredient, or recipe containing these. This is a safety rule, not a preference. If the parent asks for recipes or meal ideas, automatically replace any forbidden ingredient with a safe alternative and mention the substitution naturally (e.g. replace cow's milk with an age-appropriate plant-based milk).`
@@ -58,6 +62,7 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
     allergiesLine,
     ageLine,
     profileLine,
+    langLine,
   ].filter(Boolean).join('\n\n');
 
   try {

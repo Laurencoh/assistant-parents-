@@ -2586,7 +2586,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           messages: [{ role: 'user', content: conseilPrompt(enfant) }],
-          age, unite, profile, allergies,
+          age, unite, lang, profile, allergies,
         }),
       });
       if (!res.ok) { document.getElementById('conseil-du-jour').style.display = 'none'; return; }
@@ -2762,7 +2762,7 @@
 
     try {
       const payload={
-        messages:conversation, age, unite,
+        messages:conversation, age, unite, lang,
         profile:  construireProfilePrompt(),
         allergies:getAllergiesEnfant(),
       };
