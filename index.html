@@ -2748,8 +2748,9 @@
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify(payload),
       });
-      const data=await res.json();
+
       if (!res.ok) {
+        const data=await res.json();
         bulleTyping.remove();
         const errMsg = data.error === 'overloaded_error'
           ? (T[lang]?.errOverloaded || 'Lovéa est très sollicitée en ce moment 🌿 Réessaie dans quelques secondes.')
@@ -2761,14 +2762,57 @@
         document.getElementById('btn-envoyer').disabled=false;
         return;
       }
-      const reponse=data.answer??'...';
-      conversation.push({role:'assistant',content:reponse});
-      incrementDailyMessageCount();
-      bulleTyping.remove();
-      if(detectsEmergency(texte)) afficherBandeauUrgence();
-      ajouterBulle('assistant',reponse);
-      document.getElementById('conv-titre').textContent=titreDepuisMessages(conversation);
-      sauvegarderConvCourante();
+
+      // Streaming SSE
+      const contenuEl = bulleTyping.querySelector('.bulle-contenu');
+      bulleTyping.classList.remove('typing');
+      let assistantText = '';
+      let streamErr = null;
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+        for (const line of lines) {
+          if (!line.startsWith('data: ')) continue;
+          const raw = line.slice(6);
+          if (raw === '[DONE]') break;
+          try {
+            const parsed = JSON.parse(raw);
+            if (parsed.error) { streamErr = parsed.error; break; }
+            if (parsed.text) {
+              assistantText += parsed.text;
+              contenuEl.innerHTML = marked.parse(assistantText);
+              if (isRTL(assistantText)) contenuEl.setAttribute('dir','rtl');
+              bulleTyping.scrollIntoView({behavior:'smooth',block:'end'});
+            }
+          } catch {}
+        }
+        if (streamErr) break;
+      }
+
+      if (streamErr) {
+        bulleTyping.remove();
+        const errMsg = streamErr === 'overloaded_error'
+          ? (T[lang]?.errOverloaded || 'Lovéa est très sollicitée en ce moment 🌿 Réessaie dans quelques secondes.')
+          : streamErr === 'authentication_error'
+          ? (T[lang]?.errAuth      || 'Une erreur de configuration est survenue. Contacte le support.')
+          : (T[lang]?.errServer    || 'Une erreur est survenue. Réessaie dans un moment.');
+        ajouterBulle('assistant', errMsg);
+      } else {
+        const reponse = assistantText || '...';
+        conversation.push({role:'assistant',content:reponse});
+        incrementDailyMessageCount();
+        if(detectsEmergency(texte)) afficherBandeauUrgence();
+        document.getElementById('conv-titre').textContent=titreDepuisMessages(conversation);
+        sauvegarderConvCourante();
+      }
     } catch(e){
       bulleTyping.remove();
       ajouterBulle('assistant',t('errServer'));

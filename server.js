@@ -61,19 +61,34 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
   ].filter(Boolean).join('\n\n');
 
   try {
-    const message = await client.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 350,
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    const stream = client.messages.stream({
+      model: 'claude-haiku-4-5',
+      max_tokens: 1024,
       system,
       messages,
     });
 
-    const text = message.content.find(b => b.type === 'text')?.text ?? '';
-    res.json({ answer: text });
+    for await (const chunk of stream) {
+      if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+        res.write(`data: ${JSON.stringify({ text: chunk.delta.text })}\n\n`);
+      }
+    }
+    res.write('data: [DONE]\n\n');
+    res.end();
   } catch (err) {
     console.error(err);
     const type = err?.error?.type || err?.type || 'unknown';
-    res.status(500).json({ error: type });
+    if (!res.headersSent) {
+      res.status(500).json({ error: type });
+    } else {
+      res.write(`data: ${JSON.stringify({ error: type })}\n\n`);
+      res.write('data: [DONE]\n\n');
+      res.end();
+    }
   }
 });
 
