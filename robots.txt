@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://assistant-parents.onrender.com/sitemap.xml
