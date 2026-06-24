@@ -11,6 +11,11 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'G-7BD1KCL850');
+    // Exclure le trafic interne
+    if (window.location.hostname === 'localhost' ||
+        document.cookie.includes('lovea_internal=true')) {
+      gtag('config', 'G-7BD1KCL850', { 'traffic_type': 'internal' });
+    }
   </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
