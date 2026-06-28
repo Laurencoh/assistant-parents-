@@ -98,6 +98,7 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
   }
 });
 
+app.get('/about', (req, res) => res.sendFile(path.join(__dirname, 'about.html')));
 app.get('/terms', (req, res) => res.sendFile(path.join(__dirname, 'terms.html')));
 app.get('/privacy', (req, res) => res.sendFile(path.join(__dirname, 'privacy.html')));
 app.get('/refunds', (req, res) => res.sendFile(path.join(__dirname, 'refunds.html')));

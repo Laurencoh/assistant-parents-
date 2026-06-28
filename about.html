@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>À propos — Lovéa, l'assistant parental IA</title>
+  <meta name="description" content="Découvrez qui est derrière Lovéa, comment ça marche et comment vos données sont protégées." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --terra:#8CBE86; --terra-dk:#5C8C5A; --terra-lt:#E8F4E6;
+      --forest:#2E3A2C; --cream:#F7F3EA; --text:#2E3A2C; --text-2:#586658;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); line-height: 1.75; }
+    .container { max-width: 680px; margin: 0 auto; padding: 48px 24px 80px; }
+    .back { display: inline-flex; align-items: center; gap: 6px; color: var(--terra); font-size: 0.88rem; font-weight: 600; text-decoration: none; margin-bottom: 36px; }
+    .back:hover { opacity: 0.8; }
+    h1 { font-family: 'Playfair Display', serif; font-size: 2.1rem; color: var(--forest); margin-bottom: 40px; }
+    .section { margin-bottom: 40px; }
+    .section-label {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.09em;
+      text-transform: uppercase; color: var(--terra-dk);
+      background: var(--terra-lt); padding: 4px 12px; border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    h2 { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--forest); margin-bottom: 10px; }
+    p { font-size: 0.95rem; color: var(--text-2); }
+    .warning-box {
+      background: #FFF8F0; border: 1.5px solid #F0C080;
+      border-radius: 12px; padding: 18px 20px;
+    }
+    .warning-box p { color: #7A5010; }
+    .data-box {
+      background: var(--terra-lt); border: 1.5px solid rgba(92,140,90,0.25);
+      border-radius: 12px; padding: 18px 20px;
+    }
+    .data-box p { color: var(--forest); }
+    hr { border: none; border-top: 1px solid #E0D8C8; margin: 48px 0 32px; }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.8rem; color: #98A896; text-decoration: none; }
+    .footer-links a:hover { color: var(--terra-dk); }
+    .footer-copy { font-size: 0.8rem; color: #98A896; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="/">← Retour à Lovéa</a>
+    <h1>À propos de Lovéa</h1>
+
+    <div class="section">
+      <div class="section-label">🌱 Ce qu'est Lovéa</div>
+      <p>Lovéa est un assistant parental IA qui connaît votre enfant par cœur. Créez son profil une fois — âge, allergies, habitudes — et posez toutes vos questions de parent. Les réponses sont toujours adaptées à votre enfant, pas génériques.</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">✨ Ce que Lovéa fait pour vous</div>
+      <p>Idées de repas, gestion des crises, activités selon l'âge, conseils sommeil, histoires personnalisées... Lovéa vous accompagne dans les petits défis du quotidien, à toute heure.</p>
+    </div>
+
+    <div class="section warning-box">
+      <div class="section-label">⚠️ Les limites importantes</div>
+      <p>Lovéa ne remplace pas un médecin, un pédiatre ou un professionnel de santé. En cas de fièvre, symptômes inquiétants ou urgence, consultez toujours un professionnel.</p>
+    </div>
+
+    <div class="section" style="margin-top:40px">
+      <div class="section-label">👩‍💻 Qui est derrière Lovéa</div>
+      <p>Lovéa a été créé par Lauren, étudiante en informatique et passionnée par l'aide aux familles. Ce projet est né d'une conviction simple : les parents méritent un soutien accessible, bienveillant et intelligent.</p>
+    </div>
+
+    <div class="section data-box">
+      <div class="section-label">🔒 Vos données</div>
+      <p>Les informations que vous partagez sur votre enfant — son prénom, son âge, ses allergies — ne sont connues que de vous. Lovéa ne partage jamais ces données avec des tiers. Vous restez le seul parent, Lovéa est simplement là pour vous aider.</p>
+    </div>
+
+    <hr>
+    <div class="footer-links">
+      <a href="/">Accueil</a>
+      <a href="/pricing">Tarifs</a>
+      <a href="/terms">CGU</a>
+      <a href="/privacy">Confidentialité</a>
+      <a href="/refunds">Remboursements</a>
+    </div>
+    <p class="footer-copy">© 2026 Lovéa — Lauren Dahan, Israël</p>
+  </div>
+</body>
+</html>
