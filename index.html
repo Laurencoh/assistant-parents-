@@ -2929,7 +2929,7 @@
     microRecognition = new SpeechRecognition();
     microRecognition.continuous = false;
     microRecognition.interimResults = true;
-    microRecognition.lang = lang === 'fr' ? 'fr-FR' : lang === 'en' ? 'en-US' : lang === 'he' ? 'he-IL' : lang === 'ar' ? 'ar-SA' : lang === 'es' ? 'es-ES' : lang === 'de' ? 'de-DE' : lang === 'it' ? 'it-IT' : lang === 'pt' ? 'pt-PT' : lang === 'ru' ? 'ru-RU' : lang === 'zh' ? 'zh-CN' : lang === 'ja' ? 'ja-JP' : lang === 'ko' ? 'ko-KR' : lang === 'tr' ? 'tr-TR' : lang === 'nl' ? 'nl-NL' : lang === 'pl' ? 'pl-PL' : lang === 'ro' ? 'ro-RO' : 'fr-FR';
+    microRecognition.lang = navigator.language || 'fr-FR';
 
     const textarea = document.getElementById('question');
     const btnMicro = document.getElementById('btn-micro');
