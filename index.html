@@ -2917,31 +2917,31 @@
   let microActif = false;
 
   function toggleMicro() {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      alert('La reconnaissance vocale n\'est pas supportée par ce navigateur.');
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert('La reconnaissance vocale n\'est pas disponible sur ce navigateur. Essaie Chrome ou Safari.');
       return;
     }
     if (microActif) {
       microRecognition?.stop();
       return;
     }
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    microRecognition = new SpeechRecognition();
-    microRecognition.continuous = false;
-    microRecognition.interimResults = true;
-    microRecognition.lang = navigator.language || 'fr-FR';
 
     const textarea = document.getElementById('question');
     const btnMicro = document.getElementById('btn-micro');
-    const baseText = textarea.value;
+    const baseText = textarea.value.trimEnd();
 
-    microRecognition.onstart = () => {
-      microActif = true;
-      btnMicro.classList.add('recording');
-    };
+    microRecognition = new SpeechRecognition();
+    microRecognition.continuous = false;
+    microRecognition.interimResults = false;
+    microRecognition.lang = navigator.language || 'fr-FR';
+
+    microActif = true;
+    btnMicro.classList.add('recording');
+
     microRecognition.onresult = (e) => {
-      const transcript = Array.from(e.results).map(r => r[0].transcript).join('');
-      textarea.value = baseText + (baseText && !baseText.endsWith(' ') ? ' ' : '') + transcript;
+      const transcript = e.results[0][0].transcript;
+      textarea.value = baseText ? baseText + ' ' + transcript : transcript;
       autoResize(textarea);
     };
     microRecognition.onend = () => {
@@ -2949,12 +2949,25 @@
       btnMicro.classList.remove('recording');
       microRecognition = null;
     };
-    microRecognition.onerror = () => {
+    microRecognition.onerror = (e) => {
       microActif = false;
       btnMicro.classList.remove('recording');
       microRecognition = null;
+      if (e.error === 'not-allowed') {
+        alert('Accès au microphone refusé. Autorise le micro dans les réglages de ton navigateur.');
+      } else if (e.error !== 'no-speech' && e.error !== 'aborted') {
+        alert('Erreur microphone : ' + e.error);
+      }
     };
-    microRecognition.start();
+
+    try {
+      microRecognition.start();
+    } catch(err) {
+      microActif = false;
+      btnMicro.classList.remove('recording');
+      microRecognition = null;
+      alert('Impossible de démarrer le micro : ' + err.message);
+    }
   }
 
   selectedChildId = localStorage.getItem(SEL_KEY) || null;
