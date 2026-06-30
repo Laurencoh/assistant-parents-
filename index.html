@@ -26,6 +26,14 @@
   <link rel="canonical" href="https://lovea.app">
   <meta name="google-site-verification" content="MlfeGrcBN3DYx4GSofJjvksf6wKeYt7-bSczLEd3kkc" />
 
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#8CBE86">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Lovéa">
+  <link rel="apple-touch-icon" href="/icon-192.svg">
+
   <!-- Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7BD1KCL850"></script>
   <script>
@@ -2983,6 +2991,10 @@
   nouvelleConversation();
   chargerConseilDuJour();
   detectEmergencyByCountry();
+
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch(() => {});
+  }
   </script>
 </body>
 </html>

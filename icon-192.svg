@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">
+  <rect width="192" height="192" rx="40" fill="#8CBE86"/>
+  <!-- tige -->
+  <line x1="96" y1="58" x2="96" y2="78" stroke="#4E8A75" stroke-width="7" stroke-linecap="round"/>
+  <!-- feuille gauche -->
+  <ellipse cx="76" cy="50" rx="18" ry="8" fill="#4E8A75" transform="rotate(-38 76 50)"/>
+  <!-- feuille droite -->
+  <ellipse cx="116" cy="50" rx="18" ry="8" fill="#4E8A75" transform="rotate(38 116 50)"/>
+  <!-- corps -->
+  <ellipse cx="96" cy="108" rx="34" ry="38" fill="#7BAF9E"/>
+  <!-- yeux -->
+  <circle cx="84" cy="100" r="6" fill="#2C2A28"/>
+  <circle cx="108" cy="100" r="6" fill="#2C2A28"/>
+  <circle cx="86" cy="98" r="2" fill="white"/>
+  <circle cx="110" cy="98" r="2" fill="white"/>
+  <!-- sourire -->
+  <path d="M 84 116 Q 96 126 108 116" stroke="#2C2A28" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <!-- ombre -->
+  <ellipse cx="96" cy="148" rx="28" ry="8" fill="#5C8C5A" opacity="0.35"/>
+</svg>
