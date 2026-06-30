@@ -2932,7 +2932,7 @@
     const baseText = textarea.value.trimEnd();
 
     microRecognition = new SpeechRecognition();
-    microRecognition.continuous = true;
+    microRecognition.continuous = false;
     microRecognition.interimResults = false;
     microRecognition.lang = navigator.language || 'fr-FR';
 
@@ -2940,12 +2940,16 @@
     btnMicro.classList.add('recording');
 
     microRecognition.onresult = (e) => {
-      const transcript = Array.from(e.results).map(r => r[0].transcript).join(' ');
-      textarea.value = baseText ? baseText + ' ' + transcript : transcript;
+      const transcript = e.results[0][0].transcript;
+      const current = textarea.value.trimEnd();
+      textarea.value = current ? current + ' ' + transcript : transcript;
       autoResize(textarea);
     };
     microRecognition.onend = () => {
-      microActif = false;
+      if (microActif) {
+        try { microRecognition.start(); } catch {}
+        return;
+      }
       btnMicro.classList.remove('recording');
       microRecognition = null;
     };
