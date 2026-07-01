@@ -683,6 +683,57 @@
     .plans-header p  { font-size: 0.82rem; color: var(--text-2); margin-top: 6px; }
 
     /* ══ MODAL ENFANTS ════════════════════════════════════════ */
+    /* ══ ONBOARDING ═══════════════════════════════════════════ */
+    .onboarding-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(46,58,44,0.55); z-index: 60;
+      align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .onboarding-overlay.open { display: flex; }
+    .onboarding-panel {
+      background: var(--cream); border-radius: 24px;
+      width: 100%; max-width: 400px;
+      padding: 32px 28px 28px;
+      box-shadow: 0 12px 48px rgba(46,58,44,0.22);
+      animation: slideUp 0.25s ease;
+      text-align: center;
+    }
+    .onboarding-step { display: none; flex-direction: column; align-items: center; gap: 16px; }
+    .onboarding-step.active { display: flex; }
+    .onboarding-mascot { width: 88px; height: 88px; margin: 0 auto 4px; }
+    .onboarding-title {
+      font-family: 'Playfair Display', serif; font-size: 1.45rem;
+      color: var(--forest); line-height: 1.25; margin: 0;
+    }
+    .onboarding-text {
+      font-size: 0.92rem; color: var(--text-2); line-height: 1.65; margin: 0;
+    }
+    .onboarding-bullets {
+      font-size: 0.9rem; color: var(--text-2); line-height: 1.9;
+      text-align: left; margin: 0; list-style: none; padding: 0;
+    }
+    .onboarding-bullets li::before { content: ''; margin-right: 0; }
+    .onboarding-btn {
+      width: 100%; padding: 13px 20px;
+      background: var(--terra); color: var(--forest);
+      border: none; border-radius: 14px;
+      font-size: 1rem; font-family: inherit; font-weight: 700;
+      cursor: pointer; margin-top: 8px;
+      transition: filter 0.15s, transform 0.1s;
+    }
+    .onboarding-btn:hover { filter: brightness(0.95); }
+    .onboarding-btn:active { transform: scale(0.97); }
+    .onboarding-dots {
+      display: flex; gap: 7px; justify-content: center; margin-top: 12px;
+    }
+    .onboarding-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #C8CCBA; transition: background 0.2s, transform 0.2s;
+    }
+    .onboarding-dot.active { background: var(--terra); transform: scale(1.2); }
+
+    /* ══ MODALS ════════════════════════════════════════════════ */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
       background: rgba(0,0,0,0.4); z-index: 40;
@@ -972,6 +1023,70 @@
       <a href="/pricing" style="color:#98A896;text-decoration:none;margin:0 8px">Tarifs</a>
       <a href="/terms" style="color:#98A896;text-decoration:none;margin:0 8px">CGU</a>
       <a href="/privacy" style="color:#98A896;text-decoration:none;margin:0 8px">Confidentialité</a>
+    </div>
+  </div>
+
+  <!-- ONBOARDING -->
+  <div class="onboarding-overlay" id="onboarding-overlay">
+    <div class="onboarding-panel">
+
+      <!-- Étape 1 -->
+      <div class="onboarding-step active" id="ob-step-1">
+        <svg class="onboarding-mascot" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+          <rect width="192" height="192" rx="40" fill="#8CBE86"/>
+          <line x1="96" y1="58" x2="96" y2="78" stroke="#4E8A75" stroke-width="7" stroke-linecap="round"/>
+          <ellipse cx="76" cy="50" rx="18" ry="8" fill="#4E8A75" transform="rotate(-38 76 50)"/>
+          <ellipse cx="116" cy="50" rx="18" ry="8" fill="#4E8A75" transform="rotate(38 116 50)"/>
+          <ellipse cx="96" cy="108" rx="34" ry="38" fill="#7BAF9E"/>
+          <circle cx="84" cy="100" r="6" fill="#2C2A28"/>
+          <circle cx="108" cy="100" r="6" fill="#2C2A28"/>
+          <circle cx="86" cy="98" r="2" fill="white"/>
+          <circle cx="110" cy="98" r="2" fill="white"/>
+          <path d="M 84 116 Q 96 126 108 116" stroke="#2C2A28" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <ellipse cx="96" cy="148" rx="28" ry="8" fill="#5C8C5A" opacity="0.35"/>
+        </svg>
+        <h2 class="onboarding-title">Bienvenue sur Lovéa 🌱</h2>
+        <p class="onboarding-text">L'assistant parental qui connaît votre enfant par cœur.<br>Des conseils personnalisés, à chaque instant.</p>
+        <button class="onboarding-btn" onclick="obNext()">Suivant →</button>
+      </div>
+
+      <!-- Étape 2 -->
+      <div class="onboarding-step" id="ob-step-2">
+        <svg class="onboarding-mascot" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+          <rect width="192" height="192" rx="40" fill="#8CBE86"/>
+          <line x1="96" y1="58" x2="96" y2="78" stroke="#4E8A75" stroke-width="7" stroke-linecap="round"/>
+          <ellipse cx="76" cy="50" rx="18" ry="8" fill="#4E8A75" transform="rotate(-38 76 50)"/>
+          <ellipse cx="116" cy="50" rx="18" ry="8" fill="#4E8A75" transform="rotate(38 116 50)"/>
+          <ellipse cx="96" cy="108" rx="34" ry="38" fill="#7BAF9E"/>
+          <circle cx="84" cy="100" r="6" fill="#2C2A28"/>
+          <circle cx="108" cy="100" r="6" fill="#2C2A28"/>
+          <circle cx="86" cy="98" r="2" fill="white"/>
+          <circle cx="110" cy="98" r="2" fill="white"/>
+          <path d="M 84 116 Q 96 126 108 116" stroke="#2C2A28" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <ellipse cx="96" cy="148" rx="28" ry="8" fill="#5C8C5A" opacity="0.35"/>
+        </svg>
+        <h2 class="onboarding-title">Créez le profil de votre enfant</h2>
+        <p class="onboarding-text">Ajoutez son prénom, son âge et ses allergies.<br>Lovéa adaptera chaque réponse à votre enfant.</p>
+        <button class="onboarding-btn" onclick="obNext()">Suivant →</button>
+      </div>
+
+      <!-- Étape 3 -->
+      <div class="onboarding-step" id="ob-step-3">
+        <h2 class="onboarding-title">Posez votre première question !</h2>
+        <ul class="onboarding-bullets">
+          <li>• Mon enfant ne dort pas bien, que faire ?</li>
+          <li>• Idée de repas sans gluten pour 6 ans ?</li>
+          <li>• Comment gérer une crise de colère ?</li>
+        </ul>
+        <button class="onboarding-btn" onclick="obTerminer()">C'est parti ! 🚀</button>
+      </div>
+
+      <!-- Indicateur de progression -->
+      <div class="onboarding-dots">
+        <div class="onboarding-dot active" id="ob-dot-1"></div>
+        <div class="onboarding-dot" id="ob-dot-2"></div>
+        <div class="onboarding-dot" id="ob-dot-3"></div>
+      </div>
     </div>
   </div>
 
@@ -3012,6 +3127,36 @@
     }
   }
 
+  // ════════════════════════════════════════════════════════════
+  // ONBOARDING
+  // ════════════════════════════════════════════════════════════
+  const OB_KEY = 'lovea-onboarded';
+  let obStep = 1;
+
+  function obShow() {
+    document.getElementById('onboarding-overlay').classList.add('open');
+  }
+
+  function obGoTo(step) {
+    document.getElementById(`ob-step-${obStep}`).classList.remove('active');
+    document.getElementById(`ob-dot-${obStep}`).classList.remove('active');
+    obStep = step;
+    document.getElementById(`ob-step-${obStep}`).classList.add('active');
+    document.getElementById(`ob-dot-${obStep}`).classList.add('active');
+  }
+
+  function obNext() {
+    if (obStep < 3) obGoTo(obStep + 1);
+  }
+
+  function obTerminer() {
+    document.getElementById('onboarding-overlay').classList.remove('open');
+    localStorage.setItem(OB_KEY, '1');
+    // Focus sur "Ajouter mon enfant"
+    const btn = document.getElementById('btn-mobile-cta') || document.querySelector('.btn-enfants');
+    if (btn) btn.focus();
+  }
+
   selectedChildId = localStorage.getItem(SEL_KEY) || null;
   // Valider que l'enfant existe encore
   if (selectedChildId && !chargerEnfants().find(e=>e.id===selectedChildId)) selectedChildId=null;
@@ -3021,6 +3166,8 @@
   nouvelleConversation();
   chargerConseilDuJour();
   detectEmergencyByCountry();
+
+  if (!localStorage.getItem(OB_KEY)) obShow();
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
