@@ -48,20 +48,6 @@
     }
   </script>
 
-  <!-- Paddle -->
-  <script src="https://cdn.paddle.com/paddle/v2/paddle.js"></script>
-  <script>
-    Paddle.Environment.set("sandbox");
-    Paddle.Initialize({
-      token: "test_721e31a1d611bf78100604f3e60",
-      eventCallback: function(data) {
-        if (data.name === "checkout.completed" && window._loveaPendingPlan) {
-          localStorage.setItem("lovea_plan", window._loveaPendingPlan);
-          window._loveaPendingPlan = null;
-        }
-      }
-    });
-  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -2103,17 +2089,14 @@
     document.getElementById('modal-plans').classList.remove('open');
   }
 
-  const PADDLE_PRICES = {
-    famille: 'pri_01kvwerdzw8fqnh07dpqw9e6hm',
-    pro:     'pri_01kvwf8fkxanyfs6tbmwzjsev7',
+  const LS_CHECKOUT = {
+    famille: 'https://lovea.lemonsqueezy.com/buy/1858618',
+    pro:     'https://lovea.lemonsqueezy.com/buy/1858632',
   };
 
   function ouvrirCheckout(plan) {
     fermerModalPlans();
-    window._loveaPendingPlan = plan;
-    Paddle.Checkout.open({
-      items: [{ priceId: PADDLE_PRICES[plan], quantity: 1 }],
-    });
+    window.open(LS_CHECKOUT[plan], '_blank', 'noopener');
   }
 
   // ════════════════════════════════════════════════════════════
