@@ -433,7 +433,15 @@
     /* ══ ZONE SAISIE ══════════════════════════════════════════ */
     .zone-saisie { background: #F7F3EA; border-top: 1px solid var(--sand); padding: 9px 14px 13px; flex-shrink: 0; }
 
-    .raccourcis { display: flex; gap: 6px; margin-bottom: 8px; overflow-x: auto; scrollbar-width: none; }
+    .raccourcis-wrap { position: relative; margin-bottom: 8px; }
+    .raccourcis-wrap::after {
+      content: '';
+      position: absolute; right: 0; top: 0; bottom: 0;
+      width: 32px;
+      background: linear-gradient(to right, transparent, var(--cream));
+      pointer-events: none;
+    }
+    .raccourcis { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-right: 28px; }
     .raccourcis::-webkit-scrollbar { display: none; }
 
     .raccourci {
@@ -443,6 +451,9 @@
       cursor: pointer; white-space: nowrap; flex-shrink: 0;
       transition: background 0.15s, border-color 0.15s, color 0.15s, transform 0.1s;
       box-shadow: 0 1px 4px rgba(44,42,40,0.06);
+    }
+    @media (max-width: 420px) {
+      .raccourci { font-size: 0.72rem; padding: 5px 9px; gap: 4px; }
     }
     .raccourci:active { transform: scale(0.94); }
     .raccourci[onclick*="crise"]   { background: var(--cb-crise);   border-color: #E09090; color: #904040; }
@@ -937,13 +948,15 @@
     <div class="fil" id="fil"></div>
 
     <div class="zone-saisie">
-      <div class="raccourcis">
-        <button class="raccourci" onclick="raccourci('crise')"   data-i18n="rc_crise"></button>
-        <button class="raccourci" onclick="raccourci('repas')"   data-i18n="rc_repas"></button>
-        <button class="raccourci" onclick="raccourci('sommeil')" data-i18n="rc_sommeil"></button>
-        <button class="raccourci" onclick="raccourci('conseil')" data-i18n="rc_conseil"></button>
-        <button class="raccourci" onclick="raccourci('film')"    data-i18n="rc_film"></button>
-        <button class="raccourci" onclick="raccourci('histoire')" data-i18n="rc_histoire"></button>
+      <div class="raccourcis-wrap">
+        <div class="raccourcis">
+          <button class="raccourci" onclick="raccourci('crise')"   data-i18n="rc_crise"></button>
+          <button class="raccourci" onclick="raccourci('repas')"   data-i18n="rc_repas"></button>
+          <button class="raccourci" onclick="raccourci('sommeil')" data-i18n="rc_sommeil"></button>
+          <button class="raccourci" onclick="raccourci('conseil')" data-i18n="rc_conseil"></button>
+          <button class="raccourci" onclick="raccourci('film')"    data-i18n="rc_film"></button>
+          <button class="raccourci" onclick="raccourci('histoire')" data-i18n="rc_histoire"></button>
+        </div>
       </div>
       <div class="saisie-row">
         <textarea id="question" rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
