@@ -1,4 +1,4 @@
-const CACHE = 'lovea-v1';
+const CACHE = 'lovea-v2';
 const STATIC = ['/', '/manifest.json', '/icon-192.svg', '/icon-512.svg'];
 
 self.addEventListener('install', e => {
