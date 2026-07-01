@@ -24,45 +24,465 @@
 </head>
 <body>
   <div class="container">
-    <a class="back" href="/">← Retour à Lovéa</a>
-    <h1>Conditions générales d'utilisation</h1>
-    <p class="date">Dernière mise à jour : 24 juin 2026</p>
+    <a class="back" href="/" id="back"></a>
+    <h1 id="h1"></h1>
+    <p class="date" id="date_line"></p>
 
-    <h2>1. Présentation du service</h2>
-    <p>Lovéa est un assistant parental alimenté par l'intelligence artificielle, édité par Lauren. Le service est accessible à l'adresse <a href="https://lovea.app">lovea.app</a>.</p>
-    <p>Lovéa aide les parents à obtenir des conseils pratiques sur l'alimentation, le sommeil, le développement de l'enfant et d'autres sujets liés à la parentalité.</p>
+    <h2 id="s1_h"></h2>
+    <p id="s1_p1"></p>
+    <p id="s1_p2"></p>
 
-    <h2>2. Acceptation des conditions</h2>
-    <p>En utilisant Lovéa, vous acceptez les présentes conditions générales d'utilisation. Si vous n'acceptez pas ces conditions, veuillez ne pas utiliser le service.</p>
+    <h2 id="s2_h"></h2>
+    <p id="s2_p"></p>
 
-    <h2>3. Utilisation du service</h2>
-    <p>Lovéa est destiné à un usage personnel et non commercial. Vous vous engagez à :</p>
-    <ul>
-      <li>Fournir des informations exactes sur votre enfant</li>
-      <li>Ne pas utiliser le service à des fins illicites</li>
-      <li>Ne pas tenter de contourner les limites du service</li>
-    </ul>
+    <h2 id="s3_h"></h2>
+    <p id="s3_p"></p>
+    <ul id="s3_ul"></ul>
 
-    <h2>4. Avertissement médical</h2>
-    <p><strong>Lovéa n'est pas un service médical.</strong> Les réponses fournies sont des informations générales à titre indicatif et ne remplacent en aucun cas l'avis d'un médecin, pédiatre ou professionnel de santé. En cas d'urgence médicale, appelez immédiatement les services d'urgence.</p>
+    <h2 id="s4_h"></h2>
+    <p id="s4_p"></p>
 
-    <h2>5. Plans et abonnements</h2>
-    <p>Lovéa propose un plan gratuit et des plans payants (Famille et Pro). Les abonnements sont mensuels et renouvelés automatiquement. Vous pouvez annuler à tout moment. Les tarifs sont affichés en euros toutes taxes comprises.</p>
+    <h2 id="s5_h"></h2>
+    <p id="s5_p"></p>
 
-    <h2>6. Propriété intellectuelle</h2>
-    <p>Le contenu de Lovéa (logo, design, textes) est la propriété exclusive de Lauren. Toute reproduction ou utilisation commerciale est interdite sans autorisation préalable.</p>
+    <h2 id="s6_h"></h2>
+    <p id="s6_p"></p>
 
-    <h2>7. Limitation de responsabilité</h2>
-    <p>Lovéa est fourni "tel quel". Lauren ne saurait être tenue responsable de décisions prises sur la base des conseils fournis par l'assistant.</p>
+    <h2 id="s7_h"></h2>
+    <p id="s7_p"></p>
 
-    <h2>8. Modification des conditions</h2>
-    <p>Ces conditions peuvent être modifiées à tout moment. Les utilisateurs seront informés des changements significatifs. La poursuite de l'utilisation du service vaut acceptation des nouvelles conditions.</p>
+    <h2 id="s8_h"></h2>
+    <p id="s8_p"></p>
 
-    <h2>9. Contact</h2>
-    <p>Pour toute question : <a href="mailto:contact@lovea.app">contact@lovea.app</a></p>
+    <h2 id="s9_h"></h2>
+    <p id="s9_p"></p>
 
     <hr>
     <p style="font-size:0.8rem;color:#98A896">© 2026 Lovéa — Lauren</p>
   </div>
+
+  <script>
+  const TERMS_T = {
+    fr: {
+      back:'← Retour à Lovéa', h1:'Conditions générales d\'utilisation',
+      date_line:'Dernière mise à jour : 24 juin 2026',
+      s1_h:'1. Présentation du service',
+      s1_p1:'Lovéa est un assistant parental alimenté par l\'intelligence artificielle, édité par Lauren. Le service est accessible à l\'adresse <a href="https://lovea.app">lovea.app</a>.',
+      s1_p2:'Lovéa aide les parents à obtenir des conseils pratiques sur l\'alimentation, le sommeil, le développement de l\'enfant et d\'autres sujets liés à la parentalité.',
+      s2_h:'2. Acceptation des conditions',
+      s2_p:'En utilisant Lovéa, vous acceptez les présentes conditions générales d\'utilisation. Si vous n\'acceptez pas ces conditions, veuillez ne pas utiliser le service.',
+      s3_h:'3. Utilisation du service',
+      s3_p:'Lovéa est destiné à un usage personnel et non commercial. Vous vous engagez à :',
+      s3_ul:['Fournir des informations exactes sur votre enfant','Ne pas utiliser le service à des fins illicites','Ne pas tenter de contourner les limites du service'],
+      s4_h:'4. Avertissement médical',
+      s4_p:'<strong>Lovéa n\'est pas un service médical.</strong> Les réponses fournies sont des informations générales à titre indicatif et ne remplacent en aucun cas l\'avis d\'un médecin, pédiatre ou professionnel de santé. En cas d\'urgence médicale, appelez immédiatement les services d\'urgence.',
+      s5_h:'5. Plans et abonnements',
+      s5_p:'Lovéa propose un plan gratuit et des plans payants (Famille et Pro). Les abonnements sont mensuels et renouvelés automatiquement. Vous pouvez annuler à tout moment. Les tarifs sont affichés en euros toutes taxes comprises.',
+      s6_h:'6. Propriété intellectuelle',
+      s6_p:'Le contenu de Lovéa (logo, design, textes) est la propriété exclusive de Lauren. Toute reproduction ou utilisation commerciale est interdite sans autorisation préalable.',
+      s7_h:'7. Limitation de responsabilité',
+      s7_p:'Lovéa est fourni "tel quel". Lauren ne saurait être tenue responsable de décisions prises sur la base des conseils fournis par l\'assistant.',
+      s8_h:'8. Modification des conditions',
+      s8_p:'Ces conditions peuvent être modifiées à tout moment. Les utilisateurs seront informés des changements significatifs. La poursuite de l\'utilisation du service vaut acceptation des nouvelles conditions.',
+      s9_h:'9. Contact',
+      s9_p:'Pour toute question : <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    en: {
+      back:'← Back to Lovéa', h1:'Terms of Service',
+      date_line:'Last updated: 24 June 2026',
+      s1_h:'1. Service description',
+      s1_p1:'Lovéa is an AI-powered parenting assistant published by Lauren. The service is available at <a href="https://lovea.app">lovea.app</a>.',
+      s1_p2:'Lovéa helps parents get practical advice on nutrition, sleep, child development, and other parenting topics.',
+      s2_h:'2. Acceptance of terms',
+      s2_p:'By using Lovéa, you agree to these terms of service. If you do not accept these terms, please do not use the service.',
+      s3_h:'3. Use of service',
+      s3_p:'Lovéa is intended for personal, non-commercial use. You agree to:',
+      s3_ul:['Provide accurate information about your child','Not use the service for illegal purposes','Not attempt to circumvent the service\'s limitations'],
+      s4_h:'4. Medical disclaimer',
+      s4_p:'<strong>Lovéa is not a medical service.</strong> The responses provided are general information for guidance only and do not replace the advice of a doctor, paediatrician, or healthcare professional. In the event of a medical emergency, call emergency services immediately.',
+      s5_h:'5. Plans and subscriptions',
+      s5_p:'Lovéa offers a free plan and paid plans (Family and Pro). Subscriptions are monthly and renew automatically. You can cancel at any time. Prices are displayed in euros inclusive of all taxes.',
+      s6_h:'6. Intellectual property',
+      s6_p:'Lovéa\'s content (logo, design, text) is the exclusive property of Lauren. Any reproduction or commercial use is prohibited without prior authorisation.',
+      s7_h:'7. Limitation of liability',
+      s7_p:'Lovéa is provided "as is". Lauren cannot be held responsible for decisions made on the basis of advice provided by the assistant.',
+      s8_h:'8. Changes to terms',
+      s8_p:'These terms may be modified at any time. Users will be informed of significant changes. Continued use of the service constitutes acceptance of the new terms.',
+      s9_h:'9. Contact',
+      s9_p:'For any questions: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    he: {
+      back:'← חזרה ל-Lovéa', h1:'תנאי שימוש',
+      date_line:'עדכון אחרון: 24 ביוני 2026',
+      s1_h:'1. תיאור השירות',
+      s1_p1:'Lovéa הוא עוזר הורים מבוסס בינה מלאכותית, שפותח על ידי לורן. השירות זמין בכתובת <a href="https://lovea.app">lovea.app</a>.',
+      s1_p2:'Lovéa עוזר להורים לקבל עצות מעשיות בנושאי תזונה, שינה, התפתחות הילד ונושאים אחרים הקשורים להורות.',
+      s2_h:'2. קבלת התנאים',
+      s2_p:'בשימוש ב-Lovéa אתם מסכימים לתנאי השימוש אלה. אם אינכם מסכימים לתנאים, אנא אל תשתמשו בשירות.',
+      s3_h:'3. שימוש בשירות',
+      s3_p:'.Lovéa מיועד לשימוש אישי ולא מסחרי. אתם מתחייבים ל',
+      s3_ul:['מסירת מידע מדויק על ילדכם','אי שימוש בשירות למטרות בלתי חוקיות','אי ניסיון לעקוף את מגבלות השירות'],
+      s4_h:'4. אזהרה רפואית',
+      s4_p:'<strong>Lovéa אינו שירות רפואי.</strong> התשובות הניתנות הן מידע כללי לצורכי הנחיה בלבד ואינן מחליפות את עצת רופא, רופא ילדים או איש מקצוע בתחום הבריאות. במקרה חירום רפואי, התקשרו מיידית לשירותי חירום.',
+      s5_h:'5. תוכניות ומנויים',
+      s5_p:'Lovéa מציע תוכנית חינמית ותוכניות בתשלום (משפחה ופרו). המנויים הם חודשיים ומתחדשים אוטומטית. ניתן לבטל בכל עת. המחירים מוצגים באירו כולל מסים.',
+      s6_h:'6. קניין רוחני',
+      s6_p:'תוכן Lovéa (לוגו, עיצוב, טקסטים) הוא רכושה הבלעדי של לורן. כל שכפול או שימוש מסחרי אסורים ללא אישור מוקדם.',
+      s7_h:'7. הגבלת אחריות',
+      s7_p:'Lovéa מסופק "כמות שהוא". לורן אינה אחראית להחלטות שהתקבלו על בסיס העצות שניתנו על ידי העוזר.',
+      s8_h:'8. שינוי תנאים',
+      s8_p:'תנאים אלה עשויים להשתנות בכל עת. המשתמשים יובהרו על שינויים משמעותיים. המשך השימוש בשירות מהווה קבלת התנאים החדשים.',
+      s9_h:'9. צרו קשר',
+      s9_p:'לכל שאלה: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    ar: {
+      back:'← العودة إلى Lovéa', h1:'شروط الاستخدام',
+      date_line:'آخر تحديث: 24 يونيو 2026',
+      s1_h:'1. وصف الخدمة',
+      s1_p1:'Lovéa هو مساعد أبوي يعمل بالذكاء الاصطناعي، طوّرته لورن. الخدمة متاحة على <a href="https://lovea.app">lovea.app</a>.',
+      s1_p2:'يساعد Lovéa الآباء على الحصول على نصائح عملية حول التغذية والنوم ونمو الطفل وموضوعات أخرى متعلقة بالأبوة.',
+      s2_h:'2. قبول الشروط',
+      s2_p:'باستخدام Lovéa، فإنك توافق على شروط الاستخدام هذه. إذا كنت لا توافق على هذه الشروط، يرجى عدم استخدام الخدمة.',
+      s3_h:'3. استخدام الخدمة',
+      s3_p:':Lovéa مخصص للاستخدام الشخصي وغير التجاري. تلتزم بـ',
+      s3_ul:['تقديم معلومات دقيقة عن طفلك','عدم استخدام الخدمة لأغراض غير مشروعة','عدم محاولة التحايل على قيود الخدمة'],
+      s4_h:'4. إخلاء المسؤولية الطبية',
+      s4_p:'<strong>Lovéa ليس خدمة طبية.</strong> الردود المقدَّمة هي معلومات عامة للإرشاد فقط ولا تحل محل رأي طبيب أو طبيب أطفال أو متخصص رعاية صحية. في حالات الطوارئ الطبية، اتصل فوراً بخدمات الطوارئ.',
+      s5_h:'5. الخطط والاشتراكات',
+      s5_p:'يقدّم Lovéa خطة مجانية وخططاً مدفوعة (عائلة وبرو). الاشتراكات شهرية وتتجدد تلقائياً. يمكنك الإلغاء في أي وقت. الأسعار معروضة باليورو شاملة الضرائب.',
+      s6_h:'6. الملكية الفكرية',
+      s6_p:'محتوى Lovéa (الشعار والتصميم والنصوص) هو ملك حصري للورن. يُحظر أي نسخ أو استخدام تجاري دون إذن مسبق.',
+      s7_h:'7. تحديد المسؤولية',
+      s7_p:'يُقدَّم Lovéa "كما هو". لا يمكن تحميل لورن المسؤولية عن القرارات المتخذة بناءً على النصائح المقدَّمة من المساعد.',
+      s8_h:'8. تعديل الشروط',
+      s8_p:'يمكن تعديل هذه الشروط في أي وقت. سيُبلَّغ المستخدمون بالتغييرات الجوهرية. مواصلة استخدام الخدمة تعني قبول الشروط الجديدة.',
+      s9_h:'9. التواصل',
+      s9_p:'لأي سؤال: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    es: {
+      back:'← Volver a Lovéa', h1:'Términos de uso',
+      date_line:'Última actualización: 24 de junio de 2026',
+      s1_h:'1. Descripción del servicio',
+      s1_p1:'Lovéa es un asistente parental impulsado por inteligencia artificial, desarrollado por Lauren. El servicio está disponible en <a href="https://lovea.app">lovea.app</a>.',
+      s1_p2:'Lovéa ayuda a los padres a obtener consejos prácticos sobre alimentación, sueño, desarrollo infantil y otros temas relacionados con la parentalidad.',
+      s2_h:'2. Aceptación de los términos',
+      s2_p:'Al usar Lovéa, aceptas estos términos de uso. Si no aceptas estos términos, por favor no uses el servicio.',
+      s3_h:'3. Uso del servicio',
+      s3_p:'Lovéa está destinado a uso personal y no comercial. Te comprometes a:',
+      s3_ul:['Proporcionar información exacta sobre tu hijo','No usar el servicio con fines ilícitos','No intentar eludir las limitaciones del servicio'],
+      s4_h:'4. Aviso médico',
+      s4_p:'<strong>Lovéa no es un servicio médico.</strong> Las respuestas proporcionadas son información general orientativa y no reemplazan en ningún caso el consejo de un médico, pediatra o profesional de la salud. En caso de emergencia médica, llama inmediatamente a los servicios de emergencia.',
+      s5_h:'5. Planes y suscripciones',
+      s5_p:'Lovéa ofrece un plan gratuito y planes de pago (Familia y Pro). Las suscripciones son mensuales y se renuevan automáticamente. Puedes cancelar en cualquier momento. Los precios se muestran en euros con impuestos incluidos.',
+      s6_h:'6. Propiedad intelectual',
+      s6_p:'El contenido de Lovéa (logotipo, diseño, textos) es propiedad exclusiva de Lauren. Cualquier reproducción o uso comercial está prohibido sin autorización previa.',
+      s7_h:'7. Limitación de responsabilidad',
+      s7_p:'Lovéa se proporciona "tal cual". Lauren no puede ser considerada responsable de las decisiones tomadas sobre la base de los consejos proporcionados por el asistente.',
+      s8_h:'8. Modificación de los términos',
+      s8_p:'Estos términos pueden modificarse en cualquier momento. Los usuarios serán informados de los cambios significativos. Continuar usando el servicio implica la aceptación de los nuevos términos.',
+      s9_h:'9. Contacto',
+      s9_p:'Para cualquier pregunta: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    de: {
+      back:'← Zurück zu Lovéa', h1:'Nutzungsbedingungen',
+      date_line:'Zuletzt aktualisiert: 24. Juni 2026',
+      s1_h:'1. Beschreibung des Dienstes',
+      s1_p1:'Lovéa ist ein KI-gestützter Elternassistent, entwickelt von Lauren. Der Dienst ist unter <a href="https://lovea.app">lovea.app</a> erreichbar.',
+      s1_p2:'Lovéa hilft Eltern, praktische Ratschläge zu Ernährung, Schlaf, Kindesentwicklung und anderen Erziehungsthemen zu erhalten.',
+      s2_h:'2. Annahme der Bedingungen',
+      s2_p:'Durch die Nutzung von Lovéa stimmst du diesen Nutzungsbedingungen zu. Wenn du diese Bedingungen nicht akzeptierst, nutze den Dienst bitte nicht.',
+      s3_h:'3. Nutzung des Dienstes',
+      s3_p:'Lovéa ist für den persönlichen, nicht kommerziellen Gebrauch bestimmt. Du verpflichtest dich:',
+      s3_ul:['Genaue Angaben zu deinem Kind zu machen','Den Dienst nicht für rechtswidrige Zwecke zu nutzen','Nicht zu versuchen, die Einschränkungen des Dienstes zu umgehen'],
+      s4_h:'4. Medizinischer Hinweis',
+      s4_p:'<strong>Lovéa ist kein medizinischer Dienst.</strong> Die bereitgestellten Antworten sind allgemeine Informationen zur Orientierung und ersetzen in keinem Fall den Rat eines Arztes, Kinderarztes oder medizinischen Fachmanns. Im medizinischen Notfall rufe sofort den Notruf.',
+      s5_h:'5. Pläne und Abonnements',
+      s5_p:'Lovéa bietet einen kostenlosen Plan sowie kostenpflichtige Pläne (Familie und Pro). Abonnements sind monatlich und verlängern sich automatisch. Du kannst jederzeit kündigen. Die Preise sind in Euro inklusive aller Steuern angegeben.',
+      s6_h:'6. Geistiges Eigentum',
+      s6_p:'Der Inhalt von Lovéa (Logo, Design, Texte) ist ausschließliches Eigentum von Lauren. Jede Vervielfältigung oder kommerzielle Nutzung ist ohne vorherige Genehmigung untersagt.',
+      s7_h:'7. Haftungsbeschränkung',
+      s7_p:'Lovéa wird „wie besehen" bereitgestellt. Lauren kann nicht für Entscheidungen verantwortlich gemacht werden, die auf Grundlage der vom Assistenten gegebenen Ratschläge getroffen wurden.',
+      s8_h:'8. Änderung der Bedingungen',
+      s8_p:'Diese Bedingungen können jederzeit geändert werden. Nutzer werden über wesentliche Änderungen informiert. Die weitere Nutzung des Dienstes gilt als Zustimmung zu den neuen Bedingungen.',
+      s9_h:'9. Kontakt',
+      s9_p:'Für alle Fragen: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    it: {
+      back:'← Torna a Lovéa', h1:'Condizioni di utilizzo',
+      date_line:'Ultimo aggiornamento: 24 giugno 2026',
+      s1_h:'1. Descrizione del servizio',
+      s1_p1:'Lovéa è un assistente genitoriale basato sull\'intelligenza artificiale, sviluppato da Lauren. Il servizio è disponibile su <a href="https://lovea.app">lovea.app</a>.',
+      s1_p2:'Lovéa aiuta i genitori a ricevere consigli pratici su alimentazione, sonno, sviluppo del bambino e altri argomenti legati alla genitorialità.',
+      s2_h:'2. Accettazione delle condizioni',
+      s2_p:'Utilizzando Lovéa, accetti le presenti condizioni di utilizzo. Se non accetti queste condizioni, ti preghiamo di non utilizzare il servizio.',
+      s3_h:'3. Utilizzo del servizio',
+      s3_p:'Lovéa è destinato a uso personale e non commerciale. Ti impegni a:',
+      s3_ul:['Fornire informazioni accurate su tuo figlio','Non utilizzare il servizio per scopi illeciti','Non tentare di aggirare i limiti del servizio'],
+      s4_h:'4. Avviso medico',
+      s4_p:'<strong>Lovéa non è un servizio medico.</strong> Le risposte fornite sono informazioni generali a titolo orientativo e non sostituiscono in nessun caso il parere di un medico, pediatra o professionista sanitario. In caso di emergenza medica, chiama immediatamente i servizi di emergenza.',
+      s5_h:'5. Piani e abbonamenti',
+      s5_p:'Lovéa offre un piano gratuito e piani a pagamento (Famiglia e Pro). Gli abbonamenti sono mensili e si rinnovano automaticamente. Puoi annullare in qualsiasi momento. I prezzi sono indicati in euro con tutte le tasse incluse.',
+      s6_h:'6. Proprietà intellettuale',
+      s6_p:'Il contenuto di Lovéa (logo, design, testi) è di proprietà esclusiva di Lauren. Qualsiasi riproduzione o uso commerciale è vietato senza autorizzazione preventiva.',
+      s7_h:'7. Limitazione di responsabilità',
+      s7_p:'Lovéa è fornito "così com\'è". Lauren non può essere ritenuta responsabile per decisioni prese sulla base dei consigli forniti dall\'assistente.',
+      s8_h:'8. Modifica delle condizioni',
+      s8_p:'Queste condizioni possono essere modificate in qualsiasi momento. Gli utenti saranno informati delle modifiche significative. Il proseguimento dell\'utilizzo del servizio equivale all\'accettazione delle nuove condizioni.',
+      s9_h:'9. Contatto',
+      s9_p:'Per qualsiasi domanda: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    pt: {
+      back:'← Voltar ao Lovéa', h1:'Termos de utilização',
+      date_line:'Última atualização: 24 de junho de 2026',
+      s1_h:'1. Descrição do serviço',
+      s1_p1:'O Lovéa é um assistente parental alimentado por inteligência artificial, desenvolvido por Lauren. O serviço está disponível em <a href="https://lovea.app">lovea.app</a>.',
+      s1_p2:'O Lovéa ajuda os pais a obter conselhos práticos sobre alimentação, sono, desenvolvimento da criança e outros temas relacionados com a parentalidade.',
+      s2_h:'2. Aceitação dos termos',
+      s2_p:'Ao utilizar o Lovéa, aceitas estes termos de utilização. Se não aceitares estes termos, por favor não utilizes o serviço.',
+      s3_h:'3. Utilização do serviço',
+      s3_p:'O Lovéa destina-se a uso pessoal e não comercial. Comprometes-te a:',
+      s3_ul:['Fornecer informações precisas sobre o teu filho','Não utilizar o serviço para fins ilícitos','Não tentar contornar as limitações do serviço'],
+      s4_h:'4. Aviso médico',
+      s4_p:'<strong>O Lovéa não é um serviço médico.</strong> As respostas fornecidas são informações gerais a título indicativo e não substituem em caso algum o conselho de um médico, pediatra ou profissional de saúde. Em caso de emergência médica, liga imediatamente para os serviços de emergência.',
+      s5_h:'5. Planos e subscrições',
+      s5_p:'O Lovéa oferece um plano gratuito e planos pagos (Família e Pro). As subscrições são mensais e renovam-se automaticamente. Podes cancelar a qualquer momento. Os preços são apresentados em euros com todos os impostos incluídos.',
+      s6_h:'6. Propriedade intelectual',
+      s6_p:'O conteúdo do Lovéa (logótipo, design, textos) é propriedade exclusiva de Lauren. Qualquer reprodução ou utilização comercial é proibida sem autorização prévia.',
+      s7_h:'7. Limitação de responsabilidade',
+      s7_p:'O Lovéa é fornecido "tal como está". Lauren não pode ser responsabilizada por decisões tomadas com base nos conselhos fornecidos pelo assistente.',
+      s8_h:'8. Alteração dos termos',
+      s8_p:'Estes termos podem ser alterados a qualquer momento. Os utilizadores serão informados sobre alterações significativas. A continuação da utilização do serviço implica a aceitação dos novos termos.',
+      s9_h:'9. Contacto',
+      s9_p:'Para qualquer questão: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    ru: {
+      back:'← Вернуться к Lovéa', h1:'Условия использования',
+      date_line:'Последнее обновление: 24 июня 2026',
+      s1_h:'1. Описание сервиса',
+      s1_p1:'Lovéa — это ИИ-помощник для родителей, разработанный Лорен. Сервис доступен по адресу <a href="https://lovea.app">lovea.app</a>.',
+      s1_p2:'Lovéa помогает родителям получать практические советы по питанию, сну, развитию ребёнка и другим темам воспитания.',
+      s2_h:'2. Принятие условий',
+      s2_p:'Используя Lovéa, вы принимаете настоящие условия использования. Если вы не согласны с этими условиями, пожалуйста, не пользуйтесь сервисом.',
+      s3_h:'3. Использование сервиса',
+      s3_p:'Lovéa предназначен для личного некоммерческого использования. Вы обязуетесь:',
+      s3_ul:['Предоставлять точные сведения о вашем ребёнке','Не использовать сервис в незаконных целях','Не пытаться обходить ограничения сервиса'],
+      s4_h:'4. Медицинское предупреждение',
+      s4_p:'<strong>Lovéa не является медицинской службой.</strong> Предоставляемые ответы — это общая информация в ориентировочных целях, которая ни в коем случае не заменяет мнение врача, педиатра или медицинского специалиста. В случае медицинской экстренной ситуации немедленно звоните в экстренные службы.',
+      s5_h:'5. Планы и подписки',
+      s5_p:'Lovéa предлагает бесплатный план и платные планы (Семья и Про). Подписки ежемесячные и продлеваются автоматически. Вы можете отменить в любое время. Цены указаны в евро с учётом всех налогов.',
+      s6_h:'6. Интеллектуальная собственность',
+      s6_p:'Контент Lovéa (логотип, дизайн, тексты) является исключительной собственностью Лорен. Любое воспроизведение или коммерческое использование без предварительного разрешения запрещено.',
+      s7_h:'7. Ограничение ответственности',
+      s7_p:'Lovéa предоставляется «как есть». Лорен не несёт ответственности за решения, принятые на основе советов ассистента.',
+      s8_h:'8. Изменение условий',
+      s8_p:'Эти условия могут быть изменены в любое время. Пользователи будут уведомлены о существенных изменениях. Продолжение использования сервиса означает принятие новых условий.',
+      s9_h:'9. Контакт',
+      s9_p:'По любым вопросам: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    zh: {
+      back:'← 返回 Lovéa', h1:'使用条款',
+      date_line:'最后更新：2026年6月24日',
+      s1_h:'1. 服务说明',
+      s1_p1:'Lovéa 是由 Lauren 开发的 AI 育儿助手。服务网址为 <a href="https://lovea.app">lovea.app</a>。',
+      s1_p2:'Lovéa 帮助家长获取有关饮食、睡眠、儿童发育及其他育儿主题的实用建议。',
+      s2_h:'2. 接受条款',
+      s2_p:'使用 Lovéa 即表示您同意这些使用条款。如果您不接受这些条款，请勿使用本服务。',
+      s3_h:'3. 服务使用',
+      s3_p:'Lovéa 仅供个人非商业使用。您同意：',
+      s3_ul:['提供关于您孩子的准确信息','不将服务用于非法目的','不试图绕过服务限制'],
+      s4_h:'4. 医疗免责声明',
+      s4_p:'<strong>Lovéa 不是医疗服务。</strong>所提供的回复仅为一般参考信息，绝不替代医生、儿科医生或医疗专业人员的建议。如遇医疗紧急情况，请立即拨打急救电话。',
+      s5_h:'5. 方案与订阅',
+      s5_p:'Lovéa 提供免费方案和付费方案（家庭版和专业版）。订阅按月计费，自动续费。您可以随时取消。价格以欧元含税显示。',
+      s6_h:'6. 知识产权',
+      s6_p:'Lovéa 的内容（标志、设计、文本）是 Lauren 的专有财产。未经事先授权，禁止任何复制或商业使用。',
+      s7_h:'7. 责任限制',
+      s7_p:'Lovéa 按"现状"提供。Lauren 不对基于助手建议所做决定承担责任。',
+      s8_h:'8. 条款变更',
+      s8_p:'这些条款可随时修改。将就重大变更通知用户。继续使用服务即视为接受新条款。',
+      s9_h:'9. 联系',
+      s9_p:'如有任何问题：<a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    ja: {
+      back:'← Lovéa に戻る', h1:'利用規約',
+      date_line:'最終更新日：2026年6月24日',
+      s1_h:'1. サービスの説明',
+      s1_p1:'Lovéa は Lauren が開発した AI 育児アシスタントです。サービスは <a href="https://lovea.app">lovea.app</a> でご利用いただけます。',
+      s1_p2:'Lovéa は、食事、睡眠、子どもの発達、その他の子育てに関するトピックについて実践的なアドバイスを得るお手伝いをします。',
+      s2_h:'2. 規約への同意',
+      s2_p:'Lovéa を利用することにより、この利用規約に同意したものとみなされます。これらの規約に同意しない場合は、サービスをご利用にならないでください。',
+      s3_h:'3. サービスの利用',
+      s3_p:'Lovéa は個人的・非商業的利用を目的としています。以下に同意するものとします：',
+      s3_ul:['お子さまについて正確な情報を提供すること','違法な目的でサービスを利用しないこと','サービスの制限を回避しようとしないこと'],
+      s4_h:'4. 医療に関する免責事項',
+      s4_p:'<strong>Lovéa は医療サービスではありません。</strong>提供される回答は一般的な参考情報であり、いかなる場合も医師、小児科医、医療専門家の意見に代わるものではありません。医療上の緊急事態が発生した場合は、直ちに緊急サービスに連絡してください。',
+      s5_h:'5. プランとサブスクリプション',
+      s5_p:'Lovéa は無料プランと有料プラン（ファミリー・プロ）を提供しています。サブスクリプションは月次で自動更新されます。いつでもキャンセルできます。価格はすべての税込みのユーロ建てで表示されます。',
+      s6_h:'6. 知的財産',
+      s6_p:'Lovéa のコンテンツ（ロゴ、デザイン、テキスト）は Lauren の独占的財産です。事前の許可なしに、複製または商業的利用は禁止されています。',
+      s7_h:'7. 責任の制限',
+      s7_p:'Lovéa は「現状のまま」提供されます。Lauren は、アシスタントが提供するアドバイスに基づいて行われた決定について責任を負いません。',
+      s8_h:'8. 規約の変更',
+      s8_p:'この規約はいつでも変更される場合があります。重要な変更についてはユーザーに通知されます。サービスの継続利用は新しい規約への同意とみなされます。',
+      s9_h:'9. お問い合わせ',
+      s9_p:'ご質問は：<a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    ko: {
+      back:'← Lovéa로 돌아가기', h1:'이용약관',
+      date_line:'최종 업데이트: 2026년 6월 24일',
+      s1_h:'1. 서비스 설명',
+      s1_p1:'Lovéa는 Lauren이 개발한 AI 육아 어시스턴트입니다. 서비스는 <a href="https://lovea.app">lovea.app</a>에서 이용할 수 있습니다.',
+      s1_p2:'Lovéa는 부모가 식사, 수면, 아동 발달 및 기타 육아 주제에 대한 실용적인 조언을 얻을 수 있도록 돕습니다.',
+      s2_h:'2. 약관 동의',
+      s2_p:'Lovéa를 사용함으로써 이 이용약관에 동의하는 것으로 간주됩니다. 이 약관에 동의하지 않으시면 서비스를 사용하지 마십시오.',
+      s3_h:'3. 서비스 이용',
+      s3_p:'Lovéa는 개인적, 비상업적 용도로만 사용할 수 있습니다. 다음 사항에 동의합니다:',
+      s3_ul:['자녀에 대한 정확한 정보 제공','서비스를 불법적 목적으로 사용하지 않을 것','서비스 제한을 우회하려 하지 않을 것'],
+      s4_h:'4. 의료 면책 조항',
+      s4_p:'<strong>Lovéa는 의료 서비스가 아닙니다.</strong> 제공되는 답변은 일반적인 참고 정보이며 어떠한 경우에도 의사, 소아과 의사 또는 의료 전문가의 조언을 대체하지 않습니다. 의료 응급 상황에서는 즉시 응급 서비스에 연락하십시오.',
+      s5_h:'5. 요금제 및 구독',
+      s5_p:'Lovéa는 무료 요금제와 유료 요금제(패밀리, 프로)를 제공합니다. 구독은 월별로 자동 갱신됩니다. 언제든지 취소할 수 있습니다. 가격은 모든 세금을 포함한 유로로 표시됩니다.',
+      s6_h:'6. 지식재산권',
+      s6_p:'Lovéa의 콘텐츠(로고, 디자인, 텍스트)는 Lauren의 독점 재산입니다. 사전 허가 없이 복제 또는 상업적 사용은 금지됩니다.',
+      s7_h:'7. 책임 제한',
+      s7_p:'Lovéa는 "있는 그대로" 제공됩니다. Lauren은 어시스턴트가 제공한 조언을 기반으로 한 결정에 대해 책임을 지지 않습니다.',
+      s8_h:'8. 약관 변경',
+      s8_p:'이 약관은 언제든지 변경될 수 있습니다. 중요한 변경 사항은 사용자에게 알립니다. 서비스를 계속 사용하면 새 약관에 동의한 것으로 간주됩니다.',
+      s9_h:'9. 연락처',
+      s9_p:'문의 사항: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    tr: {
+      back:'← Lovéa\'ya Dön', h1:'Kullanım Şartları',
+      date_line:'Son güncelleme: 24 Haziran 2026',
+      s1_h:'1. Hizmet açıklaması',
+      s1_p1:'Lovéa, Lauren tarafından geliştirilen yapay zeka destekli bir ebeveynlik asistanıdır. Hizmet <a href="https://lovea.app">lovea.app</a> adresinde mevcuttur.',
+      s1_p2:'Lovéa, ebeveynlerin beslenme, uyku, çocuk gelişimi ve diğer ebeveynlikle ilgili konularda pratik tavsiye almasına yardımcı olur.',
+      s2_h:'2. Şartları kabul etme',
+      s2_p:'Lovéa\'yı kullanarak bu kullanım şartlarını kabul etmiş sayılırsınız. Bu şartları kabul etmiyorsanız lütfen hizmeti kullanmayın.',
+      s3_h:'3. Hizmetin kullanımı',
+      s3_p:'Lovéa kişisel ve ticari olmayan kullanım içindir. Şunları yapmayı kabul edersiniz:',
+      s3_ul:['Çocuğunuz hakkında doğru bilgi vermek','Hizmeti yasadışı amaçlar için kullanmamak','Hizmetin sınırlamalarını aşmaya çalışmamak'],
+      s4_h:'4. Tıbbi uyarı',
+      s4_p:'<strong>Lovéa bir tıbbi hizmet değildir.</strong> Verilen yanıtlar yalnızca genel bilgi niteliğinde olup hiçbir koşulda bir doktor, çocuk hekimi veya sağlık uzmanının görüşünün yerini tutmaz. Tıbbi acil durumlarda derhal acil servisleri arayın.',
+      s5_h:'5. Planlar ve abonelikler',
+      s5_p:'Lovéa ücretsiz bir plan ve ücretli planlar (Aile ve Pro) sunar. Abonelikler aylık olup otomatik olarak yenilenir. İstediğiniz zaman iptal edebilirsiniz. Fiyatlar tüm vergiler dahil Euro cinsinden gösterilir.',
+      s6_h:'6. Fikri mülkiyet',
+      s6_p:'Lovéa\'nın içeriği (logo, tasarım, metinler) Lauren\'ın münhasır mülkiyetindedir. Önceden izin alınmadan herhangi bir çoğaltma veya ticari kullanım yasaktır.',
+      s7_h:'7. Sorumluluk sınırlaması',
+      s7_p:'Lovéa "olduğu gibi" sağlanmaktadır. Lauren, asistan tarafından verilen tavsiyelere dayanılarak alınan kararlardan sorumlu tutulamaz.',
+      s8_h:'8. Şartların değiştirilmesi',
+      s8_p:'Bu şartlar herhangi bir zamanda değiştirilebilir. Kullanıcılar önemli değişiklikler hakkında bilgilendirilecektir. Hizmeti kullanmaya devam etmek yeni şartların kabul edildiği anlamına gelir.',
+      s9_h:'9. İletişim',
+      s9_p:'Tüm sorularınız için: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    nl: {
+      back:'← Terug naar Lovéa', h1:'Gebruiksvoorwaarden',
+      date_line:'Laatste update: 24 juni 2026',
+      s1_h:'1. Beschrijving van de dienst',
+      s1_p1:'Lovéa is een AI-gestuurde ouderassistent, ontwikkeld door Lauren. De dienst is beschikbaar op <a href="https://lovea.app">lovea.app</a>.',
+      s1_p2:'Lovéa helpt ouders praktisch advies te krijgen over voeding, slaap, kindersontwikkeling en andere opvoedingsonderwerpen.',
+      s2_h:'2. Aanvaarding van de voorwaarden',
+      s2_p:'Door Lovéa te gebruiken ga je akkoord met deze gebruiksvoorwaarden. Als je deze voorwaarden niet accepteert, gebruik de dienst dan niet.',
+      s3_h:'3. Gebruik van de dienst',
+      s3_p:'Lovéa is bedoeld voor persoonlijk, niet-commercieel gebruik. Je verbindt je ertoe:',
+      s3_ul:['Nauwkeurige informatie over jouw kind te verstrekken','De dienst niet te gebruiken voor onwettige doeleinden','Niet te proberen de beperkingen van de dienst te omzeilen'],
+      s4_h:'4. Medische waarschuwing',
+      s4_p:'<strong>Lovéa is geen medische dienst.</strong> De verstrekte antwoorden zijn algemene informatie ter oriëntatie en vervangen in geen geval het advies van een arts, kinderarts of zorgprofessional. Bij een medische noodsituatie bel je onmiddellijk de hulpdiensten.',
+      s5_h:'5. Plannen en abonnementen',
+      s5_p:'Lovéa biedt een gratis plan en betaalde plannen (Familie en Pro). Abonnementen zijn maandelijks en worden automatisch verlengd. Je kunt op elk moment opzeggen. De prijzen zijn vermeld in euro\'s inclusief alle belastingen.',
+      s6_h:'6. Intellectueel eigendom',
+      s6_p:'De inhoud van Lovéa (logo, ontwerp, teksten) is exclusief eigendom van Lauren. Elke reproductie of commercieel gebruik is verboden zonder voorafgaande toestemming.',
+      s7_h:'7. Beperking van aansprakelijkheid',
+      s7_p:'Lovéa wordt geleverd "zoals het is". Lauren kan niet aansprakelijk worden gesteld voor beslissingen die zijn genomen op basis van het advies van de assistent.',
+      s8_h:'8. Wijziging van voorwaarden',
+      s8_p:'Deze voorwaarden kunnen op elk moment worden gewijzigd. Gebruikers worden geïnformeerd over belangrijke wijzigingen. Voortgezet gebruik van de dienst houdt aanvaarding van de nieuwe voorwaarden in.',
+      s9_h:'9. Contact',
+      s9_p:'Voor alle vragen: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    pl: {
+      back:'← Wróć do Lovéa', h1:'Warunki korzystania',
+      date_line:'Ostatnia aktualizacja: 24 czerwca 2026',
+      s1_h:'1. Opis usługi',
+      s1_p1:'Lovéa to oparty na sztucznej inteligencji asystent rodzicielski stworzony przez Lauren. Usługa jest dostępna pod adresem <a href="https://lovea.app">lovea.app</a>.',
+      s1_p2:'Lovéa pomaga rodzicom uzyskać praktyczne porady dotyczące żywienia, snu, rozwoju dziecka i innych tematów związanych z rodzicielstwem.',
+      s2_h:'2. Akceptacja warunków',
+      s2_p:'Korzystając z Lovéa, akceptujesz niniejsze warunki korzystania. Jeśli nie akceptujesz tych warunków, prosimy o niekorzystanie z usługi.',
+      s3_h:'3. Korzystanie z usługi',
+      s3_p:'Lovéa jest przeznaczone do osobistego, niekomercyjnego użytku. Zobowiązujesz się do:',
+      s3_ul:['Podawania dokładnych informacji o swoim dziecku','Nieużywania usługi do celów niezgodnych z prawem','Niepróbowania obchodzenia ograniczeń usługi'],
+      s4_h:'4. Zastrzeżenie medyczne',
+      s4_p:'<strong>Lovéa nie jest usługą medyczną.</strong> Udzielane odpowiedzi to ogólne informacje o charakterze orientacyjnym i w żaden sposób nie zastępują porady lekarza, pediatry ani specjalisty ochrony zdrowia. W nagłych przypadkach medycznych natychmiast dzwoń na numer alarmowy.',
+      s5_h:'5. Plany i subskrypcje',
+      s5_p:'Lovéa oferuje plan bezpłatny oraz płatne plany (Rodzina i Pro). Subskrypcje są miesięczne i odnawiane automatycznie. Możesz anulować w dowolnym momencie. Ceny podane są w euro z uwzględnieniem wszystkich podatków.',
+      s6_h:'6. Własność intelektualna',
+      s6_p:'Treści Lovéa (logo, design, teksty) są wyłączną własnością Lauren. Jakiekolwiek powielanie lub komercyjne wykorzystanie bez uprzedniej zgody jest zabronione.',
+      s7_h:'7. Ograniczenie odpowiedzialności',
+      s7_p:'Lovéa jest dostarczane w stanie „takim, jakim jest". Lauren nie ponosi odpowiedzialności za decyzje podjęte na podstawie porad udzielonych przez asystenta.',
+      s8_h:'8. Zmiana warunków',
+      s8_p:'Niniejsze warunki mogą być zmieniane w dowolnym czasie. Użytkownicy będą informowani o istotnych zmianach. Kontynuowanie korzystania z usługi oznacza akceptację nowych warunków.',
+      s9_h:'9. Kontakt',
+      s9_p:'W przypadku jakichkolwiek pytań: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    ro: {
+      back:'← Înapoi la Lovéa', h1:'Termeni și condiții de utilizare',
+      date_line:'Ultima actualizare: 24 iunie 2026',
+      s1_h:'1. Descrierea serviciului',
+      s1_p1:'Lovéa este un asistent parental bazat pe inteligență artificială, dezvoltat de Lauren. Serviciul este disponibil la adresa <a href="https://lovea.app">lovea.app</a>.',
+      s1_p2:'Lovéa ajută părinții să obțină sfaturi practice despre alimentație, somn, dezvoltarea copilului și alte subiecte legate de parentaj.',
+      s2_h:'2. Acceptarea termenilor',
+      s2_p:'Prin utilizarea Lovéa, ești de acord cu acești termeni de utilizare. Dacă nu ești de acord cu acești termeni, te rugăm să nu utilizezi serviciul.',
+      s3_h:'3. Utilizarea serviciului',
+      s3_p:'Lovéa este destinat utilizării personale și necomerciale. Te angajezi să:',
+      s3_ul:['Furnizezi informații exacte despre copilul tău','Nu folosești serviciul în scopuri ilicite','Nu încerci să eludezi limitele serviciului'],
+      s4_h:'4. Avertisment medical',
+      s4_p:'<strong>Lovéa nu este un serviciu medical.</strong> Răspunsurile furnizate sunt informații generale cu titlu orientativ și nu înlocuiesc în niciun caz sfatul unui medic, pediatru sau specialist în sănătate. În caz de urgență medicală, sună imediat la serviciile de urgență.',
+      s5_h:'5. Planuri și abonamente',
+      s5_p:'Lovéa oferă un plan gratuit și planuri plătite (Familie și Pro). Abonamentele sunt lunare și se reînnoiesc automat. Poți anula oricând. Prețurile sunt afișate în euro cu toate taxele incluse.',
+      s6_h:'6. Proprietate intelectuală',
+      s6_p:'Conținutul Lovéa (logo, design, texte) este proprietatea exclusivă a Lauren. Orice reproducere sau utilizare comercială este interzisă fără autorizare prealabilă.',
+      s7_h:'7. Limitarea răspunderii',
+      s7_p:'Lovéa este furnizat „ca atare". Lauren nu poate fi ținută responsabilă pentru deciziile luate pe baza sfaturilor furnizate de asistent.',
+      s8_h:'8. Modificarea termenilor',
+      s8_p:'Acești termeni pot fi modificați oricând. Utilizatorii vor fi informați despre modificările semnificative. Continuarea utilizării serviciului echivalează cu acceptarea noilor termeni.',
+      s9_h:'9. Contact',
+      s9_p:'Pentru orice întrebare: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+  };
+
+  (function() {
+    const supported = ['fr','en','he','ar','es','de','it','pt','ru','zh','ja','ko','tr','nl','pl','ro'];
+    const alt = { iw:'he' };
+    function detectLang() {
+      const saved = localStorage.getItem('ap-lang');
+      if (saved && TERMS_T[saved]) return saved;
+      const navLangs = (navigator.languages && navigator.languages.length) ? [...navigator.languages] : [navigator.language || ''];
+      for (const nl of navLangs) {
+        const code = nl.toLowerCase().split('-')[0];
+        if (alt[code]) return alt[code];
+        if (supported.includes(code)) return code;
+      }
+      return 'fr';
+    }
+    const lang = detectLang();
+    const t = TERMS_T[lang] || TERMS_T.fr;
+    document.documentElement.lang = lang;
+    if (['he','ar'].includes(lang)) document.documentElement.dir = 'rtl';
+
+    // Text-only fields
+    ['back','h1','date_line','s2_h','s3_h','s4_h','s5_h','s6_h','s7_h','s8_h','s9_h',
+     's1_h','s1_p2','s2_p','s3_p','s5_p','s6_p','s7_p','s8_p'].forEach(k => {
+      const el = document.getElementById(k);
+      if (el && t[k] !== undefined) el.textContent = t[k];
+    });
+    // HTML fields (links / <strong>)
+    ['s1_p1','s4_p','s9_p'].forEach(k => {
+      const el = document.getElementById(k);
+      if (el && t[k] !== undefined) el.innerHTML = t[k];
+    });
+    // List
+    const ul = document.getElementById('s3_ul');
+    if (ul && t.s3_ul) ul.innerHTML = t.s3_ul.map(i => `<li>${i}</li>`).join('');
+  })();
+  </script>
 </body>
 </html>
