@@ -125,6 +125,28 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
   }
 });
 
+// Endpoint temporaire — récupère les variant IDs Lemon Squeezy (à supprimer après usage)
+app.get('/api/admin/ls-variants', async (req, res) => {
+  const key = process.env.LEMONSQUEEZY_API_KEY;
+  if (!key) return res.status(500).json({ error: 'LEMONSQUEEZY_API_KEY non définie' });
+  try {
+    const r = await fetch('https://api.lemonsqueezy.com/v1/variants', {
+      headers: { Authorization: `Bearer ${key}`, Accept: 'application/vnd.api+json' },
+    });
+    const data = await r.json();
+    const variants = (data.data || []).map(v => ({
+      id:        v.id,
+      name:      v.attributes?.name,
+      productId: v.attributes?.product_id,
+      price:     v.attributes?.price,
+      status:    v.attributes?.status,
+    }));
+    res.json(variants);
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+});
+
 app.get('/about', (req, res) => res.sendFile(path.join(__dirname, 'about.html')));
 app.get('/terms', (req, res) => res.sendFile(path.join(__dirname, 'terms.html')));
 app.get('/privacy', (req, res) => res.sendFile(path.join(__dirname, 'privacy.html')));
