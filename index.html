@@ -1045,9 +1045,9 @@
           <path d="M 84 116 Q 96 126 108 116" stroke="#2C2A28" stroke-width="3" fill="none" stroke-linecap="round"/>
           <ellipse cx="96" cy="148" rx="28" ry="8" fill="#5C8C5A" opacity="0.35"/>
         </svg>
-        <h2 class="onboarding-title">Bienvenue sur Lovéa 🌱</h2>
-        <p class="onboarding-text">L'assistant parental qui connaît votre enfant par cœur.<br>Des conseils personnalisés, à chaque instant.</p>
-        <button class="onboarding-btn" onclick="obNext()">Suivant →</button>
+        <h2 class="onboarding-title" id="ob1-title"></h2>
+        <p class="onboarding-text" id="ob1-text"></p>
+        <button class="onboarding-btn" id="ob1-btn" onclick="obNext()"></button>
       </div>
 
       <!-- Étape 2 -->
@@ -1065,20 +1065,16 @@
           <path d="M 84 116 Q 96 126 108 116" stroke="#2C2A28" stroke-width="3" fill="none" stroke-linecap="round"/>
           <ellipse cx="96" cy="148" rx="28" ry="8" fill="#5C8C5A" opacity="0.35"/>
         </svg>
-        <h2 class="onboarding-title">Créez le profil de votre enfant</h2>
-        <p class="onboarding-text">Ajoutez son prénom, son âge et ses allergies.<br>Lovéa adaptera chaque réponse à votre enfant.</p>
-        <button class="onboarding-btn" onclick="obNext()">Suivant →</button>
+        <h2 class="onboarding-title" id="ob2-title"></h2>
+        <p class="onboarding-text" id="ob2-text"></p>
+        <button class="onboarding-btn" id="ob2-btn" onclick="obNext()"></button>
       </div>
 
       <!-- Étape 3 -->
       <div class="onboarding-step" id="ob-step-3">
-        <h2 class="onboarding-title">Posez votre première question !</h2>
-        <ul class="onboarding-bullets">
-          <li>• Mon enfant ne dort pas bien, que faire ?</li>
-          <li>• Idée de repas sans gluten pour 6 ans ?</li>
-          <li>• Comment gérer une crise de colère ?</li>
-        </ul>
-        <button class="onboarding-btn" onclick="obTerminer()">C'est parti ! 🚀</button>
+        <h2 class="onboarding-title" id="ob3-title"></h2>
+        <ul class="onboarding-bullets" id="ob3-bullets"></ul>
+        <button class="onboarding-btn" id="ob3-btn" onclick="obTerminer()"></button>
       </div>
 
       <!-- Indicateur de progression -->
@@ -1844,6 +1840,7 @@
     renderSidebar();
     updateModalPlansLang();
     chargerConseilDuJour();
+    if (typeof obUpdateLang === 'function') obUpdateLang();
   }
 
   // ════════════════════════════════════════════════════════════
@@ -3133,7 +3130,168 @@
   const OB_KEY = 'lovea-onboarded';
   let obStep = 1;
 
+  const OB_TEXTS = {
+    fr: {
+      t1:'Bienvenue sur Lovéa 🌱',
+      p1:'L\'assistant parental qui connaît votre enfant par cœur.\nDes conseils personnalisés, à chaque instant.',
+      t2:'Créez le profil de votre enfant',
+      p2:'Ajoutez son prénom, son âge et ses allergies.\nLovéa adaptera chaque réponse à votre enfant.',
+      t3:'Posez votre première question !',
+      b3:['Mon enfant ne dort pas bien, que faire ?','Idée de repas sans gluten pour 6 ans ?','Comment gérer une crise de colère ?'],
+      next:'Suivant →', start:'C\'est parti ! 🚀',
+    },
+    en: {
+      t1:'Welcome to Lovéa 🌱',
+      p1:'The parenting assistant that truly knows your child.\nPersonalized advice, at every moment.',
+      t2:'Create your child\'s profile',
+      p2:'Add their name, age and allergies.\nLovéa will tailor every answer to your child.',
+      t3:'Ask your first question!',
+      b3:['My child doesn\'t sleep well, what should I do?','Gluten-free meal idea for a 6-year-old?','How to handle a tantrum?'],
+      next:'Next →', start:'Let\'s go! 🚀',
+    },
+    he: {
+      t1:'ברוכים הבאים ל-Lovéa 🌱',
+      p1:'העוזר ההורי שמכיר את ילדכם לעומק.\nעצות מותאמות אישית, בכל רגע.',
+      t2:'צרו את פרופיל הילד שלכם',
+      p2:'הוסיפו שם, גיל ואלרגיות.\nLovéa תתאים כל תשובה לילדכם.',
+      t3:'שאלו את השאלה הראשונה שלכם!',
+      b3:['הילד שלי לא ישן טוב, מה לעשות?','רעיון לארוחה ללא גלוטן לגיל 6?','איך מתמודדים עם התקף זעם?'],
+      next:'הבא →', start:'יאללה! 🚀',
+    },
+    ar: {
+      t1:'مرحباً بكم في Lovéa 🌱',
+      p1:'المساعد الوالدي الذي يعرف طفلكم حقاً.\nنصائح مخصصة، في كل لحظة.',
+      t2:'أنشئ ملف طفلك',
+      p2:'أضف اسمه، عمره وحساسيته.\nسيكيّف Lovéa كل إجابة لطفلك.',
+      t3:'اطرح سؤالك الأول!',
+      b3:['طفلي لا ينام جيداً، ماذا أفعل؟','فكرة وجبة خالية من الغلوتين لطفل عمره 6 سنوات؟','كيف أتعامل مع نوبة غضب؟'],
+      next:'التالي →', start:'هيا بنا! 🚀',
+    },
+    es: {
+      t1:'Bienvenido a Lovéa 🌱',
+      p1:'El asistente parental que conoce a tu hijo de verdad.\nConsejos personalizados, en cada momento.',
+      t2:'Crea el perfil de tu hijo',
+      p2:'Añade su nombre, edad y alergias.\nLovéa adaptará cada respuesta a tu hijo.',
+      t3:'¡Haz tu primera pregunta!',
+      b3:['Mi hijo no duerme bien, ¿qué hago?','¿Idea de comida sin gluten para 6 años?','¿Cómo manejar una rabieta?'],
+      next:'Siguiente →', start:'¡Vamos! 🚀',
+    },
+    de: {
+      t1:'Willkommen bei Lovéa 🌱',
+      p1:'Der Eltern-Assistent, der Ihr Kind wirklich kennt.\nPersonalisierte Ratschläge, jederzeit.',
+      t2:'Erstelle das Profil deines Kindes',
+      p2:'Füge Namen, Alter und Allergien hinzu.\nLovéa passt jede Antwort an dein Kind an.',
+      t3:'Stell deine erste Frage!',
+      b3:['Mein Kind schläft schlecht – was tun?','Glutenfreie Essensidee für 6 Jahre?','Wie mit einem Wutanfall umgehen?'],
+      next:'Weiter →', start:'Los geht\'s! 🚀',
+    },
+    it: {
+      t1:'Benvenuto su Lovéa 🌱',
+      p1:'L\'assistente genitoriale che conosce davvero tuo figlio.\nConsigli personalizzati, in ogni momento.',
+      t2:'Crea il profilo di tuo figlio',
+      p2:'Aggiungi il suo nome, età e allergie.\nLovéa adatterà ogni risposta a tuo figlio.',
+      t3:'Fai la tua prima domanda!',
+      b3:['Mio figlio non dorme bene, cosa fare?','Idea di pasto senza glutine per 6 anni?','Come gestire una crisi di rabbia?'],
+      next:'Avanti →', start:'Andiamo! 🚀',
+    },
+    pt: {
+      t1:'Bem-vindo ao Lovéa 🌱',
+      p1:'O assistente parental que conhece mesmo o seu filho.\nConselhos personalizados, a cada momento.',
+      t2:'Crie o perfil do seu filho',
+      p2:'Adicione o nome, idade e alergias.\nO Lovéa adaptará cada resposta ao seu filho.',
+      t3:'Faça a sua primeira pergunta!',
+      b3:['O meu filho não dorme bem, o que fazer?','Ideia de refeição sem glúten para 6 anos?','Como lidar com uma birra?'],
+      next:'Seguinte →', start:'Vamos lá! 🚀',
+    },
+    ru: {
+      t1:'Добро пожаловать в Lovéa 🌱',
+      p1:'Родительский помощник, который знает вашего ребёнка.\nПерсонализированные советы в любой момент.',
+      t2:'Создайте профиль вашего ребёнка',
+      p2:'Добавьте имя, возраст и аллергии.\nLovéa адаптирует каждый ответ к вашему ребёнку.',
+      t3:'Задайте свой первый вопрос!',
+      b3:['Мой ребёнок плохо спит, что делать?','Идея блюда без глютена для 6 лет?','Как справиться с истерикой?'],
+      next:'Далее →', start:'Поехали! 🚀',
+    },
+    zh: {
+      t1:'欢迎使用 Lovéa 🌱',
+      p1:'真正了解您孩子的育儿助手。\n随时提供个性化建议。',
+      t2:'创建您孩子的档案',
+      p2:'添加孩子的姓名、年龄和过敏信息。\nLovéa 将为您的孩子定制每一个回答。',
+      t3:'提出您的第一个问题！',
+      b3:['我的孩子睡眠不好，怎么办？','6岁孩子的无麸质饮食建议？','如何应对孩子发脾气？'],
+      next:'下一步 →', start:'出发！🚀',
+    },
+    ja: {
+      t1:'Lovéa へようこそ 🌱',
+      p1:'お子さまを本当に理解する子育てアシスタント。\nいつでもパーソナライズされたアドバイスを。',
+      t2:'お子さまのプロフィールを作成',
+      p2:'名前、年齢、アレルギーを追加してください。\nLovéa がお子さまに合わせた回答をします。',
+      t3:'最初の質問をしてみましょう！',
+      b3:['子どもがよく眠れません。どうすれば？','6歳向けのグルテンフリーの食事アイデアは？','かんしゃくへの対処法は？'],
+      next:'次へ →', start:'さあ始めよう！🚀',
+    },
+    ko: {
+      t1:'Lovéa에 오신 것을 환영합니다 🌱',
+      p1:'자녀를 진심으로 이해하는 육아 도우미.\n언제든지 맞춤 조언을 드립니다.',
+      t2:'자녀의 프로필 만들기',
+      p2:'이름, 나이, 알레르기 정보를 추가하세요.\nLovéa가 자녀에게 맞춘 답변을 드립니다.',
+      t3:'첫 번째 질문을 해보세요!',
+      b3:['아이가 잘 못 자요, 어떻게 해야 하나요?','6살을 위한 글루텐 프리 식사 아이디어?','떼쓰는 아이를 어떻게 달래나요?'],
+      next:'다음 →', start:'시작해요! 🚀',
+    },
+    tr: {
+      t1:'Lovéa\'ya Hoş Geldiniz 🌱',
+      p1:'Çocuğunuzu gerçekten tanıyan ebeveynlik asistanı.\nHer an kişiselleştirilmiş tavsiyeler.',
+      t2:'Çocuğunuzun profilini oluşturun',
+      p2:'İsim, yaş ve alerjileri ekleyin.\nLovéa her yanıtı çocuğunuza göre uyarlayacak.',
+      t3:'İlk sorunuzu sorun!',
+      b3:['Çocuğum iyi uyumuyor, ne yapmalıyım?','6 yaş için glutensiz yemek fikri?','Öfke nöbetiyle nasıl başa çıkılır?'],
+      next:'İleri →', start:'Haydi başlayalım! 🚀',
+    },
+    nl: {
+      t1:'Welkom bij Lovéa 🌱',
+      p1:'De opvoedassistent die uw kind echt kent.\nGepersonaliseerd advies, op elk moment.',
+      t2:'Maak het profiel van uw kind',
+      p2:'Voeg naam, leeftijd en allergieën toe.\nLovéa past elk antwoord aan uw kind aan.',
+      t3:'Stel uw eerste vraag!',
+      b3:['Mijn kind slaapt slecht, wat moet ik doen?','Glutenvrij maaltijdidee voor 6 jaar?','Hoe ga ik om met een driftbui?'],
+      next:'Volgende →', start:'Aan de slag! 🚀',
+    },
+    pl: {
+      t1:'Witamy w Lovéa 🌱',
+      p1:'Asystent rodzicielski, który naprawdę zna Twoje dziecko.\nSpersonalizowane porady w każdej chwili.',
+      t2:'Utwórz profil swojego dziecka',
+      p2:'Dodaj imię, wiek i alergie.\nLovéa dopasuje każdą odpowiedź do Twojego dziecka.',
+      t3:'Zadaj swoje pierwsze pytanie!',
+      b3:['Moje dziecko źle śpi – co robić?','Pomysł na posiłek bez glutenu dla 6-latka?','Jak radzić sobie z napadem złości?'],
+      next:'Dalej →', start:'Zaczynamy! 🚀',
+    },
+    ro: {
+      t1:'Bun venit la Lovéa 🌱',
+      p1:'Asistentul parental care îți cunoaște cu adevărat copilul.\nSfaturi personalizate, în orice moment.',
+      t2:'Creează profilul copilului tău',
+      p2:'Adaugă numele, vârsta și alergiile.\nLovéa va adapta fiecare răspuns copilului tău.',
+      t3:'Pune prima ta întrebare!',
+      b3:['Copilul meu nu doarme bine, ce să fac?','Idee de masă fără gluten pentru 6 ani?','Cum să gestionez o criză de furie?'],
+      next:'Următorul →', start:'Să mergem! 🚀',
+    },
+  };
+
+  function obUpdateLang() {
+    const o = OB_TEXTS[lang] || OB_TEXTS.fr;
+    document.getElementById('ob1-title').textContent = o.t1;
+    document.getElementById('ob1-text').innerHTML   = o.p1.replace(/\n/g,'<br>');
+    document.getElementById('ob1-btn').textContent  = o.next;
+    document.getElementById('ob2-title').textContent = o.t2;
+    document.getElementById('ob2-text').innerHTML   = o.p2.replace(/\n/g,'<br>');
+    document.getElementById('ob2-btn').textContent  = o.next;
+    document.getElementById('ob3-title').textContent = o.t3;
+    document.getElementById('ob3-bullets').innerHTML = o.b3.map(b=>`<li>• ${b}</li>`).join('');
+    document.getElementById('ob3-btn').textContent  = o.start;
+  }
+
   function obShow() {
+    obUpdateLang();
     document.getElementById('onboarding-overlay').classList.add('open');
   }
 
