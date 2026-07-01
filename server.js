@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const Anthropic = require('@anthropic-ai/sdk');
+const { MongoClient } = require('mongodb');
 const path = require('path');
 
 const app = express();
@@ -9,12 +10,38 @@ app.use(express.static(__dirname));
 
 const client = new Anthropic.default({ apiKey: process.env.ANTHROPIC_API_KEY });
 
+// MongoDB — connexion lazy, fire-and-forget sur erreur
+let analyticsCol = null;
+if (process.env.MONGODB_URI) {
+  const mongoClient = new MongoClient(process.env.MONGODB_URI);
+  mongoClient.connect()
+    .then(() => {
+      analyticsCol = mongoClient.db('lovea').collection('analytics_questions');
+      console.log('[Lovéa] MongoDB connecté — analytics actifs');
+    })
+    .catch(err => console.warn('[Lovéa] MongoDB non disponible :', err.message));
+}
+
+function logQuestion({ question, lang, shortcut }) {
+  if (!analyticsCol) return;
+  analyticsCol.insertOne({
+    question,
+    lang: lang || 'fr',
+    shortcut: shortcut || null,
+    ts: new Date(),
+  }).catch(() => {});
+}
+
 app.post('/api/ask', async (req, res) => {
-  const { messages, age, unite, lang, profile, allergies } = req.body;
+  const { messages, age, unite, lang, profile, allergies, shortcut } = req.body;
   if (!messages || !messages.length) {
     return res.status(400).json({ error: 'Messages vides.' });
   }
   console.log('[Lovéa] Reçu du client :', JSON.stringify({ age, unite, allergies, profile: profile?.slice(0,200) }));
+
+  // Log analytics (anonymisé — pas de profil ni nom d'enfant)
+  const lastUserMsg = [...messages].reverse().find(m => m.role === 'user');
+  if (lastUserMsg) logQuestion({ question: lastUserMsg.content, lang, shortcut });
 
   const langNames = { fr:'French', en:'English', he:'Hebrew', ar:'Arabic', es:'Spanish', de:'German',
     it:'Italian', pt:'Portuguese', ru:'Russian', zh:'Chinese', ja:'Japanese', ko:'Korean',

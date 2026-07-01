@@ -2832,6 +2832,8 @@
     }
   }
 
+  let pendingShortcut = null;
+
   function raccourci(type) {
     const age   = document.getElementById('age').value.trim();
     const unite = document.getElementById('unite').value;
@@ -2843,6 +2845,7 @@
       ? variants[Math.floor(Math.random() * variants.length)]
       : T[lang][`q_${type}`](ctx);
 
+    pendingShortcut = type;
     document.getElementById('question').value = msg;
     autoResize(document.getElementById('question'));
     envoyer();
@@ -2975,7 +2978,9 @@
         messages:conversation, age, unite, lang,
         profile:  construireProfilePrompt(),
         allergies:getAllergiesEnfant(),
+        shortcut: pendingShortcut,
       };
+      pendingShortcut = null;
       console.log('[Lovéa] Payload envoyé au serveur :', JSON.stringify({age:payload.age, unite:payload.unite, profile:payload.profile, allergies:payload.allergies}));
       const res=await fetch('/api/ask',{
         method:'POST',
