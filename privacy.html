@@ -24,58 +24,518 @@
 </head>
 <body>
   <div class="container">
-    <a class="back" href="/">← Retour à Lovéa</a>
-    <h1>Politique de confidentialité</h1>
-    <p class="date">Dernière mise à jour : 24 juin 2026</p>
+    <a class="back" href="/" id="back">← Retour à Lovéa</a>
+    <h1 id="h1">Politique de confidentialité</h1>
+    <p class="date" id="date_line">Dernière mise à jour : 24 juin 2026</p>
 
-    <h2>1. Responsable du traitement</h2>
-    <p>Le responsable du traitement des données est Lauren. Contact : <a href="mailto:contact@lovea.app">contact@lovea.app</a></p>
+    <h2 id="s1_h"></h2>
+    <p id="s1_p"></p>
 
-    <h2>2. Données collectées</h2>
-    <p>Lovéa collecte uniquement les données nécessaires au fonctionnement du service :</p>
-    <ul>
-      <li><strong>Profil enfant</strong> : prénom, date de naissance, allergies, notes — stockés localement sur votre appareil (localStorage)</li>
-      <li><strong>Conversations</strong> : vos messages et les réponses de l'assistant — stockés localement sur votre appareil</li>
-      <li><strong>Données de navigation</strong> : via Google Analytics (pages visitées, langue, appareil) — anonymisées</li>
-      <li><strong>Données de paiement</strong> : gérées intégralement par Paddle — Lovéa n'a pas accès à vos données bancaires</li>
-    </ul>
+    <h2 id="s2_h"></h2>
+    <p id="s2_p"></p>
+    <ul id="s2_ul"></ul>
 
-    <h2>3. Finalités du traitement</h2>
-    <ul>
-      <li>Personnaliser les conseils selon l'âge et les allergies de votre enfant</li>
-      <li>Améliorer le service via des statistiques anonymes</li>
-      <li>Gérer les abonnements payants</li>
-    </ul>
+    <h2 id="s3_h"></h2>
+    <ul id="s3_ul"></ul>
 
-    <h2>4. Stockage des données</h2>
-    <p>Les profils et conversations sont stockés <strong>uniquement sur votre appareil</strong> via localStorage. Lovéa ne dispose d'aucune base de données utilisateur. Vos données ne transitent pas sur nos serveurs, à l'exception du contenu des messages envoyés à l'API Anthropic pour générer les réponses.</p>
+    <h2 id="s4_h"></h2>
+    <p id="s4_p"></p>
 
-    <h2>5. Partage des données</h2>
-    <p>Vos messages sont transmis à <strong>Anthropic</strong> (fournisseur de l'IA) pour générer les réponses. Anthropic est soumis à sa propre politique de confidentialité. Aucune donnée n'est vendue à des tiers.</p>
+    <h2 id="s5_h"></h2>
+    <p id="s5_p"></p>
 
-    <h2>6. Cookies</h2>
-    <p>Lovéa utilise uniquement des cookies techniques (préférences de langue, session) et des cookies analytiques anonymes via Google Analytics. Vous pouvez désactiver les cookies analytiques dans les paramètres de votre navigateur.</p>
+    <h2 id="s6_h"></h2>
+    <p id="s6_p"></p>
 
-    <h2>7. Vos droits</h2>
-    <p>Conformément au RGPD, vous disposez des droits suivants :</p>
-    <ul>
-      <li>Droit d'accès, de rectification et d'effacement de vos données</li>
-      <li>Droit à la portabilité</li>
-      <li>Droit d'opposition au traitement</li>
-    </ul>
-    <p>Pour exercer ces droits : <a href="mailto:contact@lovea.app">contact@lovea.app</a>. Les données locales peuvent être supprimées à tout moment en effaçant le localStorage de votre navigateur.</p>
+    <h2 id="s7_h"></h2>
+    <p id="s7_intro"></p>
+    <ul id="s7_ul"></ul>
+    <p id="s7_contact"></p>
 
-    <h2>8. Sécurité</h2>
-    <p>Le service utilise HTTPS pour sécuriser les échanges. Les données stockées localement sont sous la responsabilité de l'utilisateur.</p>
+    <h2 id="s8_h"></h2>
+    <p id="s8_p"></p>
 
-    <h2>9. Mineurs</h2>
-    <p>Lovéa est destiné aux parents et tuteurs légaux. Les données concernant les enfants sont minimales (prénom, âge, allergies) et stockées uniquement sur votre appareil.</p>
+    <h2 id="s9_h"></h2>
+    <p id="s9_p"></p>
 
-    <h2>10. Contact</h2>
-    <p>Pour toute question relative à vos données : <a href="mailto:contact@lovea.app">contact@lovea.app</a></p>
+    <h2 id="s10_h"></h2>
+    <p id="s10_p"></p>
 
     <hr>
     <p style="font-size:0.8rem;color:#98A896">© 2026 Lovéa — Lauren</p>
   </div>
+
+  <script>
+  const PRIVACY_T = {
+    fr: {
+      back:'← Retour à Lovéa', h1:'Politique de confidentialité',
+      date_line:'Dernière mise à jour : 24 juin 2026',
+      s1_h:'1. Responsable du traitement',
+      s1_p:'Le responsable du traitement des données est Lauren. Contact : <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. Données collectées',
+      s2_p:'Lovéa collecte uniquement les données nécessaires au fonctionnement du service :',
+      s2_ul:['<strong>Profil enfant</strong> : prénom, date de naissance, allergies, notes — stockés localement sur votre appareil (localStorage)','<strong>Conversations</strong> : vos messages et les réponses de l\'assistant — stockés localement sur votre appareil','<strong>Données de navigation</strong> : via Google Analytics (pages visitées, langue, appareil) — anonymisées','<strong>Données de paiement</strong> : gérées intégralement par Lemon Squeezy — Lovéa n\'a pas accès à vos données bancaires'],
+      s3_h:'3. Finalités du traitement',
+      s3_ul:['Personnaliser les conseils selon l\'âge et les allergies de votre enfant','Améliorer le service via des statistiques anonymes','Gérer les abonnements payants'],
+      s4_h:'4. Stockage des données',
+      s4_p:'Les profils et conversations sont stockés <strong>uniquement sur votre appareil</strong> via localStorage. Lovéa ne dispose d\'aucune base de données utilisateur. Vos données ne transitent pas sur nos serveurs, à l\'exception du contenu des messages envoyés à l\'API Anthropic pour générer les réponses.',
+      s5_h:'5. Partage des données',
+      s5_p:'Vos messages sont transmis à <strong>Anthropic</strong> (fournisseur de l\'IA) pour générer les réponses. Anthropic est soumis à sa propre politique de confidentialité. Aucune donnée n\'est vendue à des tiers.',
+      s6_h:'6. Cookies',
+      s6_p:'Lovéa utilise uniquement des cookies techniques (préférences de langue, session) et des cookies analytiques anonymes via Google Analytics. Vous pouvez désactiver les cookies analytiques dans les paramètres de votre navigateur.',
+      s7_h:'7. Vos droits',
+      s7_intro:'Conformément au RGPD, vous disposez des droits suivants :',
+      s7_ul:['Droit d\'accès, de rectification et d\'effacement de vos données','Droit à la portabilité','Droit d\'opposition au traitement'],
+      s7_contact:'Pour exercer ces droits : <a href="mailto:contact@lovea.app">contact@lovea.app</a>. Les données locales peuvent être supprimées à tout moment en effaçant le localStorage de votre navigateur.',
+      s8_h:'8. Sécurité',
+      s8_p:'Le service utilise HTTPS pour sécuriser les échanges. Les données stockées localement sont sous la responsabilité de l\'utilisateur.',
+      s9_h:'9. Mineurs',
+      s9_p:'Lovéa est destiné aux parents et tuteurs légaux. Les données concernant les enfants sont minimales (prénom, âge, allergies) et stockées uniquement sur votre appareil.',
+      s10_h:'10. Contact',
+      s10_p:'Pour toute question relative à vos données : <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    en: {
+      back:'← Back to Lovéa', h1:'Privacy Policy',
+      date_line:'Last updated: 24 June 2026',
+      s1_h:'1. Data controller',
+      s1_p:'The data controller is Lauren. Contact: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. Data collected',
+      s2_p:'Lovéa only collects data necessary for the service to function:',
+      s2_ul:['<strong>Child profile</strong>: first name, date of birth, allergies, notes — stored locally on your device (localStorage)','<strong>Conversations</strong>: your messages and the assistant\'s responses — stored locally on your device','<strong>Analytics data</strong>: via Google Analytics (pages visited, language, device) — anonymised','<strong>Payment data</strong>: handled entirely by Lemon Squeezy — Lovéa has no access to your banking details'],
+      s3_h:'3. Purposes of processing',
+      s3_ul:['Personalise advice based on your child\'s age and allergies','Improve the service using anonymous statistics','Manage paid subscriptions'],
+      s4_h:'4. Data storage',
+      s4_p:'Profiles and conversations are stored <strong>only on your device</strong> via localStorage. Lovéa has no user database. Your data does not pass through our servers, except for the content of messages sent to the Anthropic API to generate responses.',
+      s5_h:'5. Data sharing',
+      s5_p:'Your messages are sent to <strong>Anthropic</strong> (the AI provider) to generate responses. Anthropic is subject to its own privacy policy. No data is sold to third parties.',
+      s6_h:'6. Cookies',
+      s6_p:'Lovéa only uses technical cookies (language preferences, session) and anonymous analytics cookies via Google Analytics. You can disable analytics cookies in your browser settings.',
+      s7_h:'7. Your rights',
+      s7_intro:'Under the GDPR, you have the following rights:',
+      s7_ul:['Right of access, rectification, and erasure of your data','Right to data portability','Right to object to processing'],
+      s7_contact:'To exercise these rights: <a href="mailto:contact@lovea.app">contact@lovea.app</a>. Local data can be deleted at any time by clearing your browser\'s localStorage.',
+      s8_h:'8. Security',
+      s8_p:'The service uses HTTPS to secure communications. Data stored locally is the user\'s responsibility.',
+      s9_h:'9. Minors',
+      s9_p:'Lovéa is intended for parents and legal guardians. Data relating to children is minimal (first name, age, allergies) and stored only on your device.',
+      s10_h:'10. Contact',
+      s10_p:'For any questions regarding your data: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    he: {
+      back:'← חזרה ל-Lovéa', h1:'מדיניות פרטיות',
+      date_line:'עדכון אחרון: 24 ביוני 2026',
+      s1_h:'1. אחראי על עיבוד הנתונים',
+      s1_p:'אחראית עיבוד הנתונים היא לורן. צרו קשר: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. נתונים שנאספים',
+      s2_p:'.Lovéa אוסף רק את הנתונים הנחוצים לפעולת השירות',
+      s2_ul:['<strong>פרופיל ילד</strong>: שם פרטי, תאריך לידה, אלרגיות, הערות — מאוחסנים מקומית במכשיר שלכם (localStorage)','<strong>שיחות</strong>: ההודעות שלכם ותגובות העוזר — מאוחסנות מקומית במכשיר שלכם','<strong>נתוני גלישה</strong>: דרך Google Analytics (עמודים שבוקרו, שפה, מכשיר) — מאונונימיים','<strong>נתוני תשלום</strong>: מנוהלים לחלוטין על ידי Lemon Squeezy — ל-Lovéa אין גישה לפרטי הבנק שלכם'],
+      s3_h:'3. מטרות העיבוד',
+      s3_ul:['התאמת עצות לגיל ולאלרגיות של ילדכם','שיפור השירות באמצעות סטטיסטיקות אנונימיות','ניהול מנויים בתשלום'],
+      s4_h:'4. אחסון נתונים',
+      s4_p:'פרופילים ושיחות מאוחסנים <strong>רק במכשיר שלכם</strong> דרך localStorage. ל-Lovéa אין מסד נתוני משתמשים. הנתונים שלכם לא עוברים בשרתים שלנו, למעט תוכן ההודעות שנשלחות ל-API של Anthropic לצורך יצירת תגובות.',
+      s5_h:'5. שיתוף נתונים',
+      s5_p:'ההודעות שלכם מועברות ל-<strong>Anthropic</strong> (ספק הבינה המלאכותית) לצורך יצירת תגובות. Anthropic כפופה למדיניות הפרטיות שלה. אין נתונים שנמכרים לצדדים שלישיים.',
+      s6_h:'6. עוגיות',
+      s6_p:'Lovéa משתמש רק בעוגיות טכניות (העדפות שפה, סשן) ועוגיות ניתוח אנונימיות דרך Google Analytics. ניתן להשבית עוגיות ניתוח בהגדרות הדפדפן.',
+      s7_h:'7. הזכויות שלכם',
+      s7_intro:':בהתאם ל-GDPR, יש לכם את הזכויות הבאות',
+      s7_ul:['זכות גישה, תיקון ומחיקה של הנתונים שלכם','זכות ניידות נתונים','זכות להתנגד לעיבוד'],
+      s7_contact:'למימוש זכויות אלה: <a href="mailto:contact@lovea.app">contact@lovea.app</a>. ניתן למחוק נתונים מקומיים בכל עת על ידי ניקוי ה-localStorage של הדפדפן.',
+      s8_h:'8. אבטחה',
+      s8_p:'השירות משתמש ב-HTTPS לאבטחת התקשורת. הנתונים המאוחסנים מקומית הם באחריות המשתמש.',
+      s9_h:'9. קטינים',
+      s9_p:'Lovéa מיועד להורים ואפוטרופוסים חוקיים. הנתונים הנוגעים לילדים מינימליים (שם פרטי, גיל, אלרגיות) ומאוחסנים רק במכשיר שלכם.',
+      s10_h:'10. צרו קשר',
+      s10_p:'לכל שאלה הנוגעת לנתונים שלכם: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    ar: {
+      back:'← العودة إلى Lovéa', h1:'سياسة الخصوصية',
+      date_line:'آخر تحديث: 24 يونيو 2026',
+      s1_h:'1. المتحكم في البيانات',
+      s1_p:'المتحكم في معالجة البيانات هي لورن. التواصل: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. البيانات المجمَّعة',
+      s2_p:':يجمع Lovéa فقط البيانات الضرورية لتشغيل الخدمة',
+      s2_ul:['<strong>ملف الطفل</strong>: الاسم الأول وتاريخ الميلاد والحساسية والملاحظات — مخزَّنة محلياً على جهازك (localStorage)','<strong>المحادثات</strong>: رسائلك وردود المساعد — مخزَّنة محلياً على جهازك','<strong>بيانات التصفح</strong>: عبر Google Analytics (الصفحات المزارة، اللغة، الجهاز) — مجهولة الهوية','<strong>بيانات الدفع</strong>: تُدار بالكامل من قِبل Lemon Squeezy — لا يتمتع Lovéa بإمكانية الوصول إلى بياناتك المصرفية'],
+      s3_h:'3. أغراض المعالجة',
+      s3_ul:['تخصيص النصائح وفقاً لعمر طفلك وحساسيته','تحسين الخدمة من خلال إحصاءات مجهولة الهوية','إدارة الاشتراكات المدفوعة'],
+      s4_h:'4. تخزين البيانات',
+      s4_p:'تُخزَّن الملفات والمحادثات <strong>فقط على جهازك</strong> عبر localStorage. لا يمتلك Lovéa أي قاعدة بيانات مستخدمين. لا تمر بياناتك عبر خوادمنا، باستثناء محتوى الرسائل المرسلة إلى Anthropic API لإنشاء الردود.',
+      s5_h:'5. مشاركة البيانات',
+      s5_p:'تُرسَل رسائلك إلى <strong>Anthropic</strong> (مزوّد الذكاء الاصطناعي) لإنشاء الردود. تخضع Anthropic لسياسة الخصوصية الخاصة بها. لا تُباع أي بيانات لأطراف ثالثة.',
+      s6_h:'6. ملفات تعريف الارتباط',
+      s6_p:'يستخدم Lovéa فقط ملفات تعريف الارتباط التقنية (تفضيلات اللغة، الجلسة) وملفات تعريف ارتباط تحليلية مجهولة الهوية عبر Google Analytics. يمكنك تعطيل ملفات تعريف الارتباط التحليلية في إعدادات المتصفح.',
+      s7_h:'7. حقوقك',
+      s7_intro:':وفقاً للائحة الأوروبية GDPR، لديك الحقوق التالية',
+      s7_ul:['حق الوصول والتصحيح والمحو لبياناتك','حق قابلية نقل البيانات','حق الاعتراض على المعالجة'],
+      s7_contact:'لممارسة هذه الحقوق: <a href="mailto:contact@lovea.app">contact@lovea.app</a>. يمكن حذف البيانات المحلية في أي وقت بمسح localStorage في متصفحك.',
+      s8_h:'8. الأمان',
+      s8_p:'تستخدم الخدمة HTTPS لتأمين الاتصالات. البيانات المخزَّنة محلياً هي مسؤولية المستخدم.',
+      s9_h:'9. القاصرون',
+      s9_p:'يُوجَّه Lovéa للآباء والأولياء القانونيين. البيانات المتعلقة بالأطفال محدودة (الاسم الأول، العمر، الحساسية) ومخزَّنة فقط على جهازك.',
+      s10_h:'10. التواصل',
+      s10_p:'لأي سؤال يتعلق ببياناتك: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    es: {
+      back:'← Volver a Lovéa', h1:'Política de privacidad',
+      date_line:'Última actualización: 24 de junio de 2026',
+      s1_h:'1. Responsable del tratamiento',
+      s1_p:'La responsable del tratamiento de datos es Lauren. Contacto: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. Datos recopilados',
+      s2_p:'Lovéa solo recopila los datos necesarios para el funcionamiento del servicio:',
+      s2_ul:['<strong>Perfil del niño</strong>: nombre, fecha de nacimiento, alergias, notas — almacenados localmente en tu dispositivo (localStorage)','<strong>Conversaciones</strong>: tus mensajes y las respuestas del asistente — almacenados localmente en tu dispositivo','<strong>Datos de navegación</strong>: a través de Google Analytics (páginas visitadas, idioma, dispositivo) — anonimizados','<strong>Datos de pago</strong>: gestionados íntegramente por Lemon Squeezy — Lovéa no tiene acceso a tus datos bancarios'],
+      s3_h:'3. Finalidades del tratamiento',
+      s3_ul:['Personalizar los consejos según la edad y las alergias de tu hijo','Mejorar el servicio mediante estadísticas anónimas','Gestionar las suscripciones de pago'],
+      s4_h:'4. Almacenamiento de datos',
+      s4_p:'Los perfiles y conversaciones se almacenan <strong>únicamente en tu dispositivo</strong> a través de localStorage. Lovéa no dispone de ninguna base de datos de usuarios. Tus datos no pasan por nuestros servidores, excepto el contenido de los mensajes enviados a la API de Anthropic para generar las respuestas.',
+      s5_h:'5. Compartición de datos',
+      s5_p:'Tus mensajes se transmiten a <strong>Anthropic</strong> (proveedor de IA) para generar las respuestas. Anthropic está sujeta a su propia política de privacidad. Ningún dato se vende a terceros.',
+      s6_h:'6. Cookies',
+      s6_p:'Lovéa solo utiliza cookies técnicas (preferencias de idioma, sesión) y cookies analíticas anónimas a través de Google Analytics. Puedes desactivar las cookies analíticas en la configuración de tu navegador.',
+      s7_h:'7. Tus derechos',
+      s7_intro:'De conformidad con el RGPD, tienes los siguientes derechos:',
+      s7_ul:['Derecho de acceso, rectificación y supresión de tus datos','Derecho a la portabilidad de datos','Derecho de oposición al tratamiento'],
+      s7_contact:'Para ejercer estos derechos: <a href="mailto:contact@lovea.app">contact@lovea.app</a>. Los datos locales pueden eliminarse en cualquier momento borrando el localStorage de tu navegador.',
+      s8_h:'8. Seguridad',
+      s8_p:'El servicio utiliza HTTPS para proteger las comunicaciones. Los datos almacenados localmente son responsabilidad del usuario.',
+      s9_h:'9. Menores',
+      s9_p:'Lovéa está destinado a padres y tutores legales. Los datos relativos a los niños son mínimos (nombre, edad, alergias) y se almacenan únicamente en tu dispositivo.',
+      s10_h:'10. Contacto',
+      s10_p:'Para cualquier pregunta relativa a tus datos: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    de: {
+      back:'← Zurück zu Lovéa', h1:'Datenschutzerklärung',
+      date_line:'Zuletzt aktualisiert: 24. Juni 2026',
+      s1_h:'1. Verantwortliche Stelle',
+      s1_p:'Verantwortliche für die Datenverarbeitung ist Lauren. Kontakt: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. Erhobene Daten',
+      s2_p:'Lovéa erhebt nur die für den Betrieb des Dienstes notwendigen Daten:',
+      s2_ul:['<strong>Kinderprofil</strong>: Vorname, Geburtsdatum, Allergien, Notizen — lokal auf deinem Gerät gespeichert (localStorage)','<strong>Gespräche</strong>: deine Nachrichten und die Antworten des Assistenten — lokal auf deinem Gerät gespeichert','<strong>Navigationsdaten</strong>: über Google Analytics (besuchte Seiten, Sprache, Gerät) — anonymisiert','<strong>Zahlungsdaten</strong>: vollständig von Lemon Squeezy verwaltet — Lovéa hat keinen Zugriff auf deine Bankdaten'],
+      s3_h:'3. Zwecke der Verarbeitung',
+      s3_ul:['Personalisierung der Ratschläge nach Alter und Allergien deines Kindes','Verbesserung des Dienstes durch anonyme Statistiken','Verwaltung kostenpflichtiger Abonnements'],
+      s4_h:'4. Datenspeicherung',
+      s4_p:'Profile und Gespräche werden <strong>nur auf deinem Gerät</strong> über localStorage gespeichert. Lovéa verfügt über keine Nutzerdatenbank. Deine Daten werden nicht über unsere Server übertragen, außer dem Inhalt der an die Anthropic API gesendeten Nachrichten zur Generierung der Antworten.',
+      s5_h:'5. Datenweitergabe',
+      s5_p:'Deine Nachrichten werden zur Generierung der Antworten an <strong>Anthropic</strong> (KI-Anbieter) übertragen. Anthropic unterliegt seiner eigenen Datenschutzrichtlinie. Es werden keine Daten an Dritte verkauft.',
+      s6_h:'6. Cookies',
+      s6_p:'Lovéa verwendet nur technische Cookies (Spracheinstellungen, Sitzung) und anonyme Analyse-Cookies über Google Analytics. Du kannst Analyse-Cookies in deinen Browsereinstellungen deaktivieren.',
+      s7_h:'7. Deine Rechte',
+      s7_intro:'Gemäß der DSGVO stehen dir folgende Rechte zu:',
+      s7_ul:['Recht auf Auskunft, Berichtigung und Löschung deiner Daten','Recht auf Datenübertragbarkeit','Recht auf Widerspruch gegen die Verarbeitung'],
+      s7_contact:'Zur Ausübung dieser Rechte: <a href="mailto:contact@lovea.app">contact@lovea.app</a>. Lokale Daten können jederzeit durch Löschen des localStorage des Browsers entfernt werden.',
+      s8_h:'8. Sicherheit',
+      s8_p:'Der Dienst nutzt HTTPS zur Sicherung der Kommunikation. Lokal gespeicherte Daten liegen in der Verantwortung des Nutzers.',
+      s9_h:'9. Minderjährige',
+      s9_p:'Lovéa richtet sich an Eltern und gesetzliche Erziehungsberechtigte. Die Daten zu Kindern sind minimal (Vorname, Alter, Allergien) und werden nur auf deinem Gerät gespeichert.',
+      s10_h:'10. Kontakt',
+      s10_p:'Für alle Fragen zu deinen Daten: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    it: {
+      back:'← Torna a Lovéa', h1:'Informativa sulla privacy',
+      date_line:'Ultimo aggiornamento: 24 giugno 2026',
+      s1_h:'1. Titolare del trattamento',
+      s1_p:'Il titolare del trattamento dei dati è Lauren. Contatto: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. Dati raccolti',
+      s2_p:'Lovéa raccoglie solo i dati necessari al funzionamento del servizio:',
+      s2_ul:['<strong>Profilo bambino</strong>: nome, data di nascita, allergie, note — memorizzati localmente sul tuo dispositivo (localStorage)','<strong>Conversazioni</strong>: i tuoi messaggi e le risposte dell\'assistente — memorizzati localmente sul tuo dispositivo','<strong>Dati di navigazione</strong>: tramite Google Analytics (pagine visitate, lingua, dispositivo) — anonimizzati','<strong>Dati di pagamento</strong>: gestiti interamente da Lemon Squeezy — Lovéa non ha accesso ai tuoi dati bancari'],
+      s3_h:'3. Finalità del trattamento',
+      s3_ul:['Personalizzare i consigli in base all\'età e alle allergie del tuo bambino','Migliorare il servizio tramite statistiche anonime','Gestire gli abbonamenti a pagamento'],
+      s4_h:'4. Conservazione dei dati',
+      s4_p:'I profili e le conversazioni sono memorizzati <strong>solo sul tuo dispositivo</strong> tramite localStorage. Lovéa non dispone di alcun database utenti. I tuoi dati non transitano sui nostri server, tranne il contenuto dei messaggi inviati all\'API Anthropic per generare le risposte.',
+      s5_h:'5. Condivisione dei dati',
+      s5_p:'I tuoi messaggi sono trasmessi a <strong>Anthropic</strong> (fornitore dell\'IA) per generare le risposte. Anthropic è soggetta alla propria informativa sulla privacy. Nessun dato viene venduto a terzi.',
+      s6_h:'6. Cookie',
+      s6_p:'Lovéa utilizza solo cookie tecnici (preferenze di lingua, sessione) e cookie analitici anonimi tramite Google Analytics. Puoi disabilitare i cookie analitici nelle impostazioni del browser.',
+      s7_h:'7. I tuoi diritti',
+      s7_intro:'Ai sensi del GDPR, hai i seguenti diritti:',
+      s7_ul:['Diritto di accesso, rettifica e cancellazione dei tuoi dati','Diritto alla portabilità dei dati','Diritto di opposizione al trattamento'],
+      s7_contact:'Per esercitare questi diritti: <a href="mailto:contact@lovea.app">contact@lovea.app</a>. I dati locali possono essere eliminati in qualsiasi momento cancellando il localStorage del browser.',
+      s8_h:'8. Sicurezza',
+      s8_p:'Il servizio utilizza HTTPS per proteggere le comunicazioni. I dati memorizzati localmente sono sotto la responsabilità dell\'utente.',
+      s9_h:'9. Minori',
+      s9_p:'Lovéa è destinato a genitori e tutori legali. I dati relativi ai bambini sono minimi (nome, età, allergie) e memorizzati solo sul tuo dispositivo.',
+      s10_h:'10. Contatto',
+      s10_p:'Per qualsiasi domanda relativa ai tuoi dati: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    pt: {
+      back:'← Voltar ao Lovéa', h1:'Política de privacidade',
+      date_line:'Última atualização: 24 de junho de 2026',
+      s1_h:'1. Responsável pelo tratamento',
+      s1_p:'A responsável pelo tratamento dos dados é Lauren. Contacto: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. Dados recolhidos',
+      s2_p:'O Lovéa recolhe apenas os dados necessários ao funcionamento do serviço:',
+      s2_ul:['<strong>Perfil da criança</strong>: nome próprio, data de nascimento, alergias, notas — guardados localmente no teu dispositivo (localStorage)','<strong>Conversas</strong>: as tuas mensagens e as respostas do assistente — guardadas localmente no teu dispositivo','<strong>Dados de navegação</strong>: através do Google Analytics (páginas visitadas, idioma, dispositivo) — anonimizados','<strong>Dados de pagamento</strong>: geridos inteiramente pela Lemon Squeezy — o Lovéa não tem acesso aos teus dados bancários'],
+      s3_h:'3. Finalidades do tratamento',
+      s3_ul:['Personalizar os conselhos de acordo com a idade e as alergias da tua criança','Melhorar o serviço através de estatísticas anónimas','Gerir as subscrições pagas'],
+      s4_h:'4. Armazenamento de dados',
+      s4_p:'Os perfis e as conversas são guardados <strong>apenas no teu dispositivo</strong> através do localStorage. O Lovéa não possui qualquer base de dados de utilizadores. Os teus dados não transitam pelos nossos servidores, exceto o conteúdo das mensagens enviadas para a API da Anthropic para gerar as respostas.',
+      s5_h:'5. Partilha de dados',
+      s5_p:'As tuas mensagens são transmitidas à <strong>Anthropic</strong> (fornecedor de IA) para gerar as respostas. A Anthropic está sujeita à sua própria política de privacidade. Nenhum dado é vendido a terceiros.',
+      s6_h:'6. Cookies',
+      s6_p:'O Lovéa utiliza apenas cookies técnicos (preferências de idioma, sessão) e cookies analíticos anónimos através do Google Analytics. Podes desativar os cookies analíticos nas definições do teu navegador.',
+      s7_h:'7. Os teus direitos',
+      s7_intro:'Nos termos do RGPD, tens os seguintes direitos:',
+      s7_ul:['Direito de acesso, retificação e apagamento dos teus dados','Direito à portabilidade dos dados','Direito de oposição ao tratamento'],
+      s7_contact:'Para exercer estes direitos: <a href="mailto:contact@lovea.app">contact@lovea.app</a>. Os dados locais podem ser eliminados a qualquer momento apagando o localStorage do teu navegador.',
+      s8_h:'8. Segurança',
+      s8_p:'O serviço utiliza HTTPS para proteger as comunicações. Os dados guardados localmente são da responsabilidade do utilizador.',
+      s9_h:'9. Menores',
+      s9_p:'O Lovéa destina-se a pais e tutores legais. Os dados relativos às crianças são mínimos (nome próprio, idade, alergias) e guardados apenas no teu dispositivo.',
+      s10_h:'10. Contacto',
+      s10_p:'Para qualquer questão relativa aos teus dados: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    ru: {
+      back:'← Вернуться к Lovéa', h1:'Политика конфиденциальности',
+      date_line:'Последнее обновление: 24 июня 2026',
+      s1_h:'1. Контролёр данных',
+      s1_p:'Контролёром обработки данных является Лорен. Контакт: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. Собираемые данные',
+      s2_p:'Lovéa собирает только данные, необходимые для работы сервиса:',
+      s2_ul:['<strong>Профиль ребёнка</strong>: имя, дата рождения, аллергии, заметки — хранятся локально на вашем устройстве (localStorage)','<strong>Разговоры</strong>: ваши сообщения и ответы ассистента — хранятся локально на вашем устройстве','<strong>Данные о навигации</strong>: через Google Analytics (посещённые страницы, язык, устройство) — анонимизированные','<strong>Платёжные данные</strong>: полностью управляются Lemon Squeezy — Lovéa не имеет доступа к вашим банковским реквизитам'],
+      s3_h:'3. Цели обработки',
+      s3_ul:['Персонализация советов с учётом возраста и аллергий вашего ребёнка','Улучшение сервиса с помощью анонимной статистики','Управление платными подписками'],
+      s4_h:'4. Хранение данных',
+      s4_p:'Профили и разговоры хранятся <strong>только на вашем устройстве</strong> через localStorage. У Lovéa нет базы данных пользователей. Ваши данные не проходят через наши серверы, кроме содержимого сообщений, отправляемых в Anthropic API для генерации ответов.',
+      s5_h:'5. Передача данных',
+      s5_p:'Ваши сообщения передаются <strong>Anthropic</strong> (поставщику ИИ) для генерации ответов. Anthropic подпадает под действие собственной политики конфиденциальности. Никакие данные не продаются третьим лицам.',
+      s6_h:'6. Файлы cookie',
+      s6_p:'Lovéa использует только технические файлы cookie (языковые предпочтения, сессия) и анонимные аналитические cookie через Google Analytics. Вы можете отключить аналитические cookie в настройках браузера.',
+      s7_h:'7. Ваши права',
+      s7_intro:'В соответствии с GDPR у вас есть следующие права:',
+      s7_ul:['Право на доступ, исправление и удаление ваших данных','Право на переносимость данных','Право на возражение против обработки'],
+      s7_contact:'Для реализации этих прав: <a href="mailto:contact@lovea.app">contact@lovea.app</a>. Локальные данные можно удалить в любое время, очистив localStorage браузера.',
+      s8_h:'8. Безопасность',
+      s8_p:'Сервис использует HTTPS для защиты соединений. Данные, хранящиеся локально, находятся под ответственностью пользователя.',
+      s9_h:'9. Несовершеннолетние',
+      s9_p:'Lovéa предназначен для родителей и законных опекунов. Данные о детях минимальны (имя, возраст, аллергии) и хранятся только на вашем устройстве.',
+      s10_h:'10. Контакт',
+      s10_p:'По любым вопросам, связанным с вашими данными: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    zh: {
+      back:'← 返回 Lovéa', h1:'隐私政策',
+      date_line:'最后更新：2026年6月24日',
+      s1_h:'1. 数据控制方',
+      s1_p:'数据处理负责人是 Lauren。联系方式：<a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. 收集的数据',
+      s2_p:'Lovéa 仅收集服务运行所需的数据：',
+      s2_ul:['<strong>儿童档案</strong>：名字、出生日期、过敏史、备注 — 仅存储在您的设备本地（localStorage）','<strong>对话记录</strong>：您的消息和助手的回复 — 仅存储在您的设备本地','<strong>浏览数据</strong>：通过 Google Analytics（访问页面、语言、设备）— 已匿名化','<strong>支付数据</strong>：完全由 Lemon Squeezy 管理 — Lovéa 无法访问您的银行信息'],
+      s3_h:'3. 处理目的',
+      s3_ul:['根据孩子的年龄和过敏史个性化建议','通过匿名统计改进服务','管理付费订阅'],
+      s4_h:'4. 数据存储',
+      s4_p:'档案和对话<strong>仅存储在您的设备</strong>中（localStorage）。Lovéa 没有任何用户数据库。您的数据不经过我们的服务器，发送给 Anthropic API 以生成回复的消息内容除外。',
+      s5_h:'5. 数据共享',
+      s5_p:'您的消息被传输给 <strong>Anthropic</strong>（AI 提供商）以生成回复。Anthropic 受其自身隐私政策约束。任何数据都不会出售给第三方。',
+      s6_h:'6. Cookie',
+      s6_p:'Lovéa 仅使用技术性 Cookie（语言偏好、会话）和通过 Google Analytics 的匿名分析 Cookie。您可以在浏览器设置中禁用分析 Cookie。',
+      s7_h:'7. 您的权利',
+      s7_intro:'根据 GDPR，您拥有以下权利：',
+      s7_ul:['访问、更正和删除您数据的权利','数据可携带权','反对处理的权利'],
+      s7_contact:'行使这些权利请联系：<a href="mailto:contact@lovea.app">contact@lovea.app</a>。可随时通过清除浏览器的 localStorage 来删除本地数据。',
+      s8_h:'8. 安全',
+      s8_p:'服务使用 HTTPS 保护通信。本地存储的数据由用户自行负责。',
+      s9_h:'9. 未成年人',
+      s9_p:'Lovéa 面向家长和法定监护人。涉及儿童的数据最少（名字、年龄、过敏史），且仅存储在您的设备上。',
+      s10_h:'10. 联系',
+      s10_p:'有关您数据的任何问题：<a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    ja: {
+      back:'← Lovéa に戻る', h1:'プライバシーポリシー',
+      date_line:'最終更新日：2026年6月24日',
+      s1_h:'1. データ管理者',
+      s1_p:'データ処理の責任者は Lauren です。連絡先：<a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. 収集するデータ',
+      s2_p:'Lovéa はサービスの動作に必要なデータのみを収集します：',
+      s2_ul:['<strong>お子さまのプロフィール</strong>：名前、生年月日、アレルギー、メモ — お使いのデバイスにローカル保存（localStorage）','<strong>会話</strong>：あなたのメッセージとアシスタントの返答 — お使いのデバイスにローカル保存','<strong>ナビゲーションデータ</strong>：Google Analytics 経由（訪問ページ、言語、デバイス）— 匿名化済み','<strong>支払いデータ</strong>：Lemon Squeezy が全面的に管理 — Lovéa はあなたの銀行情報にアクセスしません'],
+      s3_h:'3. 処理の目的',
+      s3_ul:['お子さまの年齢とアレルギーに基づくアドバイスのパーソナライズ','匿名統計によるサービス改善','有料サブスクリプションの管理'],
+      s4_h:'4. データの保管',
+      s4_p:'プロフィールと会話は localStorage を通じて<strong>お使いのデバイスのみ</strong>に保存されます。Lovéa にはユーザーデータベースがありません。回答を生成するために Anthropic API に送信されるメッセージの内容を除き、データは当社のサーバーを通過しません。',
+      s5_h:'5. データの共有',
+      s5_p:'回答を生成するため、あなたのメッセージは<strong>Anthropic</strong>（AI プロバイダー）に送信されます。Anthropic は独自のプライバシーポリシーの適用を受けます。データが第三者に販売されることはありません。',
+      s6_h:'6. Cookie',
+      s6_p:'Lovéa は技術的な Cookie（言語設定、セッション）と Google Analytics による匿名の分析 Cookie のみを使用します。ブラウザの設定で分析 Cookie を無効にできます。',
+      s7_h:'7. あなたの権利',
+      s7_intro:'GDPR に基づき、以下の権利があります：',
+      s7_ul:['データへのアクセス、訂正、消去の権利','データポータビリティの権利','処理に対する異議申し立ての権利'],
+      s7_contact:'これらの権利を行使するには：<a href="mailto:contact@lovea.app">contact@lovea.app</a>。ブラウザの localStorage を消去することで、いつでもローカルデータを削除できます。',
+      s8_h:'8. セキュリティ',
+      s8_p:'サービスは HTTPS を使用して通信を保護しています。ローカルに保存されたデータはユーザーの責任において管理されます。',
+      s9_h:'9. 未成年者',
+      s9_p:'Lovéa は保護者および法定後見人を対象としています。子どもに関するデータは最小限（名前、年齢、アレルギー）であり、お使いのデバイスにのみ保存されます。',
+      s10_h:'10. お問い合わせ',
+      s10_p:'データに関するご質問：<a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    ko: {
+      back:'← Lovéa로 돌아가기', h1:'개인정보 처리방침',
+      date_line:'최종 업데이트: 2026년 6월 24일',
+      s1_h:'1. 데이터 처리자',
+      s1_p:'데이터 처리 책임자는 Lauren입니다. 연락처: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. 수집하는 데이터',
+      s2_p:'Lovéa는 서비스 운영에 필요한 데이터만 수집합니다:',
+      s2_ul:['<strong>자녀 프로필</strong>: 이름, 생년월일, 알레르기, 메모 — 기기에 로컬 저장(localStorage)','<strong>대화</strong>: 사용자 메시지와 어시스턴트의 응답 — 기기에 로컬 저장','<strong>탐색 데이터</strong>: Google Analytics를 통해(방문 페이지, 언어, 기기) — 익명화됨','<strong>결제 데이터</strong>: Lemon Squeezy가 전적으로 관리 — Lovéa는 사용자의 금융 정보에 접근할 수 없음'],
+      s3_h:'3. 처리 목적',
+      s3_ul:['자녀의 나이 및 알레르기에 맞는 조언 개인화','익명 통계를 통한 서비스 개선','유료 구독 관리'],
+      s4_h:'4. 데이터 저장',
+      s4_p:'프로필과 대화는 localStorage를 통해 <strong>사용자 기기에만</strong> 저장됩니다. Lovéa에는 사용자 데이터베이스가 없습니다. 응답 생성을 위해 Anthropic API로 전송되는 메시지 내용을 제외하고 데이터는 서버를 거치지 않습니다.',
+      s5_h:'5. 데이터 공유',
+      s5_p:'사용자의 메시지는 응답 생성을 위해 <strong>Anthropic</strong>(AI 제공업체)에 전송됩니다. Anthropic은 자체 개인정보 처리방침을 따릅니다. 어떤 데이터도 제3자에게 판매되지 않습니다.',
+      s6_h:'6. 쿠키',
+      s6_p:'Lovéa는 기술적 쿠키(언어 설정, 세션)와 Google Analytics를 통한 익명 분석 쿠키만 사용합니다. 브라우저 설정에서 분석 쿠키를 비활성화할 수 있습니다.',
+      s7_h:'7. 사용자의 권리',
+      s7_intro:'GDPR에 따라 다음과 같은 권리가 있습니다:',
+      s7_ul:['데이터 액세스, 수정 및 삭제 권리','데이터 이식성 권리','처리에 대한 이의 제기 권리'],
+      s7_contact:'이러한 권리를 행사하려면: <a href="mailto:contact@lovea.app">contact@lovea.app</a>. 브라우저의 localStorage를 지우면 언제든지 로컬 데이터를 삭제할 수 있습니다.',
+      s8_h:'8. 보안',
+      s8_p:'서비스는 통신 보호를 위해 HTTPS를 사용합니다. 로컬에 저장된 데이터는 사용자의 책임입니다.',
+      s9_h:'9. 미성년자',
+      s9_p:'Lovéa는 부모와 법정 보호자를 위한 서비스입니다. 자녀에 관한 데이터는 최소한(이름, 나이, 알레르기)이며 사용자 기기에만 저장됩니다.',
+      s10_h:'10. 연락처',
+      s10_p:'데이터에 관한 모든 문의: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    tr: {
+      back:'← Lovéa\'ya Dön', h1:'Gizlilik Politikası',
+      date_line:'Son güncelleme: 24 Haziran 2026',
+      s1_h:'1. Veri sorumlusu',
+      s1_p:'Veri işlemenin sorumlusu Lauren\'dır. İletişim: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. Toplanan veriler',
+      s2_p:'Lovéa yalnızca hizmetin çalışması için gerekli verileri toplar:',
+      s2_ul:['<strong>Çocuk profili</strong>: ad, doğum tarihi, alerjiler, notlar — yalnızca cihazınızda yerel olarak saklanır (localStorage)','<strong>Konuşmalar</strong>: mesajlarınız ve asistanın yanıtları — yalnızca cihazınızda yerel olarak saklanır','<strong>Gezinti verileri</strong>: Google Analytics aracılığıyla (ziyaret edilen sayfalar, dil, cihaz) — anonimleştirilmiş','<strong>Ödeme verileri</strong>: tamamen Lemon Squeezy tarafından yönetilir — Lovéa banka bilgilerinize erişemez'],
+      s3_h:'3. İşleme amaçları',
+      s3_ul:['Tavsiyeleri çocuğunuzun yaşına ve alerjilerine göre kişiselleştirme','Anonim istatistikler aracılığıyla hizmeti iyileştirme','Ücretli abonelikleri yönetme'],
+      s4_h:'4. Veri saklama',
+      s4_p:'Profiller ve konuşmalar localStorage aracılığıyla <strong>yalnızca cihazınızda</strong> saklanır. Lovéa\'nın herhangi bir kullanıcı veritabanı yoktur. Verileriniz sunucularımızdan geçmez; yanıt oluşturmak için Anthropic API\'ye gönderilen mesaj içerikleri hariç.',
+      s5_h:'5. Veri paylaşımı',
+      s5_p:'Mesajlarınız yanıt oluşturmak için <strong>Anthropic</strong>\'e (yapay zeka sağlayıcısı) iletilir. Anthropic kendi gizlilik politikasına tabidir. Hiçbir veri üçüncü taraflara satılmaz.',
+      s6_h:'6. Çerezler',
+      s6_p:'Lovéa yalnızca teknik çerezler (dil tercihleri, oturum) ve Google Analytics aracılığıyla anonim analitik çerezler kullanır. Analitik çerezleri tarayıcı ayarlarınızdan devre dışı bırakabilirsiniz.',
+      s7_h:'7. Haklarınız',
+      s7_intro:'GDPR uyarınca aşağıdaki haklara sahipsiniz:',
+      s7_ul:['Verilerinize erişim, düzeltme ve silme hakkı','Veri taşınabilirliği hakkı','İşlemeye itiraz hakkı'],
+      s7_contact:'Bu hakları kullanmak için: <a href="mailto:contact@lovea.app">contact@lovea.app</a>. Tarayıcınızın localStorage\'ını temizleyerek yerel veriler her zaman silinebilir.',
+      s8_h:'8. Güvenlik',
+      s8_p:'Hizmet, iletişimi korumak için HTTPS kullanır. Yerel olarak saklanan veriler kullanıcının sorumluluğundadır.',
+      s9_h:'9. Küçükler',
+      s9_p:'Lovéa, ebeveynlere ve yasal vasilere yöneliktir. Çocuklara ilişkin veriler asgari düzeydedir (ad, yaş, alerjiler) ve yalnızca cihazınızda saklanır.',
+      s10_h:'10. İletişim',
+      s10_p:'Verilerinizle ilgili tüm sorular için: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    nl: {
+      back:'← Terug naar Lovéa', h1:'Privacybeleid',
+      date_line:'Laatste update: 24 juni 2026',
+      s1_h:'1. Verwerkingsverantwoordelijke',
+      s1_p:'De verwerkingsverantwoordelijke voor de gegevens is Lauren. Contact: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. Verzamelde gegevens',
+      s2_p:'Lovéa verzamelt alleen gegevens die noodzakelijk zijn voor het functioneren van de dienst:',
+      s2_ul:['<strong>Kinderprofiel</strong>: voornaam, geboortedatum, allergieën, notities — lokaal opgeslagen op jouw apparaat (localStorage)','<strong>Gesprekken</strong>: jouw berichten en de antwoorden van de assistent — lokaal opgeslagen op jouw apparaat','<strong>Navigatiegegevens</strong>: via Google Analytics (bezochte pagina\'s, taal, apparaat) — geanonimiseerd','<strong>Betalingsgegevens</strong>: volledig beheerd door Lemon Squeezy — Lovéa heeft geen toegang tot jouw bankgegevens'],
+      s3_h:'3. Verwerkingsdoeleinden',
+      s3_ul:['Adviezen personaliseren op basis van de leeftijd en allergieën van jouw kind','De dienst verbeteren via anonieme statistieken','Betaalde abonnementen beheren'],
+      s4_h:'4. Gegevensopslag',
+      s4_p:'Profielen en gesprekken worden via localStorage <strong>alleen op jouw apparaat</strong> opgeslagen. Lovéa heeft geen gebruikersdatabase. Jouw gegevens gaan niet via onze servers, behalve de inhoud van berichten die naar de Anthropic API worden gestuurd om antwoorden te genereren.',
+      s5_h:'5. Gegevensdeling',
+      s5_p:'Jouw berichten worden ter generering van antwoorden naar <strong>Anthropic</strong> (de AI-aanbieder) verstuurd. Anthropic valt onder zijn eigen privacybeleid. Er worden geen gegevens aan derden verkocht.',
+      s6_h:'6. Cookies',
+      s6_p:'Lovéa gebruikt alleen technische cookies (taalvoorkeur, sessie) en anonieme analytische cookies via Google Analytics. Je kunt analytische cookies uitschakelen in de browserinstellingen.',
+      s7_h:'7. Jouw rechten',
+      s7_intro:'Op grond van de AVG heb je de volgende rechten:',
+      s7_ul:['Recht op inzage, rectificatie en verwijdering van jouw gegevens','Recht op gegevensoverdraagbaarheid','Recht op bezwaar tegen de verwerking'],
+      s7_contact:'Om deze rechten uit te oefenen: <a href="mailto:contact@lovea.app">contact@lovea.app</a>. Lokale gegevens kunnen op elk moment worden verwijderd door de localStorage van je browser te wissen.',
+      s8_h:'8. Beveiliging',
+      s8_p:'De dienst gebruikt HTTPS om communicatie te beveiligen. Lokaal opgeslagen gegevens vallen onder de verantwoordelijkheid van de gebruiker.',
+      s9_h:'9. Minderjarigen',
+      s9_p:'Lovéa is bestemd voor ouders en wettelijke voogden. Gegevens over kinderen zijn minimaal (voornaam, leeftijd, allergieën) en worden alleen op jouw apparaat opgeslagen.',
+      s10_h:'10. Contact',
+      s10_p:'Voor alle vragen over jouw gegevens: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    pl: {
+      back:'← Wróć do Lovéa', h1:'Polityka prywatności',
+      date_line:'Ostatnia aktualizacja: 24 czerwca 2026',
+      s1_h:'1. Administrator danych',
+      s1_p:'Administratorem danych jest Lauren. Kontakt: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. Zbierane dane',
+      s2_p:'Lovéa zbiera wyłącznie dane niezbędne do działania usługi:',
+      s2_ul:['<strong>Profil dziecka</strong>: imię, data urodzenia, alergie, notatki — przechowywane lokalnie na Twoim urządzeniu (localStorage)','<strong>Rozmowy</strong>: Twoje wiadomości i odpowiedzi asystenta — przechowywane lokalnie na Twoim urządzeniu','<strong>Dane nawigacyjne</strong>: za pośrednictwem Google Analytics (odwiedzone strony, język, urządzenie) — zanonimizowane','<strong>Dane płatnicze</strong>: zarządzane w całości przez Lemon Squeezy — Lovéa nie ma dostępu do Twoich danych bankowych'],
+      s3_h:'3. Cele przetwarzania',
+      s3_ul:['Personalizacja porad zgodnie z wiekiem i alergiami Twojego dziecka','Ulepszanie usługi za pomocą anonimowych statystyk','Zarządzanie płatnymi subskrypcjami'],
+      s4_h:'4. Przechowywanie danych',
+      s4_p:'Profile i rozmowy są przechowywane <strong>wyłącznie na Twoim urządzeniu</strong> za pośrednictwem localStorage. Lovéa nie posiada żadnej bazy danych użytkowników. Twoje dane nie przechodzą przez nasze serwery, z wyjątkiem treści wiadomości wysyłanych do API Anthropic w celu generowania odpowiedzi.',
+      s5_h:'5. Udostępnianie danych',
+      s5_p:'Twoje wiadomości są przesyłane do <strong>Anthropic</strong> (dostawcy AI) w celu generowania odpowiedzi. Anthropic podlega własnej polityce prywatności. Żadne dane nie są sprzedawane osobom trzecim.',
+      s6_h:'6. Pliki cookie',
+      s6_p:'Lovéa używa wyłącznie technicznych plików cookie (preferencje językowe, sesja) i anonimowych analitycznych plików cookie za pośrednictwem Google Analytics. Możesz wyłączyć analityczne pliki cookie w ustawieniach przeglądarki.',
+      s7_h:'7. Twoje prawa',
+      s7_intro:'Zgodnie z RODO przysługują Ci następujące prawa:',
+      s7_ul:['Prawo dostępu, sprostowania i usunięcia Twoich danych','Prawo do przenoszenia danych','Prawo do sprzeciwu wobec przetwarzania'],
+      s7_contact:'W celu skorzystania z tych praw: <a href="mailto:contact@lovea.app">contact@lovea.app</a>. Dane lokalne można usunąć w dowolnym momencie, czyszcząc localStorage przeglądarki.',
+      s8_h:'8. Bezpieczeństwo',
+      s8_p:'Usługa używa HTTPS do zabezpieczania komunikacji. Dane przechowywane lokalnie są odpowiedzialnością użytkownika.',
+      s9_h:'9. Małoletni',
+      s9_p:'Lovéa jest przeznaczone dla rodziców i opiekunów prawnych. Dane dotyczące dzieci są minimalne (imię, wiek, alergie) i przechowywane wyłącznie na Twoim urządzeniu.',
+      s10_h:'10. Kontakt',
+      s10_p:'W przypadku wszelkich pytań dotyczących Twoich danych: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+    ro: {
+      back:'← Înapoi la Lovéa', h1:'Politica de confidențialitate',
+      date_line:'Ultima actualizare: 24 iunie 2026',
+      s1_h:'1. Responsabil cu prelucrarea datelor',
+      s1_p:'Responsabilul cu prelucrarea datelor este Lauren. Contact: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+      s2_h:'2. Date colectate',
+      s2_p:'Lovéa colectează numai datele necesare funcționării serviciului:',
+      s2_ul:['<strong>Profilul copilului</strong>: prenume, dată de naștere, alergii, notițe — stocate local pe dispozitivul tău (localStorage)','<strong>Conversații</strong>: mesajele tale și răspunsurile asistentului — stocate local pe dispozitivul tău','<strong>Date de navigare</strong>: prin Google Analytics (pagini vizitate, limbă, dispozitiv) — anonimizate','<strong>Date de plată</strong>: gestionate integral de Lemon Squeezy — Lovéa nu are acces la datele tale bancare'],
+      s3_h:'3. Scopurile prelucrării',
+      s3_ul:['Personalizarea sfaturilor în funcție de vârsta și alergiile copilului tău','Îmbunătățirea serviciului prin statistici anonime','Gestionarea abonamentelor plătite'],
+      s4_h:'4. Stocarea datelor',
+      s4_p:'Profilurile și conversațiile sunt stocate <strong>exclusiv pe dispozitivul tău</strong> prin localStorage. Lovéa nu deține nicio bază de date de utilizatori. Datele tale nu tranzitează serverele noastre, cu excepția conținutului mesajelor trimise către Anthropic API pentru a genera răspunsuri.',
+      s5_h:'5. Partajarea datelor',
+      s5_p:'Mesajele tale sunt transmise către <strong>Anthropic</strong> (furnizorul de IA) pentru a genera răspunsuri. Anthropic este supus propriei politici de confidențialitate. Nicio dată nu este vândută terților.',
+      s6_h:'6. Cookie-uri',
+      s6_p:'Lovéa folosește numai cookie-uri tehnice (preferințe de limbă, sesiune) și cookie-uri analitice anonime prin Google Analytics. Poți dezactiva cookie-urile analitice din setările browserului.',
+      s7_h:'7. Drepturile tale',
+      s7_intro:'Conform GDPR, ai următoarele drepturi:',
+      s7_ul:['Dreptul de acces, rectificare și ștergere a datelor tale','Dreptul la portabilitatea datelor','Dreptul de a te opune prelucrării'],
+      s7_contact:'Pentru a exercita aceste drepturi: <a href="mailto:contact@lovea.app">contact@lovea.app</a>. Datele locale pot fi șterse oricând prin ștergerea localStorage a browserului.',
+      s8_h:'8. Securitate',
+      s8_p:'Serviciul folosește HTTPS pentru a securiza comunicațiile. Datele stocate local sunt responsabilitatea utilizatorului.',
+      s9_h:'9. Minori',
+      s9_p:'Lovéa este destinat părinților și tutorilor legali. Datele referitoare la copii sunt minime (prenume, vârstă, alergii) și stocate exclusiv pe dispozitivul tău.',
+      s10_h:'10. Contact',
+      s10_p:'Pentru orice întrebare privind datele tale: <a href="mailto:contact@lovea.app">contact@lovea.app</a>',
+    },
+  };
+
+  (function() {
+    const supported = ['fr','en','he','ar','es','de','it','pt','ru','zh','ja','ko','tr','nl','pl','ro'];
+    const alt = { iw:'he' };
+    function detectLang() {
+      const saved = localStorage.getItem('ap-lang');
+      if (saved && PRIVACY_T[saved]) return saved;
+      const navLangs = (navigator.languages && navigator.languages.length) ? [...navigator.languages] : [navigator.language || ''];
+      for (const nl of navLangs) {
+        const code = nl.toLowerCase().split('-')[0];
+        if (alt[code]) return alt[code];
+        if (supported.includes(code)) return code;
+      }
+      return 'fr';
+    }
+    const lang = detectLang();
+    const t = PRIVACY_T[lang] || PRIVACY_T.fr;
+    document.documentElement.lang = lang;
+    if (['he','ar'].includes(lang)) document.documentElement.dir = 'rtl';
+
+    // Simple text fields
+    ['back','h1','date_line','s1_h','s2_h','s2_p','s3_h','s4_h','s5_h','s6_h','s7_h','s7_intro','s8_h','s8_p','s9_h','s9_p','s10_h'].forEach(k => {
+      const el = document.getElementById(k);
+      if (el && t[k] !== undefined) el.textContent = t[k];
+    });
+    // HTML fields (contain links or <strong>)
+    ['s1_p','s4_p','s5_p','s6_p','s7_contact','s10_p'].forEach(k => {
+      const el = document.getElementById(k);
+      if (el && t[k] !== undefined) el.innerHTML = t[k];
+    });
+    // List fields
+    [['s2_ul', t.s2_ul], ['s3_ul', t.s3_ul], ['s7_ul', t.s7_ul]].forEach(([id, items]) => {
+      const el = document.getElementById(id);
+      if (el && items) el.innerHTML = items.map(i => `<li>${i}</li>`).join('');
+    });
+  })();
+  </script>
 </body>
 </html>

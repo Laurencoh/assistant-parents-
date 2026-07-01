@@ -47,48 +47,338 @@
 </head>
 <body>
   <div class="container">
-    <a class="back" href="/">← Retour à Lovéa</a>
-    <h1>À propos de Lovéa</h1>
+    <a class="back" href="/" id="back">← Retour à Lovéa</a>
+    <h1 id="h1">À propos de Lovéa</h1>
 
     <div class="section">
-      <div class="section-label">🌱 Ce qu'est Lovéa</div>
-      <p>Lovéa est un assistant parental IA qui connaît votre enfant par cœur. Créez son profil une fois — âge, allergies, habitudes — et posez toutes vos questions de parent. Les réponses sont toujours adaptées à votre enfant, pas génériques.</p>
+      <div class="section-label" id="s1_label">🌱 Ce qu'est Lovéa</div>
+      <p id="s1_body">Lovéa est un assistant parental IA qui connaît votre enfant par cœur. Créez son profil une fois — âge, allergies, habitudes — et posez toutes vos questions de parent. Les réponses sont toujours adaptées à votre enfant, pas génériques.</p>
     </div>
 
     <div class="section">
-      <div class="section-label">✨ Ce que Lovéa fait pour vous</div>
-      <p>Idées de repas, gestion des crises, activités selon l'âge, conseils sommeil, histoires personnalisées... Lovéa vous accompagne dans les petits défis du quotidien, à toute heure.</p>
+      <div class="section-label" id="s2_label">✨ Ce que Lovéa fait pour vous</div>
+      <p id="s2_body">Idées de repas, gestion des crises, activités selon l'âge, conseils sommeil, histoires personnalisées... Lovéa vous accompagne dans les petits défis du quotidien, à toute heure.</p>
     </div>
 
     <div class="section warning-box">
-      <div class="section-label">⚠️ Les limites importantes</div>
-      <p>Lovéa ne remplace pas un médecin, un pédiatre ou un professionnel de santé. En cas de fièvre, symptômes inquiétants ou urgence, consultez toujours un professionnel.</p>
+      <div class="section-label" id="s3_label">⚠️ Les limites importantes</div>
+      <p id="s3_body">Lovéa ne remplace pas un médecin, un pédiatre ou un professionnel de santé. En cas de fièvre, symptômes inquiétants ou urgence, consultez toujours un professionnel.</p>
     </div>
 
     <div class="section" style="margin-top:40px">
-      <div class="section-label">👩‍💻 Qui est derrière Lovéa</div>
-      <p>Lovéa a été créé par Lauren, étudiante en informatique et passionnée par l'aide aux familles. Ce projet est né d'une conviction simple : les parents méritent un soutien accessible, bienveillant et intelligent.</p>
+      <div class="section-label" id="s4_label">👩‍💻 Qui est derrière Lovéa</div>
+      <p id="s4_body">Lovéa a été créé par Lauren, étudiante en informatique et passionnée par l'aide aux familles. Ce projet est né d'une conviction simple : les parents méritent un soutien accessible, bienveillant et intelligent.</p>
     </div>
 
     <div class="section data-box">
-      <div class="section-label">🔒 Vos données</div>
-      <p>Les informations que vous partagez sur votre enfant — son prénom, son âge, ses allergies — ne sont connues que de vous. Lovéa ne partage jamais ces données avec des tiers. Vous restez le seul parent, Lovéa est simplement là pour vous aider.</p>
+      <div class="section-label" id="s5_label">🔒 Vos données</div>
+      <p id="s5_body">Les informations que vous partagez sur votre enfant — son prénom, son âge, ses allergies — ne sont connues que de vous. Lovéa ne partage jamais ces données avec des tiers. Vous restez le seul parent, Lovéa est simplement là pour vous aider.</p>
     </div>
 
     <div class="section" style="margin-top:40px">
-      <div class="section-label">✉️ Nous contacter</div>
-      <p>Une question, une suggestion ou un problème ? Écrivez-nous à <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a></p>
+      <div class="section-label" id="s6_label">✉️ Nous contacter</div>
+      <p id="s6_body">Une question, une suggestion ou un problème ? Écrivez-nous à <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a></p>
     </div>
 
     <hr>
     <div class="footer-links">
-      <a href="/">Accueil</a>
-      <a href="/pricing">Tarifs</a>
-      <a href="/terms">CGU</a>
-      <a href="/privacy">Confidentialité</a>
-      <a href="/refunds">Remboursements</a>
+      <a href="/" id="fl_home">Accueil</a>
+      <a href="/pricing" id="fl_pricing">Tarifs</a>
+      <a href="/terms" id="fl_terms">CGU</a>
+      <a href="/privacy" id="fl_privacy">Confidentialité</a>
+      <a href="/refunds" id="fl_refunds">Remboursements</a>
     </div>
     <p class="footer-copy">© 2026 Lovéa — Lauren</p>
   </div>
+
+  <script>
+  const ABOUT_T = {
+    fr: {
+      back:'← Retour à Lovéa', h1:'À propos de Lovéa',
+      s1_label:'🌱 Ce qu\'est Lovéa',
+      s1_body:'Lovéa est un assistant parental IA qui connaît votre enfant par cœur. Créez son profil une fois — âge, allergies, habitudes — et posez toutes vos questions de parent. Les réponses sont toujours adaptées à votre enfant, pas génériques.',
+      s2_label:'✨ Ce que Lovéa fait pour vous',
+      s2_body:'Idées de repas, gestion des crises, activités selon l\'âge, conseils sommeil, histoires personnalisées... Lovéa vous accompagne dans les petits défis du quotidien, à toute heure.',
+      s3_label:'⚠️ Les limites importantes',
+      s3_body:'Lovéa ne remplace pas un médecin, un pédiatre ou un professionnel de santé. En cas de fièvre, symptômes inquiétants ou urgence, consultez toujours un professionnel.',
+      s4_label:'👩‍💻 Qui est derrière Lovéa',
+      s4_body:'Lovéa a été créé par Lauren, étudiante en informatique et passionnée par l\'aide aux familles. Ce projet est né d\'une conviction simple : les parents méritent un soutien accessible, bienveillant et intelligent.',
+      s5_label:'🔒 Vos données',
+      s5_body:'Les informations que vous partagez sur votre enfant — son prénom, son âge, ses allergies — ne sont connues que de vous. Lovéa ne partage jamais ces données avec des tiers. Vous restez le seul parent, Lovéa est simplement là pour vous aider.',
+      s6_label:'✉️ Nous contacter',
+      s6_body:'Une question, une suggestion ou un problème ? Écrivez-nous à <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>',
+      fl_home:'Accueil', fl_pricing:'Tarifs', fl_terms:'CGU', fl_privacy:'Confidentialité', fl_refunds:'Remboursements',
+    },
+    en: {
+      back:'← Back to Lovéa', h1:'About Lovéa',
+      s1_label:'🌱 What Lovéa is',
+      s1_body:'Lovéa is an AI parenting assistant that truly knows your child. Create their profile once — age, allergies, habits — and ask any parenting question. Answers are always tailored to your child, never generic.',
+      s2_label:'✨ What Lovéa does for you',
+      s2_body:'Meal ideas, managing meltdowns, age-appropriate activities, sleep advice, personalised stories… Lovéa is by your side for every everyday parenting challenge, at any time.',
+      s3_label:'⚠️ Important limits',
+      s3_body:'Lovéa does not replace a doctor, paediatrician, or healthcare professional. If your child has a fever, worrying symptoms, or in an emergency, always consult a professional.',
+      s4_label:'👩‍💻 Who is behind Lovéa',
+      s4_body:'Lovéa was created by Lauren, a computer science student passionate about helping families. The project was born from a simple belief: parents deserve accessible, kind, and smart support.',
+      s5_label:'🔒 Your data',
+      s5_body:'The information you share about your child — their name, age, allergies — is known only to you. Lovéa never shares this data with third parties. You remain the only parent; Lovéa is simply here to help.',
+      s6_label:'✉️ Contact us',
+      s6_body:'A question, suggestion, or problem? Write to us at <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>',
+      fl_home:'Home', fl_pricing:'Pricing', fl_terms:'Terms', fl_privacy:'Privacy', fl_refunds:'Refunds',
+    },
+    he: {
+      back:'← חזרה ל-Lovéa', h1:'אודות Lovéa',
+      s1_label:'🌱 מה זה Lovéa',
+      s1_body:'Lovéa הוא עוזר הורים מבוסס בינה מלאכותית שמכיר את ילדכם לעומק. צרו פרופיל פעם אחת — גיל, אלרגיות, הרגלים — ושאלו כל שאלה כהורים. התשובות תמיד מותאמות לילדכם, לא כלליות.',
+      s2_label:'✨ מה Lovéa עושה בשבילכם',
+      s2_body:'רעיונות לארוחות, ניהול התפרצויות, פעילויות מותאמות גיל, עצות שינה, סיפורים אישיים... Lovéa מלווה אתכם בכל אתגרי ההורות היומיומיים, בכל שעה.',
+      s3_label:'⚠️ גבולות חשובים',
+      s3_body:'Lovéa אינו מחליף רופא, רופא ילדים או איש מקצוע בתחום הבריאות. במקרה של חום, תסמינים מדאיגים או מצב חירום, פנו תמיד לאיש מקצוע.',
+      s4_label:'👩‍💻 מי עומד מאחורי Lovéa',
+      s4_body:'Lovéa נוצר על ידי לורן, סטודנטית למדעי המחשב ונלהבת לסייע למשפחות. הפרויקט נולד מאמונה פשוטה: הורים ראויים לתמיכה נגישה, אכפתית וחכמה.',
+      s5_label:'🔒 הנתונים שלכם',
+      s5_body:'המידע שאתם משתפים על ילדכם — שם, גיל, אלרגיות — ידוע רק לכם. Lovéa לעולם לא ישתף נתונים אלה עם צדדים שלישיים. אתם נשארים ההורים היחידים; Lovéa פשוט כאן כדי לעזור.',
+      s6_label:'✉️ צרו קשר',
+      s6_body:'שאלה, הצעה או בעיה? כתבו לנו ל-<a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>',
+      fl_home:'דף הבית', fl_pricing:'מחירים', fl_terms:'תנאים', fl_privacy:'פרטיות', fl_refunds:'החזרים',
+    },
+    ar: {
+      back:'← العودة إلى Lovéa', h1:'حول Lovéa',
+      s1_label:'🌱 ما هو Lovéa',
+      s1_body:'Lovéa هو مساعد أبوي ذكاء اصطناعي يعرف طفلك جيداً. أنشئ ملفه الشخصي مرة واحدة — العمر والحساسية والعادات — واطرح أي سؤال كوالد. الإجابات دائماً مخصصة لطفلك، وليست عامة.',
+      s2_label:'✨ ما يفعله Lovéa من أجلك',
+      s2_body:'أفكار للوجبات، إدارة نوبات الغضب، أنشطة مناسبة للعمر، نصائح النوم، قصص شخصية... Lovéa يرافقك في كل تحديات الأبوة اليومية، في أي وقت.',
+      s3_label:'⚠️ حدود مهمة',
+      s3_body:'لا يحل Lovéa محل طبيب أو طبيب أطفال أو أخصائي رعاية صحية. في حالة الحمى أو الأعراض المقلقة أو الطوارئ، استشر دائماً متخصصاً.',
+      s4_label:'👩‍💻 من يقف وراء Lovéa',
+      s4_body:'أنشأت Lovéa لورن، طالبة علوم حاسوب شغوفة بمساعدة الأسر. وُلد المشروع من قناعة بسيطة: يستحق الآباء دعماً سهل الوصول وطيباً وذكياً.',
+      s5_label:'🔒 بياناتك',
+      s5_body:'المعلومات التي تشاركها عن طفلك — اسمه وعمره وحساسيته — معروفة لك فقط. لا يشارك Lovéa هذه البيانات مع أطراف ثالثة. أنت تبقى الوالد الوحيد؛ Lovéa هنا فقط للمساعدة.',
+      s6_label:'✉️ تواصل معنا',
+      s6_body:'سؤال أو اقتراح أو مشكلة؟ اكتب لنا على <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>',
+      fl_home:'الرئيسية', fl_pricing:'الأسعار', fl_terms:'الشروط', fl_privacy:'الخصوصية', fl_refunds:'الاسترداد',
+    },
+    es: {
+      back:'← Volver a Lovéa', h1:'Sobre Lovéa',
+      s1_label:'🌱 Qué es Lovéa',
+      s1_body:'Lovéa es un asistente parental IA que conoce a tu hijo al detalle. Crea su perfil una sola vez — edad, alergias, hábitos — y haz todas tus preguntas como padre o madre. Las respuestas siempre están adaptadas a tu hijo, nunca son genéricas.',
+      s2_label:'✨ Qué hace Lovéa por ti',
+      s2_body:'Ideas de comidas, gestión de rabietas, actividades según la edad, consejos de sueño, historias personalizadas… Lovéa te acompaña en cada pequeño reto del día a día, a cualquier hora.',
+      s3_label:'⚠️ Límites importantes',
+      s3_body:'Lovéa no reemplaza a un médico, pediatra o profesional de la salud. En caso de fiebre, síntomas preocupantes o emergencia, consulta siempre a un profesional.',
+      s4_label:'👩‍💻 Quién está detrás de Lovéa',
+      s4_body:'Lovéa fue creado por Lauren, estudiante de informática apasionada por ayudar a las familias. Este proyecto nació de una convicción simple: los padres merecen un apoyo accesible, comprensivo e inteligente.',
+      s5_label:'🔒 Tus datos',
+      s5_body:'La información que compartes sobre tu hijo — su nombre, edad, alergias — solo la conoces tú. Lovéa nunca comparte estos datos con terceros. Tú sigues siendo el único padre; Lovéa simplemente está aquí para ayudar.',
+      s6_label:'✉️ Contáctanos',
+      s6_body:'¿Una pregunta, sugerencia o problema? Escríbenos a <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>',
+      fl_home:'Inicio', fl_pricing:'Precios', fl_terms:'Términos', fl_privacy:'Privacidad', fl_refunds:'Reembolsos',
+    },
+    de: {
+      back:'← Zurück zu Lovéa', h1:'Über Lovéa',
+      s1_label:'🌱 Was ist Lovéa',
+      s1_body:'Lovéa ist ein KI-Elternassistent, der dein Kind wirklich kennt. Erstelle einmal ein Profil — Alter, Allergien, Gewohnheiten — und stelle alle deine Fragen als Elternteil. Die Antworten sind immer auf dein Kind zugeschnitten, nie allgemein.',
+      s2_label:'✨ Was Lovéa für dich tut',
+      s2_body:'Mahlzeitenideen, Umgang mit Wutanfällen, altersgerechte Aktivitäten, Schlaftipps, personalisierte Geschichten… Lovéa begleitet dich bei allen alltäglichen Elternherausforderungen, zu jeder Zeit.',
+      s3_label:'⚠️ Wichtige Grenzen',
+      s3_body:'Lovéa ersetzt keinen Arzt, Kinderarzt oder medizinischen Fachmann. Bei Fieber, besorgniserregenden Symptomen oder Notfällen wende dich immer an einen Fachmann.',
+      s4_label:'👩‍💻 Wer hinter Lovéa steckt',
+      s4_body:'Lovéa wurde von Lauren entwickelt, einer Informatikstudentin mit Leidenschaft für die Unterstützung von Familien. Das Projekt entstand aus einer einfachen Überzeugung: Eltern verdienen zugängliche, fürsorgliche und kluge Unterstützung.',
+      s5_label:'🔒 Deine Daten',
+      s5_body:'Die Informationen, die du über dein Kind teilst — Name, Alter, Allergien — sind nur dir bekannt. Lovéa gibt diese Daten niemals an Dritte weiter. Du bleibst der einzige Elternteil; Lovéa ist einfach da, um zu helfen.',
+      s6_label:'✉️ Kontakt',
+      s6_body:'Eine Frage, ein Vorschlag oder ein Problem? Schreib uns an <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>',
+      fl_home:'Startseite', fl_pricing:'Preise', fl_terms:'AGB', fl_privacy:'Datenschutz', fl_refunds:'Erstattungen',
+    },
+    it: {
+      back:'← Torna a Lovéa', h1:'Chi siamo — Lovéa',
+      s1_label:'🌱 Cos\'è Lovéa',
+      s1_body:'Lovéa è un assistente genitoriale IA che conosce davvero tuo figlio. Crea il suo profilo una sola volta — età, allergie, abitudini — e fai tutte le tue domande da genitore. Le risposte sono sempre adattate a tuo figlio, mai generiche.',
+      s2_label:'✨ Cosa fa Lovéa per te',
+      s2_body:'Idee per i pasti, gestione delle crisi, attività per età, consigli sul sonno, storie personalizzate… Lovéa ti accompagna in ogni piccola sfida quotidiana, a qualsiasi ora.',
+      s3_label:'⚠️ Limiti importanti',
+      s3_body:'Lovéa non sostituisce un medico, un pediatra o un operatore sanitario. In caso di febbre, sintomi preoccupanti o emergenza, consulta sempre un professionista.',
+      s4_label:'👩‍💻 Chi c\'è dietro Lovéa',
+      s4_body:'Lovéa è stato creato da Lauren, studentessa di informatica appassionata di aiutare le famiglie. Il progetto è nato da una semplice convinzione: i genitori meritano un supporto accessibile, premuroso e intelligente.',
+      s5_label:'🔒 I tuoi dati',
+      s5_body:'Le informazioni che condividi su tuo figlio — nome, età, allergie — sono note solo a te. Lovéa non condivide mai questi dati con terzi. Tu rimani l\'unico genitore; Lovéa è semplicemente qui per aiutare.',
+      s6_label:'✉️ Contattaci',
+      s6_body:'Una domanda, un suggerimento o un problema? Scrivici a <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>',
+      fl_home:'Home', fl_pricing:'Prezzi', fl_terms:'Termini', fl_privacy:'Privacy', fl_refunds:'Rimborsi',
+    },
+    pt: {
+      back:'← Voltar ao Lovéa', h1:'Sobre o Lovéa',
+      s1_label:'🌱 O que é o Lovéa',
+      s1_body:'O Lovéa é um assistente parental IA que conhece verdadeiramente o teu filho. Cria o perfil dele uma vez — idade, alergias, hábitos — e faz todas as tuas perguntas como pai ou mãe. As respostas são sempre adaptadas ao teu filho, nunca genéricas.',
+      s2_label:'✨ O que o Lovéa faz por ti',
+      s2_body:'Ideias de refeições, gestão de birras, atividades por idade, conselhos de sono, histórias personalizadas… O Lovéa acompanha-te em cada pequeno desafio do dia a dia, a qualquer hora.',
+      s3_label:'⚠️ Limites importantes',
+      s3_body:'O Lovéa não substitui um médico, pediatra ou profissional de saúde. Em caso de febre, sintomas preocupantes ou emergência, consulta sempre um profissional.',
+      s4_label:'👩‍💻 Quem está por trás do Lovéa',
+      s4_body:'O Lovéa foi criado por Lauren, estudante de informática apaixonada por ajudar famílias. Este projeto nasceu de uma convicção simples: os pais merecem um apoio acessível, carinhoso e inteligente.',
+      s5_label:'🔒 Os teus dados',
+      s5_body:'As informações que partilhas sobre o teu filho — nome, idade, alergias — são conhecidas apenas por ti. O Lovéa nunca partilha estes dados com terceiros. Tu continuas a ser o único pai/mãe; o Lovéa está simplesmente aqui para ajudar.',
+      s6_label:'✉️ Contacta-nos',
+      s6_body:'Uma pergunta, sugestão ou problema? Escreve-nos para <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>',
+      fl_home:'Início', fl_pricing:'Preços', fl_terms:'Termos', fl_privacy:'Privacidade', fl_refunds:'Reembolsos',
+    },
+    ru: {
+      back:'← Вернуться к Lovéa', h1:'О Lovéa',
+      s1_label:'🌱 Что такое Lovéa',
+      s1_body:'Lovéa — это ИИ-помощник для родителей, который по-настоящему знает вашего ребёнка. Создайте профиль один раз — возраст, аллергии, привычки — и задавайте любые родительские вопросы. Ответы всегда адаптированы к вашему ребёнку, а не обобщены.',
+      s2_label:'✨ Что Lovéa делает для вас',
+      s2_body:'Идеи для блюд, управление истериками, занятия по возрасту, советы по сну, персонализированные истории… Lovéa сопровождает вас в каждом повседневном родительском испытании в любое время.',
+      s3_label:'⚠️ Важные ограничения',
+      s3_body:'Lovéa не заменяет врача, педиатра или специалиста здравоохранения. При температуре, тревожных симптомах или экстренной ситуации всегда обращайтесь к специалисту.',
+      s4_label:'👩‍💻 Кто стоит за Lovéa',
+      s4_body:'Lovéa создала Лорен, студентка по специальности «информатика», увлечённая помощью семьям. Проект родился из простой убеждённости: родители заслуживают доступной, заботливой и умной поддержки.',
+      s5_label:'🔒 Ваши данные',
+      s5_body:'Информация, которую вы сообщаете о своём ребёнке — имя, возраст, аллергии — известна только вам. Lovéa никогда не передаёт эти данные третьим лицам. Вы остаётесь единственным родителем; Lovéa просто здесь, чтобы помочь.',
+      s6_label:'✉️ Связаться с нами',
+      s6_body:'Вопрос, предложение или проблема? Напишите нам на <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>',
+      fl_home:'Главная', fl_pricing:'Цены', fl_terms:'Условия', fl_privacy:'Конфиденциальность', fl_refunds:'Возвраты',
+    },
+    zh: {
+      back:'← 返回 Lovéa', h1:'关于 Lovéa',
+      s1_label:'🌱 Lovéa 是什么',
+      s1_body:'Lovéa 是一款真正了解您孩子的 AI 育儿助手。只需创建一次孩子的档案——年龄、过敏史、习惯——然后随时提问。每个回答都针对您的孩子量身定制，绝不泛泛而谈。',
+      s2_label:'✨ Lovéa 为您做什么',
+      s2_body:'餐食创意、情绪管理、适龄活动、睡眠建议、个性化故事……Lovéa 随时陪伴您应对日常育儿挑战。',
+      s3_label:'⚠️ 重要限制',
+      s3_body:'Lovéa 不能替代医生、儿科医生或医疗专业人员。如果孩子发烧、出现令人担忧的症状或遇到紧急情况，请务必咨询专业人员。',
+      s4_label:'👩‍💻 Lovéa 背后的人',
+      s4_body:'Lovéa 由 Lauren 创建，她是一名热衷于帮助家庭的计算机科学学生。这个项目源于一个简单的信念：父母值得获得便捷、体贴和智慧的支持。',
+      s5_label:'🔒 您的数据',
+      s5_body:'您分享的孩子信息——姓名、年龄、过敏史——只有您知道。Lovéa 从不与第三方共享这些数据。您永远是唯一的家长；Lovéa 只是在这里帮助您。',
+      s6_label:'✉️ 联系我们',
+      s6_body:'有问题、建议或遇到问题？请发邮件至 <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>',
+      fl_home:'首页', fl_pricing:'定价', fl_terms:'条款', fl_privacy:'隐私', fl_refunds:'退款',
+    },
+    ja: {
+      back:'← Lovéa に戻る', h1:'Lovéa について',
+      s1_label:'🌱 Lovéa とは',
+      s1_body:'Lovéa はお子さまのことを本当に理解する AI 子育てアシスタントです。年齢・アレルギー・習慣のプロフィールを一度作成するだけで、あらゆる育児の質問に答えます。回答は常にお子さまに合わせたもので、一般的なものではありません。',
+      s2_label:'✨ Lovéa があなたにできること',
+      s2_body:'食事のアイデア、かんしゃく対応、年齢別アクティビティ、睡眠アドバイス、オリジナルの物語…Lovéa はいつでも日々の育児の課題に寄り添います。',
+      s3_label:'⚠️ 重要な限界',
+      s3_body:'Lovéa は医師・小児科医・医療専門家の代わりにはなりません。発熱、気になる症状、緊急の場合は必ず専門家に相談してください。',
+      s4_label:'👩‍💻 Lovéa の制作者',
+      s4_body:'Lovéa は Lauren が制作しました。彼女はコンピューターサイエンスを学ぶ学生で、家族を支援することに情熱を持っています。このプロジェクトはシンプルな信念から生まれました：親は誰でも、アクセスしやすく、温かく、賢いサポートを受ける権利がある。',
+      s5_label:'🔒 あなたのデータ',
+      s5_body:'お子さまについて共有する情報（名前・年齢・アレルギー）はあなただけが知るものです。Lovéa はこのデータを第三者と共有することは一切ありません。あなたが唯一の保護者です。Lovéa はただお手伝いするためにここにいます。',
+      s6_label:'✉️ お問い合わせ',
+      s6_body:'ご質問・ご提案・ご不明点は <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a> までご連絡ください。',
+      fl_home:'ホーム', fl_pricing:'料金', fl_terms:'利用規約', fl_privacy:'プライバシー', fl_refunds:'返金',
+    },
+    ko: {
+      back:'← Lovéa로 돌아가기', h1:'Lovéa 소개',
+      s1_label:'🌱 Lovéa란 무엇인가요',
+      s1_body:'Lovéa는 아이를 진정으로 이해하는 AI 육아 어시스턴트입니다. 나이, 알레르기, 습관 등 프로필을 한 번만 만들면 어떤 육아 질문에도 답변받을 수 있습니다. 답변은 항상 아이에게 맞춤화되어 있으며 절대 일반적이지 않습니다.',
+      s2_label:'✨ Lovéa가 해드리는 것',
+      s2_body:'식사 아이디어, 떼쓰기 관리, 연령별 활동, 수면 조언, 맞춤 이야기… Lovéa는 일상의 모든 육아 도전에서 언제든지 함께합니다.',
+      s3_label:'⚠️ 중요한 한계',
+      s3_body:'Lovéa는 의사, 소아과 의사, 또는 의료 전문가를 대체하지 않습니다. 발열, 걱정스러운 증상, 또는 응급 상황이 발생하면 항상 전문가에게 상담하세요.',
+      s4_label:'👩‍💻 Lovéa를 만든 사람',
+      s4_body:'Lovéa는 가족을 돕는 것에 열정을 가진 컴퓨터 공학 학생 Lauren이 만들었습니다. 이 프로젝트는 단순한 신념에서 탄생했습니다: 부모는 접근하기 쉽고, 다정하고, 스마트한 지원을 받을 자격이 있습니다.',
+      s5_label:'🔒 당신의 데이터',
+      s5_body:'아이에 대해 공유하는 정보 — 이름, 나이, 알레르기 — 는 당신만이 알고 있습니다. Lovéa는 절대 이 데이터를 제3자와 공유하지 않습니다. 당신은 여전히 유일한 부모이고, Lovéa는 그저 도움을 주기 위해 여기 있습니다.',
+      s6_label:'✉️ 문의하기',
+      s6_body:'질문, 제안 또는 문제가 있으신가요? <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>으로 문의해 주세요.',
+      fl_home:'홈', fl_pricing:'요금제', fl_terms:'이용약관', fl_privacy:'개인정보', fl_refunds:'환불',
+    },
+    tr: {
+      back:'← Lovéa\'ya Dön', h1:'Lovéa Hakkında',
+      s1_label:'🌱 Lovéa Nedir',
+      s1_body:'Lovéa, çocuğunuzu gerçekten tanıyan bir yapay zeka ebeveynlik asistanıdır. Profili bir kez oluşturun — yaş, alerjiler, alışkanlıklar — ve tüm ebeveynlik sorularınızı sorun. Yanıtlar her zaman çocuğunuza özeldir, asla genel değildir.',
+      s2_label:'✨ Lovéa Sizin İçin Ne Yapar',
+      s2_body:'Yemek fikirleri, öfke krizlerini yönetme, yaşa uygun etkinlikler, uyku tavsiyeleri, kişiselleştirilmiş hikayeler… Lovéa günlük ebeveynlik zorluklarında her an yanınızdadır.',
+      s3_label:'⚠️ Önemli Sınırlar',
+      s3_body:'Lovéa bir doktor, çocuk hekimi veya sağlık uzmanının yerini tutmaz. Ateş, endişe verici belirtiler veya acil durumlarda her zaman bir uzmana başvurun.',
+      s4_label:'👩‍💻 Lovéa\'nın Arkasındaki Kişi',
+      s4_body:'Lovéa, ailelere yardım etme konusunda tutkulu bir bilgisayar bilimi öğrencisi olan Lauren tarafından oluşturuldu. Bu proje basit bir inançtan doğdu: ebeveynler erişilebilir, şefkatli ve akıllı destek hak eder.',
+      s5_label:'🔒 Verileriniz',
+      s5_body:'Çocuğunuz hakkında paylaştığınız bilgiler — adı, yaşı, alerjileri — yalnızca siz tarafından bilinmektedir. Lovéa bu verileri asla üçüncü taraflarla paylaşmaz. Yalnızca ebeveyn sizsiniz; Lovéa sadece yardımcı olmak için burada.',
+      s6_label:'✉️ Bize Ulaşın',
+      s6_body:'Bir sorunuz, öneriniz veya sorununuz mu var? <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a> adresine yazın.',
+      fl_home:'Ana Sayfa', fl_pricing:'Fiyatlar', fl_terms:'Şartlar', fl_privacy:'Gizlilik', fl_refunds:'İadeler',
+    },
+    nl: {
+      back:'← Terug naar Lovéa', h1:'Over Lovéa',
+      s1_label:'🌱 Wat is Lovéa',
+      s1_body:'Lovéa is een AI-ouderassistent die jouw kind echt kent. Maak eenmalig een profiel aan — leeftijd, allergieën, gewoonten — en stel al je oudervragen. De antwoorden zijn altijd afgestemd op jouw kind, nooit generiek.',
+      s2_label:'✨ Wat Lovéa voor jou doet',
+      s2_body:'Maaltijdideeën, driftbuien aanpakken, leeftijdsgerichte activiteiten, slaaptips, gepersonaliseerde verhalen… Lovéa begeleidt je bij alle dagelijkse opvoedingsuitdagingen, op elk moment.',
+      s3_label:'⚠️ Belangrijke beperkingen',
+      s3_body:'Lovéa vervangt geen arts, kinderarts of zorgprofessional. Bij koorts, zorgwekkende symptomen of een noodgeval raadpleeg je altijd een professional.',
+      s4_label:'👩‍💻 Wie er achter Lovéa zit',
+      s4_body:'Lovéa is gemaakt door Lauren, een informaticastudente met een passie voor het helpen van gezinnen. Het project is geboren uit een eenvoudige overtuiging: ouders verdienen toegankelijke, liefdevolle en slimme ondersteuning.',
+      s5_label:'🔒 Jouw gegevens',
+      s5_body:'De informatie die je over je kind deelt — naam, leeftijd, allergieën — is alleen bij jou bekend. Lovéa deelt deze gegevens nooit met derden. Jij blijft de enige ouder; Lovéa is er gewoon om te helpen.',
+      s6_label:'✉️ Contact',
+      s6_body:'Een vraag, suggestie of probleem? Schrijf ons op <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>',
+      fl_home:'Home', fl_pricing:'Prijzen', fl_terms:'Voorwaarden', fl_privacy:'Privacy', fl_refunds:'Terugbetalingen',
+    },
+    pl: {
+      back:'← Wróć do Lovéa', h1:'O Lovéa',
+      s1_label:'🌱 Czym jest Lovéa',
+      s1_body:'Lovéa to asystent rodzicielski AI, który naprawdę zna Twoje dziecko. Stwórz profil raz — wiek, alergie, nawyki — i zadawaj wszystkie pytania rodzicielskie. Odpowiedzi są zawsze dostosowane do Twojego dziecka, nigdy ogólne.',
+      s2_label:'✨ Co Lovéa robi dla Ciebie',
+      s2_body:'Pomysły na posiłki, radzenie sobie z wybuchami złości, zajęcia według wieku, porady dotyczące snu, spersonalizowane historie… Lovéa towarzyszy Ci w każdym codziennym wyzwaniu rodzicielskim, o każdej porze.',
+      s3_label:'⚠️ Ważne ograniczenia',
+      s3_body:'Lovéa nie zastępuje lekarza, pediatry ani specjalisty opieki zdrowotnej. W przypadku gorączki, niepokojących objawów lub nagłego przypadku zawsze konsultuj się ze specjalistą.',
+      s4_label:'👩‍💻 Kto stoi za Lovéa',
+      s4_body:'Lovéa zostało stworzone przez Lauren, studentkę informatyki z pasją do pomagania rodzinom. Projekt narodził się z prostego przekonania: rodzice zasługują na dostępne, troskliwe i inteligentne wsparcie.',
+      s5_label:'🔒 Twoje dane',
+      s5_body:'Informacje, które udostępniasz o swoim dziecku — imię, wiek, alergie — są znane tylko Tobie. Lovéa nigdy nie udostępnia tych danych osobom trzecim. Pozostajesz jedynym rodzicem; Lovéa jest tu po prostu, aby pomóc.',
+      s6_label:'✉️ Skontaktuj się z nami',
+      s6_body:'Masz pytanie, sugestię lub problem? Napisz do nas na <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>',
+      fl_home:'Strona główna', fl_pricing:'Cennik', fl_terms:'Regulamin', fl_privacy:'Prywatność', fl_refunds:'Zwroty',
+    },
+    ro: {
+      back:'← Înapoi la Lovéa', h1:'Despre Lovéa',
+      s1_label:'🌱 Ce este Lovéa',
+      s1_body:'Lovéa este un asistent parental IA care îți cunoaște cu adevărat copilul. Creează profilul o singură dată — vârstă, alergii, obiceiuri — și pune orice întrebare ca părinte. Răspunsurile sunt întotdeauna adaptate copilului tău, niciodată generice.',
+      s2_label:'✨ Ce face Lovéa pentru tine',
+      s2_body:'Idei de mese, gestionarea crizelor, activități pe vârste, sfaturi de somn, povești personalizate… Lovéa te însoțește în fiecare provocare de zi cu zi, oricând.',
+      s3_label:'⚠️ Limite importante',
+      s3_body:'Lovéa nu înlocuiește un medic, pediatru sau specialist în sănătate. În caz de febră, simptome îngrijorătoare sau urgență, consultați întotdeauna un specialist.',
+      s4_label:'👩‍💻 Cine se află în spatele Lovéa',
+      s4_body:'Lovéa a fost creat de Lauren, studentă la informatică pasionată de ajutorarea familiilor. Proiectul s-a născut dintr-o convingere simplă: părinții merită sprijin accesibil, blând și inteligent.',
+      s5_label:'🔒 Datele tale',
+      s5_body:'Informațiile pe care le partajezi despre copilul tău — prenumele, vârsta, alergiile — sunt cunoscute doar de tine. Lovéa nu partajează niciodată aceste date cu terți. Tu rămâi singurul părinte; Lovéa este pur și simplu aici pentru a ajuta.',
+      s6_label:'✉️ Contactează-ne',
+      s6_body:'O întrebare, o sugestie sau o problemă? Scrie-ne la <a href="mailto:contact@lovea.app" style="color:var(--terra-dk);font-weight:600">contact@lovea.app</a>',
+      fl_home:'Acasă', fl_pricing:'Prețuri', fl_terms:'Termeni', fl_privacy:'Confidențialitate', fl_refunds:'Rambursări',
+    },
+  };
+
+  (function() {
+    const supported = ['fr','en','he','ar','es','de','it','pt','ru','zh','ja','ko','tr','nl','pl','ro'];
+    const alt = { iw:'he' };
+    function detectLang() {
+      const saved = localStorage.getItem('ap-lang');
+      if (saved && ABOUT_T[saved]) return saved;
+      const navLangs = (navigator.languages && navigator.languages.length) ? [...navigator.languages] : [navigator.language || ''];
+      for (const nl of navLangs) {
+        const code = nl.toLowerCase().split('-')[0];
+        if (alt[code]) return alt[code];
+        if (supported.includes(code)) return code;
+      }
+      return 'fr';
+    }
+    const lang = detectLang();
+    const t = ABOUT_T[lang] || ABOUT_T.fr;
+    document.documentElement.lang = lang;
+    if (['he','ar'].includes(lang)) document.documentElement.dir = 'rtl';
+    ['back','h1','s1_label','s1_body','s2_label','s2_body','s3_label','s3_body',
+     's4_label','s4_body','s5_label','s5_body','s6_label',
+     'fl_home','fl_pricing','fl_terms','fl_privacy','fl_refunds'].forEach(k => {
+      const el = document.getElementById(k);
+      if (el && t[k] !== undefined) el.textContent = t[k];
+    });
+    // s6_body has HTML (mailto link)
+    const s6 = document.getElementById('s6_body');
+    if (s6 && t.s6_body) s6.innerHTML = t.s6_body;
+  })();
+  </script>
 </body>
 </html>
