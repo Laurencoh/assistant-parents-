@@ -134,6 +134,13 @@ const VOICE_BY_LANG = {
 };
 const DEFAULT_VOICE = 'XB0fDUnXU5powFXDhCwa'; // Charlotte (multilingual)
 
+// Languages supported by eleven_turbo_v2_5
+const TURBO_LANGS = new Set([
+  'en','de','pl','es','it','fr','pt','hi','ar','zh','ja','hu',
+  'ko','nl','tr','sv','id','fi','da','no','ru','cs','el','ro',
+  'ta','uk','bg','ms','sk','hr','sl','et','lv','lt',
+]);
+
 const ELEVEN_LANG = {
   fr:'fr', en:'en', es:'es', de:'de', it:'it', pt:'pt', ru:'ru',
   zh:'zh', ja:'ja', ko:'ko', tr:'tr', nl:'nl', pl:'pl', ar:'ar',
@@ -146,6 +153,7 @@ app.post('/api/speech', async (req, res) => {
   if (!process.env.ELEVENLABS_API_KEY) return res.status(503).json({ error: 'TTS not configured' });
   const language_code = ELEVEN_LANG[lang] || 'fr';
   const voice_id = VOICE_BY_LANG[lang] || DEFAULT_VOICE;
+  const model_id = TURBO_LANGS.has(lang) ? 'eleven_turbo_v2_5' : 'eleven_multilingual_v2';
   try {
     const response = await fetch(
       `https://api.elevenlabs.io/v1/text-to-speech/${voice_id}/stream`,
@@ -157,8 +165,8 @@ app.post('/api/speech', async (req, res) => {
         },
         body: JSON.stringify({
           text,
-          model_id: 'eleven_turbo_v2_5',
-          language_code,
+          model_id,
+          ...(TURBO_LANGS.has(lang) ? { language_code } : {}),
           voice_settings: { stability: 0.5, similarity_boost: 0.75 },
         }),
       }
