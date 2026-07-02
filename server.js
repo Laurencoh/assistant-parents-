@@ -49,6 +49,24 @@ app.post('/api/ask', async (req, res) => {
     : '';
   const profileLine = profile ? `## Child profile (always use this throughout the conversation)\n${profile}` : '';
 
+  const filmFormatLine = shortcut === 'film' ? `
+FORMAT RULE FOR THIS MESSAGE — FILM/SERIES MODE (overrides the general format rule):
+Recommend one film or series adapted to the child's age. Reply in the exact same language the parent used. Use the child's first name if known from their profile, otherwise use a generic term. Use this exact structure, translated into that language:
+
+🎬 **[Film/series title]**
+⭐ [Translated "Rating:"] [X/5] | ⏱️ [Translated "Duration:"] [X min] | 👶 [Translated "From age"] [age]
+
+**[Translated "What it's about:"]**
+[2-3 sentences of simple summary]
+
+**[Translated "Why it's great for"] [child's name or "your child"]:**
+[One sentence on the values or what it brings]
+
+⚠️ **[Translated "Points to note:"]** [What might need a discussion with the child]
+🍿 **[Translated "Best watched:"]** [Alone / As a family / With parents]
+
+Rules: adapt age rating and content warnings to the child's actual age. No offer to elaborate at the end.` : '';
+
   const conseilFormatLine = shortcut === 'conseil' ? `
 FORMAT RULE FOR THIS MESSAGE — ACTIVITY MODE (overrides the general format rule):
 Generate one activity idea adapted to the child's age. Reply in the exact same language the parent used. Use this exact structure, translated into that language:
@@ -167,6 +185,7 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
     allergiesLine,
     ageLine,
     profileLine,
+    filmFormatLine,
     conseilFormatLine,
     sommeilFormatLine,
     repasFormatLine,
