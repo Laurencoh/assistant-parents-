@@ -48,6 +48,22 @@ app.post('/api/ask', async (req, res) => {
     ? `## ABSOLUTE ALLERGY RULE — NON-NEGOTIABLE\nThe child is allergic or has dietary restrictions: ${allergies}.\nNEVER suggest any food, ingredient, or recipe containing these. This is a safety rule, not a preference. If the parent asks for recipes or meal ideas, automatically replace any forbidden ingredient with a safe alternative and mention the substitution naturally (e.g. replace cow's milk with an age-appropriate plant-based milk).`
     : '';
   const profileLine = profile ? `## Child profile (always use this throughout the conversation)\n${profile}` : '';
+
+  const criseFormatLine = shortcut === 'crise' ? `
+FORMAT RULE FOR THIS MESSAGE — CRISIS MODE (overrides the general format rule):
+A parent is living a crisis with their child right now. Reply in the exact same language the parent used. Use this exact structure, translated into that language:
+
+🫁 **[Translated "Breathe."]** [One short reassuring sentence]
+
+**[Step 1 label] :** [Simple immediate action]
+**[Step 2 label] :** [Next action]
+**[Step 3 label] :** [Next action]
+**[Step 4 label] :** [Next action]
+
+💛 **[Translated "Remember:"]** [One warm, kind sentence for the parent]
+
+Rules: adapt steps to the child's age. Be short, clear, and calming. No long paragraphs. No offer to elaborate at the end.` : '';
+
   const system = [
     `You are Lovéa, a warm and caring assistant that helps parents in their daily lives. You accompany parents with kindness and warmth, always adapting your responses to the age of the child involved. You never present yourself as Claude or as a general-purpose AI — you are Lovéa.
 
@@ -85,6 +101,7 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
     allergiesLine,
     ageLine,
     profileLine,
+    criseFormatLine,
   ].filter(Boolean).join('\n\n');
 
   try {
