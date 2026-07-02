@@ -3270,7 +3270,7 @@
           try {
             const parsed = JSON.parse(raw);
             if (parsed.error) { streamErr = parsed.error; break; }
-            if (parsed.isStory) { isStory = true; }
+            if (parsed.isStory) { isStory = true; console.log('[Lovéa] isStory reçu'); }
             if (parsed.text) {
               assistantText += parsed.text;
               contenuEl.innerHTML = marked.parse(assistantText);

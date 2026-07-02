@@ -112,7 +112,9 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
         res.write(`data: ${JSON.stringify({ text: chunk.delta.text })}\n\n`);
       }
     }
+    console.log('[Lovéa] shortcut=', shortcut, 'fullText.length=', fullText.length);
     if (shortcut === 'histoire' && fullText.length > 300) {
+      console.log('[Lovéa] Sending isStory:true');
       res.write(`data: ${JSON.stringify({ isStory: true })}\n\n`);
     }
     res.write('data: [DONE]\n\n');
