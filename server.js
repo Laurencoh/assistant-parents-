@@ -139,7 +139,7 @@ app.post('/api/speech', async (req, res) => {
   if (!process.env.ELEVENLABS_API_KEY) return res.status(503).json({ error: 'TTS not configured' });
   try {
     const response = await fetch(
-      'https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM',
+      'https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM/stream',
       {
         method: 'POST',
         headers: {
@@ -148,7 +148,7 @@ app.post('/api/speech', async (req, res) => {
         },
         body: JSON.stringify({
           text,
-          model_id: 'eleven_multilingual_v2',
+          model_id: 'eleven_turbo_v2_5',
           voice_settings: { stability: 0.5, similarity_boost: 0.75 },
         }),
       }
@@ -157,12 +157,18 @@ app.post('/api/speech', async (req, res) => {
       const err = await response.text();
       return res.status(response.status).json({ error: err });
     }
-    const audioBuffer = await response.arrayBuffer();
     res.set('Content-Type', 'audio/mpeg');
-    res.send(Buffer.from(audioBuffer));
+    const reader = response.body.getReader();
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      res.write(Buffer.from(value));
+    }
+    res.end();
   } catch (err) {
     console.error('[Lovéa] ElevenLabs error:', err);
-    res.status(500).json({ error: 'tts_error' });
+    if (!res.headersSent) res.status(500).json({ error: 'tts_error' });
+    else res.end();
   }
 });
 

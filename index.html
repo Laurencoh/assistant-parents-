@@ -3172,15 +3172,53 @@
           console.error('[Lovéa] TTS error', res.status, errBody);
           throw new Error('tts_error');
         }
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        audio = new Audio(url);
-        audio.onended = resetBtn;
-        audio.onerror = resetBtn;
-        await audio.play();
-        btn.textContent = lblPause;
-        btn.disabled = false;
-        pousse.classList.add('speaking');
+
+        const startPlaying = () => {
+          if (audio.paused) {
+            audio.play().then(() => {
+              btn.textContent = lblPause;
+              btn.disabled = false;
+              pousse.classList.add('speaking');
+            }).catch(() => {});
+          }
+        };
+
+        if (window.MediaSource && MediaSource.isTypeSupported('audio/mpeg')) {
+          const ms = new MediaSource();
+          audio = new Audio(URL.createObjectURL(ms));
+          audio.onended = resetBtn;
+          audio.onerror = resetBtn;
+          audio.addEventListener('canplay', startPlaying, { once: true });
+
+          ms.addEventListener('sourceopen', async () => {
+            const sb = ms.addSourceBuffer('audio/mpeg');
+            const queue = [];
+            const flush = () => { if (queue.length && !sb.updating) sb.appendBuffer(queue.shift()); };
+            sb.addEventListener('updateend', flush);
+
+            const reader = res.body.getReader();
+            while (true) {
+              const { done, value } = await reader.read();
+              if (done) {
+                const tryEnd = () => {
+                  if (sb.updating || queue.length) { sb.addEventListener('updateend', tryEnd, { once: true }); return; }
+                  try { ms.endOfStream(); } catch {}
+                };
+                tryEnd();
+                break;
+              }
+              queue.push(value);
+              flush();
+            }
+          }, { once: true });
+        } else {
+          // Fallback pour iOS Safari / Firefox
+          const blob = await res.blob();
+          audio = new Audio(URL.createObjectURL(blob));
+          audio.onended = resetBtn;
+          audio.onerror = resetBtn;
+          startPlaying();
+        }
       } catch(e) {
         console.error('[Lovéa] TTS fetch failed', e);
         resetBtn();
