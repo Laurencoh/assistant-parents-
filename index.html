@@ -461,6 +461,36 @@
     }
     .share-copy-confirm.show { opacity: 1; }
 
+    /* Histoire TTS player */
+    .histoire-player {
+      display: flex; align-items: center; gap: 10px;
+      margin-top: 10px; padding: 8px 12px;
+      background: #F0F7F4; border: 1.5px solid #B2D8C8;
+      border-radius: 14px;
+    }
+    .pousse-histoire {
+      flex-shrink: 0; width: 36px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .pousse-histoire svg { display: block; }
+    .pousse-histoire.speaking svg {
+      animation: pousseOscille 0.9s ease-in-out infinite;
+      transform-origin: center bottom;
+    }
+    @keyframes pousseOscille {
+      0%, 100% { transform: rotate(-4deg) scaleY(1); }
+      50%       { transform: rotate(4deg) scaleY(1.04); }
+    }
+    .histoire-play-btn {
+      flex: 1; display: flex; align-items: center; gap: 7px;
+      background: var(--forest); color: #fff;
+      border: none; border-radius: 10px; cursor: pointer;
+      font-size: 0.82rem; font-family: inherit; font-weight: 600;
+      padding: 7px 13px; transition: background 0.15s; white-space: nowrap;
+    }
+    .histoire-play-btn:hover { background: #2A5A40; }
+    .histoire-play-btn:disabled { background: #8BAE9A; cursor: default; }
+
     .bulle.assistant h2, .bulle.assistant h3 {
       font-family: Georgia, serif; font-size: 0.94rem; font-weight: bold; margin: 12px 0 5px;
     }
@@ -3032,6 +3062,93 @@
     bulle.appendChild(footer);
   }
 
+  function ajouterHistoirePlayer(bulle, rawText) {
+    const cleanText = rawText
+      .replace(/\*\*(.*?)\*\*/g, '$1')
+      .replace(/\*(.*?)\*/g, '$1')
+      .replace(/#{1,6}\s*/g, '')
+      .replace(/`(.*?)`/g, '$1')
+      .trim()
+      .slice(0, 2500);
+
+    const player = document.createElement('div');
+    player.className = 'histoire-player';
+
+    const pousse = document.createElement('div');
+    pousse.className = 'pousse-histoire';
+    pousse.innerHTML = `<svg width="36" height="40" viewBox="0 0 50 56" xmlns="http://www.w3.org/2000/svg">
+      <ellipse cx="25" cy="40" rx="14" ry="15" fill="#7BAF9E"/>
+      <line x1="25" y1="25" x2="25" y2="30" stroke="#4E8A75" stroke-width="3" stroke-linecap="round"/>
+      <ellipse cx="17" cy="20" rx="8" ry="4" fill="#4E8A75" transform="rotate(-38 17 20)"/>
+      <ellipse cx="33" cy="20" rx="8" ry="4" fill="#4E8A75" transform="rotate(38 33 20)"/>
+      <circle cx="21" cy="36" r="2.5" fill="#2C2A28"/>
+      <circle cx="29" cy="36" r="2.5" fill="#2C2A28"/>
+      <path d="M 22 43 Q 25 47 28 43" stroke="#2C2A28" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+    </svg>`;
+
+    const btn = document.createElement('button');
+    btn.className = 'histoire-play-btn';
+    btn.innerHTML = '▶ Écouter l\'histoire';
+
+    let audio = null;
+    let loading = false;
+
+    btn.onclick = async () => {
+      if (loading) return;
+
+      if (audio && !audio.paused) {
+        audio.pause();
+        btn.innerHTML = '▶ Écouter l\'histoire';
+        pousse.classList.remove('speaking');
+        return;
+      }
+
+      if (audio && audio.paused && audio.currentTime > 0) {
+        audio.play();
+        btn.innerHTML = '⏸ Pause';
+        pousse.classList.add('speaking');
+        return;
+      }
+
+      loading = true;
+      btn.innerHTML = '⏳ Préparation…';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/speech', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: cleanText }),
+        });
+        if (!res.ok) throw new Error('tts_error');
+        const blob = await res.blob();
+        const url = URL.createObjectURL(blob);
+        audio = new Audio(url);
+        audio.onended = () => {
+          btn.innerHTML = '▶ Écouter l\'histoire';
+          pousse.classList.remove('speaking');
+        };
+        audio.onerror = () => {
+          btn.innerHTML = '▶ Écouter l\'histoire';
+          btn.disabled = false;
+          pousse.classList.remove('speaking');
+        };
+        await audio.play();
+        btn.innerHTML = '⏸ Pause';
+        btn.disabled = false;
+        pousse.classList.add('speaking');
+      } catch(e) {
+        btn.innerHTML = '▶ Écouter l\'histoire';
+        btn.disabled = false;
+      }
+      loading = false;
+    };
+
+    player.appendChild(pousse);
+    player.appendChild(btn);
+    bulle.appendChild(player);
+  }
+
   async function envoyer() {
     if(enCours) return;
     const textarea=document.getElementById('question');
@@ -3082,6 +3199,7 @@
         allergies:getAllergiesEnfant(),
         shortcut: pendingShortcut,
       };
+      const activeShortcut = pendingShortcut;
       pendingShortcut = null;
       console.log('[Lovéa] Payload envoyé au serveur :', JSON.stringify({age:payload.age, unite:payload.unite, profile:payload.profile, allergies:payload.allergies}));
       const res=await fetch('/api/ask',{
@@ -3155,6 +3273,7 @@
         sauvegarderConvCourante();
         bulleTyping.classList.remove('typing');
         ajouterShareFooter(bulleTyping, reponse);
+        if (activeShortcut === 'histoire') ajouterHistoirePlayer(bulleTyping, reponse);
       }
     } catch(e){
       bulleTyping.remove();
