@@ -969,6 +969,7 @@
           <span>💬</span>
           <h1 id="conv-titre"></h1>
         </div>
+        <span class="streak-badge" id="streak-badge"></span>
         <select class="lang-select" id="lang-select" onchange="setLang(this.value)">
           <option value="fr">Français</option>
           <option value="en">English</option>
@@ -994,7 +995,6 @@
         </select>
         <button class="btn-enfants" onclick="ouvrirModal()" data-i18n="manageBtn"></button>
         <button class="btn-enfants-mobile-cta" id="btn-mobile-cta" onclick="ouvrirModal()">＋ Ajouter mon enfant</button>
-        <span class="streak-badge" id="streak-badge"></span>
       </div>
       <!-- Âge manuel (visible seulement si aucun enfant sélectionné) -->
       <div class="age-row" id="age-row" style="margin-top:8px;">
@@ -2981,8 +2981,7 @@
     ajouterBulle('user',texte);
     textarea.value=''; textarea.style.height='auto';
 
-    // Streak tracking
-    localStorage.setItem('lovea_last_visit', new Date().toDateString());
+    // Streak tracking — calculateStreak handles last_visit internally
     const { streak: newStreak, increased } = calculateStreak();
     updateStreakDisplay(newStreak, increased);
 
