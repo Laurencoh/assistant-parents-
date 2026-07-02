@@ -3297,7 +3297,7 @@
         sauvegarderConvCourante();
         bulleTyping.classList.remove('typing');
         ajouterShareFooter(bulleTyping, reponse);
-        if (activeShortcut === 'histoire') ajouterHistoirePlayer(bulleTyping, reponse);
+        if (activeShortcut === 'histoire' && reponse.length > 300) ajouterHistoirePlayer(bulleTyping, reponse);
       }
     } catch(e){
       bulleTyping.remove();
