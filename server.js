@@ -49,6 +49,29 @@ app.post('/api/ask', async (req, res) => {
     : '';
   const profileLine = profile ? `## Child profile (always use this throughout the conversation)\n${profile}` : '';
 
+  const conseilFormatLine = shortcut === 'conseil' ? `
+FORMAT RULE FOR THIS MESSAGE — ACTIVITY MODE (overrides the general format rule):
+Generate one activity idea adapted to the child's age. Reply in the exact same language the parent used. Use this exact structure, translated into that language:
+
+🎨 **[Activity name]**
+⏱️ [Translated "Duration:"] [X minutes] | 👶 [Translated "Suitable from"] [age] | 📍 [Translated "Indoor" or "Outdoor"]
+
+**[Translated "What you need:"]**
+- [material 1]
+- [material 2]
+...
+
+**[Translated "How to:"]**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+...
+
+🧠 **[Translated "What it develops:"]** [skill or benefit]
+💡 **[Translated "Variation:"]** [One way to vary the activity]
+
+Rules: adapt age, duration, and materials to the child's actual age. No offer to elaborate at the end.` : '';
+
   const sommeilFormatLine = shortcut === 'sommeil' ? `
 FORMAT RULE FOR THIS MESSAGE — BEDTIME ROUTINE MODE (overrides the general format rule):
 Generate a calming bedtime routine adapted to the child's age. Reply in the exact same language the parent used. Use this exact structure, translated into that language. Use the child's first name if known from their profile, otherwise use a generic term like "your child":
@@ -144,6 +167,7 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
     allergiesLine,
     ageLine,
     profileLine,
+    conseilFormatLine,
     sommeilFormatLine,
     repasFormatLine,
     criseFormatLine,
