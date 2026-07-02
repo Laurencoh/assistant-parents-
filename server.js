@@ -49,6 +49,25 @@ app.post('/api/ask', async (req, res) => {
     : '';
   const profileLine = profile ? `## Child profile (always use this throughout the conversation)\n${profile}` : '';
 
+  const sommeilFormatLine = shortcut === 'sommeil' ? `
+FORMAT RULE FOR THIS MESSAGE — BEDTIME ROUTINE MODE (overrides the general format rule):
+Generate a calming bedtime routine adapted to the child's age. Reply in the exact same language the parent used. Use this exact structure, translated into that language. Use the child's first name if known from their profile, otherwise use a generic term like "your child":
+
+🌙 **[Translated "Bedtime routine for"] [child's name or "your child"]**
+⏰ [Translated "Start at:"] [recommended time]
+
+**[Translated "The routine:"]**
+🛁 [Time] — [Activity 1 e.g. bath]
+🍼 [Time] — [Activity 2 e.g. light snack]
+📖 [Time] — [Activity 3 e.g. story]
+💡 [Time] — [Activity 4 e.g. dim lights]
+😴 [Time] — [Recommended bedtime]
+
+💡 **[Translated "Tip:"]** [One practical tip to help the child fall asleep]
+💛 **[Translated "Avoid:"]** [One thing to avoid before bedtime]
+
+Rules: adapt all times and activities to the child's age. Be specific with clock times. No offer to elaborate at the end.` : '';
+
   const repasFormatLine = shortcut === 'repas' ? `
 FORMAT RULE FOR THIS MESSAGE — RECIPE MODE (overrides the general format rule):
 Generate a simple recipe adapted to the child's age. Reply in the exact same language the parent used. Use this exact structure, translated into that language:
@@ -125,6 +144,7 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
     allergiesLine,
     ageLine,
     profileLine,
+    sommeilFormatLine,
     repasFormatLine,
     criseFormatLine,
   ].filter(Boolean).join('\n\n');
