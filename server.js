@@ -107,8 +107,7 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
       }
     }
     console.log('[Lovéa] shortcut=', shortcut, 'fullText.length=', fullText.length);
-    if (shortcut === 'histoire' && fullText.length > 300) {
-      console.log('[Lovéa] Sending isStory:true');
+    if (shortcut === 'histoire' && fullText.length > 300 && !TTS_UNSUPPORTED.has(lang)) {
       res.write(`data: ${JSON.stringify({ isStory: true })}\n\n`);
     }
     res.write('data: [DONE]\n\n');
@@ -126,6 +125,9 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
   }
 });
 
+
+// Languages with no ElevenLabs TTS support
+const TTS_UNSUPPORTED = new Set(['he']);
 
 // Voice IDs per language — add native voices for more languages as needed
 const VOICE_BY_LANG = {
@@ -150,6 +152,7 @@ const ELEVEN_LANG = {
 app.post('/api/speech', async (req, res) => {
   const { text, lang } = req.body;
   if (!text) return res.status(400).json({ error: 'text required' });
+  if (TTS_UNSUPPORTED.has(lang)) return res.status(422).json({ error: 'tts_lang_unsupported' });
   if (!process.env.ELEVENLABS_API_KEY) return res.status(503).json({ error: 'TTS not configured' });
   const language_code = ELEVEN_LANG[lang] || 'fr';
   const voice_id = VOICE_BY_LANG[lang] || DEFAULT_VOICE;
