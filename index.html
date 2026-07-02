@@ -2927,6 +2927,7 @@
   }
 
   let pendingShortcut = null;
+  let awaitingHistoireStory = false;
 
   function raccourci(type) {
     const age   = document.getElementById('age').value.trim();
@@ -3297,7 +3298,11 @@
         sauvegarderConvCourante();
         bulleTyping.classList.remove('typing');
         ajouterShareFooter(bulleTyping, reponse);
-        if (activeShortcut === 'histoire' && reponse.length > 300) ajouterHistoirePlayer(bulleTyping, reponse);
+        if (activeShortcut === 'histoire') awaitingHistoireStory = true;
+        if (awaitingHistoireStory && reponse.length > 300) {
+          ajouterHistoirePlayer(bulleTyping, reponse);
+          awaitingHistoireStory = false;
+        }
       }
     } catch(e){
       bulleTyping.remove();
