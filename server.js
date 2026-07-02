@@ -49,6 +49,30 @@ app.post('/api/ask', async (req, res) => {
     : '';
   const profileLine = profile ? `## Child profile (always use this throughout the conversation)\n${profile}` : '';
 
+  const repasFormatLine = shortcut === 'repas' ? `
+FORMAT RULE FOR THIS MESSAGE — RECIPE MODE (overrides the general format rule):
+Generate a simple recipe adapted to the child's age. Reply in the exact same language the parent used. Use this exact structure, translated into that language:
+
+🍽️ **[Recipe name]**
+⏱️ [Translated "Time:"] [X minutes] | 👶 [Translated "Suitable from"] [age]
+
+**[Translated "Ingredients:"]**
+- [ingredient 1]
+- [ingredient 2]
+- [ingredient 3]
+...
+
+**[Translated "Preparation:"]**
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
+...
+
+💡 **[Translated "Tip:"]** [One practical tip for parents]
+🌱 **[Translated "Nutritional value:"]** [One simple sentence on health benefits]
+
+Rules: strictly respect all allergies and dietary restrictions from the child's profile. Adapt ingredients and textures to the child's age. No offer to elaborate at the end.` : '';
+
   const criseFormatLine = shortcut === 'crise' ? `
 FORMAT RULE FOR THIS MESSAGE — CRISIS MODE (overrides the general format rule):
 A parent is living a crisis with their child right now. Reply in the exact same language the parent used. Use this exact structure, translated into that language:
@@ -101,6 +125,7 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
     allergiesLine,
     ageLine,
     profileLine,
+    repasFormatLine,
     criseFormatLine,
   ].filter(Boolean).join('\n\n');
 
