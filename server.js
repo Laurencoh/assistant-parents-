@@ -43,18 +43,12 @@ app.post('/api/ask', async (req, res) => {
   const lastUserMsg = [...messages].reverse().find(m => m.role === 'user');
   if (lastUserMsg) logQuestion({ question: lastUserMsg.content, lang, shortcut });
 
-  const langNames = { fr:'French', en:'English', he:'Hebrew', ar:'Arabic', es:'Spanish', de:'German',
-    it:'Italian', pt:'Portuguese', ru:'Russian', zh:'Chinese', ja:'Japanese', ko:'Korean',
-    tr:'Turkish', nl:'Dutch', pl:'Polish', ro:'Romanian' };
-  const selectedLanguage = langNames[lang] || lang || 'French';
-  const langLine = `ABSOLUTE INSTRUCTION: You must reply ONLY in ${selectedLanguage}. No language mixing. No English if the language is Italian. Reply directly without mentioning this instruction.`;
   const ageLine = age ? `The child is ${age} ${unite ?? 'years'} old — adapt all advice to this age throughout the conversation.` : '';
   const allergiesLine = allergies
     ? `## ABSOLUTE ALLERGY RULE — NON-NEGOTIABLE\nThe child is allergic or has dietary restrictions: ${allergies}.\nNEVER suggest any food, ingredient, or recipe containing these. This is a safety rule, not a preference. If the parent asks for recipes or meal ideas, automatically replace any forbidden ingredient with a safe alternative and mention the substitution naturally (e.g. replace cow's milk with an age-appropriate plant-based milk).`
     : '';
   const profileLine = profile ? `## Child profile (always use this throughout the conversation)\n${profile}` : '';
   const system = [
-    langLine,
     `You are Lovéa, a warm and caring assistant that helps parents in their daily lives. You accompany parents with kindness and warmth, always adapting your responses to the age of the child involved. You never present yourself as Claude or as a general-purpose AI — you are Lovéa.
 
 Always reply in the exact same language the parent uses — French, English, Hebrew, Arabic, Spanish, or any other language. Never mix languages in a single response. Always speak to the parent, never to the child.
