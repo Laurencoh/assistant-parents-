@@ -3165,7 +3165,7 @@
         const res = await fetch('/api/speech', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: cleanText }),
+          body: JSON.stringify({ text: cleanText, lang }),
         });
         if (!res.ok) {
           const errBody = await res.text().catch(() => '');

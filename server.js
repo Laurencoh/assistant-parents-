@@ -133,10 +133,17 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
 });
 
 
+const ELEVEN_LANG = {
+  fr:'fr', en:'en', es:'es', de:'de', it:'it', pt:'pt', ru:'ru',
+  zh:'zh', ja:'ja', ko:'ko', tr:'tr', nl:'nl', pl:'pl', ar:'ar',
+  ro:'ro', he:'he',
+};
+
 app.post('/api/speech', async (req, res) => {
-  const { text } = req.body;
+  const { text, lang } = req.body;
   if (!text) return res.status(400).json({ error: 'text required' });
   if (!process.env.ELEVENLABS_API_KEY) return res.status(503).json({ error: 'TTS not configured' });
+  const language_code = ELEVEN_LANG[lang] || 'fr';
   try {
     const response = await fetch(
       'https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM/stream',
@@ -149,6 +156,7 @@ app.post('/api/speech', async (req, res) => {
         body: JSON.stringify({
           text,
           model_id: 'eleven_turbo_v2_5',
+          language_code,
           voice_settings: { stability: 0.5, similarity_boost: 0.75 },
         }),
       }
