@@ -228,6 +228,30 @@
     .child-selector:focus { outline: none; border-color: var(--terra); }
     .child-selector.has-child { border-color: var(--terra); color: var(--terra-dk); font-weight: 600; }
 
+    .streak-badge {
+      display: none; align-items: center; gap: 3px;
+      background: #FFF3E0; border: 1.5px solid #FFB74D;
+      border-radius: 20px; padding: 3px 9px;
+      font-size: 0.8rem; font-weight: 700; color: #E65100;
+      flex-shrink: 0; white-space: nowrap; cursor: default;
+    }
+    .streak-badge.visible { display: inline-flex; }
+    .streak-badge.celebrate { animation: streakPop 0.6s ease; }
+    @keyframes streakPop {
+      0%   { transform: scale(1); }
+      25%  { transform: scale(1.35); }
+      60%  { transform: scale(0.92); }
+      100% { transform: scale(1); }
+    }
+    .streak-toast {
+      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--forest); color: #fff;
+      padding: 10px 20px; border-radius: 20px; font-size: 0.88rem;
+      opacity: 0; transition: opacity 0.4s ease, transform 0.4s ease;
+      z-index: 9999; white-space: nowrap; pointer-events: none;
+    }
+    .streak-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
     .btn-enfants {
       padding: 6px 10px; border: 1.5px solid #E8DDD4; border-radius: 10px;
       background: none; font-size: 0.82rem; font-family: inherit; color: #8A7F74;
@@ -970,6 +994,7 @@
         </select>
         <button class="btn-enfants" onclick="ouvrirModal()" data-i18n="manageBtn"></button>
         <button class="btn-enfants-mobile-cta" id="btn-mobile-cta" onclick="ouvrirModal()">＋ Ajouter mon enfant</button>
+        <span class="streak-badge" id="streak-badge"></span>
       </div>
       <!-- Âge manuel (visible seulement si aucun enfant sélectionné) -->
       <div class="age-row" id="age-row" style="margin-top:8px;">
@@ -2956,6 +2981,11 @@
     ajouterBulle('user',texte);
     textarea.value=''; textarea.style.height='auto';
 
+    // Streak tracking
+    localStorage.setItem('lovea_last_visit', new Date().toDateString());
+    const { streak: newStreak, increased } = calculateStreak();
+    updateStreakDisplay(newStreak, increased);
+
     enCours=true;
     document.getElementById('btn-envoyer').disabled=true;
     const bulleTyping=ajouterBulle('assistant',null,true);
@@ -3307,6 +3337,85 @@
     if (btn) btn.focus();
   }
 
+  // ════════════════════════════════════════════════════════════
+  // STREAK
+  // ════════════════════════════════════════════════════════════
+  const STREAK_MSGS = {
+    fr: { 3:'Tu es sur une belle lancée ! 🔥', 7:'Une semaine avec Lovéa ! 🌟', 30:'Un mois ensemble ! 🏆' },
+    en: { 3:'You\'re on a roll! 🔥', 7:'One week with Lovéa! 🌟', 30:'One month together! 🏆' },
+    he: { 3:'אתם בקצב מעולה! 🔥', 7:'שבוע עם Lovéa! 🌟', 30:'חודש ביחד! 🏆' },
+    ar: { 3:'أنت في تقدم رائع! 🔥', 7:'أسبوع مع Lovéa! 🌟', 30:'شهر معًا! 🏆' },
+    es: { 3:'¡Vas muy bien! 🔥', 7:'¡Una semana con Lovéa! 🌟', 30:'¡Un mes juntos! 🏆' },
+    de: { 3:'Du bist auf dem richtigen Weg! 🔥', 7:'Eine Woche mit Lovéa! 🌟', 30:'Ein Monat zusammen! 🏆' },
+    it: { 3:'Sei in forma smagliante! 🔥', 7:'Una settimana con Lovéa! 🌟', 30:'Un mese insieme! 🏆' },
+    pt: { 3:'Estás a arrasar! 🔥', 7:'Uma semana com o Lovéa! 🌟', 30:'Um mês juntos! 🏆' },
+    ru: { 3:'Отличный темп! 🔥', 7:'Неделя с Lovéa! 🌟', 30:'Месяц вместе! 🏆' },
+    zh: { 3:'你势头很好！🔥', 7:'与 Lovéa 的一周！🌟', 30:'一起的一个月！🏆' },
+    ja: { 3:'絶好調です！🔥', 7:'Lovéa と1週間！🌟', 30:'1ヶ月一緒に！🏆' },
+    ko: { 3:'잘 하고 있어요! 🔥', 7:'Lovéa와 함께 1주일! 🌟', 30:'함께 한 달! 🏆' },
+    tr: { 3:'Harika gidiyorsun! 🔥', 7:'Lovéa ile bir hafta! 🌟', 30:'Birlikte bir ay! 🏆' },
+    nl: { 3:'Je bent goed bezig! 🔥', 7:'Een week met Lovéa! 🌟', 30:'Een maand samen! 🏆' },
+    pl: { 3:'Świetnie Ci idzie! 🔥', 7:'Tydzień z Lovéa! 🌟', 30:'Miesiąc razem! 🏆' },
+    ro: { 3:'Ești pe val! 🔥', 7:'O săptămână cu Lovéa! 🌟', 30:'O lună împreună! 🏆' },
+  };
+
+  function calculateStreak() {
+    const today = new Date().toDateString();
+    const yesterday = new Date(Date.now() - 86400000).toDateString();
+    const lastVisit = localStorage.getItem('lovea_last_visit');
+    const currentStreak = parseInt(localStorage.getItem('lovea_streak') || '0');
+
+    if (lastVisit === today) return { streak: currentStreak, increased: false };
+
+    let newStreak, increased;
+    if (lastVisit === yesterday) {
+      newStreak = currentStreak + 1;
+      increased = newStreak >= 2;
+    } else {
+      newStreak = 1;
+      increased = false;
+    }
+    localStorage.setItem('lovea_streak', newStreak);
+    localStorage.setItem('lovea_last_visit', today);
+    return { streak: newStreak, increased };
+  }
+
+  function updateStreakDisplay(streak, celebrate) {
+    const badge = document.getElementById('streak-badge');
+    if (!badge) return;
+    if (streak >= 2) {
+      badge.textContent = `🔥 ${streak}`;
+      badge.classList.add('visible');
+      if (celebrate) {
+        badge.classList.remove('celebrate');
+        void badge.offsetWidth; // reflow to restart animation
+        badge.classList.add('celebrate');
+        setTimeout(() => badge.classList.remove('celebrate'), 700);
+        showStreakToast(streak);
+      }
+    } else {
+      badge.classList.remove('visible');
+    }
+  }
+
+  function showStreakToast(streak) {
+    const msgs = STREAK_MSGS[lang] || STREAK_MSGS.fr;
+    const milestones = [30, 7, 3];
+    const msg = milestones.find(m => streak === m) ? msgs[milestones.find(m => streak === m)] : null;
+    if (!msg) return;
+
+    let toast = document.getElementById('streak-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'streak-toast';
+      toast.className = 'streak-toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3500);
+  }
+
   selectedChildId = localStorage.getItem(SEL_KEY) || null;
   // Valider que l'enfant existe encore
   if (selectedChildId && !chargerEnfants().find(e=>e.id===selectedChildId)) selectedChildId=null;
@@ -3316,6 +3425,9 @@
   nouvelleConversation();
   chargerConseilDuJour();
   detectEmergencyByCountry();
+
+  const { streak: initStreak, increased: initIncreased } = calculateStreak();
+  updateStreakDisplay(initStreak, initIncreased);
 
   if (!localStorage.getItem(OB_KEY)) obShow();
 
