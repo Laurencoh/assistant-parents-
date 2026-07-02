@@ -425,6 +425,42 @@
     .bulle.assistant strong { font-weight: 700; }
     .bulle.assistant ul, .bulle.assistant ol { margin: 5px 0 8px; padding-inline-start: 18px; }
     .bulle.assistant li { margin-bottom: 3px; }
+    /* Share button */
+    .bulle-footer {
+      display: flex; justify-content: flex-end; align-items: center;
+      margin-top: 2px; min-height: 22px; position: relative;
+    }
+    .bulle-share-btn {
+      opacity: 0; transition: opacity 0.18s;
+      background: none; border: none; cursor: pointer;
+      padding: 3px 6px; border-radius: 7px; line-height: 1;
+      color: var(--terra-dk); font-size: 0.7rem; display: flex; align-items: center; gap: 3px;
+    }
+    .bulle-share-btn:hover { background: var(--terra-lt); }
+    .bulle.assistant:hover .bulle-share-btn,
+    .bulle-footer:focus-within .bulle-share-btn { opacity: 1; }
+    @media (hover: none) { .bulle-share-btn { opacity: 0.55; } }
+
+    .share-menu {
+      position: absolute; bottom: 28px; right: 0;
+      background: #FDFAF4; border: 1px solid #E3DECF;
+      border-radius: 11px; box-shadow: 0 4px 18px rgba(46,58,44,0.13);
+      padding: 4px; min-width: 158px; z-index: 200; display: none;
+    }
+    .share-menu.open { display: block; }
+    .share-menu button {
+      display: flex; align-items: center; gap: 9px;
+      width: 100%; padding: 8px 12px; border: none; background: none;
+      cursor: pointer; font-size: 0.85rem; font-family: inherit;
+      color: var(--text); border-radius: 8px; text-align: start; white-space: nowrap;
+    }
+    .share-menu button:hover { background: var(--terra-lt); }
+    .share-copy-confirm {
+      font-size: 0.72rem; color: var(--terra-dk); font-weight: 600;
+      opacity: 0; transition: opacity 0.3s; margin-right: 4px;
+    }
+    .share-copy-confirm.show { opacity: 1; }
+
     .bulle.assistant h2, .bulle.assistant h3 {
       font-family: Georgia, serif; font-size: 0.94rem; font-weight: bold; margin: 12px 0 5px;
     }
@@ -2941,9 +2977,59 @@
       if(isRTL(texte)) contenu.setAttribute('dir','rtl');
     }
     bulle.appendChild(nom); bulle.appendChild(contenu);
+    if(role==='assistant' && !typing && texte) ajouterShareFooter(bulle, texte);
     fil.appendChild(bulle);
     bulle.scrollIntoView({behavior:'smooth',block:'end'});
     return bulle;
+  }
+
+  function ajouterShareFooter(bulle, rawText) {
+    const footer = document.createElement('div');
+    footer.className = 'bulle-footer';
+
+    const confirm = document.createElement('span');
+    confirm.className = 'share-copy-confirm';
+    confirm.textContent = 'Copié !';
+
+    const btn = document.createElement('button');
+    btn.className = 'bulle-share-btn';
+    btn.setAttribute('aria-label', 'Partager');
+    btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg> Partager`;
+
+    const menu = document.createElement('div');
+    menu.className = 'share-menu';
+
+    const waBtn = document.createElement('button');
+    waBtn.innerHTML = '📱 WhatsApp';
+    waBtn.onclick = () => {
+      const txt = rawText + '\n\n_Conseil partagé depuis Lovéa 🌱 lovea.app_';
+      window.open('https://wa.me/?text=' + encodeURIComponent(txt), '_blank', 'noopener');
+      menu.classList.remove('open');
+    };
+
+    const copyBtn = document.createElement('button');
+    copyBtn.innerHTML = '📋 Copier';
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(rawText).then(() => {
+        menu.classList.remove('open');
+        confirm.classList.add('show');
+        setTimeout(() => confirm.classList.remove('show'), 2000);
+      });
+    };
+
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      const wasOpen = menu.classList.contains('open');
+      document.querySelectorAll('.share-menu.open').forEach(m => m.classList.remove('open'));
+      if (!wasOpen) menu.classList.add('open');
+    };
+
+    menu.appendChild(waBtn);
+    menu.appendChild(copyBtn);
+    footer.appendChild(confirm);
+    footer.appendChild(btn);
+    footer.appendChild(menu);
+    bulle.appendChild(footer);
   }
 
   async function envoyer() {
@@ -3067,6 +3153,8 @@
         if(detectsEmergency(texte)) afficherBandeauUrgence();
         document.getElementById('conv-titre').textContent=titreDepuisMessages(conversation);
         sauvegarderConvCourante();
+        bulleTyping.classList.remove('typing');
+        ajouterShareFooter(bulleTyping, reponse);
       }
     } catch(e){
       bulleTyping.remove();
@@ -3429,6 +3517,10 @@
   updateStreakDisplay(initStreak, initIncreased);
 
   if (!localStorage.getItem(OB_KEY)) obShow();
+
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.share-menu.open').forEach(m => m.classList.remove('open'));
+  });
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/sw.js').catch(() => {});
