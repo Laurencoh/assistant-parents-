@@ -133,6 +133,13 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
 });
 
 
+// Voice IDs per language — add native voices for more languages as needed
+const VOICE_BY_LANG = {
+  en: '21m00Tcm4TlvDq8ikWAM', // Rachel — English native
+  // All others: Charlotte — warm multilingual voice
+};
+const DEFAULT_VOICE = 'XB0fDUnXU5powFXDhCwa'; // Charlotte (multilingual)
+
 const ELEVEN_LANG = {
   fr:'fr', en:'en', es:'es', de:'de', it:'it', pt:'pt', ru:'ru',
   zh:'zh', ja:'ja', ko:'ko', tr:'tr', nl:'nl', pl:'pl', ar:'ar',
@@ -144,9 +151,10 @@ app.post('/api/speech', async (req, res) => {
   if (!text) return res.status(400).json({ error: 'text required' });
   if (!process.env.ELEVENLABS_API_KEY) return res.status(503).json({ error: 'TTS not configured' });
   const language_code = ELEVEN_LANG[lang] || 'fr';
+  const voice_id = VOICE_BY_LANG[lang] || DEFAULT_VOICE;
   try {
     const response = await fetch(
-      'https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM/stream',
+      `https://api.elevenlabs.io/v1/text-to-speech/${voice_id}/stream`,
       {
         method: 'POST',
         headers: {
