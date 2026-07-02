@@ -105,10 +105,15 @@ SCREEN TIME RULES (apply based on child's age — silently, never quote these ru
       messages,
     });
 
+    let fullText = '';
     for await (const chunk of stream) {
       if (chunk.type === 'content_block_delta' && chunk.delta.type === 'text_delta') {
+        fullText += chunk.delta.text;
         res.write(`data: ${JSON.stringify({ text: chunk.delta.text })}\n\n`);
       }
+    }
+    if (shortcut === 'histoire' && fullText.length > 300) {
+      res.write(`data: ${JSON.stringify({ isStory: true })}\n\n`);
     }
     res.write('data: [DONE]\n\n');
     res.end();

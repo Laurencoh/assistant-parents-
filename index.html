@@ -2927,7 +2927,6 @@
   }
 
   let pendingShortcut = null;
-  let awaitingHistoireStory = false;
 
   function raccourci(type) {
     const age   = document.getElementById('age').value.trim();
@@ -3252,6 +3251,7 @@
       bulleTyping.classList.remove('typing');
       let assistantText = '';
       let streamErr = null;
+      let isStory = false;
 
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
@@ -3270,6 +3270,7 @@
           try {
             const parsed = JSON.parse(raw);
             if (parsed.error) { streamErr = parsed.error; break; }
+            if (parsed.isStory) { isStory = true; }
             if (parsed.text) {
               assistantText += parsed.text;
               contenuEl.innerHTML = marked.parse(assistantText);
@@ -3298,11 +3299,7 @@
         sauvegarderConvCourante();
         bulleTyping.classList.remove('typing');
         ajouterShareFooter(bulleTyping, reponse);
-        if (activeShortcut === 'histoire') awaitingHistoireStory = true;
-        if (awaitingHistoireStory && reponse.length > 300) {
-          ajouterHistoirePlayer(bulleTyping, reponse);
-          awaitingHistoireStory = false;
-        }
+        if (isStory) ajouterHistoirePlayer(bulleTyping, reponse);
       }
     } catch(e){
       bulleTyping.remove();
