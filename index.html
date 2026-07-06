@@ -627,6 +627,67 @@
     }
     .btn-invite-enfant:hover { background: var(--terra-dk); color: #fff; }
     .btn-invite-enfant:active { transform: scale(0.96); }
+    .btn-invite-try {
+      padding: 9px 20px;
+      background: transparent;
+      color: var(--forest);
+      border: 1.5px solid var(--forest);
+      border-radius: 24px;
+      font-size: 0.85rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .btn-invite-try:hover { background: var(--forest); color: #fff; }
+    .invite-btn-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .invite-try-form {
+      width: 100%; display: none; flex-direction: column; gap: 10px;
+      animation: slideDown 0.2s ease;
+    }
+    .invite-try-form.open { display: flex; }
+    .invite-try-age-row {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.88rem; color: var(--text); justify-content: center;
+    }
+    .invite-try-age-row input {
+      width: 52px; text-align: center;
+      border: 1.5px solid #B8DDB8; border-radius: 8px;
+      padding: 5px 6px; font-size: 0.9rem; font-family: inherit;
+      background: #fff;
+    }
+    .invite-try-textarea {
+      width: 100%; box-sizing: border-box;
+      border: 1.5px solid #B8DDB8; border-radius: 10px;
+      padding: 10px 12px; font-size: 0.88rem; font-family: inherit;
+      resize: none; min-height: 72px; background: #fff;
+    }
+    .invite-try-textarea:focus, .invite-try-age-row input:focus {
+      outline: none; border-color: var(--forest);
+    }
+    .btn-invite-send {
+      align-self: flex-end;
+      padding: 9px 22px;
+      background: var(--forest); color: #fff;
+      border: none; border-radius: 24px;
+      font-size: 0.88rem; font-family: inherit; font-weight: 600;
+      cursor: pointer; transition: background 0.15s;
+    }
+    .btn-invite-send:hover { background: #1e4030; }
+    .bulle-nudge {
+      background: linear-gradient(135deg, #EAF6E8, #F5F0E8);
+      border: 1.5px solid #B8DDB8; border-radius: 14px;
+      padding: 12px 16px; margin: 4px 0;
+      font-size: 0.88rem; color: var(--forest); line-height: 1.5;
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .btn-nudge-profil {
+      padding: 7px 16px; background: var(--terra); color: #2E3A2C;
+      border: none; border-radius: 20px; font-size: 0.82rem;
+      font-family: inherit; font-weight: 600; cursor: pointer;
+      white-space: nowrap; transition: background 0.15s;
+    }
+    .btn-nudge-profil:hover { background: var(--terra-dk); color: #fff; }
 
     /* ══ CONSEIL DU JOUR ════════════════════════════════════ */
     .conseil-du-jour {
@@ -1187,6 +1248,7 @@
       inviteTitle:'Pour des conseils vraiment adaptés,\najoutez le profil de votre enfant',
       inviteSub:'Âge, allergies, notes personnelles — l\'assistant s\'adapte automatiquement',
       inviteBtn:'＋ Ajouter mon enfant',
+      tryBtn:'Essayer maintenant', tryAgePre:'Mon enfant a', tryAgePost:'an(s)', tryPlaceholder:'Posez votre question…', trySend:'Envoyer →', tryNudge:'Cette réponse vous a plu ? Créez le profil de votre enfant pour des conseils encore plus adaptés 🌱',
       fPrenom:'Prénom', fDob:'Date de naissance',
       fAllergies:'Allergies / régime alimentaire',
       fNotes:'Notes (défis, ce qui fonctionne…)',
@@ -1229,6 +1291,7 @@
       inviteTitle:'For advice tailored to your child,\nadd their profile',
       inviteSub:'Age, allergies, personal notes — the assistant adapts automatically',
       inviteBtn:'＋ Add my child',
+      tryBtn:'Try now', tryAgePre:'My child is', tryAgePost:'year(s) old', tryPlaceholder:'Ask your question…', trySend:'Send →', tryNudge:'Did you like this response? Create your child\'s profile for even more tailored advice 🌱',
       fPrenom:'First name', fDob:'Date of birth',
       fAllergies:'Allergies / diet',
       fNotes:'Notes (challenges, what works…)',
@@ -1268,6 +1331,7 @@
       inviteTitle:'לייעוץ המותאם לילד שלך,\nהוסף את הפרופיל שלו',
       inviteSub:'גיל, אלרגיות, הערות אישיות — העוזר מסתגל אוטומטית',
       inviteBtn:'＋ הוסף את הילד שלי',
+      tryBtn:'נסה עכשיו', tryAgePre:'הילד שלי בן', tryAgePost:'שנים', tryPlaceholder:'שאל את שאלתך…', trySend:'שלח →', tryNudge:'אהבת את התשובה? צור את הפרופיל של ילדך לייעוץ מותאם עוד יותר 🌱',
       fPrenom:'שם פרטי', fDob:'תאריך לידה',
       fAllergies:'אלרגיות / תזונה',
       fNotes:'הערות',
@@ -1307,6 +1371,7 @@
       inviteTitle:'للحصول على نصائح مخصصة لطفلك،\nأضف ملفه الشخصي',
       inviteSub:'العمر، الحساسيات، ملاحظات شخصية — يتكيف المساعد تلقائياً',
       inviteBtn:'＋ إضافة طفلي',
+      tryBtn:'جرّب الآن', tryAgePre:'عمر طفلي', tryAgePost:'سنوات', tryPlaceholder:'اطرح سؤالك…', trySend:'إرسال →', tryNudge:'هل أعجبتك الإجابة؟ أنشئ ملف طفلك للحصول على نصائح أكثر تخصيصاً 🌱',
       fPrenom:'الاسم', fDob:'تاريخ الميلاد',
       fAllergies:'الحساسية / النظام الغذائي',
       fNotes:'ملاحظات',
@@ -1346,6 +1411,7 @@
       inviteTitle:'Para consejos adaptados a tu hijo,\nagrégalo a su perfil',
       inviteSub:'Edad, alergias, notas personales — el asistente se adapta automáticamente',
       inviteBtn:'＋ Agregar a mi hijo',
+      tryBtn:'Probar ahora', tryAgePre:'Mi hijo tiene', tryAgePost:'año(s)', tryPlaceholder:'Haz tu pregunta…', trySend:'Enviar →', tryNudge:'¿Te gustó esta respuesta? Crea el perfil de tu hijo para consejos aún más personalizados 🌱',
       fPrenom:'Nombre', fDob:'Fecha de nacimiento',
       fAllergies:'Alergias / dieta', fNotes:'Notas',
       fSave:'Guardar', fCancel:'Cancelar',
@@ -1384,6 +1450,7 @@
       inviteTitle:'Für auf Ihr Kind zugeschnittene Ratschläge,\nfügen Sie das Profil hinzu',
       inviteSub:'Alter, Allergien, persönliche Notizen — der Assistent passt sich automatisch an',
       inviteBtn:'＋ Mein Kind hinzufügen',
+      tryBtn:'Jetzt ausprobieren', tryAgePre:'Mein Kind ist', tryAgePost:'Jahr(e) alt', tryPlaceholder:'Stelle deine Frage…', trySend:'Senden →', tryNudge:'Hat dir diese Antwort gefallen? Erstelle das Profil deines Kindes für noch persönlichere Ratschläge 🌱',
       fPrenom:'Vorname', fDob:'Geburtsdatum',
       fAllergies:'Allergien / Diät', fNotes:'Notizen',
       fSave:'Speichern', fCancel:'Abbrechen',
@@ -1422,6 +1489,7 @@
       inviteTitle:'Per consigli davvero adatti a tuo figlio,\naggiungi il suo profilo',
       inviteSub:'Età, allergie, note personali — l\'assistente si adatta automaticamente',
       inviteBtn:'＋ Aggiungi mio figlio',
+      tryBtn:'Prova ora', tryAgePre:'Mio figlio ha', tryAgePost:'anno/i', tryPlaceholder:'Fai la tua domanda…', trySend:'Invia →', tryNudge:'Ti è piaciuta questa risposta? Crea il profilo di tuo figlio per consigli ancora più personalizzati 🌱',
       fPrenom:'Nome', fDob:'Data di nascita',
       fAllergies:'Allergie / dieta', fNotes:'Note',
       fSave:'Salva', fCancel:'Annulla',
@@ -1460,6 +1528,7 @@
       inviteTitle:'Para conselhos adaptados ao seu filho,\nadicione o perfil dele',
       inviteSub:'Idade, alergias, notas pessoais — o assistente adapta-se automaticamente',
       inviteBtn:'＋ Adicionar meu filho',
+      tryBtn:'Experimentar agora', tryAgePre:'O meu filho tem', tryAgePost:'ano(s)', tryPlaceholder:'Faz a tua pergunta…', trySend:'Enviar →', tryNudge:'Gostaste desta resposta? Cria o perfil do teu filho para conselhos ainda mais personalizados 🌱',
       fPrenom:'Nome', fDob:'Data de nascimento',
       fAllergies:'Alergias / dieta', fNotes:'Notas',
       fSave:'Guardar', fCancel:'Cancelar',
@@ -1498,6 +1567,7 @@
       inviteTitle:'Для советов, адаптированных к вашему ребёнку,\nдобавьте его профиль',
       inviteSub:'Возраст, аллергии, личные заметки — ассистент адаптируется автоматически',
       inviteBtn:'＋ Добавить моего ребёнка',
+      tryBtn:'Попробовать', tryAgePre:'Моему ребёнку', tryAgePost:'лет', tryPlaceholder:'Задайте вопрос…', trySend:'Отправить →', tryNudge:'Понравился ответ? Создайте профиль ребёнка для ещё более персональных советов 🌱',
       fPrenom:'Имя', fDob:'Дата рождения',
       fAllergies:'Аллергии / диета', fNotes:'Заметки',
       fSave:'Сохранить', fCancel:'Отмена',
@@ -1536,6 +1606,7 @@
       inviteTitle:'为获得为您的孩子量身定制的建议，\n请添加他/她的档案',
       inviteSub:'年龄、过敏症、个人备注 — 助手将自动适应',
       inviteBtn:'＋ 添加我的孩子',
+      tryBtn:'立即尝试', tryAgePre:'我的孩子', tryAgePost:'岁', tryPlaceholder:'提问…', trySend:'发送 →', tryNudge:'喜欢这个回答吗？创建孩子的档案，获得更贴心的建议 🌱',
       fPrenom:'姓名', fDob:'出生日期',
       fAllergies:'过敏 / 饮食', fNotes:'备注',
       fSave:'保存', fCancel:'取消',
@@ -1574,6 +1645,7 @@
       inviteTitle:'お子さまに合ったアドバイスのために、\nプロフィールを追加してください',
       inviteSub:'年齢、アレルギー、メモ — アシスタントが自動的に対応します',
       inviteBtn:'＋ 子どもを追加する',
+      tryBtn:'今すぐ試す', tryAgePre:'子どもは', tryAgePost:'歳です', tryPlaceholder:'質問を入力…', trySend:'送信 →', tryNudge:'この回答はいかがでしたか？お子さんのプロフィールを作成してさらに個別のアドバイスを 🌱',
       fPrenom:'お名前', fDob:'生年月日',
       fAllergies:'アレルギー・食事制限', fNotes:'メモ',
       fSave:'保存', fCancel:'キャンセル',
@@ -1612,6 +1684,7 @@
       inviteTitle:'아이에게 맞춤화된 조언을 위해\n프로필을 추가해 주세요',
       inviteSub:'나이, 알레르기, 개인 메모 — 어시스턴트가 자동으로 맞춰드립니다',
       inviteBtn:'＋ 내 아이 추가하기',
+      tryBtn:'지금 시도하기', tryAgePre:'아이는', tryAgePost:'살입니다', tryPlaceholder:'질문하세요…', trySend:'보내기 →', tryNudge:'이 답변이 마음에 드셨나요? 아이의 프로필을 만들어 더 맞춤화된 조언을 받아보세요 🌱',
       fPrenom:'이름', fDob:'생년월일',
       fAllergies:'알레르기 / 식이요법', fNotes:'메모',
       fSave:'저장', fCancel:'취소',
@@ -1650,6 +1723,7 @@
       inviteTitle:'Çocuğunuza özel tavsiyeler için\nprofil ekleyin',
       inviteSub:'Yaş, alerjiler, kişisel notlar — asistan otomatik olarak uyum sağlar',
       inviteBtn:'＋ Çocuğumu ekle',
+      tryBtn:'Şimdi dene', tryAgePre:'Çocuğum', tryAgePost:'yaşında', tryPlaceholder:'Sorunuzu sorun…', trySend:'Gönder →', tryNudge:'Bu yanıtı beğendiniz mi? Daha kişiselleştirilmiş tavsiyeler için çocuğunuzun profilini oluşturun 🌱',
       fPrenom:'Ad', fDob:'Doğum tarihi',
       fAllergies:'Alerjiler / diyet', fNotes:'Notlar',
       fSave:'Kaydet', fCancel:'İptal',
@@ -1688,6 +1762,7 @@
       inviteTitle:'Voor advies op maat voor uw kind,\nvoeg het profiel toe',
       inviteSub:'Leeftijd, allergieën, persoonlijke notities — de assistent past zich automatisch aan',
       inviteBtn:'＋ Mijn kind toevoegen',
+      tryBtn:'Nu proberen', tryAgePre:'Mijn kind is', tryAgePost:'jaar oud', tryPlaceholder:'Stel uw vraag…', trySend:'Verstuur →', tryNudge:'Vond u dit antwoord nuttig? Maak een profiel voor uw kind voor nog meer persoonlijk advies 🌱',
       fPrenom:'Voornaam', fDob:'Geboortedatum',
       fAllergies:'Allergieën / dieet', fNotes:'Notities',
       fSave:'Opslaan', fCancel:'Annuleren',
@@ -1726,6 +1801,7 @@
       inviteTitle:'Aby uzyskać porady dopasowane do Twojego dziecka,\ndodaj jego profil',
       inviteSub:'Wiek, alergie, notatki — asystent dostosowuje się automatycznie',
       inviteBtn:'＋ Dodaj moje dziecko',
+      tryBtn:'Spróbuj teraz', tryAgePre:'Moje dziecko ma', tryAgePost:'lat', tryPlaceholder:'Zadaj pytanie…', trySend:'Wyślij →', tryNudge:'Podobała ci się ta odpowiedź? Stwórz profil dziecka dla jeszcze bardziej spersonalizowanych porad 🌱',
       fPrenom:'Imię', fDob:'Data urodzenia',
       fAllergies:'Alergie / dieta', fNotes:'Notatki',
       fSave:'Zapisz', fCancel:'Anuluj',
@@ -1764,6 +1840,7 @@
       inviteTitle:'Pentru sfaturi adaptate copilului tău,\nadaugă profilul lui',
       inviteSub:'Vârstă, alergii, notițe personale — asistentul se adaptează automat',
       inviteBtn:'＋ Adaugă copilul meu',
+      tryBtn:'Încearcă acum', tryAgePre:'Copilul meu are', tryAgePost:'ani', tryPlaceholder:'Pune-ți întrebarea…', trySend:'Trimite →', tryNudge:'Ți-a plăcut acest răspuns? Creează profilul copilului tău pentru sfaturi și mai personalizate 🌱',
       fPrenom:'Prenume', fDob:'Data nașterii',
       fAllergies:'Alergii / dietă', fNotes:'Notițe',
       fSave:'Salvează', fCancel:'Anulează',
@@ -2359,7 +2436,19 @@
         <div class="invite-enfant-emoji">🌱</div>
         <div class="invite-enfant-titre">${esc(t('inviteTitle')).replace('\n','<br>')}</div>
         <div class="invite-enfant-sous">${esc(t('inviteSub'))}</div>
-        <button class="btn-invite-enfant" onclick="ouvrirModal()">${esc(t('inviteBtn'))}</button>
+        <div class="invite-btn-row">
+          <button class="btn-invite-enfant" onclick="ouvrirModal()">${esc(t('inviteBtn'))}</button>
+          <button class="btn-invite-try" onclick="toggleTryForm()">${esc(t('tryBtn'))}</button>
+        </div>
+        <div class="invite-try-form" id="invite-try-form">
+          <div class="invite-try-age-row">
+            <span>${esc(t('tryAgePre'))}</span>
+            <input type="number" id="try-age" min="0" max="18" placeholder="2">
+            <span>${esc(t('tryAgePost'))}</span>
+          </div>
+          <textarea id="try-question" class="invite-try-textarea" placeholder="${esc(t('tryPlaceholder'))}" rows="3"></textarea>
+          <button class="btn-invite-send" onclick="envoyerEssai()">${esc(t('trySend'))}</button>
+        </div>
       </div>`;
     return `<div class="accueil" id="accueil">
       ${inviteBanner}
@@ -2943,6 +3032,38 @@
   }
 
   let pendingShortcut = null;
+  let pendingTryNudge = false;
+
+  function toggleTryForm() {
+    const form = document.getElementById('invite-try-form');
+    if (!form) return;
+    form.classList.toggle('open');
+    if (form.classList.contains('open')) {
+      setTimeout(() => document.getElementById('try-age')?.focus(), 80);
+    }
+  }
+
+  function envoyerEssai() {
+    const ageVal = document.getElementById('try-age')?.value.trim();
+    const question = document.getElementById('try-question')?.value.trim();
+    if (!question) return;
+
+    // Pré-remplir le champ âge du header si renseigné
+    if (ageVal) {
+      const ageInput = document.getElementById('age');
+      if (ageInput) ageInput.value = ageVal;
+    }
+
+    // Mettre la question dans le textarea principal et envoyer
+    const textarea = document.getElementById('question');
+    if (textarea) {
+      textarea.value = question;
+      autoResize(textarea);
+    }
+
+    pendingTryNudge = true;
+    envoyer();
+  }
 
   function raccourci(type) {
     if (type === 'histoire' && !selectedChildId) {
@@ -3358,6 +3479,14 @@
         bulleTyping.classList.remove('typing');
         ajouterShareFooter(bulleTyping, reponse);
         if (isStory) ajouterHistoirePlayer(bulleTyping, reponse);
+        if (pendingTryNudge) {
+          pendingTryNudge = false;
+          const nudge = document.createElement('div');
+          nudge.className = 'bulle-nudge';
+          nudge.innerHTML = `<span>${esc(t('tryNudge'))}</span><button class="btn-nudge-profil" onclick="ouvrirModal()">${esc(t('inviteBtn'))}</button>`;
+          document.getElementById('fil').appendChild(nudge);
+          nudge.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
       }
     } catch(e){
       bulleTyping.remove();
