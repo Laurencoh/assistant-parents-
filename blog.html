@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="meta-title">Blog Lovéa — Conseils parentalité par l'IA</title>
+  <meta name="description" id="meta-desc" content="Articles pratiques sur la parentalité : sommeil, alimentation, activités, crises. Lovéa partage ses meilleurs conseils adaptés à l'âge de votre enfant." />
+  <link rel="canonical" href="https://lovea.app/blog" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" id="og-title" content="Blog Lovéa — Conseils parentalité" />
+  <meta property="og:description" id="og-desc" content="Articles pratiques sur la parentalité adaptés à l'âge de votre enfant." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --terra:#8CBE86; --terra-dk:#5C8C5A; --terra-lt:#E8F4E6;
+      --forest:#2E3A2C; --cream:#F7F3EA; --text:#2E3A2C; --text-2:#586658;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); line-height: 1.75; }
+    .container { max-width: 780px; margin: 0 auto; padding: 48px 24px 80px; }
+    .back { display: inline-flex; align-items: center; gap: 6px; color: var(--terra-dk); font-size: 0.88rem; font-weight: 600; text-decoration: none; margin-bottom: 36px; }
+    .back:hover { opacity: 0.8; }
+    .blog-hero { margin-bottom: 48px; }
+    .blog-hero h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--forest); margin-bottom: 10px; }
+    .blog-hero p { font-size: 1rem; color: var(--text-2); }
+    .articles-grid { display: grid; gap: 20px; }
+    .article-card {
+      background: #fff; border: 1.5px solid #E0D8C8; border-radius: 16px;
+      padding: 24px 28px; text-decoration: none; color: inherit;
+      transition: border-color 0.15s, box-shadow 0.15s; display: block;
+    }
+    .article-card:hover { border-color: var(--terra); box-shadow: 0 4px 16px rgba(92,140,90,0.12); }
+    .article-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .article-tag {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--terra-dk);
+      background: var(--terra-lt); padding: 3px 10px; border-radius: 20px;
+    }
+    .article-date { font-size: 0.8rem; color: #98A896; }
+    .article-card h2 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--forest); margin-bottom: 8px; line-height: 1.35; }
+    .article-card p { font-size: 0.9rem; color: var(--text-2); line-height: 1.6; }
+    .article-read { display: inline-flex; align-items: center; gap: 5px; font-size: 0.82rem; font-weight: 600; color: var(--terra-dk); margin-top: 14px; }
+    hr { border: none; border-top: 1px solid #E0D8C8; margin: 52px 0 28px; }
+    .footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
+    .footer-links a { font-size: 0.8rem; color: #98A896; text-decoration: none; }
+    .footer-links a:hover { color: var(--terra-dk); }
+    .footer-copy { font-size: 0.8rem; color: #98A896; margin-top: 10px; }
+    @media (max-width: 600px) {
+      .blog-hero h1 { font-size: 1.6rem; }
+      .article-card { padding: 18px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a class="back" href="/" id="back">← Lovéa</a>
+
+    <div class="blog-hero">
+      <h1 id="h1">📝 Le Blog Lovéa</h1>
+      <p id="intro">Conseils pratiques et bienveillants pour accompagner votre enfant au quotidien.</p>
+    </div>
+
+    <div class="articles-grid" id="articles-grid">
+      <!-- articles injected by JS -->
+    </div>
+
+    <hr>
+    <div class="footer-links">
+      <a href="/">Lovéa</a>
+      <a href="/about" id="lnk-about">À propos</a>
+      <a href="/privacy" id="lnk-privacy">Confidentialité</a>
+      <a href="/terms" id="lnk-terms">CGU</a>
+    </div>
+    <p class="footer-copy" id="footer-copy">© 2025 Lovéa</p>
+  </div>
+
+  <script>
+    function detectLang() {
+      const saved = localStorage.getItem('ap-lang');
+      const supported = ['fr','en','he','ar','es','de','it','pt','ru','zh','ja','ko','tr','nl','pl','ro'];
+      if (saved && supported.includes(saved)) return saved;
+      for (const nl of (navigator.languages || [navigator.language || ''])) {
+        const code = nl.toLowerCase().split('-')[0];
+        if (supported.includes(code)) return code;
+      }
+      return 'fr';
+    }
+
+    const lang = detectLang();
+
+    const T = {
+      fr: {
+        back:'← Lovéa', h1:'📝 Le Blog Lovéa',
+        intro:'Conseils pratiques et bienveillants pour accompagner votre enfant au quotidien.',
+        read:'Lire l\'article →',
+        lnkAbout:'À propos', lnkPrivacy:'Confidentialité', lnkTerms:'CGU',
+        copy:'© 2025 Lovéa',
+        articles: [
+          {
+            tag:'Sommeil', date:'Juin 2025',
+            title:'Mon bébé ne dort pas la nuit : que faire ?',
+            summary:'Les nuits sans sommeil comptent parmi les défis les plus éprouvants des premières années. Découvrez 4 conseils concrets pour aider votre bébé à mieux dormir.',
+            url:'/blog/mon-bebe-ne-dort-pas',
+          },
+        ],
+      },
+      en: {
+        back:'← Lovéa', h1:'📝 The Lovéa Blog',
+        intro:'Practical, caring advice to support your child day by day.',
+        read:'Read article →',
+        lnkAbout:'About', lnkPrivacy:'Privacy', lnkTerms:'Terms',
+        copy:'© 2025 Lovéa',
+        articles: [
+          {
+            tag:'Sleep', date:'June 2025',
+            title:'My baby won\'t sleep at night: what to do?',
+            summary:'Sleepless nights are one of the hardest challenges of early parenthood. Discover 4 practical tips to help your baby sleep better.',
+            url:'/blog/my-baby-wont-sleep',
+          },
+        ],
+      },
+    };
+
+    // Fallback to French for untranslated languages
+    const tl = T[lang] || T.fr;
+
+    document.getElementById('back').textContent = tl.back;
+    document.getElementById('h1').textContent = tl.h1;
+    document.getElementById('intro').textContent = tl.intro;
+    document.getElementById('lnk-about').textContent = tl.lnkAbout;
+    document.getElementById('lnk-privacy').textContent = tl.lnkPrivacy;
+    document.getElementById('lnk-terms').textContent = tl.lnkTerms;
+    document.getElementById('footer-copy').textContent = tl.copy;
+    document.title = lang === 'en' ? 'Lovéa Blog — Parenting advice powered by AI' : 'Blog Lovéa — Conseils parentalité par l\'IA';
+
+    const grid = document.getElementById('articles-grid');
+    tl.articles.forEach(a => {
+      grid.innerHTML += `
+        <a class="article-card" href="${a.url}">
+          <div class="article-meta">
+            <span class="article-tag">${a.tag}</span>
+            <span class="article-date">${a.date}</span>
+          </div>
+          <h2>${a.title}</h2>
+          <p>${a.summary}</p>
+          <span class="article-read">${tl.read}</span>
+        </a>`;
+    });
+
+    if (lang === 'en') {
+      document.getElementById('meta-title').textContent = 'Lovéa Blog — Parenting advice powered by AI';
+      document.getElementById('meta-desc').setAttribute('content', 'Practical articles on parenting: sleep, feeding, activities, meltdowns. Lovéa shares its best advice tailored to your child\'s age.');
+    }
+    document.documentElement.lang = lang;
+  </script>
+</body>
+</html>

@@ -298,6 +298,14 @@ app.post('/api/speech', async (req, res) => {
   }
 });
 
+app.get('/blog', (req, res) => res.sendFile(path.join(__dirname, 'blog.html')));
+app.get('/blog/:slug', (req, res) => {
+  const slug = req.params.slug.replace(/[^a-z0-9-]/gi, '');
+  const filePath = path.join(__dirname, 'blog', `${slug}.html`);
+  if (require('fs').existsSync(filePath)) res.sendFile(filePath);
+  else res.status(404).sendFile(path.join(__dirname, 'index.html'));
+});
+
 app.get('/about', (req, res) => res.sendFile(path.join(__dirname, 'about.html')));
 app.get('/terms', (req, res) => res.sendFile(path.join(__dirname, 'terms.html')));
 app.get('/privacy', (req, res) => res.sendFile(path.join(__dirname, 'privacy.html')));
