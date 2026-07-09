@@ -12,12 +12,16 @@ const client = new Anthropic.default({ apiKey: process.env.ANTHROPIC_API_KEY });
 
 // MongoDB — connexion lazy, fire-and-forget sur erreur
 let analyticsCol = null;
+let conversationsCol = null;
 if (process.env.MONGODB_URI) {
   const mongoClient = new MongoClient(process.env.MONGODB_URI);
   mongoClient.connect()
     .then(() => {
-      analyticsCol = mongoClient.db('lovea').collection('analytics_questions');
-      console.log('[Lovéa] MongoDB connecté — analytics actifs');
+      const db = mongoClient.db('lovea');
+      analyticsCol = db.collection('analytics_questions');
+      conversationsCol = db.collection('conversations');
+      conversationsCol.createIndex({ sessionId: 1 }, { unique: true }).catch(() => {});
+      console.log('[Lovéa] MongoDB connecté — analytics + conversations actifs');
     })
     .catch(err => console.warn('[Lovéa] MongoDB non disponible :', err.message));
 }
@@ -295,6 +299,46 @@ app.post('/api/speech', async (req, res) => {
     console.error('[Lovéa] ElevenLabs error:', err);
     if (!res.headersSent) res.status(500).json({ error: 'tts_error' });
     else res.end();
+  }
+});
+
+// ── Conversations ──────────────────────────────────────────────
+app.post('/api/conversation', async (req, res) => {
+  if (!conversationsCol) return res.json({ ok: false });
+  const { sessionId, parentName, childName, childAge, theme, messages } = req.body;
+  if (!sessionId) return res.status(400).json({ error: 'sessionId required' });
+  try {
+    const now = new Date();
+    const update = {
+      $set: {
+        parentName: parentName || null,
+        childName:  childName  || null,
+        childAge:   childAge   || null,
+        lastConversation: now,
+        messages: (messages || []).slice(-10),
+      },
+      $setOnInsert: { createdAt: now },
+    };
+    // Log theme with timestamp (capped at 100 entries) for "this week" filtering
+    if (theme) {
+      update.$push = { themesLog: { $each: [{ theme, ts: now }], $slice: -100 } };
+    }
+    await conversationsCol.updateOne({ sessionId }, update, { upsert: true });
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('[Lovéa] conversation save error:', err.message);
+    res.json({ ok: false });
+  }
+});
+
+app.get('/api/conversation/:sessionId', async (req, res) => {
+  if (!conversationsCol) return res.json(null);
+  const sessionId = req.params.sessionId.replace(/[^a-z0-9-]/gi, '');
+  try {
+    const doc = await conversationsCol.findOne({ sessionId }, { projection: { _id: 0 } });
+    res.json(doc || null);
+  } catch {
+    res.json(null);
   }
 });
 

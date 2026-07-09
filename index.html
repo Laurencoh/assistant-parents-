@@ -718,6 +718,59 @@
     }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
+    /* ══ DASHBOARD PERSONNALISÉ ══════════════════════════════ */
+    .dashboard {
+      width: 100%; max-width: 520px;
+      background: #fff;
+      border: 1.5px solid #E0D8CA;
+      border-radius: 22px;
+      overflow: hidden;
+      box-shadow: 0 4px 24px rgba(46,58,44,0.07);
+      animation: fadeUp 0.4s ease both;
+      flex-shrink: 0;
+    }
+    .dashboard-top {
+      background: linear-gradient(135deg, #4E8A75 0%, #3A6E5C 100%);
+      padding: 22px 22px 18px;
+      position: relative;
+    }
+    .dashboard-bonjour {
+      font-size: 1.45rem; font-weight: 700; color: #fff;
+      letter-spacing: -0.01em; margin-bottom: 4px;
+    }
+    .dashboard-child-line {
+      font-size: 0.88rem; color: rgba(255,255,255,0.82); font-weight: 400;
+    }
+    .dashboard-last-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.7rem; color: rgba(255,255,255,0.65);
+      background: rgba(255,255,255,0.12);
+      border-radius: 20px; padding: 3px 10px; margin-top: 10px;
+    }
+    .dashboard-body {
+      padding: 16px 20px 18px;
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .dashboard-themes-label {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: #98A896;
+    }
+    .dashboard-themes {
+      display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px;
+    }
+    .dashboard-theme-chip {
+      font-size: 0.8rem; font-weight: 600;
+      background: #F0F7EF; color: var(--terra-dk);
+      border: 1px solid #C8E0C4;
+      padding: 4px 12px; border-radius: 20px;
+    }
+    .dashboard-no-themes {
+      font-size: 0.85rem; color: #B0C4AE; font-style: italic;
+    }
+    .dashboard-divider {
+      border: none; border-top: 1px solid #F0EBE0; margin: 0;
+    }
+
     /* ══ BANDEAU URGENCE ══════════════════════════════════════ */
     .bandeau-urgence {
       display: flex; align-items: center; gap: 10px;
@@ -985,7 +1038,11 @@
           <div class="enfant-form">
             <input type="hidden" id="form-child-id" />
             <div class="form-field">
-              <label class="form-label" id="lbl-prenom">Prénom</label>
+              <label class="form-label" id="lbl-prenom-parent">Votre prénom (parent)</label>
+              <input class="form-input" id="form-prenom-parent" type="text" autocomplete="given-name" />
+            </div>
+            <div class="form-field">
+              <label class="form-label" id="lbl-prenom">Prénom de l'enfant</label>
               <input class="form-input" id="form-prenom" type="text" autocomplete="off" />
             </div>
             <div class="form-field">
@@ -1249,10 +1306,20 @@
       inviteSub:'Âge, allergies, notes personnelles — l\'assistant s\'adapte automatiquement',
       inviteBtn:'＋ Ajouter mon enfant',
       tryBtn:'Essayer maintenant', tryAgePre:'Mon enfant a', tryAgePost:'an(s)', tryPlaceholder:'Posez votre question…', trySend:'Envoyer →', tryNudge:'Cette réponse vous a plu ? Créez le profil de votre enfant pour des conseils encore plus adaptés 🌱',
-      fPrenom:'Prénom', fDob:'Date de naissance',
+      fPrenomParent:'Votre prénom (parent)',
+      fPrenom:'Prénom de l\'enfant', fDob:'Date de naissance',
       fAllergies:'Allergies / régime alimentaire',
       fNotes:'Notes (défis, ce qui fonctionne…)',
       fSave:'Enregistrer', fCancel:'Annuler',
+      dashBonjour:n=>n?`Bonjour ${n} 👋`:'Bonjour 👋',
+      dashToday:(n,a)=>n&&a?`Aujourd'hui, ${n} a ${a}`:n?`Aujourd'hui : ${n}`:'',
+      dashThemes:'Cette semaine, on a parlé de :',
+      dashNoThemes:'Commencez une conversation !',
+      dashLastConv:'Dernière conversation',
+      dashJustNow:'à l\'instant',
+      dashDaysAgo:d=>`il y a ${d} jour${d>1?'s':''}`,
+      dashHoursAgo:h=>`il y a ${h}h`,
+      dashMinsAgo:m=>`il y a ${m} min`,
       fEdit:'Modifier', fDelete:'Supprimer',
       confirmDelete:'Supprimer cet enfant ?',
       confirmDeleteConv:'Supprimer cette conversation ?',
@@ -1292,10 +1359,20 @@
       inviteSub:'Age, allergies, personal notes — the assistant adapts automatically',
       inviteBtn:'＋ Add my child',
       tryBtn:'Try now', tryAgePre:'My child is', tryAgePost:'year(s) old', tryPlaceholder:'Ask your question…', trySend:'Send →', tryNudge:'Did you like this response? Create your child\'s profile for even more tailored advice 🌱',
-      fPrenom:'First name', fDob:'Date of birth',
+      fPrenomParent:'Your first name (parent)',
+      fPrenom:'Child\'s first name', fDob:'Date of birth',
       fAllergies:'Allergies / diet',
       fNotes:'Notes (challenges, what works…)',
       fSave:'Save', fCancel:'Cancel',
+      dashBonjour:n=>n?`Hello ${n} 👋`:'Hello 👋',
+      dashToday:(n,a)=>n&&a?`${n} is ${a} today`:n?`Today: ${n}`:'',
+      dashThemes:'This week, we talked about:',
+      dashNoThemes:'Start a conversation!',
+      dashLastConv:'Last conversation',
+      dashJustNow:'just now',
+      dashDaysAgo:d=>`${d} day${d>1?'s':''} ago`,
+      dashHoursAgo:h=>`${h}h ago`,
+      dashMinsAgo:m=>`${m} min ago`,
       fEdit:'Edit', fDelete:'Delete',
       confirmDelete:'Delete this child?',
       confirmDeleteConv:'Delete this conversation?',
@@ -1332,7 +1409,8 @@
       inviteSub:'גיל, אלרגיות, הערות אישיות — העוזר מסתגל אוטומטית',
       inviteBtn:'＋ הוסף את הילד שלי',
       tryBtn:'נסה עכשיו', tryAgePre:'הילד שלי בן', tryAgePost:'שנים', tryPlaceholder:'שאל את שאלתך…', trySend:'שלח →', tryNudge:'אהבת את התשובה? צור את הפרופיל של ילדך לייעוץ מותאם עוד יותר 🌱',
-      fPrenom:'שם פרטי', fDob:'תאריך לידה',
+      fPrenomParent:'השם שלך (הורה)',
+      fPrenom:'שם הילד', fDob:'תאריך לידה',
       fAllergies:'אלרגיות / תזונה',
       fNotes:'הערות',
       fSave:'שמור', fCancel:'ביטול',
@@ -1372,7 +1450,8 @@
       inviteSub:'العمر، الحساسيات، ملاحظات شخصية — يتكيف المساعد تلقائياً',
       inviteBtn:'＋ إضافة طفلي',
       tryBtn:'جرّب الآن', tryAgePre:'عمر طفلي', tryAgePost:'سنوات', tryPlaceholder:'اطرح سؤالك…', trySend:'إرسال →', tryNudge:'هل أعجبتك الإجابة؟ أنشئ ملف طفلك للحصول على نصائح أكثر تخصيصاً 🌱',
-      fPrenom:'الاسم', fDob:'تاريخ الميلاد',
+      fPrenomParent:'اسمك (أحد الوالدين)',
+      fPrenom:'اسم الطفل', fDob:'تاريخ الميلاد',
       fAllergies:'الحساسية / النظام الغذائي',
       fNotes:'ملاحظات',
       fSave:'حفظ', fCancel:'إلغاء',
@@ -1412,7 +1491,8 @@
       inviteSub:'Edad, alergias, notas personales — el asistente se adapta automáticamente',
       inviteBtn:'＋ Agregar a mi hijo',
       tryBtn:'Probar ahora', tryAgePre:'Mi hijo tiene', tryAgePost:'año(s)', tryPlaceholder:'Haz tu pregunta…', trySend:'Enviar →', tryNudge:'¿Te gustó esta respuesta? Crea el perfil de tu hijo para consejos aún más personalizados 🌱',
-      fPrenom:'Nombre', fDob:'Fecha de nacimiento',
+      fPrenomParent:'Tu nombre (padre/madre)',
+      fPrenom:'Nombre del niño', fDob:'Fecha de nacimiento',
       fAllergies:'Alergias / dieta', fNotes:'Notas',
       fSave:'Guardar', fCancel:'Cancelar',
       fEdit:'Editar', fDelete:'Eliminar',
@@ -1451,7 +1531,8 @@
       inviteSub:'Alter, Allergien, persönliche Notizen — der Assistent passt sich automatisch an',
       inviteBtn:'＋ Mein Kind hinzufügen',
       tryBtn:'Jetzt ausprobieren', tryAgePre:'Mein Kind ist', tryAgePost:'Jahr(e) alt', tryPlaceholder:'Stelle deine Frage…', trySend:'Senden →', tryNudge:'Hat dir diese Antwort gefallen? Erstelle das Profil deines Kindes für noch persönlichere Ratschläge 🌱',
-      fPrenom:'Vorname', fDob:'Geburtsdatum',
+      fPrenomParent:'Dein Vorname (Elternteil)',
+      fPrenom:'Vorname des Kindes', fDob:'Geburtsdatum',
       fAllergies:'Allergien / Diät', fNotes:'Notizen',
       fSave:'Speichern', fCancel:'Abbrechen',
       fEdit:'Bearbeiten', fDelete:'Löschen',
@@ -1490,7 +1571,8 @@
       inviteSub:'Età, allergie, note personali — l\'assistente si adatta automaticamente',
       inviteBtn:'＋ Aggiungi mio figlio',
       tryBtn:'Prova ora', tryAgePre:'Mio figlio ha', tryAgePost:'anno/i', tryPlaceholder:'Fai la tua domanda…', trySend:'Invia →', tryNudge:'Ti è piaciuta questa risposta? Crea il profilo di tuo figlio per consigli ancora più personalizzati 🌱',
-      fPrenom:'Nome', fDob:'Data di nascita',
+      fPrenomParent:'Il tuo nome (genitore)',
+      fPrenom:'Nome del bambino', fDob:'Data di nascita',
       fAllergies:'Allergie / dieta', fNotes:'Note',
       fSave:'Salva', fCancel:'Annulla',
       fEdit:'Modifica', fDelete:'Elimina',
@@ -1529,7 +1611,8 @@
       inviteSub:'Idade, alergias, notas pessoais — o assistente adapta-se automaticamente',
       inviteBtn:'＋ Adicionar meu filho',
       tryBtn:'Experimentar agora', tryAgePre:'O meu filho tem', tryAgePost:'ano(s)', tryPlaceholder:'Faz a tua pergunta…', trySend:'Enviar →', tryNudge:'Gostaste desta resposta? Cria o perfil do teu filho para conselhos ainda mais personalizados 🌱',
-      fPrenom:'Nome', fDob:'Data de nascimento',
+      fPrenomParent:'O seu nome (pai/mãe)',
+      fPrenom:'Nome da criança', fDob:'Data de nascimento',
       fAllergies:'Alergias / dieta', fNotes:'Notas',
       fSave:'Guardar', fCancel:'Cancelar',
       fEdit:'Editar', fDelete:'Eliminar',
@@ -1568,7 +1651,8 @@
       inviteSub:'Возраст, аллергии, личные заметки — ассистент адаптируется автоматически',
       inviteBtn:'＋ Добавить моего ребёнка',
       tryBtn:'Попробовать', tryAgePre:'Моему ребёнку', tryAgePost:'лет', tryPlaceholder:'Задайте вопрос…', trySend:'Отправить →', tryNudge:'Понравился ответ? Создайте профиль ребёнка для ещё более персональных советов 🌱',
-      fPrenom:'Имя', fDob:'Дата рождения',
+      fPrenomParent:'Ваше имя (родитель)',
+      fPrenom:'Имя ребёнка', fDob:'Дата рождения',
       fAllergies:'Аллергии / диета', fNotes:'Заметки',
       fSave:'Сохранить', fCancel:'Отмена',
       fEdit:'Изменить', fDelete:'Удалить',
@@ -1607,7 +1691,8 @@
       inviteSub:'年龄、过敏症、个人备注 — 助手将自动适应',
       inviteBtn:'＋ 添加我的孩子',
       tryBtn:'立即尝试', tryAgePre:'我的孩子', tryAgePost:'岁', tryPlaceholder:'提问…', trySend:'发送 →', tryNudge:'喜欢这个回答吗？创建孩子的档案，获得更贴心的建议 🌱',
-      fPrenom:'姓名', fDob:'出生日期',
+      fPrenomParent:'您的姓名（家长）',
+      fPrenom:'孩子的姓名', fDob:'出生日期',
       fAllergies:'过敏 / 饮食', fNotes:'备注',
       fSave:'保存', fCancel:'取消',
       fEdit:'编辑', fDelete:'删除',
@@ -1646,7 +1731,8 @@
       inviteSub:'年齢、アレルギー、メモ — アシスタントが自動的に対応します',
       inviteBtn:'＋ 子どもを追加する',
       tryBtn:'今すぐ試す', tryAgePre:'子どもは', tryAgePost:'歳です', tryPlaceholder:'質問を入力…', trySend:'送信 →', tryNudge:'この回答はいかがでしたか？お子さんのプロフィールを作成してさらに個別のアドバイスを 🌱',
-      fPrenom:'お名前', fDob:'生年月日',
+      fPrenomParent:'あなたの名前（保護者）',
+      fPrenom:'お子さまの名前', fDob:'生年月日',
       fAllergies:'アレルギー・食事制限', fNotes:'メモ',
       fSave:'保存', fCancel:'キャンセル',
       fEdit:'編集', fDelete:'削除',
@@ -1685,7 +1771,8 @@
       inviteSub:'나이, 알레르기, 개인 메모 — 어시스턴트가 자동으로 맞춰드립니다',
       inviteBtn:'＋ 내 아이 추가하기',
       tryBtn:'지금 시도하기', tryAgePre:'아이는', tryAgePost:'살입니다', tryPlaceholder:'질문하세요…', trySend:'보내기 →', tryNudge:'이 답변이 마음에 드셨나요? 아이의 프로필을 만들어 더 맞춤화된 조언을 받아보세요 🌱',
-      fPrenom:'이름', fDob:'생년월일',
+      fPrenomParent:'당신의 이름 (부모)',
+      fPrenom:'아이의 이름', fDob:'생년월일',
       fAllergies:'알레르기 / 식이요법', fNotes:'메모',
       fSave:'저장', fCancel:'취소',
       fEdit:'수정', fDelete:'삭제',
@@ -1724,7 +1811,8 @@
       inviteSub:'Yaş, alerjiler, kişisel notlar — asistan otomatik olarak uyum sağlar',
       inviteBtn:'＋ Çocuğumu ekle',
       tryBtn:'Şimdi dene', tryAgePre:'Çocuğum', tryAgePost:'yaşında', tryPlaceholder:'Sorunuzu sorun…', trySend:'Gönder →', tryNudge:'Bu yanıtı beğendiniz mi? Daha kişiselleştirilmiş tavsiyeler için çocuğunuzun profilini oluşturun 🌱',
-      fPrenom:'Ad', fDob:'Doğum tarihi',
+      fPrenomParent:'Adınız (ebeveyn)',
+      fPrenom:'Çocuğun adı', fDob:'Doğum tarihi',
       fAllergies:'Alerjiler / diyet', fNotes:'Notlar',
       fSave:'Kaydet', fCancel:'İptal',
       fEdit:'Düzenle', fDelete:'Sil',
@@ -1763,7 +1851,8 @@
       inviteSub:'Leeftijd, allergieën, persoonlijke notities — de assistent past zich automatisch aan',
       inviteBtn:'＋ Mijn kind toevoegen',
       tryBtn:'Nu proberen', tryAgePre:'Mijn kind is', tryAgePost:'jaar oud', tryPlaceholder:'Stel uw vraag…', trySend:'Verstuur →', tryNudge:'Vond u dit antwoord nuttig? Maak een profiel voor uw kind voor nog meer persoonlijk advies 🌱',
-      fPrenom:'Voornaam', fDob:'Geboortedatum',
+      fPrenomParent:'Jouw naam (ouder)',
+      fPrenom:'Naam van het kind', fDob:'Geboortedatum',
       fAllergies:'Allergieën / dieet', fNotes:'Notities',
       fSave:'Opslaan', fCancel:'Annuleren',
       fEdit:'Bewerken', fDelete:'Verwijderen',
@@ -1802,7 +1891,8 @@
       inviteSub:'Wiek, alergie, notatki — asystent dostosowuje się automatycznie',
       inviteBtn:'＋ Dodaj moje dziecko',
       tryBtn:'Spróbuj teraz', tryAgePre:'Moje dziecko ma', tryAgePost:'lat', tryPlaceholder:'Zadaj pytanie…', trySend:'Wyślij →', tryNudge:'Podobała ci się ta odpowiedź? Stwórz profil dziecka dla jeszcze bardziej spersonalizowanych porad 🌱',
-      fPrenom:'Imię', fDob:'Data urodzenia',
+      fPrenomParent:'Twoje imię (rodzic)',
+      fPrenom:'Imię dziecka', fDob:'Data urodzenia',
       fAllergies:'Alergie / dieta', fNotes:'Notatki',
       fSave:'Zapisz', fCancel:'Anuluj',
       fEdit:'Edytuj', fDelete:'Usuń',
@@ -1841,7 +1931,8 @@
       inviteSub:'Vârstă, alergii, notițe personale — asistentul se adaptează automat',
       inviteBtn:'＋ Adaugă copilul meu',
       tryBtn:'Încearcă acum', tryAgePre:'Copilul meu are', tryAgePost:'ani', tryPlaceholder:'Pune-ți întrebarea…', trySend:'Trimite →', tryNudge:'Ți-a plăcut acest răspuns? Creează profilul copilului tău pentru sfaturi și mai personalizate 🌱',
-      fPrenom:'Prenume', fDob:'Data nașterii',
+      fPrenomParent:'Prenumele tău (părinte)',
+      fPrenom:'Prenumele copilului', fDob:'Data nașterii',
       fAllergies:'Alergii / dietă', fNotes:'Notițe',
       fSave:'Salvează', fCancel:'Anulează',
       fEdit:'Editează', fDelete:'Șterge',
@@ -1877,6 +1968,16 @@
   const STORAGE_KEY  = 'assistant-parents-convs';
   const CHILDREN_KEY = 'assistant-parents-children';
   const SEL_KEY      = 'assistant-parents-selected-child';
+  const SESSION_KEY  = 'lovea_session';
+
+  function getSessionId() {
+    let sid = localStorage.getItem(SESSION_KEY);
+    if (!sid) {
+      sid = 'sess-' + Date.now() + '-' + Math.random().toString(36).slice(2, 9);
+      localStorage.setItem(SESSION_KEY, sid);
+    }
+    return sid;
+  }
 
   // ════════════════════════════════════════════════════════════
   // PLAN MANAGER
@@ -1986,6 +2087,7 @@
     document.getElementById('question').placeholder = tr.placeholder;
     document.getElementById('modal-titre').textContent = tr.modalTitre;
     document.getElementById('lbl-add-child').textContent = tr.addChild.replace('＋ ','');
+    document.getElementById('lbl-prenom-parent').textContent = tr.fPrenomParent || 'Votre prénom (parent)';
     document.getElementById('lbl-prenom').textContent    = tr.fPrenom;
     document.getElementById('lbl-dob').textContent       = tr.fDob;
     document.getElementById('lbl-allergies').textContent = tr.fAllergies;
@@ -2030,6 +2132,7 @@
     renderSidebar();
     updateModalPlansLang();
     chargerConseilDuJour();
+    chargerDashboard();
     if (typeof obUpdateLang === 'function') obUpdateLang();
   }
 
@@ -2152,29 +2255,31 @@
 
   // ── Formulaire add/edit ──
   function ouvrirFormulaireAjout() {
-    document.getElementById('form-child-id').value  = '';
-    document.getElementById('form-prenom').value    = '';
-    document.getElementById('form-dob').value       = '';
-    document.getElementById('form-allergies').value = '';
-    document.getElementById('form-notes').value     = '';
+    document.getElementById('form-child-id').value         = '';
+    document.getElementById('form-prenom-parent').value   = '';
+    document.getElementById('form-prenom').value           = '';
+    document.getElementById('form-dob').value              = '';
+    document.getElementById('form-allergies').value        = '';
+    document.getElementById('form-notes').value            = '';
     document.getElementById('form-age-preview').textContent = '';
     document.getElementById('btn-add-child').classList.add('hidden');
     document.getElementById('enfant-form-container').style.display = 'block';
-    document.getElementById('form-prenom').focus();
+    document.getElementById('form-prenom-parent').focus();
   }
 
   function ouvrirFormulaireEdit(id) {
     const e = chargerEnfants().find(x => x.id === id);
     if (!e) return;
-    document.getElementById('form-child-id').value  = e.id;
-    document.getElementById('form-prenom').value    = e.prenom    || '';
-    document.getElementById('form-dob').value       = e.dob       || '';
-    document.getElementById('form-allergies').value = e.allergies || '';
-    document.getElementById('form-notes').value     = e.notes     || '';
+    document.getElementById('form-child-id').value         = e.id;
+    document.getElementById('form-prenom-parent').value   = e.prenomParent || '';
+    document.getElementById('form-prenom').value           = e.prenom      || '';
+    document.getElementById('form-dob').value              = e.dob         || '';
+    document.getElementById('form-allergies').value        = e.allergies   || '';
+    document.getElementById('form-notes').value            = e.notes       || '';
     majAgePreview();
     document.getElementById('btn-add-child').classList.add('hidden');
     document.getElementById('enfant-form-container').style.display = 'block';
-    document.getElementById('form-prenom').focus();
+    document.getElementById('form-prenom-parent').focus();
   }
 
   function fermerFormulaire() {
@@ -2183,16 +2288,17 @@
   }
 
   function sauvegarderEnfant() {
-    const id       = document.getElementById('form-child-id').value;
-    const prenom   = document.getElementById('form-prenom').value.trim();
-    const dob      = document.getElementById('form-dob').value;
-    const allergies= document.getElementById('form-allergies').value.trim();
-    const notes    = document.getElementById('form-notes').value.trim();
+    const id            = document.getElementById('form-child-id').value;
+    const prenomParent  = document.getElementById('form-prenom-parent').value.trim();
+    const prenom        = document.getElementById('form-prenom').value.trim();
+    const dob           = document.getElementById('form-dob').value;
+    const allergies     = document.getElementById('form-allergies').value.trim();
+    const notes         = document.getElementById('form-notes').value.trim();
 
     const enfants = chargerEnfants();
     if (id) {
       const idx = enfants.findIndex(e => e.id === id);
-      if (idx >= 0) enfants[idx] = { id, prenom, dob, allergies, notes };
+      if (idx >= 0) enfants[idx] = { id, prenomParent, prenom, dob, allergies, notes };
     } else {
       const maxProfiles = PLAN_LIMITS[getCurrentPlan()].maxProfiles;
       if (enfants.length >= maxProfiles) {
@@ -2200,7 +2306,7 @@
         return;
       }
       const newId = 'child-'+Date.now();
-      enfants.push({ id: newId, prenom, dob, allergies, notes });
+      enfants.push({ id: newId, prenomParent, prenom, dob, allergies, notes });
       // Auto-sélectionner le nouvel enfant
       selectedChildId = newId;
       localStorage.setItem(SEL_KEY, newId);
@@ -2341,6 +2447,20 @@
   }
 
   function sauvegarderTout(convs) { localStorage.setItem(STORAGE_KEY, JSON.stringify(convs)); }
+
+  function sauvegarderConversationMongo(theme) {
+    const sessionId = getSessionId();
+    const enfant = selectedChildId ? chargerEnfants().find(e => e.id === selectedChildId) : null;
+    const parentName = enfant?.prenomParent || null;
+    const childName  = enfant?.prenom || null;
+    const childAge   = enfant?.dob ? ageLabel(enfant.dob) : null;
+    const messages = conversation.slice(-10).map(m => ({ role: m.role, content: m.content.slice(0, 500) }));
+    fetch('/api/conversation', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ sessionId, parentName, childName, childAge, theme: theme || null, messages }),
+    }).catch(() => {});
+  }
 
   function titreDepuisMessages(msgs) {
     const m = msgs.find(x => x.role === 'user');
@@ -2493,6 +2613,7 @@
         <h2 class="accueil-titre" id="accueil-titre">${esc(w.title)}</h2>
         <p class="accueil-sous" id="accueil-sous">${esc(w.sub)}</p>
       </div>
+      <div id="dashboard-slot" style="display:none"></div>
       <div class="conseil-du-jour" id="conseil-du-jour" style="display:none">
         <div class="conseil-du-jour-header">☀️ <span id="conseil-du-jour-titre">Conseil du jour</span></div>
         <div class="conseil-du-jour-body" id="conseil-du-jour-body"></div>
@@ -2974,6 +3095,103 @@
     if (titre) titre.textContent = conseilTitre();
     if (body)  body.innerHTML = '<div class="conseil-du-jour-skeleton" style="width:90%"></div><div class="conseil-du-jour-skeleton" style="width:75%"></div><div class="conseil-du-jour-skeleton" style="width:60%"></div>';
     box.style.display = 'flex';
+  }
+
+  function tempsDepuis(date) {
+    if (!date) return '';
+    const tr = T[lang] || T.fr;
+    const diff = Date.now() - new Date(date).getTime();
+    const mins  = Math.floor(diff / 60000);
+    const hours = Math.floor(mins / 60);
+    const days  = Math.floor(hours / 24);
+    if (days >= 1)  return tr.dashDaysAgo  ? tr.dashDaysAgo(days)  : `il y a ${days}j`;
+    if (hours >= 1) return tr.dashHoursAgo ? tr.dashHoursAgo(hours) : `il y a ${hours}h`;
+    if (mins >= 1)  return tr.dashMinsAgo  ? tr.dashMinsAgo(mins)   : `il y a ${mins} min`;
+    return tr.dashJustNow || 'à l\'instant';
+  }
+
+  const THEME_EMOJI  = { sommeil:'🌙', crise:'😤', repas:'🍽️', conseil:'🎨', film:'🎬', histoire:'📖' };
+  const THEME_LABEL  = {
+    fr: { sommeil:'Sommeil', crise:'Crises', repas:'Repas', conseil:'Activités', film:'Films', histoire:'Histoires' },
+    en: { sommeil:'Sleep',   crise:'Meltdowns', repas:'Meals', conseil:'Activities', film:'Films', histoire:'Stories' },
+  };
+
+  function renderDashboard(enfant, mongoData) {
+    const slot = document.getElementById('dashboard-slot');
+    const hero = document.querySelector('.accueil-hero');
+    if (!slot || !hero) return;
+
+    const tr   = T[lang] || T.fr;
+    const lbls = THEME_LABEL[lang] || THEME_LABEL.fr;
+
+    const parentName = enfant?.prenomParent || mongoData?.parentName || '';
+    const childName  = enfant?.prenom       || mongoData?.childName  || '';
+    const childAge   = enfant?.dob ? ageLabel(enfant.dob) : (mongoData?.childAge || '');
+    const last       = mongoData?.lastConversation ? tempsDepuis(mongoData.lastConversation) : '';
+
+    // Thèmes de cette semaine (depuis MongoDB) ou vide si pas encore de données
+    const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    const recentThemes = [...new Set(
+      ((mongoData?.themesLog) || [])
+        .filter(e => new Date(e.ts).getTime() > weekAgo)
+        .map(e => e.theme)
+    )];
+
+    const noThemesMsg = tr.dashNoThemes || 'Commencez votre première conversation !';
+    const chipsHtml = recentThemes.length
+      ? recentThemes.map(th =>
+          `<span class="dashboard-theme-chip">${THEME_EMOJI[th] || ''} ${lbls[th] || th}</span>`
+        ).join('')
+      : `<span class="dashboard-no-themes">${esc(noThemesMsg)}</span>`;
+
+    const bonjourLine   = tr.dashBonjour   ? tr.dashBonjour(parentName)       : (parentName ? `Bonjour ${parentName} 👋` : 'Bonjour 👋');
+    const todayLine     = tr.dashToday     ? tr.dashToday(childName, childAge) : (childName && childAge ? `${childName} a ${childAge} aujourd'hui` : childName || '');
+    const themesLabel   = tr.dashThemes    || 'Cette semaine, on a parlé de :';
+    const lastConvLabel = tr.dashLastConv  || 'Dernière conversation';
+
+    slot.innerHTML = `
+      <div class="dashboard">
+        <div class="dashboard-top">
+          <div class="dashboard-bonjour">${esc(bonjourLine)}</div>
+          ${todayLine ? `<div class="dashboard-child-line">${esc(todayLine)}</div>` : ''}
+          ${last ? `<div class="dashboard-last-badge">🕐 ${esc(lastConvLabel)} · ${esc(last)}</div>` : ''}
+        </div>
+        <div class="dashboard-body">
+          <div>
+            <div class="dashboard-themes-label">${esc(themesLabel)}</div>
+            <div class="dashboard-themes">${chipsHtml}</div>
+          </div>
+        </div>
+      </div>`;
+    slot.style.display = 'block';
+    hero.style.display = 'none';
+  }
+
+  async function chargerDashboard() {
+    const slot = document.getElementById('dashboard-slot');
+    const hero = document.querySelector('.accueil-hero');
+    if (!slot || !hero) return;
+
+    // Sans enfant : afficher le hero mascot
+    if (!selectedChildId) {
+      slot.style.display = 'none';
+      hero.style.display = '';
+      return;
+    }
+
+    const enfant = chargerEnfants().find(e => e.id === selectedChildId);
+    if (!enfant) return;
+
+    // Afficher immédiatement depuis localStorage (pas besoin de MongoDB)
+    renderDashboard(enfant, null);
+
+    // Puis enrichir avec les données MongoDB si disponibles
+    try {
+      const r = await fetch('/api/conversation/' + getSessionId());
+      if (!r.ok) return;
+      const data = await r.json();
+      if (data) renderDashboard(enfant, data);
+    } catch {}
   }
 
   async function chargerConseilDuJour() {
@@ -3476,6 +3694,7 @@
         if(detectsEmergency(texte)) afficherBandeauUrgence();
         document.getElementById('conv-titre').textContent=titreDepuisMessages(conversation);
         sauvegarderConvCourante();
+        sauvegarderConversationMongo(activeShortcut);
         bulleTyping.classList.remove('typing');
         ajouterShareFooter(bulleTyping, reponse);
         if (isStory) ajouterHistoirePlayer(bulleTyping, reponse);
@@ -3843,6 +4062,7 @@
   renderChildSelector();
   nouvelleConversation();
   chargerConseilDuJour();
+  chargerDashboard();
   detectEmergencyByCountry();
 
   const { streak: initStreak, increased: initIncreased } = calculateStreak();
