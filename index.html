@@ -690,88 +690,25 @@
     .btn-nudge-profil:hover { background: var(--terra-dk); color: #fff; }
 
     /* ══ CONSEIL DU JOUR ════════════════════════════════════ */
-    .conseil-du-jour {
-      width: 100%; max-width: 520px;
-      background: linear-gradient(135deg, #EAF6E8 0%, #F5F2E4 100%);
-      border: 1.5px solid #B8DDB8;
-      border-radius: 18px;
-      padding: 16px 18px;
-      display: flex; flex-direction: column; gap: 8px;
-      animation: fadeUp 0.5s ease both 0.15s;
-      flex-shrink: 0;
-    }
-    .conseil-du-jour-header {
-      display: flex; align-items: center; gap: 7px;
-      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em;
-      text-transform: uppercase; color: var(--terra-dk);
-    }
-    .conseil-du-jour-body {
-      font-size: 0.88rem; color: var(--text);
-      line-height: 1.65; white-space: pre-line;
-    }
-    .conseil-du-jour-skeleton {
-      height: 14px; border-radius: 8px;
-      background: linear-gradient(90deg, #D4EBD2 25%, #E8F4E6 50%, #D4EBD2 75%);
-      background-size: 200% 100%;
-      animation: shimmer 1.4s infinite;
-      margin-bottom: 6px;
-    }
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-    /* ══ DASHBOARD PERSONNALISÉ ══════════════════════════════ */
-    .dashboard {
-      width: 100%; max-width: 520px;
-      background: #fff;
-      border: 1.5px solid #E0D8CA;
-      border-radius: 22px;
-      overflow: hidden;
-      box-shadow: 0 4px 24px rgba(46,58,44,0.07);
-      animation: fadeUp 0.4s ease both;
-      flex-shrink: 0;
-    }
-    .dashboard-top {
-      background: linear-gradient(135deg, #4E8A75 0%, #3A6E5C 100%);
-      padding: 22px 22px 18px;
-      position: relative;
-    }
-    .dashboard-bonjour {
-      font-size: 1.45rem; font-weight: 700; color: #fff;
-      letter-spacing: -0.01em; margin-bottom: 4px;
-    }
-    .dashboard-child-line {
-      font-size: 0.88rem; color: rgba(255,255,255,0.82); font-weight: 400;
-    }
-    .dashboard-last-badge {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-size: 0.7rem; color: rgba(255,255,255,0.65);
-      background: rgba(255,255,255,0.12);
-      border-radius: 20px; padding: 3px 10px; margin-top: 10px;
-    }
-    .dashboard-body {
-      padding: 16px 20px 18px;
-      display: flex; flex-direction: column; gap: 12px;
-    }
-    .dashboard-themes-label {
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em;
-      text-transform: uppercase; color: #98A896;
-    }
-    .dashboard-themes {
-      display: flex; flex-wrap: wrap; gap: 7px; margin-top: 4px;
-    }
-    .dashboard-theme-chip {
-      font-size: 0.8rem; font-weight: 600;
-      background: #F0F7EF; color: var(--terra-dk);
-      border: 1px solid #C8E0C4;
-      padding: 4px 12px; border-radius: 20px;
-    }
-    .dashboard-no-themes {
-      font-size: 0.85rem; color: #B0C4AE; font-style: italic;
-    }
-    .dashboard-divider {
-      border: none; border-top: 1px solid #F0EBE0; margin: 0;
-    }
-
     /* ══ CARTE DU JOUR ═══════════════════════════════════════ */
+    .daily-greeting {
+      background: linear-gradient(135deg, #4E8A75 0%, #3A6E5C 100%);
+      padding: 22px 20px 18px;
+    }
+    .daily-greeting-bonjour {
+      font-size: 1.5rem; font-weight: 700; color: #fff;
+      letter-spacing: -0.02em; line-height: 1.2;
+    }
+    .daily-greeting-child {
+      font-size: 0.88rem; color: rgba(255,255,255,0.75);
+      margin-top: 5px; font-weight: 400;
+    }
+    .daily-greeting-sep {
+      border: none; border-top: 1px solid rgba(255,255,255,0.15);
+      margin: 14px 0 0;
+    }
     .daily-card {
       width: 100%; max-width: 520px;
       background: #fff;
@@ -2307,8 +2244,6 @@
     renderChildSelector();
     renderSidebar();
     updateModalPlansLang();
-    chargerConseilDuJour();
-    chargerDashboard();
     chargerCarteJour();
     if (typeof obUpdateLang === 'function') obUpdateLang();
   }
@@ -2790,13 +2725,8 @@
         <h2 class="accueil-titre" id="accueil-titre">${esc(w.title)}</h2>
         <p class="accueil-sous" id="accueil-sous">${esc(w.sub)}</p>
       </div>
-      <div id="dashboard-slot" style="display:none"></div>
       <div id="daily-slot" style="display:none"></div>
       <div id="memoire-slot" style="display:none"></div>
-      <div class="conseil-du-jour" id="conseil-du-jour" style="display:none">
-        <div class="conseil-du-jour-header">☀️ <span id="conseil-du-jour-titre">Conseil du jour</span></div>
-        <div class="conseil-du-jour-body" id="conseil-du-jour-body"></div>
-      </div>
       <div class="accueil-cartes">
         <div class="carte-idee carte-crise"   onclick="raccourci('crise')">
           <div class="carte-icone-bg">
@@ -3226,56 +3156,6 @@
   // ════════════════════════════════════════════════════════════
   // CONSEIL DU JOUR
   // ════════════════════════════════════════════════════════════
-  const CONSEIL_KEY_PREFIX = 'lovea-conseil-';
-
-  function conseilCacheKey(childId) {
-    const today = new Date().toISOString().slice(0, 10);
-    return `${CONSEIL_KEY_PREFIX}${childId}-${lang}-${today}`;
-  }
-
-  function conseilTitre() {
-    const titres = { fr:'Conseil du jour', en:'Tip of the day', he:'טיפ של היום', ar:'نصيحة اليوم',
-      es:'Consejo del día', de:'Tipp des Tages', it:'Consiglio del giorno', pt:'Dica do dia',
-      ru:'Совет дня', zh:'今日建议', ja:'今日のアドバイス', ko:'오늘의 팁', tr:'Günün tavsiyesi',
-      nl:'Tip van de dag', pl:'Rada dnia', ro:'Sfatul zilei' };
-    return titres[lang] || titres.fr;
-  }
-
-  function conseilPrompt(enfant) {
-    const langNames = { fr:'French', en:'English', he:'Hebrew', ar:'Arabic', es:'Spanish', de:'German',
-      it:'Italian', pt:'Portuguese', ru:'Russian', zh:'Chinese', ja:'Japanese', ko:'Korean',
-      tr:'Turkish', nl:'Dutch', pl:'Polish', ro:'Romanian' };
-    const targetLang = langNames[lang] || 'French';
-    const a = enfant.dob ? ageDepuisNaissance(enfant.dob) : null;
-    const ageStr = a
-      ? (a.years >= 1
-          ? (a.months ? `${a.years} year${a.years>1?'s':''} and ${a.months} month${a.months>1?'s':''}` : `${a.years} year${a.years>1?'s':''}`)
-          : `${a.months} month${a.months>1?'s':''}`)
-      : '';
-    const ageCtx = ageStr ? `for a parent of a ${ageStr} old child` : 'for a parent of a young child';
-    return `Generate a short, warm tip of the day ${ageCtx}. The tip must be practical, positive, and cover one of these topics (chosen randomly): child development, activity to do together, nutrition, sleep, or stimulation. Maximum 3-4 lines. Start directly with the tip, no introduction or title. Reply in ${targetLang}.`;
-  }
-
-  function afficherConseil(texte) {
-    const box   = document.getElementById('conseil-du-jour');
-    const body  = document.getElementById('conseil-du-jour-body');
-    const titre = document.getElementById('conseil-du-jour-titre');
-    if (!box) return;
-    if (titre) titre.textContent = conseilTitre();
-    if (body)  body.textContent = texte;
-    box.style.display = 'flex';
-  }
-
-  function afficherConseilSkeleton() {
-    const box  = document.getElementById('conseil-du-jour');
-    const body = document.getElementById('conseil-du-jour-body');
-    const titre = document.getElementById('conseil-du-jour-titre');
-    if (!box) return;
-    if (titre) titre.textContent = conseilTitre();
-    if (body)  body.innerHTML = '<div class="conseil-du-jour-skeleton" style="width:90%"></div><div class="conseil-du-jour-skeleton" style="width:75%"></div><div class="conseil-du-jour-skeleton" style="width:60%"></div>';
-    box.style.display = 'flex';
-  }
-
   function tempsDepuis(date) {
     if (!date) return '';
     const tr = T[lang] || T.fr;
@@ -3289,62 +3169,7 @@
     return tr.dashJustNow || 'à l\'instant';
   }
 
-  const THEME_EMOJI  = { sommeil:'🌙', crise:'😤', repas:'🍽️', conseil:'🎨', film:'🎬', histoire:'📖' };
-  const THEME_LABEL  = {
-    fr: { sommeil:'Sommeil', crise:'Crises', repas:'Repas', conseil:'Activités', film:'Films', histoire:'Histoires' },
-    en: { sommeil:'Sleep',   crise:'Meltdowns', repas:'Meals', conseil:'Activities', film:'Films', histoire:'Stories' },
-  };
 
-  function renderDashboard(enfant, mongoData) {
-    const slot = document.getElementById('dashboard-slot');
-    const hero = document.querySelector('.accueil-hero');
-    if (!slot || !hero) return;
-
-    const tr   = T[lang] || T.fr;
-    const lbls = THEME_LABEL[lang] || THEME_LABEL.fr;
-
-    const parentName = enfant?.prenomParent || mongoData?.parentName || '';
-    const childName  = enfant?.prenom       || mongoData?.childName  || '';
-    const childAge   = enfant?.dob ? ageLabel(enfant.dob) : (mongoData?.childAge || '');
-    const last       = mongoData?.lastConversation ? tempsDepuis(mongoData.lastConversation) : '';
-
-    // Thèmes de cette semaine (depuis MongoDB) ou vide si pas encore de données
-    const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
-    const recentThemes = [...new Set(
-      ((mongoData?.themesLog) || [])
-        .filter(e => new Date(e.ts).getTime() > weekAgo)
-        .map(e => e.theme)
-    )];
-
-    const noThemesMsg = tr.dashNoThemes || 'Commencez votre première conversation !';
-    const chipsHtml = recentThemes.length
-      ? recentThemes.map(th =>
-          `<span class="dashboard-theme-chip">${THEME_EMOJI[th] || ''} ${lbls[th] || th}</span>`
-        ).join('')
-      : `<span class="dashboard-no-themes">${esc(noThemesMsg)}</span>`;
-
-    const bonjourLine   = tr.dashBonjour   ? tr.dashBonjour(parentName)       : (parentName ? `Bonjour ${parentName} 👋` : 'Bonjour 👋');
-    const todayLine     = tr.dashToday     ? tr.dashToday(childName, childAge) : (childName && childAge ? `${childName} a ${childAge} aujourd'hui` : childName || '');
-    const themesLabel   = tr.dashThemes    || 'Cette semaine, on a parlé de :';
-    const lastConvLabel = tr.dashLastConv  || 'Dernière conversation';
-
-    slot.innerHTML = `
-      <div class="dashboard">
-        <div class="dashboard-top">
-          <div class="dashboard-bonjour">${esc(bonjourLine)}</div>
-          ${todayLine ? `<div class="dashboard-child-line">${esc(todayLine)}</div>` : ''}
-          ${last ? `<div class="dashboard-last-badge">🕐 ${esc(lastConvLabel)} · ${esc(last)}</div>` : ''}
-        </div>
-        <div class="dashboard-body">
-          <div>
-            <div class="dashboard-themes-label">${esc(themesLabel)}</div>
-            <div class="dashboard-themes">${chipsHtml}</div>
-          </div>
-        </div>
-      </div>`;
-    slot.style.display = 'block';
-    hero.style.display = 'none';
-  }
 
   // ── Carte mémoire ───────────────────────────────────────────
   const MEMOIRE_KEY = 'lovea_memoire'; // cache local par enfant
@@ -3421,42 +3246,6 @@
     }
   }
 
-  async function chargerDashboard() {
-    const slot = document.getElementById('dashboard-slot');
-    const hero = document.querySelector('.accueil-hero');
-    if (!slot || !hero) return;
-
-    // Sans enfant : afficher le hero mascot
-    if (!selectedChildId) {
-      slot.style.display = 'none';
-      document.getElementById('memoire-slot').style.display = 'none';
-      hero.style.display = '';
-      return;
-    }
-
-    const enfant = chargerEnfants().find(e => e.id === selectedChildId);
-    if (!enfant) return;
-
-    // Afficher immédiatement depuis localStorage (dashboard + mémoire locale)
-    renderDashboard(enfant, null);
-    const memoireLocale = getMemoireLocale(selectedChildId);
-    renderMemoire(enfant.prenom, memoireLocale, false);
-
-    // Puis enrichir avec les données MongoDB si disponibles
-    try {
-      const r = await fetch('/api/conversation/' + getSessionId());
-      if (!r.ok) return;
-      const data = await r.json();
-      if (data) {
-        renderDashboard(enfant, data);
-        // Utiliser la mémoire MongoDB si plus récente que le cache local
-        if (data.memoire?.length) {
-          setMemoireLocale(selectedChildId, data.memoire);
-          renderMemoire(enfant.prenom, data.memoire, false);
-        }
-      }
-    } catch {}
-  }
 
   // ── Carte du jour ────────────────────────────────────────────
   const DAILY_KEY = 'lovea_daily';
@@ -3497,17 +3286,24 @@
     }
   }
 
-  function renderCarteJour(card, childName) {
+  function renderCarteJour(card, childName, parentName, childAge) {
     const slot = document.getElementById('daily-slot');
     if (!slot) return;
     const tr    = T[lang] || T.fr;
     const label = tr.dailyLabel ? tr.dailyLabel(childName) : `Aujourd'hui avec ${childName || 'votre enfant'}`;
+    const bonjourLine = parentName ? `Bonjour ${parentName} 👋` : 'Bonjour 👋';
+    const childLine   = (childName && childAge) ? `${childName} a ${childAge}` : (childName || '');
 
     const lieuEmoji = { 'intérieur':'🏠', 'extérieur':'🌿', 'partout':'✨', 'indoor':'🏠', 'outdoor':'🌿', 'anywhere':'✨' };
     const lieuIcon  = lieuEmoji[card.activite?.lieu?.toLowerCase()] || '✨';
 
     slot.innerHTML = `
       <div class="daily-card">
+        <div class="daily-greeting">
+          <div class="daily-greeting-bonjour">${esc(bonjourLine)}</div>
+          ${childLine ? `<div class="daily-greeting-child">${esc(childLine)}</div>` : ''}
+          <hr class="daily-greeting-sep">
+        </div>
         <div class="daily-header">
           <span class="daily-label">${esc(label)}</span>
         </div>
@@ -3556,11 +3352,18 @@
     slot.style.display = 'block';
   }
 
-  function renderCarteSkeleton() {
+  function renderCarteSkeleton(parentName, childName, childAge) {
     const slot = document.getElementById('daily-slot');
     if (!slot) return;
+    const bonjourLine = parentName ? `Bonjour ${parentName} 👋` : 'Bonjour 👋';
+    const childLine   = (childName && childAge) ? `${childName} a ${childAge}` : (childName || '');
     slot.innerHTML = `
       <div class="daily-card">
+        <div class="daily-greeting">
+          <div class="daily-greeting-bonjour">${esc(bonjourLine)}</div>
+          ${childLine ? `<div class="daily-greeting-child">${esc(childLine)}</div>` : ''}
+          <hr class="daily-greeting-sep">
+        </div>
         <div class="daily-skeleton-wrap">
           <div class="daily-skeleton" style="width:55%;height:12px;margin-bottom:14px"></div>
           <div class="daily-skeleton" style="width:80%;height:20px"></div>
@@ -3573,27 +3376,47 @@
   }
 
   async function chargerCarteJour() {
+    const hero = document.querySelector('.accueil-hero');
+    const memoireSlot = document.getElementById('memoire-slot');
+
     if (!selectedChildId) {
       const s = document.getElementById('daily-slot');
       if (s) s.style.display = 'none';
+      if (memoireSlot) memoireSlot.style.display = 'none';
+      if (hero) hero.style.display = '';
       return;
     }
+
+    if (hero) hero.style.display = 'none';
 
     const enfant = chargerEnfants().find(e => e.id === selectedChildId);
     if (!enfant) return;
 
-    const childName = enfant.prenom || '';
+    const childName  = enfant.prenom || '';
+    const parentName = enfant.prenomParent || '';
+    const childAge   = enfant.dob ? ageLabel(enfant.dob) : '';
+
+    // Afficher la mémoire locale immédiatement
+    const memoireLocale = getMemoireLocale(selectedChildId);
+    renderMemoire(childName, memoireLocale, false);
+
+    // Enrichir la mémoire depuis MongoDB en arrière-plan
+    fetch('/api/conversation/' + getSessionId()).then(r => r.json()).then(data => {
+      if (data?.memoire?.length) {
+        setMemoireLocale(selectedChildId, data.memoire);
+        renderMemoire(childName, data.memoire, false);
+      }
+    }).catch(() => {});
 
     // 1. Cache localStorage — affichage immédiat
     const cached = getDailyCache(selectedChildId);
-    if (cached) { renderCarteJour(cached, childName); return; }
+    if (cached) { renderCarteJour(cached, childName, parentName, childAge); return; }
 
     // 2. Skeleton pendant la génération
-    renderCarteSkeleton();
+    renderCarteSkeleton(parentName, childName, childAge);
 
     try {
       const memoire = getMemoireLocale(selectedChildId);
-      const childAge = enfant.dob ? ageLabel(enfant.dob) : '';
       const r = await fetch('/api/daily', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -3609,67 +3432,34 @@
       const { card } = await r.json();
       if (!card) throw new Error('no card');
       setDailyCache(selectedChildId, card);
-      renderCarteJour(card, childName);
+      renderCarteJour(card, childName, parentName, childAge);
     } catch {
-      const slot = document.getElementById('daily-slot');
-      if (slot) slot.style.display = 'none';
+      // Afficher au moins le greeting même si la carte du jour échoue
+      renderCarteJourFallback(childName, parentName, childAge);
     }
   }
 
-  async function chargerConseilDuJour() {
-    if (!selectedChildId) return;
-    const enfant = chargerEnfants().find(e => e.id === selectedChildId);
-    if (!enfant) return;
-
-    const cacheKey = conseilCacheKey(selectedChildId);
-    const cached = localStorage.getItem(cacheKey);
-    if (cached) { afficherConseil(cached); return; }
-
-    afficherConseilSkeleton();
-    try {
-      const profile = construireProfilePrompt();
-      const allergies = getAllergiesEnfant();
-      const { age, unite } = enfant.dob ? ageEnAnsEtMois(enfant.dob) : { age: '', unite: 'ans' };
-      const res = await fetch('/api/ask', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [{ role: 'user', content: conseilPrompt(enfant) }],
-          age, unite, lang, profile, allergies,
-        }),
-      });
-      if (!res.ok) { document.getElementById('conseil-du-jour').style.display = 'none'; return; }
-
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-      let texte = '';
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop();
-        for (const line of lines) {
-          if (!line.startsWith('data: ')) continue;
-          const raw = line.slice(6);
-          if (raw === '[DONE]') break;
-          try { const p = JSON.parse(raw); if (p.text) texte += p.text; } catch {}
-        }
-      }
-
-      texte = texte.trim();
-      if (texte) {
-        localStorage.setItem(cacheKey, texte);
-        afficherConseil(texte);
-      } else {
-        document.getElementById('conseil-du-jour').style.display = 'none';
-      }
-    } catch {
-      document.getElementById('conseil-du-jour').style.display = 'none';
-    }
+  function renderCarteJourFallback(childName, parentName, childAge) {
+    const slot = document.getElementById('daily-slot');
+    if (!slot) return;
+    const bonjourLine = parentName ? `Bonjour ${parentName} 👋` : 'Bonjour 👋';
+    const childLine   = (childName && childAge) ? `${childName} a ${childAge}` : (childName || '');
+    const tr = T[lang] || T.fr;
+    const label = tr.dailyLabel ? tr.dailyLabel(childName) : `Aujourd'hui avec ${childName || 'votre enfant'}`;
+    slot.innerHTML = `
+      <div class="daily-card">
+        <div class="daily-greeting">
+          <div class="daily-greeting-bonjour">${esc(bonjourLine)}</div>
+          ${childLine ? `<div class="daily-greeting-child">${esc(childLine)}</div>` : ''}
+          <hr class="daily-greeting-sep">
+        </div>
+        <div style="padding:16px 18px">
+          <div class="daily-label">${esc(label)}</div>
+        </div>
+      </div>`;
+    slot.style.display = 'block';
   }
+
 
   let pendingShortcut = null;
   let pendingTryNudge = false;
@@ -4484,8 +4274,6 @@
   setLang(lang);
   renderChildSelector();
   nouvelleConversation();
-  chargerConseilDuJour();
-  chargerDashboard();
   chargerCarteJour();
   detectEmergencyByCountry();
 
