@@ -342,6 +342,61 @@ app.get('/api/conversation/:sessionId', async (req, res) => {
   }
 });
 
+// ── Mémoire enfant ────────────────────────────────────────────
+app.post('/api/memoire', async (req, res) => {
+  const { sessionId, messages, existingMemoire, childName, lang } = req.body;
+  if (!sessionId || !messages?.length) return res.status(400).json({ error: 'missing data' });
+
+  const name = childName || 'l\'enfant';
+  const existing = (existingMemoire || []).slice(0, 12).join('\n');
+  const convo = messages
+    .slice(-12)
+    .map(m => `${m.role === 'user' ? 'Parent' : 'Lovéa'}: ${m.content.slice(0, 300)}`)
+    .join('\n');
+
+  const systemPrompt = `Tu es un assistant qui analyse des conversations entre un parent et un assistant parental.
+Extrait des faits concrets et spécifiques sur l'enfant qui se dégagent de la conversation.
+Règles :
+- Entre 3 et 8 faits, jamais plus
+- Chaque fait = une observation courte (max 10 mots), en minuscules, sans point final
+- Faits concrets et personnels (pas de conseils génériques)
+- Fusionne avec les faits existants : garde les pertinents, remplace les obsolètes
+- Réponds UNIQUEMENT avec un tableau JSON de strings, rien d'autre
+- Langue de réponse : ${lang || 'fr'}`;
+
+  const userPrompt = `Faits connus sur ${name} (à fusionner/mettre à jour) :
+${existing || '(aucun encore)'}
+
+Nouvelle conversation :
+${convo}
+
+Retourne un tableau JSON mis à jour avec 3 à 8 faits sur l'enfant.`;
+
+  try {
+    const response = await client.messages.create({
+      model: 'claude-haiku-4-5',
+      max_tokens: 300,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userPrompt }],
+    });
+    const raw = response.content[0]?.text?.trim() || '[]';
+    const match = raw.match(/\[[\s\S]*\]/);
+    const memoire = match ? JSON.parse(match[0]) : [];
+
+    if (conversationsCol && memoire.length) {
+      await conversationsCol.updateOne(
+        { sessionId },
+        { $set: { memoire, memoireUpdatedAt: new Date() } },
+        { upsert: true }
+      );
+    }
+    res.json({ memoire });
+  } catch (err) {
+    console.error('[Lovéa] memoire error:', err.message);
+    res.json({ memoire: existingMemoire || [] });
+  }
+});
+
 app.get('/blog', (req, res) => res.sendFile(path.join(__dirname, 'blog.html')));
 app.get('/blog/:slug', (req, res) => {
   const slug = req.params.slug.replace(/[^a-z0-9-]/gi, '');

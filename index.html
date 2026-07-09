@@ -771,6 +771,69 @@
       border: none; border-top: 1px solid #F0EBE0; margin: 0;
     }
 
+    /* ══ CARTE MÉMOIRE ════════════════════════════════════════ */
+    .memoire-card {
+      width: 100%; max-width: 520px;
+      background: #fff;
+      border: 1.5px solid #E4DDD0;
+      border-radius: 18px;
+      overflow: hidden;
+      animation: fadeUp 0.5s ease both 0.1s;
+      flex-shrink: 0;
+    }
+    .memoire-header {
+      display: flex; align-items: center; gap: 9px;
+      padding: 14px 18px 10px;
+      border-bottom: 1px solid #F2EDE6;
+    }
+    .memoire-header-icon {
+      font-size: 1rem; flex-shrink: 0;
+    }
+    .memoire-header-title {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: #8A7A6A;
+      flex: 1;
+    }
+    .memoire-header-age {
+      font-size: 0.7rem; color: #B0A898;
+    }
+    .memoire-liste {
+      padding: 10px 18px 14px;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .memoire-item {
+      display: flex; align-items: flex-start; gap: 9px;
+      padding: 7px 0;
+      border-bottom: 1px solid #F6F2EC;
+      font-size: 0.875rem; color: #3A3028; line-height: 1.45;
+      animation: fadeUp 0.3s ease both;
+    }
+    .memoire-item:last-child { border-bottom: none; }
+    .memoire-item-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #8CBE86; flex-shrink: 0; margin-top: 6px;
+    }
+    .memoire-vide {
+      padding: 14px 18px;
+      font-size: 0.83rem; color: #B0A898; font-style: italic;
+      text-align: center;
+    }
+    .memoire-updating {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 18px 10px;
+      font-size: 0.72rem; color: #B0A898;
+      border-top: 1px solid #F2EDE6;
+    }
+    .memoire-dot-pulse {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #8CBE86;
+      animation: pulse-dot 1.2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity: 0.3; transform: scale(0.8); }
+      50%      { opacity: 1;   transform: scale(1.2); }
+    }
+
     /* ══ BANDEAU URGENCE ══════════════════════════════════════ */
     .bandeau-urgence {
       display: flex; align-items: center; gap: 10px;
@@ -1320,6 +1383,9 @@
       dashDaysAgo:d=>`il y a ${d} jour${d>1?'s':''}`,
       dashHoursAgo:h=>`il y a ${h}h`,
       dashMinsAgo:m=>`il y a ${m} min`,
+      memoireTitle:n=>`Ce que Lovéa connaît déjà de ${n||'votre enfant'}`,
+      memoireVide:'Les souvenirs apparaîtront après vos premières conversations.',
+      memoireUpdating:'Lovéa mémorise ce que vous venez de partager…',
       fEdit:'Modifier', fDelete:'Supprimer',
       confirmDelete:'Supprimer cet enfant ?',
       confirmDeleteConv:'Supprimer cette conversation ?',
@@ -1373,6 +1439,9 @@
       dashDaysAgo:d=>`${d} day${d>1?'s':''} ago`,
       dashHoursAgo:h=>`${h}h ago`,
       dashMinsAgo:m=>`${m} min ago`,
+      memoireTitle:n=>`What Lovéa already knows about ${n||'your child'}`,
+      memoireVide:'Memories will appear after your first conversations.',
+      memoireUpdating:'Lovéa is remembering what you just shared…',
       fEdit:'Edit', fDelete:'Delete',
       confirmDelete:'Delete this child?',
       confirmDeleteConv:'Delete this conversation?',
@@ -2614,6 +2683,7 @@
         <p class="accueil-sous" id="accueil-sous">${esc(w.sub)}</p>
       </div>
       <div id="dashboard-slot" style="display:none"></div>
+      <div id="memoire-slot" style="display:none"></div>
       <div class="conseil-du-jour" id="conseil-du-jour" style="display:none">
         <div class="conseil-du-jour-header">☀️ <span id="conseil-du-jour-titre">Conseil du jour</span></div>
         <div class="conseil-du-jour-body" id="conseil-du-jour-body"></div>
@@ -3167,6 +3237,81 @@
     hero.style.display = 'none';
   }
 
+  // ── Carte mémoire ───────────────────────────────────────────
+  const MEMOIRE_KEY = 'lovea_memoire'; // cache local par enfant
+
+  function getMemoireLocale(childId) {
+    try { return JSON.parse(localStorage.getItem(MEMOIRE_KEY + '_' + childId)) || []; }
+    catch { return []; }
+  }
+  function setMemoireLocale(childId, items) {
+    try { localStorage.setItem(MEMOIRE_KEY + '_' + childId, JSON.stringify(items)); }
+    catch {}
+  }
+
+  function renderMemoire(childName, items, updating) {
+    const slot = document.getElementById('memoire-slot');
+    if (!slot || !selectedChildId) return;
+
+    const tr    = T[lang] || T.fr;
+    const title = tr.memoireTitle ? tr.memoireTitle(childName) : `Ce que Lovéa connaît déjà de ${childName || 'votre enfant'}`;
+    const vide  = tr.memoireVide  || 'Les souvenirs apparaîtront après vos premières conversations.';
+    const upd   = tr.memoireUpdating || 'Lovéa mémorise ce que vous venez de partager…';
+
+    const listeHtml = items.length
+      ? items.map(f => `<div class="memoire-item"><div class="memoire-item-dot"></div><span>${esc(f)}</span></div>`).join('')
+      : `<div class="memoire-vide">${esc(vide)}</div>`;
+
+    slot.innerHTML = `
+      <div class="memoire-card">
+        <div class="memoire-header">
+          <span class="memoire-header-icon">✨</span>
+          <span class="memoire-header-title">${esc(title)}</span>
+        </div>
+        <div class="memoire-liste">${listeHtml}</div>
+        ${updating ? `<div class="memoire-updating"><div class="memoire-dot-pulse"></div>${esc(upd)}</div>` : ''}
+      </div>`;
+    slot.style.display = 'block';
+  }
+
+  async function mettreAJourMemoire() {
+    if (!selectedChildId) return;
+    // Déclencher seulement tous les 2 messages assistant
+    const assistantCount = conversation.filter(m => m.role === 'assistant').length;
+    if (assistantCount < 1 || assistantCount % 2 !== 0) return;
+
+    const enfant = chargerEnfants().find(e => e.id === selectedChildId);
+    const childName = enfant?.prenom || '';
+    const existingMemoire = getMemoireLocale(selectedChildId);
+
+    // Indiquer que la mise à jour est en cours
+    renderMemoire(childName, existingMemoire, true);
+
+    try {
+      const r = await fetch('/api/memoire', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: getSessionId(),
+          messages: conversation.slice(-12),
+          existingMemoire,
+          childName,
+          lang,
+        }),
+      });
+      if (!r.ok) { renderMemoire(childName, existingMemoire, false); return; }
+      const { memoire } = await r.json();
+      if (memoire?.length) {
+        setMemoireLocale(selectedChildId, memoire);
+        renderMemoire(childName, memoire, false);
+      } else {
+        renderMemoire(childName, existingMemoire, false);
+      }
+    } catch {
+      renderMemoire(childName, existingMemoire, false);
+    }
+  }
+
   async function chargerDashboard() {
     const slot = document.getElementById('dashboard-slot');
     const hero = document.querySelector('.accueil-hero');
@@ -3175,6 +3320,7 @@
     // Sans enfant : afficher le hero mascot
     if (!selectedChildId) {
       slot.style.display = 'none';
+      document.getElementById('memoire-slot').style.display = 'none';
       hero.style.display = '';
       return;
     }
@@ -3182,15 +3328,24 @@
     const enfant = chargerEnfants().find(e => e.id === selectedChildId);
     if (!enfant) return;
 
-    // Afficher immédiatement depuis localStorage (pas besoin de MongoDB)
+    // Afficher immédiatement depuis localStorage (dashboard + mémoire locale)
     renderDashboard(enfant, null);
+    const memoireLocale = getMemoireLocale(selectedChildId);
+    renderMemoire(enfant.prenom, memoireLocale, false);
 
     // Puis enrichir avec les données MongoDB si disponibles
     try {
       const r = await fetch('/api/conversation/' + getSessionId());
       if (!r.ok) return;
       const data = await r.json();
-      if (data) renderDashboard(enfant, data);
+      if (data) {
+        renderDashboard(enfant, data);
+        // Utiliser la mémoire MongoDB si plus récente que le cache local
+        if (data.memoire?.length) {
+          setMemoireLocale(selectedChildId, data.memoire);
+          renderMemoire(enfant.prenom, data.memoire, false);
+        }
+      }
     } catch {}
   }
 
@@ -3695,6 +3850,7 @@
         document.getElementById('conv-titre').textContent=titreDepuisMessages(conversation);
         sauvegarderConvCourante();
         sauvegarderConversationMongo(activeShortcut);
+        mettreAJourMemoire();
         bulleTyping.classList.remove('typing');
         ajouterShareFooter(bulleTyping, reponse);
         if (isStory) ajouterHistoirePlayer(bulleTyping, reponse);
