@@ -342,6 +342,86 @@ app.get('/api/conversation/:sessionId', async (req, res) => {
   }
 });
 
+// ── Carte du jour ─────────────────────────────────────────────
+app.post('/api/daily', async (req, res) => {
+  const { sessionId, childName, childAge, lang, memoire } = req.body;
+  if (!sessionId) return res.status(400).json({ error: 'sessionId required' });
+
+  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+
+  // Cache hit : retourner la carte du jour si déjà générée aujourd'hui
+  if (conversationsCol) {
+    try {
+      const doc = await conversationsCol.findOne({ sessionId }, { projection: { dailyCard: 1 } });
+      if (doc?.dailyCard?.date === today) {
+        return res.json({ card: doc.dailyCard.card, cached: true });
+      }
+    } catch {}
+  }
+
+  // Construire le contexte personnalisé
+  const name    = childName || 'l\'enfant';
+  const ageCtx  = childAge  ? `${name} a ${childAge}` : `un jeune enfant`;
+  const memoCtx = memoire?.length
+    ? `Ce que l'on sait de ${name} : ${memoire.slice(0, 6).join(', ')}.`
+    : `Pas encore d'historique — base-toi uniquement sur l'âge.`;
+
+  const langNames = { fr:'français', en:'English', he:'hébreu', ar:'arabe', es:'espagnol', de:'allemand', it:'italien', pt:'portugais', ru:'russe', zh:'chinois', ja:'japonais', ko:'coréen', tr:'turc', nl:'néerlandais', pl:'polonais', ro:'roumain' };
+  const langLabel = langNames[lang] || 'français';
+
+  const prompt = `Tu es Lovéa, assistant parental bienveillant.
+Génère la carte quotidienne pour ${ageCtx}.
+${memoCtx}
+
+Réponds UNIQUEMENT avec un objet JSON valide, sans texte avant ni après, dans cette structure exacte :
+{
+  "activite": {
+    "emoji": "🎨",
+    "titre": "...",
+    "duree": "...",
+    "lieu": "intérieur" ou "extérieur" ou "partout",
+    "description": "2-3 phrases concrètes sur comment faire l'activité"
+  },
+  "conseil": "1-2 phrases de conseil parental du jour, pratique et bienveillant",
+  "histoire": {
+    "titre": "Titre d'un livre ou histoire adaptée",
+    "description": "1 phrase sur pourquoi cette histoire convient à cet enfant aujourd'hui"
+  },
+  "focus": "Un objectif éducatif simple pour aujourd'hui, en 1 phrase courte",
+  "raison": "1 phrase personnalisée expliquant POURQUOI ces recommandations sont adaptées à cet enfant aujourd'hui — cite son prénom et un fait concret"
+}
+
+Langue de réponse : ${langLabel}.
+Adapte tout au stade de développement réel de ${ageCtx}.`;
+
+  try {
+    const response = await client.messages.create({
+      model: 'claude-haiku-4-5',
+      max_tokens: 600,
+      messages: [{ role: 'user', content: prompt }],
+    });
+
+    const raw = response.content[0]?.text?.trim() || '{}';
+    const match = raw.match(/\{[\s\S]*\}/);
+    const card = match ? JSON.parse(match[0]) : null;
+    if (!card?.activite) return res.status(500).json({ error: 'invalid card' });
+
+    // Sauvegarder dans MongoDB
+    if (conversationsCol) {
+      await conversationsCol.updateOne(
+        { sessionId },
+        { $set: { dailyCard: { date: today, card, generatedAt: new Date() } }, $setOnInsert: { createdAt: new Date() } },
+        { upsert: true }
+      ).catch(() => {});
+    }
+
+    res.json({ card, cached: false });
+  } catch (err) {
+    console.error('[Lovéa] daily error:', err.message);
+    res.status(500).json({ error: 'generation_failed' });
+  }
+});
+
 // ── Mémoire enfant ────────────────────────────────────────────
 app.post('/api/memoire', async (req, res) => {
   const { sessionId, messages, existingMemoire, childName, lang } = req.body;

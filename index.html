@@ -771,6 +771,99 @@
       border: none; border-top: 1px solid #F0EBE0; margin: 0;
     }
 
+    /* ══ CARTE DU JOUR ═══════════════════════════════════════ */
+    .daily-card {
+      width: 100%; max-width: 520px;
+      background: #fff;
+      border: 1.5px solid #E0D8CA;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 2px 16px rgba(46,58,44,0.06);
+      animation: fadeUp 0.45s ease both 0.05s;
+      flex-shrink: 0;
+    }
+    .daily-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 16px 0;
+    }
+    .daily-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #B0A898;
+    }
+    .daily-streak {
+      font-size: 0.72rem; color: #B0A898;
+    }
+    .daily-hero {
+      padding: 14px 18px 16px;
+    }
+    .daily-hero-top {
+      display: flex; align-items: flex-start; gap: 14px;
+    }
+    .daily-emoji {
+      font-size: 2.2rem; line-height: 1; flex-shrink: 0; margin-top: 2px;
+    }
+    .daily-hero-text { flex: 1; }
+    .daily-titre {
+      font-family: 'Playfair Display', 'Georgia', serif;
+      font-size: 1.15rem; font-weight: 700; color: #2E3A2C;
+      line-height: 1.3; margin-bottom: 6px;
+    }
+    .daily-badges {
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .daily-badge {
+      font-size: 0.7rem; font-weight: 600;
+      background: #F2EDE6; color: #7A6A58;
+      padding: 3px 9px; border-radius: 20px;
+    }
+    .daily-desc {
+      font-size: 0.875rem; color: #586658;
+      line-height: 1.6; margin-top: 12px;
+    }
+    .daily-chips {
+      display: flex; gap: 0;
+      border-top: 1px solid #F0EBE0;
+    }
+    .daily-chip {
+      flex: 1; padding: 11px 8px; text-align: center;
+      font-size: 0.78rem; font-weight: 600; color: #7A6A58;
+      cursor: pointer; background: none; border: none;
+      border-right: 1px solid #F0EBE0;
+      transition: background 0.12s, color 0.12s;
+      display: flex; flex-direction: column; align-items: center; gap: 3px;
+    }
+    .daily-chip:last-child { border-right: none; }
+    .daily-chip:hover, .daily-chip.active {
+      background: #F7F3EA; color: #3A6E5C;
+    }
+    .daily-chip-emoji { font-size: 1rem; }
+    .daily-panel {
+      padding: 14px 18px;
+      border-top: 1px solid #F0EBE0;
+      font-size: 0.875rem; color: #3A3028; line-height: 1.65;
+      display: none; animation: fadeUp 0.2s ease both;
+    }
+    .daily-panel.open { display: block; }
+    .daily-panel-title {
+      font-weight: 700; color: #2E3A2C; margin-bottom: 6px; font-size: 0.9rem;
+    }
+    .daily-raison {
+      padding: 11px 18px 14px;
+      border-top: 1px solid #F0EBE0;
+      font-size: 0.78rem; color: #98A896; font-style: italic;
+      line-height: 1.5;
+    }
+    .daily-skeleton-wrap {
+      padding: 18px;
+    }
+    .daily-skeleton {
+      height: 14px; border-radius: 8px;
+      background: linear-gradient(90deg, #F0EBE0 25%, #F7F3EA 50%, #F0EBE0 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      margin-bottom: 10px;
+    }
+
     /* ══ CARTE MÉMOIRE ════════════════════════════════════════ */
     .memoire-card {
       width: 100%; max-width: 520px;
@@ -1386,6 +1479,13 @@
       memoireTitle:n=>`Ce que Lovéa connaît déjà de ${n||'votre enfant'}`,
       memoireVide:'Les souvenirs apparaîtront après vos premières conversations.',
       memoireUpdating:'Lovéa mémorise ce que vous venez de partager…',
+      dailyLabel:(n)=>`Aujourd'hui avec ${n||'votre enfant'}`,
+      dailyChipConseil:'☀️ Conseil',
+      dailyChipHistoire:'📖 Histoire',
+      dailyChipFocus:'❤️ Focus',
+      dailyRaisonPre:'💡',
+      dailyLoading:'Lovéa prépare votre journée…',
+      dailyError:'Impossible de générer la carte du jour. Réessayez dans un moment.',
       fEdit:'Modifier', fDelete:'Supprimer',
       confirmDelete:'Supprimer cet enfant ?',
       confirmDeleteConv:'Supprimer cette conversation ?',
@@ -1442,6 +1542,13 @@
       memoireTitle:n=>`What Lovéa already knows about ${n||'your child'}`,
       memoireVide:'Memories will appear after your first conversations.',
       memoireUpdating:'Lovéa is remembering what you just shared…',
+      dailyLabel:(n)=>`Today with ${n||'your child'}`,
+      dailyChipConseil:'☀️ Advice',
+      dailyChipHistoire:'📖 Story',
+      dailyChipFocus:'❤️ Focus',
+      dailyRaisonPre:'💡',
+      dailyLoading:'Lovéa is preparing your day…',
+      dailyError:'Could not generate today\'s card. Try again in a moment.',
       fEdit:'Edit', fDelete:'Delete',
       confirmDelete:'Delete this child?',
       confirmDeleteConv:'Delete this conversation?',
@@ -2202,6 +2309,7 @@
     updateModalPlansLang();
     chargerConseilDuJour();
     chargerDashboard();
+    chargerCarteJour();
     if (typeof obUpdateLang === 'function') obUpdateLang();
   }
 
@@ -2683,6 +2791,7 @@
         <p class="accueil-sous" id="accueil-sous">${esc(w.sub)}</p>
       </div>
       <div id="dashboard-slot" style="display:none"></div>
+      <div id="daily-slot" style="display:none"></div>
       <div id="memoire-slot" style="display:none"></div>
       <div class="conseil-du-jour" id="conseil-du-jour" style="display:none">
         <div class="conseil-du-jour-header">☀️ <span id="conseil-du-jour-titre">Conseil du jour</span></div>
@@ -3347,6 +3456,164 @@
         }
       }
     } catch {}
+  }
+
+  // ── Carte du jour ────────────────────────────────────────────
+  const DAILY_KEY = 'lovea_daily';
+
+  function getDailyCache(childId) {
+    try {
+      const raw = localStorage.getItem(`${DAILY_KEY}_${childId}`);
+      if (!raw) return null;
+      const { date, card } = JSON.parse(raw);
+      const today = new Date().toISOString().slice(0, 10);
+      return date === today ? card : null;
+    } catch { return null; }
+  }
+
+  function setDailyCache(childId, card) {
+    try {
+      const today = new Date().toISOString().slice(0, 10);
+      localStorage.setItem(`${DAILY_KEY}_${childId}`, JSON.stringify({ date: today, card }));
+    } catch {}
+  }
+
+  let dailyOpenChip = null;
+
+  function toggleDailyChip(name) {
+    const panel = document.getElementById('daily-panel-' + name);
+    const btn   = document.getElementById('daily-chip-'  + name);
+    if (!panel || !btn) return;
+    const isOpen = panel.classList.contains('open');
+    // Fermer tous les panels
+    document.querySelectorAll('.daily-panel').forEach(p => p.classList.remove('open'));
+    document.querySelectorAll('.daily-chip').forEach(b => b.classList.remove('active'));
+    if (!isOpen) {
+      panel.classList.add('open');
+      btn.classList.add('active');
+      dailyOpenChip = name;
+    } else {
+      dailyOpenChip = null;
+    }
+  }
+
+  function renderCarteJour(card, childName) {
+    const slot = document.getElementById('daily-slot');
+    if (!slot) return;
+    const tr    = T[lang] || T.fr;
+    const label = tr.dailyLabel ? tr.dailyLabel(childName) : `Aujourd'hui avec ${childName || 'votre enfant'}`;
+
+    const lieuEmoji = { 'intérieur':'🏠', 'extérieur':'🌿', 'partout':'✨', 'indoor':'🏠', 'outdoor':'🌿', 'anywhere':'✨' };
+    const lieuIcon  = lieuEmoji[card.activite?.lieu?.toLowerCase()] || '✨';
+
+    slot.innerHTML = `
+      <div class="daily-card">
+        <div class="daily-header">
+          <span class="daily-label">${esc(label)}</span>
+        </div>
+        <div class="daily-hero">
+          <div class="daily-hero-top">
+            <div class="daily-emoji">${card.activite?.emoji || '🎨'}</div>
+            <div class="daily-hero-text">
+              <div class="daily-titre">${esc(card.activite?.titre || '')}</div>
+              <div class="daily-badges">
+                ${card.activite?.duree ? `<span class="daily-badge">⏱ ${esc(card.activite.duree)}</span>` : ''}
+                ${card.activite?.lieu  ? `<span class="daily-badge">${lieuIcon} ${esc(card.activite.lieu)}</span>` : ''}
+              </div>
+            </div>
+          </div>
+          ${card.activite?.description ? `<p class="daily-desc">${esc(card.activite.description)}</p>` : ''}
+        </div>
+
+        <div class="daily-chips">
+          <button class="daily-chip" id="daily-chip-conseil" onclick="toggleDailyChip('conseil')">
+            <span class="daily-chip-emoji">☀️</span>
+            <span>${esc((tr.dailyChipConseil || '☀️ Conseil').replace(/^[^ ]+ /,''))}</span>
+          </button>
+          <button class="daily-chip" id="daily-chip-histoire" onclick="toggleDailyChip('histoire')">
+            <span class="daily-chip-emoji">📖</span>
+            <span>${esc((tr.dailyChipHistoire || '📖 Histoire').replace(/^[^ ]+ /,''))}</span>
+          </button>
+          <button class="daily-chip" id="daily-chip-focus" onclick="toggleDailyChip('focus')">
+            <span class="daily-chip-emoji">❤️</span>
+            <span>${esc((tr.dailyChipFocus || '❤️ Focus').replace(/^[^ ]+ /,''))}</span>
+          </button>
+        </div>
+
+        <div class="daily-panel" id="daily-panel-conseil">
+          <p>${esc(card.conseil || '')}</p>
+        </div>
+        <div class="daily-panel" id="daily-panel-histoire">
+          ${card.histoire?.titre ? `<div class="daily-panel-title">📖 ${esc(card.histoire.titre)}</div>` : ''}
+          <p>${esc(card.histoire?.description || '')}</p>
+        </div>
+        <div class="daily-panel" id="daily-panel-focus">
+          <p>${esc(card.focus || '')}</p>
+        </div>
+
+        ${card.raison ? `<div class="daily-raison">${esc(tr.dailyRaisonPre || '💡')} ${esc(card.raison)}</div>` : ''}
+      </div>`;
+    slot.style.display = 'block';
+  }
+
+  function renderCarteSkeleton() {
+    const slot = document.getElementById('daily-slot');
+    if (!slot) return;
+    slot.innerHTML = `
+      <div class="daily-card">
+        <div class="daily-skeleton-wrap">
+          <div class="daily-skeleton" style="width:55%;height:12px;margin-bottom:14px"></div>
+          <div class="daily-skeleton" style="width:80%;height:20px"></div>
+          <div class="daily-skeleton" style="width:45%;height:12px;margin-top:8px"></div>
+          <div class="daily-skeleton" style="width:90%;height:14px;margin-top:16px"></div>
+          <div class="daily-skeleton" style="width:75%;height:14px"></div>
+        </div>
+      </div>`;
+    slot.style.display = 'block';
+  }
+
+  async function chargerCarteJour() {
+    if (!selectedChildId) {
+      const s = document.getElementById('daily-slot');
+      if (s) s.style.display = 'none';
+      return;
+    }
+
+    const enfant = chargerEnfants().find(e => e.id === selectedChildId);
+    if (!enfant) return;
+
+    const childName = enfant.prenom || '';
+
+    // 1. Cache localStorage — affichage immédiat
+    const cached = getDailyCache(selectedChildId);
+    if (cached) { renderCarteJour(cached, childName); return; }
+
+    // 2. Skeleton pendant la génération
+    renderCarteSkeleton();
+
+    try {
+      const memoire = getMemoireLocale(selectedChildId);
+      const childAge = enfant.dob ? ageLabel(enfant.dob) : '';
+      const r = await fetch('/api/daily', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: getSessionId(),
+          childName,
+          childAge,
+          lang,
+          memoire,
+        }),
+      });
+      if (!r.ok) throw new Error('http ' + r.status);
+      const { card } = await r.json();
+      if (!card) throw new Error('no card');
+      setDailyCache(selectedChildId, card);
+      renderCarteJour(card, childName);
+    } catch {
+      const slot = document.getElementById('daily-slot');
+      if (slot) slot.style.display = 'none';
+    }
   }
 
   async function chargerConseilDuJour() {
@@ -4219,6 +4486,7 @@
   nouvelleConversation();
   chargerConseilDuJour();
   chargerDashboard();
+  chargerCarteJour();
   detectEmergencyByCountry();
 
   const { streak: initStreak, increased: initIncreased } = calculateStreak();
