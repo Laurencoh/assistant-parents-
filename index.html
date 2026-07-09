@@ -813,40 +813,47 @@
     }
     .memoire-header {
       display: flex; align-items: center; gap: 9px;
-      padding: 14px 18px 10px;
+      padding: 14px 18px 12px;
       border-bottom: 1px solid #F2EDE6;
     }
-    .memoire-header-icon {
-      font-size: 1rem; flex-shrink: 0;
-    }
+    .memoire-header-icon { font-size: 1rem; flex-shrink: 0; }
     .memoire-header-title {
       font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
-      text-transform: uppercase; color: #8A7A6A;
-      flex: 1;
+      text-transform: uppercase; color: #8A7A6A; flex: 1;
     }
-    .memoire-header-age {
-      font-size: 0.7rem; color: #B0A898;
+    .memoire-body { padding: 10px 0 6px; }
+    .memoire-cat {
+      padding: 8px 18px 4px;
     }
-    .memoire-liste {
-      padding: 10px 18px 14px;
-      display: flex; flex-direction: column; gap: 0;
+    .memoire-cat-header {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: #B0A898;
+      margin-bottom: 4px;
     }
+    .memoire-cat-icon { font-size: 0.85rem; }
     .memoire-item {
       display: flex; align-items: flex-start; gap: 9px;
-      padding: 7px 0;
-      border-bottom: 1px solid #F6F2EC;
+      padding: 5px 0 5px 4px;
       font-size: 0.875rem; color: #3A3028; line-height: 1.45;
-      animation: fadeUp 0.3s ease both;
     }
-    .memoire-item:last-child { border-bottom: none; }
     .memoire-item-dot {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: #8CBE86; flex-shrink: 0; margin-top: 6px;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #8CBE86; flex-shrink: 0; margin-top: 7px;
+    }
+    .memoire-sep {
+      border: none; border-top: 1px solid #F6F2EC;
+      margin: 6px 18px 0;
     }
     .memoire-vide {
-      padding: 14px 18px;
+      padding: 16px 18px;
       font-size: 0.83rem; color: #B0A898; font-style: italic;
       text-align: center;
+    }
+    .memoire-count {
+      padding: 8px 18px 12px;
+      font-size: 0.7rem; color: #C0B8B0;
+      border-top: 1px solid #F6F2EC; margin-top: 4px;
     }
     .memoire-updating {
       display: flex; align-items: center; gap: 6px;
@@ -3184,18 +3191,67 @@
     catch {}
   }
 
-  function renderMemoire(childName, items, updating) {
+  const MEMOIRE_CATS = {
+    gouts:        { fr:'Goûts & loisirs',       en:'Interests & play',    emoji:'🎨' },
+    sommeil:      { fr:'Sommeil',                en:'Sleep',               emoji:'😴' },
+    repas:        { fr:'Alimentation',           en:'Eating',              emoji:'🍽️' },
+    emotions:     { fr:'Émotions & comportement',en:'Emotions',           emoji:'💭' },
+    progres:      { fr:'Progrès',                en:'Milestones',          emoji:'🌟' },
+    difficultes:  { fr:'Défis',                  en:'Challenges',          emoji:'⚡' },
+    habitudes:    { fr:'Habitudes',              en:'Routines',            emoji:'🔄' },
+  };
+
+  function normaliseMemoire(items) {
+    // Accepte string[] (ancien format) ou {cat,fait}[]
+    return (items || []).map(m =>
+      typeof m === 'string' ? { cat: 'habitudes', fait: m } : m
+    ).filter(m => m && m.fait);
+  }
+
+  function renderMemoire(childName, rawItems, updating) {
     const slot = document.getElementById('memoire-slot');
     if (!slot || !selectedChildId) return;
 
     const tr    = T[lang] || T.fr;
+    const isEn  = lang === 'en';
     const title = tr.memoireTitle ? tr.memoireTitle(childName) : `Ce que Lovéa connaît déjà de ${childName || 'votre enfant'}`;
     const vide  = tr.memoireVide  || 'Les souvenirs apparaîtront après vos premières conversations.';
     const upd   = tr.memoireUpdating || 'Lovéa mémorise ce que vous venez de partager…';
 
-    const listeHtml = items.length
-      ? items.map(f => `<div class="memoire-item"><div class="memoire-item-dot"></div><span>${esc(f)}</span></div>`).join('')
-      : `<div class="memoire-vide">${esc(vide)}</div>`;
+    const items = normaliseMemoire(rawItems);
+
+    let bodyHtml;
+    if (!items.length) {
+      bodyHtml = `<div class="memoire-vide">${esc(vide)}</div>`;
+    } else {
+      // Groupe par catégorie dans l'ordre de MEMOIRE_CATS
+      const grouped = {};
+      for (const item of items) {
+        const cat = MEMOIRE_CATS[item.cat] ? item.cat : 'habitudes';
+        if (!grouped[cat]) grouped[cat] = [];
+        grouped[cat].push(item.fait);
+      }
+      const orderedCats = Object.keys(MEMOIRE_CATS).filter(c => grouped[c]);
+      let sections = '';
+      orderedCats.forEach((cat, i) => {
+        const { emoji, fr: labelFr, en: labelEn } = MEMOIRE_CATS[cat];
+        const label = isEn ? labelEn : labelFr;
+        const faitsHtml = grouped[cat]
+          .map(f => `<div class="memoire-item"><div class="memoire-item-dot"></div><span>${esc(f)}</span></div>`)
+          .join('');
+        sections += `
+          ${i > 0 ? '<hr class="memoire-sep">' : ''}
+          <div class="memoire-cat">
+            <div class="memoire-cat-header">
+              <span class="memoire-cat-icon">${emoji}</span>
+              <span>${esc(label)}</span>
+            </div>
+            ${faitsHtml}
+          </div>`;
+      });
+      bodyHtml = `<div class="memoire-body">${sections}</div>
+        <div class="memoire-count">${items.length} souvenir${items.length > 1 ? 's' : ''} mémorisé${items.length > 1 ? 's' : ''}</div>`;
+    }
 
     slot.innerHTML = `
       <div class="memoire-card">
@@ -3203,7 +3259,7 @@
           <span class="memoire-header-icon">✨</span>
           <span class="memoire-header-title">${esc(title)}</span>
         </div>
-        <div class="memoire-liste">${listeHtml}</div>
+        ${bodyHtml}
         ${updating ? `<div class="memoire-updating"><div class="memoire-dot-pulse"></div>${esc(upd)}</div>` : ''}
       </div>`;
     slot.style.display = 'block';
@@ -3211,9 +3267,10 @@
 
   async function mettreAJourMemoire() {
     if (!selectedChildId) return;
-    // Déclencher seulement tous les 2 messages assistant
+    // Déclencher après le 1er échange, puis toutes les 2 réponses
     const assistantCount = conversation.filter(m => m.role === 'assistant').length;
-    if (assistantCount < 1 || assistantCount % 2 !== 0) return;
+    if (assistantCount < 1) return;
+    if (assistantCount > 1 && assistantCount % 2 !== 0) return;
 
     const enfant = chargerEnfants().find(e => e.id === selectedChildId);
     const childName = enfant?.prenom || '';

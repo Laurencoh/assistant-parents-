@@ -362,8 +362,9 @@ app.post('/api/daily', async (req, res) => {
   // Construire le contexte personnalisé
   const name    = childName || 'l\'enfant';
   const ageCtx  = childAge  ? `${name} a ${childAge}` : `un jeune enfant`;
-  const memoCtx = memoire?.length
-    ? `Ce que l'on sait de ${name} : ${memoire.slice(0, 6).join(', ')}.`
+  const memoFaits = (memoire || []).map(m => (typeof m === 'string' ? m : m.fait)).filter(Boolean);
+  const memoCtx = memoFaits.length
+    ? `Ce que l'on sait de ${name} : ${memoFaits.slice(0, 8).join(', ')}.`
     : `Pas encore d'historique — base-toi uniquement sur l'âge.`;
 
   const langNames = { fr:'français', en:'English', he:'hébreu', ar:'arabe', es:'espagnol', de:'allemand', it:'italien', pt:'portugais', ru:'russe', zh:'chinois', ja:'japonais', ko:'coréen', tr:'turc', nl:'néerlandais', pl:'polonais', ro:'roumain' };
@@ -428,40 +429,63 @@ app.post('/api/memoire', async (req, res) => {
   if (!sessionId || !messages?.length) return res.status(400).json({ error: 'missing data' });
 
   const name = childName || 'l\'enfant';
-  const existing = (existingMemoire || []).slice(0, 12).join('\n');
+
+  // Normalise existing memoire : accepte string[] (ancien format) ou {cat,fait}[]
+  const existingNorm = (existingMemoire || []).map(m =>
+    typeof m === 'string' ? { cat: 'habitudes', fait: m } : m
+  ).slice(0, 12);
+
+  const existingJson = JSON.stringify(existingNorm, null, 2);
   const convo = messages
-    .slice(-12)
-    .map(m => `${m.role === 'user' ? 'Parent' : 'Lovéa'}: ${m.content.slice(0, 300)}`)
+    .slice(-14)
+    .map(m => `${m.role === 'user' ? 'Parent' : 'Lovéa'}: ${m.content.slice(0, 400)}`)
     .join('\n');
 
-  const systemPrompt = `Tu es un assistant qui analyse des conversations entre un parent et un assistant parental.
-Extrait des faits concrets et spécifiques sur l'enfant qui se dégagent de la conversation.
-Règles :
-- Entre 3 et 8 faits, jamais plus
-- Chaque fait = une observation courte (max 10 mots), en minuscules, sans point final
-- Faits concrets et personnels (pas de conseils génériques)
-- Fusionne avec les faits existants : garde les pertinents, remplace les obsolètes
-- Réponds UNIQUEMENT avec un tableau JSON de strings, rien d'autre
-- Langue de réponse : ${lang || 'fr'}`;
+  const CATS = 'gouts | sommeil | repas | emotions | progres | difficultes | habitudes';
 
-  const userPrompt = `Faits connus sur ${name} (à fusionner/mettre à jour) :
-${existing || '(aucun encore)'}
+  const systemPrompt = `Tu es un assistant mémoire pour Lovéa, une app parentale. Tu analyses des conversations et extrais des faits précis sur l'enfant.
 
-Nouvelle conversation :
+Catégories disponibles (utilise exactement ces codes) :
+- gouts        : goûts, intérêts, loisirs, activités préférées, personnages aimés
+- sommeil      : habitudes de sommeil, difficultés, rituels du soir, heures
+- repas        : alimentation, aliments aimés/refusés, comportement à table
+- emotions     : émotions, peurs, comportement, humeur, réactions
+- progres      : acquisitions, apprentissages, développement, étapes franchies
+- difficultes  : problèmes récurrents, défis, points de vigilance
+- habitudes    : routines quotidiennes, rituels, organisation de la vie
+
+Règles strictes :
+1. Chaque fait = phrase courte (max 10 mots), en minuscules, sans point final, personnelle et concrète
+2. Maximum 12 faits au total dans le tableau fusionné
+3. Fusionne intelligemment avec les faits existants : si un fait change, remplace l'ancien (ne garde pas les deux)
+4. Supprime les doublons et les faits trop génériques
+5. Ne garde que les faits sur l'ENFANT (pas sur les parents ni les conseils)
+6. Réponds UNIQUEMENT avec un tableau JSON valide, rien d'autre
+7. Format : [{"cat":"gouts","fait":"adore les dinosaures"},...]
+8. Langue des faits : ${lang === 'en' ? 'English' : lang === 'he' ? 'Hebrew' : lang === 'ar' ? 'Arabic' : 'français'}`;
+
+  const userPrompt = `Faits actuellement mémorisés sur ${name} :
+${existingNorm.length ? existingJson : '(aucun encore)'}
+
+Nouvelle conversation à analyser :
 ${convo}
 
-Retourne un tableau JSON mis à jour avec 3 à 8 faits sur l'enfant.`;
+Retourne le tableau JSON fusionné et mis à jour (max 12 faits, catégories : ${CATS}).`;
 
   try {
     const response = await client.messages.create({
       model: 'claude-haiku-4-5',
-      max_tokens: 300,
+      max_tokens: 600,
       system: systemPrompt,
       messages: [{ role: 'user', content: userPrompt }],
     });
     const raw = response.content[0]?.text?.trim() || '[]';
     const match = raw.match(/\[[\s\S]*\]/);
-    const memoire = match ? JSON.parse(match[0]) : [];
+    let memoire = match ? JSON.parse(match[0]) : [];
+
+    // Validation : garde uniquement les objets bien formés avec cat valide
+    const VALID_CATS = new Set(['gouts','sommeil','repas','emotions','progres','difficultes','habitudes']);
+    memoire = memoire.filter(m => m && typeof m.fait === 'string' && VALID_CATS.has(m.cat)).slice(0, 12);
 
     if (conversationsCol && memoire.length) {
       await conversationsCol.updateOne(
