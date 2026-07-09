@@ -785,11 +785,26 @@
       font-weight: 700; color: #2E3A2C; margin-bottom: 6px; font-size: 0.9rem;
     }
     .daily-raison {
-      padding: 11px 18px 14px;
+      padding: 10px 18px 6px;
       border-top: 1px solid #F0EBE0;
-      font-size: 0.78rem; color: #98A896; font-style: italic;
-      line-height: 1.5;
+      font-size: 0.8rem; color: #7A8C78; font-style: italic;
+      line-height: 1.55; background: #FAFAF8;
     }
+    .daily-raison-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: #B0A898; display: block; margin-bottom: 4px;
+    }
+    .daily-footer {
+      display: flex; align-items: center; justify-content: flex-end;
+      padding: 8px 14px 10px;
+      border-top: 1px solid #F6F2EC;
+    }
+    .daily-refresh {
+      font-size: 0.72rem; color: #B0A898; background: none; border: none;
+      cursor: pointer; padding: 4px 8px; border-radius: 8px;
+      font-family: inherit; transition: color 0.12s, background 0.12s;
+    }
+    .daily-refresh:hover { color: #4E8A75; background: #F0F7EF; }
     .daily-skeleton-wrap {
       padding: 18px;
     }
@@ -3189,6 +3204,9 @@
   function setMemoireLocale(childId, items) {
     try { localStorage.setItem(MEMOIRE_KEY + '_' + childId, JSON.stringify(items)); }
     catch {}
+    // Invalider le cache daily local pour que la prochaine carte utilise la nouvelle mémoire
+    try { localStorage.removeItem(`${DAILY_KEY}_${childId}`); }
+    catch {}
   }
 
   const MEMOIRE_CATS = {
@@ -3405,9 +3423,43 @@
           <p>${esc(card.focus || '')}</p>
         </div>
 
-        ${card.raison ? `<div class="daily-raison">${esc(tr.dailyRaisonPre || '💡')} ${esc(card.raison)}</div>` : ''}
+        ${card.raison ? `
+        <div class="daily-raison">
+          <span class="daily-raison-label">💡 Pourquoi aujourd'hui ?</span>
+          ${esc(card.raison)}
+        </div>` : ''}
+        <div class="daily-footer">
+          <button class="daily-refresh" onclick="refreshCarteJour()">↺ Régénérer</button>
+        </div>
       </div>`;
     slot.style.display = 'block';
+  }
+
+  async function refreshCarteJour() {
+    if (!selectedChildId) return;
+    const enfant = chargerEnfants().find(e => e.id === selectedChildId);
+    if (!enfant) return;
+    const childName  = enfant.prenom || '';
+    const parentName = enfant.prenomParent || '';
+    const childAge   = enfant.dob ? ageLabel(enfant.dob) : '';
+    // Vider le cache local
+    try { localStorage.removeItem(`${DAILY_KEY}_${selectedChildId}`); } catch {}
+    renderCarteSkeleton(parentName, childName, childAge);
+    try {
+      const memoire = getMemoireLocale(selectedChildId);
+      const r = await fetch('/api/daily', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId: getSessionId(), childName, childAge, lang, memoire, forceRegen: true }),
+      });
+      if (!r.ok) throw new Error('http ' + r.status);
+      const { card } = await r.json();
+      if (!card) throw new Error('no card');
+      setDailyCache(selectedChildId, card);
+      renderCarteJour(card, childName, parentName, childAge);
+    } catch {
+      renderCarteJourFallback(childName, parentName, childAge);
+    }
   }
 
   function renderCarteSkeleton(parentName, childName, childAge) {

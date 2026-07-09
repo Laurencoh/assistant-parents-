@@ -349,56 +349,89 @@ app.post('/api/daily', async (req, res) => {
 
   const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
 
-  // Cache hit : retourner la carte du jour si déjà générée aujourd'hui
-  if (conversationsCol) {
+  // Cache hit : retourner la carte du jour si déjà générée aujourd'hui ET mémoire inchangée
+  const forceRegen = req.body.forceRegen === true;
+  if (!forceRegen && conversationsCol) {
     try {
-      const doc = await conversationsCol.findOne({ sessionId }, { projection: { dailyCard: 1 } });
+      const doc = await conversationsCol.findOne({ sessionId }, { projection: { dailyCard: 1, memoireUpdatedAt: 1 } });
       if (doc?.dailyCard?.date === today) {
-        return res.json({ card: doc.dailyCard.card, cached: true });
+        const cardGenAt   = doc.dailyCard.generatedAt ? new Date(doc.dailyCard.generatedAt) : null;
+        const memoUpdated = doc.memoireUpdatedAt    ? new Date(doc.memoireUpdatedAt)       : null;
+        // Invalider le cache si la mémoire a été mise à jour après la génération de la carte
+        if (!memoUpdated || !cardGenAt || memoUpdated < cardGenAt) {
+          return res.json({ card: doc.dailyCard.card, cached: true });
+        }
       }
     } catch {}
   }
 
-  // Construire le contexte personnalisé
-  const name    = childName || 'l\'enfant';
-  const ageCtx  = childAge  ? `${name} a ${childAge}` : `un jeune enfant`;
-  const memoFaits = (memoire || []).map(m => (typeof m === 'string' ? m : m.fait)).filter(Boolean);
-  const memoCtx = memoFaits.length
-    ? `Ce que l'on sait de ${name} : ${memoFaits.slice(0, 8).join(', ')}.`
-    : `Pas encore d'historique — base-toi uniquement sur l'âge.`;
+  // Construire le contexte personnalisé à partir de la mémoire structurée
+  const name   = childName || 'l\'enfant';
+  const ageCtx = childAge  ? `${name} a ${childAge}` : `un jeune enfant`;
+
+  const CAT_LABELS = {
+    gouts:'Goûts & loisirs', sommeil:'Sommeil', repas:'Alimentation',
+    emotions:'Émotions & comportement', progres:'Progrès', difficultes:'Défis', habitudes:'Habitudes',
+  };
+
+  const memNorm = (memoire || []).map(m => typeof m === 'string' ? { cat:'habitudes', fait:m } : m).filter(m => m?.fait);
+
+  let memoCtx;
+  if (memNorm.length) {
+    // Grouper par catégorie pour un contexte structuré
+    const grouped = {};
+    for (const { cat, fait } of memNorm) {
+      const label = CAT_LABELS[cat] || cat;
+      if (!grouped[label]) grouped[label] = [];
+      grouped[label].push(fait);
+    }
+    memoCtx = `Ce que Lovéa sait déjà de ${name} :\n` +
+      Object.entries(grouped).map(([label, faits]) =>
+        `• ${label} : ${faits.join(' / ')}`
+      ).join('\n');
+  } else {
+    memoCtx = `Pas encore d'historique pour ${name}. Génère des recommandations adaptées à son âge uniquement.`;
+  }
 
   const langNames = { fr:'français', en:'English', he:'hébreu', ar:'arabe', es:'espagnol', de:'allemand', it:'italien', pt:'portugais', ru:'russe', zh:'chinois', ja:'japonais', ko:'coréen', tr:'turc', nl:'néerlandais', pl:'polonais', ro:'roumain' };
   const langLabel = langNames[lang] || 'français';
 
   const prompt = `Tu es Lovéa, assistant parental bienveillant.
-Génère la carte quotidienne pour ${ageCtx}.
+Génère la carte du jour ENTIÈREMENT PERSONNALISÉE pour ${ageCtx}.
+
 ${memoCtx}
 
-Réponds UNIQUEMENT avec un objet JSON valide, sans texte avant ni après, dans cette structure exacte :
+RÈGLES DE PERSONNALISATION (obligatoires si la mémoire existe) :
+- L'activité doit s'appuyer sur un goût, une habitude ou un trait connu de ${name} — jamais une activité générique
+- Le conseil doit répondre à un défi, une émotion ou une difficulté réelle de ${name}
+- L'histoire doit correspondre aux centres d'intérêt connus (personnages aimés, thèmes préférés)
+- Le focus doit cibler un domaine où ${name} peut progresser selon ce qu'on sait de lui/elle
+- "raison" : explique EN DÉTAIL quels souvenirs spécifiques t'ont guidé — nomme les faits exacts utilisés (ex: "Parce que ${name} adore les dinosaures et que les crises arrivent surtout avant le coucher..."). Cette phrase doit être unique à ${name} et incompréhensible pour un autre enfant.
+
+Réponds UNIQUEMENT avec un objet JSON valide, sans texte avant ni après :
 {
   "activite": {
     "emoji": "🎨",
     "titre": "...",
     "duree": "...",
     "lieu": "intérieur" ou "extérieur" ou "partout",
-    "description": "2-3 phrases concrètes sur comment faire l'activité"
+    "description": "2-3 phrases concrètes — adaptées aux goûts et au caractère de ${name}"
   },
-  "conseil": "1-2 phrases de conseil parental du jour, pratique et bienveillant",
+  "conseil": "1-2 phrases — répond à une situation réelle de ${name}, pas un conseil générique",
   "histoire": {
-    "titre": "Titre d'un livre ou histoire adaptée",
-    "description": "1 phrase sur pourquoi cette histoire convient à cet enfant aujourd'hui"
+    "titre": "Titre d'un livre ou histoire réelle et adaptée",
+    "description": "1 phrase expliquant pourquoi CE livre correspond à ${name} spécifiquement"
   },
-  "focus": "Un objectif éducatif simple pour aujourd'hui, en 1 phrase courte",
-  "raison": "1 phrase personnalisée expliquant POURQUOI ces recommandations sont adaptées à cet enfant aujourd'hui — cite son prénom et un fait concret"
+  "focus": "Un objectif ciblé pour aujourd'hui, basé sur ce qu'on sait de ${name}",
+  "raison": "2-3 phrases. Nomme les souvenirs spécifiques utilisés. Le parent doit comprendre que cette carte n'aurait pas été la même pour un autre enfant."
 }
 
-Langue de réponse : ${langLabel}.
-Adapte tout au stade de développement réel de ${ageCtx}.`;
+Langue de réponse : ${langLabel}.`;
 
   try {
     const response = await client.messages.create({
       model: 'claude-haiku-4-5',
-      max_tokens: 600,
+      max_tokens: 900,
       messages: [{ role: 'user', content: prompt }],
     });
 
