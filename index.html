@@ -794,17 +794,6 @@
       font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
       text-transform: uppercase; color: #B0A898; display: block; margin-bottom: 4px;
     }
-    .daily-footer {
-      display: flex; align-items: center; justify-content: flex-end;
-      padding: 8px 14px 10px;
-      border-top: 1px solid #F6F2EC;
-    }
-    .daily-refresh {
-      font-size: 0.72rem; color: #B0A898; background: none; border: none;
-      cursor: pointer; padding: 4px 8px; border-radius: 8px;
-      font-family: inherit; transition: color 0.12s, background 0.12s;
-    }
-    .daily-refresh:hover { color: #4E8A75; background: #F0F7EF; }
     .daily-skeleton-wrap {
       padding: 18px;
     }
@@ -820,55 +809,80 @@
     .memoire-card {
       width: 100%; max-width: 520px;
       background: #fff;
-      border: 1.5px solid #E4DDD0;
-      border-radius: 18px;
+      border: 1.5px solid #E8E2D8;
+      border-radius: 20px;
       overflow: hidden;
       animation: fadeUp 0.5s ease both 0.1s;
       flex-shrink: 0;
+      box-shadow: 0 2px 12px rgba(46,58,44,0.05);
     }
     .memoire-header {
-      display: flex; align-items: center; gap: 9px;
-      padding: 14px 18px 12px;
+      display: flex; align-items: center; gap: 10px;
+      padding: 16px 18px 14px;
       border-bottom: 1px solid #F2EDE6;
     }
-    .memoire-header-icon { font-size: 1rem; flex-shrink: 0; }
+    .memoire-header-icon { font-size: 1.05rem; flex-shrink: 0; }
     .memoire-header-title {
-      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em;
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em;
       text-transform: uppercase; color: #8A7A6A; flex: 1;
     }
-    .memoire-body { padding: 10px 0 6px; }
-    .memoire-cat {
-      padding: 8px 18px 4px;
+    .memoire-header-count {
+      font-size: 0.7rem; font-weight: 600;
+      background: #F0F7EF; color: #5C8C5A;
+      border-radius: 20px; padding: 2px 9px;
     }
-    .memoire-cat-header {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.07em;
-      text-transform: uppercase; color: #B0A898;
-      margin-bottom: 4px;
+    .memoire-body { padding: 6px 0 8px; }
+    .memoire-row {
+      display: flex; align-items: center; gap: 0;
+      padding: 0 16px;
+      border-bottom: 1px solid #F8F4EE;
+      cursor: pointer;
+      transition: background 0.12s;
     }
-    .memoire-cat-icon { font-size: 0.85rem; }
-    .memoire-item {
-      display: flex; align-items: flex-start; gap: 9px;
-      padding: 5px 0 5px 4px;
-      font-size: 0.875rem; color: #3A3028; line-height: 1.45;
+    .memoire-row:last-child { border-bottom: none; }
+    .memoire-row:hover { background: #FDFAF6; }
+    .memoire-row-icon {
+      font-size: 0.95rem; flex-shrink: 0;
+      width: 28px; text-align: center; padding: 12px 0;
     }
-    .memoire-item-dot {
-      width: 5px; height: 5px; border-radius: 50%;
-      background: #8CBE86; flex-shrink: 0; margin-top: 7px;
+    .memoire-row-body {
+      flex: 1; padding: 11px 8px 11px 4px;
+      min-width: 0;
     }
-    .memoire-sep {
-      border: none; border-top: 1px solid #F6F2EC;
-      margin: 6px 18px 0;
+    .memoire-row-fait {
+      font-size: 0.875rem; color: #2E3A2C; line-height: 1.4;
+    }
+    .memoire-row-date {
+      font-size: 0.68rem; color: #B8AFA8; margin-top: 2px;
+    }
+    .memoire-row-arrow {
+      font-size: 0.75rem; color: #D0C8C0; flex-shrink: 0;
+      transition: color 0.12s, transform 0.15s;
+    }
+    .memoire-row.open .memoire-row-arrow { transform: rotate(90deg); color: #8CBE86; }
+    .memoire-detail {
+      display: none; background: #F9F6F1;
+      padding: 10px 16px 12px 52px;
+      border-bottom: 1px solid #F2EDE6;
+      animation: fadeUp 0.15s ease both;
+    }
+    .memoire-detail.open { display: block; }
+    .memoire-detail-cat {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: #8A7A6A; margin-bottom: 4px;
+    }
+    .memoire-detail-date {
+      font-size: 0.78rem; color: #7A6A58;
     }
     .memoire-vide {
-      padding: 16px 18px;
-      font-size: 0.83rem; color: #B0A898; font-style: italic;
-      text-align: center;
+      padding: 20px 18px;
+      font-size: 0.85rem; color: #B0A898; font-style: italic;
+      text-align: center; line-height: 1.6;
     }
-    .memoire-count {
-      padding: 8px 18px 12px;
-      font-size: 0.7rem; color: #C0B8B0;
-      border-top: 1px solid #F6F2EC; margin-top: 4px;
+    .memoire-footer {
+      padding: 8px 18px 10px;
+      border-top: 1px solid #F2EDE6;
+      font-size: 0.7rem; color: #C8BFB8;
     }
     .memoire-updating {
       display: flex; align-items: center; gap: 6px;
@@ -3226,6 +3240,51 @@
     ).filter(m => m && m.fait);
   }
 
+  function formatDateMemoire(dateStr) {
+    if (!dateStr) return '';
+    try {
+      const d = new Date(dateStr + 'T12:00:00');
+      const isEn = lang === 'en';
+      const day = d.getDate();
+      const months = isEn
+        ? ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+        : ['janv.','févr.','mars','avr.','mai','juin','juil.','août','sept.','oct.','nov.','déc.'];
+      return `${isEn ? months[d.getMonth()] + ' ' + day : day + ' ' + months[d.getMonth()]}`;
+    } catch { return ''; }
+  }
+
+  function formatDateMemoireLong(dateStr) {
+    if (!dateStr) return '';
+    try {
+      const d = new Date(dateStr + 'T12:00:00');
+      const isEn = lang === 'en';
+      const day = d.getDate();
+      const months = isEn
+        ? ['January','February','March','April','May','June','July','August','September','October','November','December']
+        : ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+      return isEn ? `Learned ${months[d.getMonth()]} ${day}, ${d.getFullYear()}` : `Appris le ${day} ${months[d.getMonth()]} ${d.getFullYear()}`;
+    } catch { return ''; }
+  }
+
+  let memoireOpenIdx = null;
+
+  function toggleMemoireRow(idx) {
+    const row    = document.getElementById(`mem-row-${idx}`);
+    const detail = document.getElementById(`mem-detail-${idx}`);
+    if (!row || !detail) return;
+    const isOpen = detail.classList.contains('open');
+    // Ferme tous
+    document.querySelectorAll('.memoire-row').forEach(r => r.classList.remove('open'));
+    document.querySelectorAll('.memoire-detail').forEach(d => d.classList.remove('open'));
+    if (!isOpen) {
+      row.classList.add('open');
+      detail.classList.add('open');
+      memoireOpenIdx = idx;
+    } else {
+      memoireOpenIdx = null;
+    }
+  }
+
   function renderMemoire(childName, rawItems, updating) {
     const slot = document.getElementById('memoire-slot');
     if (!slot || !selectedChildId) return;
@@ -3242,33 +3301,32 @@
     if (!items.length) {
       bodyHtml = `<div class="memoire-vide">${esc(vide)}</div>`;
     } else {
-      // Groupe par catégorie dans l'ordre de MEMOIRE_CATS
-      const grouped = {};
-      for (const item of items) {
-        const cat = MEMOIRE_CATS[item.cat] ? item.cat : 'habitudes';
-        if (!grouped[cat]) grouped[cat] = [];
-        grouped[cat].push(item.fait);
-      }
-      const orderedCats = Object.keys(MEMOIRE_CATS).filter(c => grouped[c]);
-      let sections = '';
-      orderedCats.forEach((cat, i) => {
-        const { emoji, fr: labelFr, en: labelEn } = MEMOIRE_CATS[cat];
-        const label = isEn ? labelEn : labelFr;
-        const faitsHtml = grouped[cat]
-          .map(f => `<div class="memoire-item"><div class="memoire-item-dot"></div><span>${esc(f)}</span></div>`)
-          .join('');
-        sections += `
-          ${i > 0 ? '<hr class="memoire-sep">' : ''}
-          <div class="memoire-cat">
-            <div class="memoire-cat-header">
-              <span class="memoire-cat-icon">${emoji}</span>
-              <span>${esc(label)}</span>
+      const rows = items.map((item, i) => {
+        const cat    = MEMOIRE_CATS[item.cat] || MEMOIRE_CATS.habitudes;
+        const catLabel = isEn ? cat.en : cat.fr;
+        const dateShort = formatDateMemoire(item.date);
+        const dateLong  = formatDateMemoireLong(item.date);
+        return `
+          <div class="memoire-row" id="mem-row-${i}" onclick="toggleMemoireRow(${i})">
+            <div class="memoire-row-icon">${cat.emoji}</div>
+            <div class="memoire-row-body">
+              <div class="memoire-row-fait">${esc(item.fait)}</div>
+              ${dateShort ? `<div class="memoire-row-date">${esc(dateShort)}</div>` : ''}
             </div>
-            ${faitsHtml}
+            <div class="memoire-row-arrow">›</div>
+          </div>
+          <div class="memoire-detail" id="mem-detail-${i}">
+            <div class="memoire-detail-cat">${esc(catLabel)}</div>
+            ${dateLong ? `<div class="memoire-detail-date">${esc(dateLong)}</div>` : ''}
           </div>`;
-      });
-      bodyHtml = `<div class="memoire-body">${sections}</div>
-        <div class="memoire-count">${items.length} souvenir${items.length > 1 ? 's' : ''} mémorisé${items.length > 1 ? 's' : ''}</div>`;
+      }).join('');
+
+      const footerTxt = isEn
+        ? `${items.length} memories · tap to see details`
+        : `${items.length} souvenir${items.length > 1 ? 's' : ''} · appuyez pour les détails`;
+
+      bodyHtml = `<div class="memoire-body">${rows}</div>
+        <div class="memoire-footer">${esc(footerTxt)}</div>`;
     }
 
     slot.innerHTML = `
@@ -3276,6 +3334,7 @@
         <div class="memoire-header">
           <span class="memoire-header-icon">✨</span>
           <span class="memoire-header-title">${esc(title)}</span>
+          ${items.length ? `<span class="memoire-header-count">${items.length}</span>` : ''}
         </div>
         ${bodyHtml}
         ${updating ? `<div class="memoire-updating"><div class="memoire-dot-pulse"></div>${esc(upd)}</div>` : ''}
@@ -3428,38 +3487,8 @@
           <span class="daily-raison-label">💡 Pourquoi aujourd'hui ?</span>
           ${esc(card.raison)}
         </div>` : ''}
-        <div class="daily-footer">
-          <button class="daily-refresh" onclick="refreshCarteJour()">↺ Régénérer</button>
-        </div>
       </div>`;
     slot.style.display = 'block';
-  }
-
-  async function refreshCarteJour() {
-    if (!selectedChildId) return;
-    const enfant = chargerEnfants().find(e => e.id === selectedChildId);
-    if (!enfant) return;
-    const childName  = enfant.prenom || '';
-    const parentName = enfant.prenomParent || '';
-    const childAge   = enfant.dob ? ageLabel(enfant.dob) : '';
-    // Vider le cache local
-    try { localStorage.removeItem(`${DAILY_KEY}_${selectedChildId}`); } catch {}
-    renderCarteSkeleton(parentName, childName, childAge);
-    try {
-      const memoire = getMemoireLocale(selectedChildId);
-      const r = await fetch('/api/daily', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sessionId: getSessionId(), childName, childAge, lang, memoire, forceRegen: true }),
-      });
-      if (!r.ok) throw new Error('http ' + r.status);
-      const { card } = await r.json();
-      if (!card) throw new Error('no card');
-      setDailyCache(selectedChildId, card);
-      renderCarteJour(card, childName, parentName, childAge);
-    } catch {
-      renderCarteJourFallback(childName, parentName, childAge);
-    }
   }
 
   function renderCarteSkeleton(parentName, childName, childAge) {

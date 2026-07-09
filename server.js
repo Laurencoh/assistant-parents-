@@ -423,7 +423,7 @@ Réponds UNIQUEMENT avec un objet JSON valide, sans texte avant ni après :
     "description": "1 phrase expliquant pourquoi CE livre correspond à ${name} spécifiquement"
   },
   "focus": "Un objectif ciblé pour aujourd'hui, basé sur ce qu'on sait de ${name}",
-  "raison": "2-3 phrases. Nomme les souvenirs spécifiques utilisés. Le parent doit comprendre que cette carte n'aurait pas été la même pour un autre enfant."
+  "raison": "1 phrase courte et directe (max 20 mots). Cite 1 ou 2 souvenirs précis de ${name} qui ont guidé ce choix. Exemple : 'Parce que ${name} adore les dinosaures et préfère les activités calmes le soir.'"
 }
 
 Langue de réponse : ${langLabel}.`;
@@ -463,9 +463,13 @@ app.post('/api/memoire', async (req, res) => {
 
   const name = childName || 'l\'enfant';
 
-  // Normalise existing memoire : accepte string[] (ancien format) ou {cat,fait}[]
+  const todayDate = new Date().toISOString().slice(0, 10);
+
+  // Normalise existing memoire : accepte string[] (ancien format) ou {cat,fait,date}[]
   const existingNorm = (existingMemoire || []).map(m =>
-    typeof m === 'string' ? { cat: 'habitudes', fait: m } : m
+    typeof m === 'string'
+      ? { cat: 'habitudes', fait: m, date: todayDate }
+      : { ...m, date: m.date || todayDate }
   ).slice(0, 12);
 
   const existingJson = JSON.stringify(existingNorm, null, 2);
@@ -494,7 +498,8 @@ Règles strictes :
 4. Supprime les doublons et les faits trop génériques
 5. Ne garde que les faits sur l'ENFANT (pas sur les parents ni les conseils)
 6. Réponds UNIQUEMENT avec un tableau JSON valide, rien d'autre
-7. Format : [{"cat":"gouts","fait":"adore les dinosaures"},...]
+7. Format : [{"cat":"gouts","fait":"adore les dinosaures","date":"2026-07-09"},...]
+8. IMPORTANT : conserve la "date" d'origine des faits inchangés. Ne mets aujourd'hui (${todayDate}) que pour les faits nouveaux ou modifiés.
 8. Langue des faits : ${lang === 'en' ? 'English' : lang === 'he' ? 'Hebrew' : lang === 'ar' ? 'Arabic' : 'français'}`;
 
   const userPrompt = `Faits actuellement mémorisés sur ${name} :
@@ -518,7 +523,10 @@ Retourne le tableau JSON fusionné et mis à jour (max 12 faits, catégories : $
 
     // Validation : garde uniquement les objets bien formés avec cat valide
     const VALID_CATS = new Set(['gouts','sommeil','repas','emotions','progres','difficultes','habitudes']);
-    memoire = memoire.filter(m => m && typeof m.fait === 'string' && VALID_CATS.has(m.cat)).slice(0, 12);
+    memoire = memoire
+      .filter(m => m && typeof m.fait === 'string' && VALID_CATS.has(m.cat))
+      .map(m => ({ cat: m.cat, fait: m.fait, date: m.date || todayDate }))
+      .slice(0, 12);
 
     if (conversationsCol && memoire.length) {
       await conversationsCol.updateOne(
