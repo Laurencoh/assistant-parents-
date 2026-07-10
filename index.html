@@ -693,116 +693,97 @@
     @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
     /* ══ CARTE DU JOUR ═══════════════════════════════════════ */
-    .daily-greeting {
-      background: linear-gradient(135deg, #4E8A75 0%, #3A6E5C 100%);
-      padding: 22px 20px 18px;
-    }
-    .daily-greeting-bonjour {
-      font-size: 1.5rem; font-weight: 700; color: #fff;
-      letter-spacing: -0.02em; line-height: 1.2;
-    }
-    .daily-greeting-child {
-      font-size: 0.88rem; color: rgba(255,255,255,0.75);
-      margin-top: 5px; font-weight: 400;
-    }
-    .daily-greeting-sep {
-      border: none; border-top: 1px solid rgba(255,255,255,0.15);
-      margin: 14px 0 0;
-    }
     .daily-card {
       width: 100%; max-width: 520px;
       background: #fff;
-      border: 1.5px solid #E0D8CA;
+      border: 1.5px solid #E8E2D8;
       border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 2px 16px rgba(46,58,44,0.06);
-      animation: fadeUp 0.45s ease both 0.05s;
+      box-shadow: 0 2px 14px rgba(46,58,44,0.07);
+      animation: fadeUp 0.4s ease both;
       flex-shrink: 0;
     }
-    .daily-header {
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 12px 16px 0;
+    .daily-greeting {
+      display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap;
+      padding: 14px 18px 12px;
+      border-bottom: 1px solid #F0EBE0;
+    }
+    .daily-greeting-bonjour {
+      font-size: 1.05rem; font-weight: 700; color: #2E3A2C;
+      letter-spacing: -0.01em;
+    }
+    .daily-greeting-dot { color: #D0C8C0; font-size: 0.9rem; }
+    .daily-greeting-child {
+      font-size: 0.82rem; color: #98A896; font-weight: 400;
     }
     .daily-label {
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
-      text-transform: uppercase; color: #B0A898;
-    }
-    .daily-streak {
-      font-size: 0.72rem; color: #B0A898;
+      display: block;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.09em;
+      text-transform: uppercase; color: #C0B8B0;
+      padding: 10px 18px 0;
     }
     .daily-hero {
-      padding: 14px 18px 16px;
+      padding: 8px 18px 12px;
     }
     .daily-hero-top {
-      display: flex; align-items: flex-start; gap: 14px;
+      display: flex; align-items: center; gap: 12px;
     }
     .daily-emoji {
-      font-size: 2.2rem; line-height: 1; flex-shrink: 0; margin-top: 2px;
+      font-size: 1.75rem; line-height: 1; flex-shrink: 0;
     }
     .daily-hero-text { flex: 1; }
     .daily-titre {
       font-family: 'Playfair Display', 'Georgia', serif;
-      font-size: 1.15rem; font-weight: 700; color: #2E3A2C;
-      line-height: 1.3; margin-bottom: 6px;
+      font-size: 1.05rem; font-weight: 700; color: #2E3A2C;
+      line-height: 1.3; margin-bottom: 5px;
     }
     .daily-badges {
-      display: flex; gap: 6px; flex-wrap: wrap;
+      display: flex; gap: 5px; flex-wrap: wrap;
     }
     .daily-badge {
-      font-size: 0.7rem; font-weight: 600;
-      background: #F2EDE6; color: #7A6A58;
-      padding: 3px 9px; border-radius: 20px;
-    }
-    .daily-desc {
-      font-size: 0.875rem; color: #586658;
-      line-height: 1.6; margin-top: 12px;
+      font-size: 0.68rem; font-weight: 600;
+      background: #F2EDE6; color: #8A7A6A;
+      padding: 2px 8px; border-radius: 20px;
     }
     .daily-chips {
-      display: flex; gap: 0;
+      display: flex;
       border-top: 1px solid #F0EBE0;
     }
     .daily-chip {
-      flex: 1; padding: 11px 8px; text-align: center;
-      font-size: 0.78rem; font-weight: 600; color: #7A6A58;
+      flex: 1; padding: 9px 6px; text-align: center;
+      font-size: 0.75rem; font-weight: 600; color: #8A7A6A;
       cursor: pointer; background: none; border: none;
       border-right: 1px solid #F0EBE0;
       transition: background 0.12s, color 0.12s;
-      display: flex; flex-direction: column; align-items: center; gap: 3px;
     }
     .daily-chip:last-child { border-right: none; }
     .daily-chip:hover, .daily-chip.active {
       background: #F7F3EA; color: #3A6E5C;
     }
-    .daily-chip-emoji { font-size: 1rem; }
+    .daily-chip-emoji { display: none; }
     .daily-panel {
-      padding: 14px 18px;
+      padding: 12px 18px;
       border-top: 1px solid #F0EBE0;
-      font-size: 0.875rem; color: #3A3028; line-height: 1.65;
-      display: none; animation: fadeUp 0.2s ease both;
+      font-size: 0.875rem; color: #3A3028; line-height: 1.6;
+      display: none; animation: fadeUp 0.18s ease both;
     }
     .daily-panel.open { display: block; }
     .daily-panel-title {
-      font-weight: 700; color: #2E3A2C; margin-bottom: 6px; font-size: 0.9rem;
+      font-weight: 700; color: #2E3A2C; margin-bottom: 5px; font-size: 0.88rem;
     }
     .daily-raison {
-      padding: 10px 18px 6px;
+      padding: 8px 18px 10px;
       border-top: 1px solid #F0EBE0;
-      font-size: 0.8rem; color: #7A8C78; font-style: italic;
-      line-height: 1.55; background: #FAFAF8;
+      font-size: 0.72rem; color: #B0A898;
+      line-height: 1.45;
     }
-    .daily-raison-label {
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em;
-      text-transform: uppercase; color: #B0A898; display: block; margin-bottom: 4px;
-    }
-    .daily-skeleton-wrap {
-      padding: 18px;
-    }
+    .daily-skeleton-wrap { padding: 14px 18px; }
     .daily-skeleton {
-      height: 14px; border-radius: 8px;
+      height: 12px; border-radius: 8px;
       background: linear-gradient(90deg, #F0EBE0 25%, #F7F3EA 50%, #F0EBE0 75%);
       background-size: 200% 100%;
       animation: shimmer 1.4s infinite;
-      margin-bottom: 10px;
+      margin-bottom: 9px;
     }
 
     /* ══ CARTE MÉMOIRE ════════════════════════════════════════ */
@@ -817,72 +798,80 @@
       box-shadow: 0 2px 12px rgba(46,58,44,0.05);
     }
     .memoire-header {
-      display: flex; align-items: center; gap: 10px;
-      padding: 16px 18px 14px;
+      display: flex; align-items: center; gap: 9px;
+      padding: 13px 18px 11px;
       border-bottom: 1px solid #F2EDE6;
     }
-    .memoire-header-icon { font-size: 1.05rem; flex-shrink: 0; }
+    .memoire-header-icon { font-size: 0.95rem; flex-shrink: 0; }
     .memoire-header-title {
-      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.07em;
-      text-transform: uppercase; color: #8A7A6A; flex: 1;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #A09080; flex: 1;
     }
     .memoire-header-count {
-      font-size: 0.7rem; font-weight: 600;
+      font-size: 0.68rem; font-weight: 600;
       background: #F0F7EF; color: #5C8C5A;
-      border-radius: 20px; padding: 2px 9px;
+      border-radius: 20px; padding: 2px 8px;
     }
-    .memoire-body { padding: 6px 0 8px; }
+    .memoire-body { padding: 4px 0 4px; }
     .memoire-row {
-      display: flex; align-items: center; gap: 0;
+      display: flex; align-items: center;
       padding: 0 16px;
       border-bottom: 1px solid #F8F4EE;
       cursor: pointer;
-      transition: background 0.12s;
+      transition: background 0.1s;
     }
     .memoire-row:last-child { border-bottom: none; }
-    .memoire-row:hover { background: #FDFAF6; }
+    .memoire-row:hover { background: #FDFAF7; }
+    .memoire-row.hidden { display: none; }
     .memoire-row-icon {
-      font-size: 0.95rem; flex-shrink: 0;
-      width: 28px; text-align: center; padding: 12px 0;
+      font-size: 0.88rem; flex-shrink: 0;
+      width: 26px; text-align: center; padding: 9px 0;
     }
     .memoire-row-body {
-      flex: 1; padding: 11px 8px 11px 4px;
-      min-width: 0;
+      flex: 1; padding: 9px 6px 9px 2px; min-width: 0;
     }
     .memoire-row-fait {
-      font-size: 0.875rem; color: #2E3A2C; line-height: 1.4;
+      font-size: 0.84rem; color: #2E3A2C; line-height: 1.35;
     }
     .memoire-row-date {
-      font-size: 0.68rem; color: #B8AFA8; margin-top: 2px;
+      font-size: 0.64rem; color: #C0B8B0; margin-top: 1px;
     }
     .memoire-row-arrow {
-      font-size: 0.75rem; color: #D0C8C0; flex-shrink: 0;
-      transition: color 0.12s, transform 0.15s;
+      font-size: 0.7rem; color: #D8D0C8; flex-shrink: 0;
+      transition: transform 0.15s, color 0.12s;
     }
     .memoire-row.open .memoire-row-arrow { transform: rotate(90deg); color: #8CBE86; }
     .memoire-detail {
-      display: none; background: #F9F6F1;
-      padding: 10px 16px 12px 52px;
+      display: none; background: #F9F6F2;
+      padding: 8px 16px 10px 44px;
       border-bottom: 1px solid #F2EDE6;
       animation: fadeUp 0.15s ease both;
     }
     .memoire-detail.open { display: block; }
     .memoire-detail-cat {
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em;
-      text-transform: uppercase; color: #8A7A6A; margin-bottom: 4px;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.07em;
+      text-transform: uppercase; color: #A09080; margin-bottom: 3px;
     }
-    .memoire-detail-date {
-      font-size: 0.78rem; color: #7A6A58;
+    .memoire-detail-date { font-size: 0.75rem; color: #8A7A6A; }
+    .memoire-voir-plus {
+      display: flex; align-items: center; justify-content: center;
+      padding: 9px 18px;
+      border-top: 1px solid #F2EDE6;
+      font-size: 0.75rem; font-weight: 600; color: #8CBE86;
+      cursor: pointer; background: none; border-top: 1px solid #F2EDE6;
+      width: 100%; font-family: inherit;
+      transition: color 0.12s;
     }
+    .memoire-voir-plus:hover { color: #4E8A75; }
     .memoire-vide {
-      padding: 20px 18px;
-      font-size: 0.85rem; color: #B0A898; font-style: italic;
-      text-align: center; line-height: 1.6;
+      padding: 16px 18px;
+      font-size: 0.83rem; color: #B0A898; font-style: italic;
+      text-align: center; line-height: 1.55;
     }
     .memoire-footer {
-      padding: 8px 18px 10px;
+      padding: 7px 18px 9px;
       border-top: 1px solid #F2EDE6;
-      font-size: 0.7rem; color: #C8BFB8;
+      font-size: 0.66rem; color: #C8BFB8;
     }
     .memoire-updating {
       display: flex; align-items: center; gap: 6px;
@@ -3266,7 +3255,24 @@
     } catch { return ''; }
   }
 
+  const MEMOIRE_VISIBLE = 4;
+  let memoireExpanded = false;
   let memoireOpenIdx = null;
+
+  function toggleMemoireVoir() {
+    memoireExpanded = !memoireExpanded;
+    document.querySelectorAll('.memoire-row.hidden').forEach(r => {
+      r.classList.toggle('hidden', !memoireExpanded);
+    });
+    const btn = document.getElementById('memoire-voir-plus-btn');
+    if (btn) {
+      const total = parseInt(btn.dataset.total, 10);
+      const reste = total - MEMOIRE_VISIBLE;
+      btn.textContent = memoireExpanded
+        ? (lang === 'en' ? 'Show less' : 'Réduire')
+        : (lang === 'en' ? `See ${reste} more` : `Voir ${reste} de plus →`);
+    }
+  }
 
   function toggleMemoireRow(idx) {
     const row    = document.getElementById(`mem-row-${idx}`);
@@ -3301,13 +3307,15 @@
     if (!items.length) {
       bodyHtml = `<div class="memoire-vide">${esc(vide)}</div>`;
     } else {
+      memoireExpanded = false;
       const rows = items.map((item, i) => {
-        const cat    = MEMOIRE_CATS[item.cat] || MEMOIRE_CATS.habitudes;
+        const cat      = MEMOIRE_CATS[item.cat] || MEMOIRE_CATS.habitudes;
         const catLabel = isEn ? cat.en : cat.fr;
         const dateShort = formatDateMemoire(item.date);
         const dateLong  = formatDateMemoireLong(item.date);
+        const hiddenCls = i >= MEMOIRE_VISIBLE ? ' hidden' : '';
         return `
-          <div class="memoire-row" id="mem-row-${i}" onclick="toggleMemoireRow(${i})">
+          <div class="memoire-row${hiddenCls}" id="mem-row-${i}" onclick="toggleMemoireRow(${i})">
             <div class="memoire-row-icon">${cat.emoji}</div>
             <div class="memoire-row-body">
               <div class="memoire-row-fait">${esc(item.fait)}</div>
@@ -3321,12 +3329,13 @@
           </div>`;
       }).join('');
 
-      const footerTxt = isEn
-        ? `${items.length} memories · tap to see details`
-        : `${items.length} souvenir${items.length > 1 ? 's' : ''} · appuyez pour les détails`;
+      const reste = items.length - MEMOIRE_VISIBLE;
+      const voirPlusTxt = isEn ? `See ${reste} more` : `Voir ${reste} de plus →`;
+      const voirPlusBtn = reste > 0
+        ? `<button class="memoire-voir-plus" id="memoire-voir-plus-btn" data-total="${items.length}" onclick="toggleMemoireVoir()">${esc(voirPlusTxt)}</button>`
+        : '';
 
-      bodyHtml = `<div class="memoire-body">${rows}</div>
-        <div class="memoire-footer">${esc(footerTxt)}</div>`;
+      bodyHtml = `<div class="memoire-body">${rows}</div>${voirPlusBtn}`;
     }
 
     slot.innerHTML = `
@@ -3435,13 +3444,10 @@
     slot.innerHTML = `
       <div class="daily-card">
         <div class="daily-greeting">
-          <div class="daily-greeting-bonjour">${esc(bonjourLine)}</div>
-          ${childLine ? `<div class="daily-greeting-child">${esc(childLine)}</div>` : ''}
-          <hr class="daily-greeting-sep">
+          <span class="daily-greeting-bonjour">${esc(bonjourLine)}</span>
+          ${childLine ? `<span class="daily-greeting-dot">·</span><span class="daily-greeting-child">${esc(childLine)}</span>` : ''}
         </div>
-        <div class="daily-header">
-          <span class="daily-label">${esc(label)}</span>
-        </div>
+        <span class="daily-label">${esc(label)}</span>
         <div class="daily-hero">
           <div class="daily-hero-top">
             <div class="daily-emoji">${card.activite?.emoji || '🎨'}</div>
@@ -3453,21 +3459,17 @@
               </div>
             </div>
           </div>
-          ${card.activite?.description ? `<p class="daily-desc">${esc(card.activite.description)}</p>` : ''}
         </div>
 
         <div class="daily-chips">
           <button class="daily-chip" id="daily-chip-conseil" onclick="toggleDailyChip('conseil')">
-            <span class="daily-chip-emoji">☀️</span>
-            <span>${esc((tr.dailyChipConseil || '☀️ Conseil').replace(/^[^ ]+ /,''))}</span>
+            <span>${esc((tr.dailyChipConseil || 'Conseil').replace(/^\S+\s/,''))}</span>
           </button>
           <button class="daily-chip" id="daily-chip-histoire" onclick="toggleDailyChip('histoire')">
-            <span class="daily-chip-emoji">📖</span>
-            <span>${esc((tr.dailyChipHistoire || '📖 Histoire').replace(/^[^ ]+ /,''))}</span>
+            <span>${esc((tr.dailyChipHistoire || 'Histoire').replace(/^\S+\s/,''))}</span>
           </button>
           <button class="daily-chip" id="daily-chip-focus" onclick="toggleDailyChip('focus')">
-            <span class="daily-chip-emoji">❤️</span>
-            <span>${esc((tr.dailyChipFocus || '❤️ Focus').replace(/^[^ ]+ /,''))}</span>
+            <span>${esc((tr.dailyChipFocus || 'Focus').replace(/^\S+\s/,''))}</span>
           </button>
         </div>
 
@@ -3475,18 +3477,14 @@
           <p>${esc(card.conseil || '')}</p>
         </div>
         <div class="daily-panel" id="daily-panel-histoire">
-          ${card.histoire?.titre ? `<div class="daily-panel-title">📖 ${esc(card.histoire.titre)}</div>` : ''}
+          ${card.histoire?.titre ? `<div class="daily-panel-title">${esc(card.histoire.titre)}</div>` : ''}
           <p>${esc(card.histoire?.description || '')}</p>
         </div>
         <div class="daily-panel" id="daily-panel-focus">
           <p>${esc(card.focus || '')}</p>
         </div>
 
-        ${card.raison ? `
-        <div class="daily-raison">
-          <span class="daily-raison-label">💡 Pourquoi aujourd'hui ?</span>
-          ${esc(card.raison)}
-        </div>` : ''}
+        ${card.raison ? `<div class="daily-raison">💡 ${esc(card.raison)}</div>` : ''}
       </div>`;
     slot.style.display = 'block';
   }
@@ -3499,16 +3497,14 @@
     slot.innerHTML = `
       <div class="daily-card">
         <div class="daily-greeting">
-          <div class="daily-greeting-bonjour">${esc(bonjourLine)}</div>
-          ${childLine ? `<div class="daily-greeting-child">${esc(childLine)}</div>` : ''}
-          <hr class="daily-greeting-sep">
+          <span class="daily-greeting-bonjour">${esc(bonjourLine)}</span>
+          ${childLine ? `<span class="daily-greeting-dot">·</span><span class="daily-greeting-child">${esc(childLine)}</span>` : ''}
         </div>
         <div class="daily-skeleton-wrap">
-          <div class="daily-skeleton" style="width:55%;height:12px;margin-bottom:14px"></div>
-          <div class="daily-skeleton" style="width:80%;height:20px"></div>
-          <div class="daily-skeleton" style="width:45%;height:12px;margin-top:8px"></div>
-          <div class="daily-skeleton" style="width:90%;height:14px;margin-top:16px"></div>
-          <div class="daily-skeleton" style="width:75%;height:14px"></div>
+          <div class="daily-skeleton" style="width:40%;height:10px;margin-bottom:12px"></div>
+          <div class="daily-skeleton" style="width:75%;height:18px"></div>
+          <div class="daily-skeleton" style="width:40%;height:10px;margin-top:7px"></div>
+          <div class="daily-skeleton" style="width:90%;height:10px;margin-top:14px"></div>
         </div>
       </div>`;
     slot.style.display = 'block';
@@ -3588,13 +3584,10 @@
     slot.innerHTML = `
       <div class="daily-card">
         <div class="daily-greeting">
-          <div class="daily-greeting-bonjour">${esc(bonjourLine)}</div>
-          ${childLine ? `<div class="daily-greeting-child">${esc(childLine)}</div>` : ''}
-          <hr class="daily-greeting-sep">
+          <span class="daily-greeting-bonjour">${esc(bonjourLine)}</span>
+          ${childLine ? `<span class="daily-greeting-dot">·</span><span class="daily-greeting-child">${esc(childLine)}</span>` : ''}
         </div>
-        <div style="padding:16px 18px">
-          <div class="daily-label">${esc(label)}</div>
-        </div>
+        <span class="daily-label" style="padding-bottom:12px;display:block">${esc(label)}</span>
       </div>`;
     slot.style.display = 'block';
   }
