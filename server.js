@@ -354,7 +354,7 @@ app.post('/api/daily', async (req, res) => {
   if (!forceRegen && conversationsCol) {
     try {
       const doc = await conversationsCol.findOne({ sessionId }, { projection: { dailyCard: 1, memoireUpdatedAt: 1 } });
-      if (doc?.dailyCard?.date === today) {
+      if (doc?.dailyCard?.date === today && doc.dailyCard.lang === lang) {
         const cardGenAt   = doc.dailyCard.generatedAt ? new Date(doc.dailyCard.generatedAt) : null;
         const memoUpdated = doc.memoireUpdatedAt    ? new Date(doc.memoireUpdatedAt)       : null;
         // Invalider le cache si la mémoire a été mise à jour après la génération de la carte
@@ -414,7 +414,7 @@ Réponds UNIQUEMENT avec un objet JSON valide, sans texte avant ni après :
     "emoji": "🎨",
     "titre": "...",
     "duree": "...",
-    "lieu": "intérieur" ou "extérieur" ou "partout",
+    "lieu": "indoor" or "outdoor" or "anywhere",
     "description": "2-3 phrases concrètes — adaptées aux goûts et au caractère de ${name}"
   },
   "conseil": "1-2 phrases — répond à une situation réelle de ${name}, pas un conseil générique",
@@ -444,7 +444,7 @@ Langue de réponse : ${langLabel}.`;
     if (conversationsCol) {
       await conversationsCol.updateOne(
         { sessionId },
-        { $set: { dailyCard: { date: today, card, generatedAt: new Date() } }, $setOnInsert: { createdAt: new Date() } },
+        { $set: { dailyCard: { date: today, card, lang: lang || 'fr', generatedAt: new Date() } }, $setOnInsert: { createdAt: new Date() } },
         { upsert: true }
       ).catch(() => {});
     }

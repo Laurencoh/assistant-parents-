@@ -3209,9 +3209,12 @@
   function setMemoireLocale(childId, items) {
     try { localStorage.setItem(MEMOIRE_KEY + '_' + childId, JSON.stringify(items)); }
     catch {}
-    // Invalider le cache daily local pour que la prochaine carte utilise la nouvelle mémoire
-    try { localStorage.removeItem(`${DAILY_KEY}_${childId}`); }
-    catch {}
+    // Invalider le cache daily pour toutes les langues
+    try {
+      Object.keys(localStorage).forEach(k => {
+        if (k.startsWith(`${DAILY_KEY}_${childId}_`)) localStorage.removeItem(k);
+      });
+    } catch {}
   }
 
   const MEMOIRE_CATS = {
@@ -3398,7 +3401,7 @@
 
   function getDailyCache(childId) {
     try {
-      const raw = localStorage.getItem(`${DAILY_KEY}_${childId}`);
+      const raw = localStorage.getItem(`${DAILY_KEY}_${childId}_${lang}`);
       if (!raw) return null;
       const { date, card } = JSON.parse(raw);
       const today = new Date().toISOString().slice(0, 10);
@@ -3409,7 +3412,7 @@
   function setDailyCache(childId, card) {
     try {
       const today = new Date().toISOString().slice(0, 10);
-      localStorage.setItem(`${DAILY_KEY}_${childId}`, JSON.stringify({ date: today, card }));
+      localStorage.setItem(`${DAILY_KEY}_${childId}_${lang}`, JSON.stringify({ date: today, card }));
     } catch {}
   }
 
@@ -3437,7 +3440,7 @@
     if (!slot) return;
     const tr    = T[lang] || T.fr;
     const label = tr.dailyLabel ? tr.dailyLabel(childName) : `Aujourd'hui avec ${childName || 'votre enfant'}`;
-    const bonjourLine = parentName ? `Bonjour ${parentName} 👋` : 'Bonjour 👋';
+    const bonjourLine = (T[lang] || T.fr).dashBonjour(parentName);
     const childLine   = (childName && childAge) ? `${childName} a ${childAge}` : (childName || '');
 
     const lieuEmoji = { 'intérieur':'🏠', 'extérieur':'🌿', 'partout':'✨', 'indoor':'🏠', 'outdoor':'🌿', 'anywhere':'✨' };
@@ -3494,7 +3497,7 @@
   function renderCarteSkeleton(parentName, childName, childAge) {
     const slot = document.getElementById('daily-slot');
     if (!slot) return;
-    const bonjourLine = parentName ? `Bonjour ${parentName} 👋` : 'Bonjour 👋';
+    const bonjourLine = (T[lang] || T.fr).dashBonjour(parentName);
     const childLine   = (childName && childAge) ? `${childName} a ${childAge}` : (childName || '');
     slot.innerHTML = `
       <div class="daily-card">
@@ -3579,7 +3582,7 @@
   function renderCarteJourFallback(childName, parentName, childAge) {
     const slot = document.getElementById('daily-slot');
     if (!slot) return;
-    const bonjourLine = parentName ? `Bonjour ${parentName} 👋` : 'Bonjour 👋';
+    const bonjourLine = (T[lang] || T.fr).dashBonjour(parentName);
     const childLine   = (childName && childAge) ? `${childName} a ${childAge}` : (childName || '');
     const tr = T[lang] || T.fr;
     const label = tr.dailyLabel ? tr.dailyLabel(childName) : `Aujourd'hui avec ${childName || 'votre enfant'}`;
