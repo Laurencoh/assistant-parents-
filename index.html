@@ -585,6 +585,80 @@
     .footer-medical strong { color: var(--text-2); }
 
     /* ══ INVITATION PROFIL ENFANT ════════════════════════════ */
+    /* ── Landing block (nouveaux utilisateurs) ── */
+    .landing-block {
+      margin: 0 0 20px;
+      display: flex; flex-direction: column; gap: 0;
+      animation: slideDown 0.3s ease;
+    }
+    .landing-hero {
+      background: linear-gradient(155deg, #2E3A2C 0%, #3D5C3A 60%, #4E7A55 100%);
+      border-radius: 18px 18px 0 0;
+      padding: 28px 22px 24px;
+      text-align: center; color: #fff;
+    }
+    .landing-logo-line {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(255,255,255,0.5);
+      margin-bottom: 16px;
+    }
+    .landing-title {
+      font-family: Georgia, serif;
+      font-size: 1.3rem; font-weight: normal; line-height: 1.38;
+      color: #fff; margin: 0 0 12px;
+    }
+    .landing-subtitle {
+      font-size: 0.87rem; color: rgba(255,255,255,0.75);
+      line-height: 1.55; margin: 0 0 6px;
+    }
+    .landing-desc {
+      font-size: 0.79rem; color: rgba(255,255,255,0.52);
+      line-height: 1.5; margin: 0 0 22px;
+    }
+    .landing-cta-btn {
+      display: block; width: 100%; box-sizing: border-box;
+      padding: 14px 20px;
+      background: #8CBE86; color: #1E2E1C;
+      border: none; border-radius: 12px;
+      font-size: 0.97rem; font-weight: 700; font-family: inherit;
+      cursor: pointer; transition: background 0.15s, transform 0.1s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.22);
+    }
+    .landing-cta-btn:hover  { background: #A5D0A0; }
+    .landing-cta-btn:active { transform: scale(0.98); }
+    .landing-body {
+      background: #F7F3EC;
+      border: 1.5px solid #DDD6C8; border-top: none;
+      border-radius: 0 0 18px 18px;
+      padding: 20px 20px 18px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .landing-section-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.11em;
+      text-transform: uppercase; color: #A09880; margin-bottom: 10px;
+    }
+    .landing-steps { display: flex; flex-direction: column; gap: 9px; }
+    .landing-step  { display: flex; align-items: flex-start; gap: 12px; }
+    .landing-step-num {
+      flex-shrink: 0; width: 24px; height: 24px; border-radius: 50%;
+      background: #3D5C3A; color: #fff;
+      font-size: 0.74rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      margin-top: 1px;
+    }
+    .landing-step-text { font-size: 0.87rem; color: #2E3A2C; line-height: 1.45; padding-top: 2px; }
+    .landing-divider { border: none; border-top: 1px solid #E0D9CE; margin: 0; }
+    .landing-examples { display: flex; flex-direction: column; gap: 6px; }
+    .landing-ex {
+      font-size: 0.82rem; color: #4E5C4A; line-height: 1.4;
+      padding: 8px 12px; background: #fff; border-radius: 10px;
+      border: 1px solid #E5DDD0; font-style: italic;
+    }
+    .landing-ex::before { content: '\201C'; }
+    .landing-ex::after  { content: '\201D'; }
+    .landing-trust { font-size: 0.72rem; color: #A09880; line-height: 1.55; }
+    /* ── Fin landing block ── */
+
     .invite-enfant {
       margin: 0 0 16px;
       background: linear-gradient(135deg, #EAF6E8 0%, #F5F0E8 100%);
@@ -1424,6 +1498,7 @@
       inviteSub:'Âge, allergies, notes personnelles — l\'assistant s\'adapte automatiquement',
       inviteBtn:'＋ Ajouter mon enfant',
       tryBtn:'Essayer maintenant', tryAgePre:'Mon enfant a', tryAgePost:'an(s)', tryPlaceholder:'Posez votre question…', trySend:'Envoyer →', tryNudge:'Cette réponse vous a plu ? Créez le profil de votre enfant pour des conseils encore plus adaptés 🌱',
+      landingTitle:'L\'assistant parental qui apprend à connaître votre enfant.', landingSubtitle:'Des réponses personnalisées selon son âge, ses allergies, ses habitudes et ses besoins.', landingDesc:'Sommeil, repas, crises, activités et questions du quotidien. Commencez gratuitement — sans carte bancaire.', landingCta:'Ajouter mon enfant gratuitement', landingHow:'Comment ça marche', landingStep1:'Créez le profil de votre enfant', landingStep2:'Posez votre question', landingStep3:'Recevez une réponse adaptée à votre situation', landingEx1:'Mon enfant de 3 ans fait une crise chaque soir.', landingEx2:'Que peut-il manger avec son allergie aux œufs ?', landingEx3:'Comment l\'aider à s\'endormir seul ?', landingTrust:'Lovéa accompagne les parents au quotidien, mais ne remplace pas un professionnel de santé. Les informations de votre enfant sont utilisées uniquement pour personnaliser vos réponses et ne sont jamais partagées.', landingExLabel:'EXEMPLES',
       fPrenomParent:'Votre prénom (parent)',
       fPrenom:'Prénom de l\'enfant', fDob:'Date de naissance',
       fAllergies:'Allergies / régime alimentaire',
@@ -1487,6 +1562,7 @@
       inviteSub:'Age, allergies, personal notes — the assistant adapts automatically',
       inviteBtn:'＋ Add my child',
       tryBtn:'Try now', tryAgePre:'My child is', tryAgePost:'year(s) old', tryPlaceholder:'Ask your question…', trySend:'Send →', tryNudge:'Did you like this response? Create your child\'s profile for even more tailored advice 🌱',
+      landingTitle:'The parenting assistant that learns about your child.', landingSubtitle:'Personalized answers based on their age, allergies, habits and needs.', landingDesc:'Sleep, meals, tantrums, activities and everyday questions. Start for free — no credit card required.', landingCta:'Add my child for free', landingHow:'How it works', landingStep1:'Create your child\'s profile', landingStep2:'Ask your question', landingStep3:'Get an answer tailored to your situation', landingEx1:'My 3-year-old has a meltdown every evening.', landingEx2:'What can they eat with an egg allergy?', landingEx3:'How do I help them fall asleep alone?', landingTrust:'Lovéa supports parents in their daily lives, but does not replace a healthcare professional. Your child\'s information is used only to personalize your answers and is never shared.', landingExLabel:'EXAMPLES',
       fPrenomParent:'Your first name (parent)',
       fPrenom:'Child\'s first name', fDob:'Date of birth',
       fAllergies:'Allergies / diet',
@@ -1547,6 +1623,7 @@
       inviteSub:'גיל, אלרגיות, הערות אישיות — העוזר מסתגל אוטומטית',
       inviteBtn:'＋ הוסף את הילד שלי',
       tryBtn:'נסה עכשיו', tryAgePre:'הילד שלי בן', tryAgePost:'שנים', tryPlaceholder:'שאל את שאלתך…', trySend:'שלח →', tryNudge:'אהבת את התשובה? צור את הפרופיל של ילדך לייעוץ מותאם עוד יותר 🌱',
+      landingTitle:'עוזר ההורות שלומד להכיר את הילד שלך.', landingSubtitle:'תשובות מותאמות אישית לפי גיל, אלרגיות, הרגלים וצרכים.', landingDesc:'שינה, ארוחות, משברים, פעילויות ושאלות יומיומיות. התחילו בחינם — ללא כרטיס אשראי.', landingCta:'הוסף את הילד שלי בחינם', landingHow:'איך זה עובד', landingStep1:'צור את הפרופיל של הילד שלך', landingStep2:'שאל את השאלה שלך', landingStep3:'קבל תשובה המותאמת למצב שלך', landingEx1:'הילד שלי בן 3 עושה התקפות כל ערב.', landingEx2:'מה הוא יכול לאכול עם אלרגיה לביצים?', landingEx3:'איך לעזור לו להירדם לבד?', landingTrust:'Lovéa מלווה הורים בחיי היומיום, אך אינה מחליפה איש מקצוע בתחום הבריאות. המידע על ילדך משמש רק להתאמת התשובות ולא נמסר לאחרים.', landingExLabel:'דוגמאות',
       fPrenomParent:'השם שלך (הורה)',
       fPrenom:'שם הילד', fDob:'תאריך לידה',
       fAllergies:'אלרגיות / תזונה',
@@ -1588,6 +1665,7 @@
       inviteSub:'العمر، الحساسيات، ملاحظات شخصية — يتكيف المساعد تلقائياً',
       inviteBtn:'＋ إضافة طفلي',
       tryBtn:'جرّب الآن', tryAgePre:'عمر طفلي', tryAgePost:'سنوات', tryPlaceholder:'اطرح سؤالك…', trySend:'إرسال →', tryNudge:'هل أعجبتك الإجابة؟ أنشئ ملف طفلك للحصول على نصائح أكثر تخصيصاً 🌱',
+      landingTitle:'مساعد التربية الذي يتعلم معرفة طفلك.', landingSubtitle:'إجابات مخصصة حسب عمره وحساسياته وعاداته واحتياجاته.', landingDesc:'النوم والوجبات والأزمات والأنشطة وأسئلة الحياة اليومية. ابدأ مجاناً — دون بطاقة بنكية.', landingCta:'أضف طفلي مجاناً', landingHow:'كيف يعمل', landingStep1:'أنشئ ملف طفلك', landingStep2:'اطرح سؤالك', landingStep3:'احصل على إجابة مناسبة لوضعك', landingEx1:'طفلي البالغ من العمر 3 سنوات يعاني من نوبات غضب كل مساء.', landingEx2:'ماذا يمكنه أن يأكل مع حساسية البيض؟', landingEx3:'كيف أساعده على النوم وحده؟', landingTrust:'Lovéa ترافق الآباء في حياتهم اليومية، لكنها لا تحل محل المتخصص الصحي. معلومات طفلك تُستخدم فقط لتخصيص إجاباتك ولا تُشارك أبداً.', landingExLabel:'أمثلة',
       fPrenomParent:'اسمك (أحد الوالدين)',
       fPrenom:'اسم الطفل', fDob:'تاريخ الميلاد',
       fAllergies:'الحساسية / النظام الغذائي',
@@ -1629,6 +1707,7 @@
       inviteSub:'Edad, alergias, notas personales — el asistente se adapta automáticamente',
       inviteBtn:'＋ Agregar a mi hijo',
       tryBtn:'Probar ahora', tryAgePre:'Mi hijo tiene', tryAgePost:'año(s)', tryPlaceholder:'Haz tu pregunta…', trySend:'Enviar →', tryNudge:'¿Te gustó esta respuesta? Crea el perfil de tu hijo para consejos aún más personalizados 🌱',
+      landingTitle:'El asistente parental que aprende a conocer a tu hijo.', landingSubtitle:'Respuestas personalizadas según su edad, alergias, hábitos y necesidades.', landingDesc:'Sueño, comidas, rabietas, actividades y preguntas cotidianas. Empieza gratis — sin tarjeta de crédito.', landingCta:'Añadir a mi hijo gratis', landingHow:'Cómo funciona', landingStep1:'Crea el perfil de tu hijo', landingStep2:'Haz tu pregunta', landingStep3:'Recibe una respuesta adaptada a tu situación', landingEx1:'Mi hijo de 3 años tiene una rabieta cada noche.', landingEx2:'¿Qué puede comer con alergia al huevo?', landingEx3:'¿Cómo ayudarle a dormirse solo?', landingTrust:'Lovéa acompaña a los padres en su día a día, pero no sustituye a un profesional de la salud. La información de tu hijo se usa únicamente para personalizar tus respuestas y nunca se comparte.', landingExLabel:'EJEMPLOS',
       fPrenomParent:'Tu nombre (padre/madre)',
       fPrenom:'Nombre del niño', fDob:'Fecha de nacimiento',
       fAllergies:'Alergias / dieta', fNotes:'Notas',
@@ -1669,6 +1748,7 @@
       inviteSub:'Alter, Allergien, persönliche Notizen — der Assistent passt sich automatisch an',
       inviteBtn:'＋ Mein Kind hinzufügen',
       tryBtn:'Jetzt ausprobieren', tryAgePre:'Mein Kind ist', tryAgePost:'Jahr(e) alt', tryPlaceholder:'Stelle deine Frage…', trySend:'Senden →', tryNudge:'Hat dir diese Antwort gefallen? Erstelle das Profil deines Kindes für noch persönlichere Ratschläge 🌱',
+      landingTitle:'Der Elternassistent, der Ihr Kind kennenlernt.', landingSubtitle:'Personalisierte Antworten nach Alter, Allergien, Gewohnheiten und Bedürfnissen.', landingDesc:'Schlaf, Mahlzeiten, Krisen, Aktivitäten und Alltagsfragen. Kostenlos starten — keine Kreditkarte nötig.', landingCta:'Mein Kind kostenlos hinzufügen', landingHow:'Wie es funktioniert', landingStep1:'Erstellen Sie das Profil Ihres Kindes', landingStep2:'Stellen Sie Ihre Frage', landingStep3:'Erhalten Sie eine auf Ihre Situation zugeschnittene Antwort', landingEx1:'Mein 3-jähriges Kind hat jeden Abend einen Wutanfall.', landingEx2:'Was kann es mit einer Ei-Allergie essen?', landingEx3:'Wie helfe ich ihm, alleine einzuschlafen?', landingTrust:'Lovéa begleitet Eltern im Alltag, ersetzt aber keine medizinische Fachkraft. Die Informationen über Ihr Kind werden ausschließlich zur Personalisierung Ihrer Antworten verwendet und nie weitergegeben.', landingExLabel:'BEISPIELE',
       fPrenomParent:'Dein Vorname (Elternteil)',
       fPrenom:'Vorname des Kindes', fDob:'Geburtsdatum',
       fAllergies:'Allergien / Diät', fNotes:'Notizen',
@@ -1709,6 +1789,7 @@
       inviteSub:'Età, allergie, note personali — l\'assistente si adatta automaticamente',
       inviteBtn:'＋ Aggiungi mio figlio',
       tryBtn:'Prova ora', tryAgePre:'Mio figlio ha', tryAgePost:'anno/i', tryPlaceholder:'Fai la tua domanda…', trySend:'Invia →', tryNudge:'Ti è piaciuta questa risposta? Crea il profilo di tuo figlio per consigli ancora più personalizzati 🌱',
+      landingTitle:'L\'assistente genitoriale che impara a conoscere tuo figlio.', landingSubtitle:'Risposte personalizzate in base all\'età, allergie, abitudini e bisogni.', landingDesc:'Sonno, pasti, crisi, attività e domande quotidiane. Inizia gratuitamente — senza carta di credito.', landingCta:'Aggiungi mio figlio gratuitamente', landingHow:'Come funziona', landingStep1:'Crea il profilo di tuo figlio', landingStep2:'Fai la tua domanda', landingStep3:'Ricevi una risposta adatta alla tua situazione', landingEx1:'Mio figlio di 3 anni fa un capriccio ogni sera.', landingEx2:'Cosa può mangiare con un\'allergia alle uova?', landingEx3:'Come aiutarlo ad addormentarsi da solo?', landingTrust:'Lovéa accompagna i genitori nella vita quotidiana, ma non sostituisce un professionista della salute. Le informazioni di tuo figlio vengono utilizzate solo per personalizzare le tue risposte e non vengono mai condivise.', landingExLabel:'ESEMPI',
       fPrenomParent:'Il tuo nome (genitore)',
       fPrenom:'Nome del bambino', fDob:'Data di nascita',
       fAllergies:'Allergie / dieta', fNotes:'Note',
@@ -1749,6 +1830,7 @@
       inviteSub:'Idade, alergias, notas pessoais — o assistente adapta-se automaticamente',
       inviteBtn:'＋ Adicionar meu filho',
       tryBtn:'Experimentar agora', tryAgePre:'O meu filho tem', tryAgePost:'ano(s)', tryPlaceholder:'Faz a tua pergunta…', trySend:'Enviar →', tryNudge:'Gostaste desta resposta? Cria o perfil do teu filho para conselhos ainda mais personalizados 🌱',
+      landingTitle:'O assistente parental que aprende a conhecer o seu filho.', landingSubtitle:'Respostas personalizadas com base na sua idade, alergias, hábitos e necessidades.', landingDesc:'Sono, refeições, crises, atividades e questões do dia a dia. Comece gratuitamente — sem cartão de crédito.', landingCta:'Adicionar o meu filho gratuitamente', landingHow:'Como funciona', landingStep1:'Crie o perfil do seu filho', landingStep2:'Faça a sua pergunta', landingStep3:'Receba uma resposta adaptada à sua situação', landingEx1:'O meu filho de 3 anos faz uma birra todas as noites.', landingEx2:'O que pode comer com alergia aos ovos?', landingEx3:'Como ajudá-lo a adormecer sozinho?', landingTrust:'O Lovéa acompanha os pais no quotidiano, mas não substitui um profissional de saúde. As informações do seu filho são utilizadas apenas para personalizar as suas respostas e nunca são partilhadas.', landingExLabel:'EXEMPLOS',
       fPrenomParent:'O seu nome (pai/mãe)',
       fPrenom:'Nome da criança', fDob:'Data de nascimento',
       fAllergies:'Alergias / dieta', fNotes:'Notas',
@@ -1789,6 +1871,7 @@
       inviteSub:'Возраст, аллергии, личные заметки — ассистент адаптируется автоматически',
       inviteBtn:'＋ Добавить моего ребёнка',
       tryBtn:'Попробовать', tryAgePre:'Моему ребёнку', tryAgePost:'лет', tryPlaceholder:'Задайте вопрос…', trySend:'Отправить →', tryNudge:'Понравился ответ? Создайте профиль ребёнка для ещё более персональных советов 🌱',
+      landingTitle:'Родительский помощник, который узнаёт вашего ребёнка.', landingSubtitle:'Персонализированные ответы с учётом возраста, аллергий, привычек и потребностей.', landingDesc:'Сон, питание, кризисы, занятия и повседневные вопросы. Начните бесплатно — без банковской карты.', landingCta:'Добавить ребёнка бесплатно', landingHow:'Как это работает', landingStep1:'Создайте профиль вашего ребёнка', landingStep2:'Задайте свой вопрос', landingStep3:'Получите ответ, адаптированный к вашей ситуации', landingEx1:'Мой ребёнок 3 лет устраивает истерику каждый вечер.', landingEx2:'Что он может есть с аллергией на яйца?', landingEx3:'Как помочь ему засыпать самостоятельно?', landingTrust:'Lovéa помогает родителям в повседневной жизни, но не заменяет медицинского специалиста. Информация о вашем ребёнке используется только для персонализации ответов и никогда не передаётся третьим лицам.', landingExLabel:'ПРИМЕРЫ',
       fPrenomParent:'Ваше имя (родитель)',
       fPrenom:'Имя ребёнка', fDob:'Дата рождения',
       fAllergies:'Аллергии / диета', fNotes:'Заметки',
@@ -1829,6 +1912,7 @@
       inviteSub:'年龄、过敏症、个人备注 — 助手将自动适应',
       inviteBtn:'＋ 添加我的孩子',
       tryBtn:'立即尝试', tryAgePre:'我的孩子', tryAgePost:'岁', tryPlaceholder:'提问…', trySend:'发送 →', tryNudge:'喜欢这个回答吗？创建孩子的档案，获得更贴心的建议 🌱',
+      landingTitle:'了解您孩子的育儿助手。', landingSubtitle:'根据孩子的年龄、过敏症、习惯和需求提供个性化建议。', landingDesc:'睡眠、饮食、情绪危机、活动和日常问题。免费开始——无需绑定银行卡。', landingCta:'免费添加我的孩子', landingHow:'使用方法', landingStep1:'创建孩子的档案', landingStep2:'提出您的问题', landingStep3:'获得针对您情况的个性化建议', landingEx1:'我3岁的孩子每晚都会发脾气。', landingEx2:'鸡蛋过敏的孩子可以吃什么？', landingEx3:'如何帮助他独自入睡？', landingTrust:'Lovéa 陪伴父母的日常生活，但不能替代医疗专业人士。孩子的信息仅用于个性化您的回答，绝不与他人共享。', landingExLabel:'示例',
       fPrenomParent:'您的姓名（家长）',
       fPrenom:'孩子的姓名', fDob:'出生日期',
       fAllergies:'过敏 / 饮食', fNotes:'备注',
@@ -1869,6 +1953,7 @@
       inviteSub:'年齢、アレルギー、メモ — アシスタントが自動的に対応します',
       inviteBtn:'＋ 子どもを追加する',
       tryBtn:'今すぐ試す', tryAgePre:'子どもは', tryAgePost:'歳です', tryPlaceholder:'質問を入力…', trySend:'送信 →', tryNudge:'この回答はいかがでしたか？お子さんのプロフィールを作成してさらに個別のアドバイスを 🌱',
+      landingTitle:'お子さまを学ぶ育児アシスタント。', landingSubtitle:'年齢・アレルギー・習慣・ニーズに合わせたパーソナライズされた回答。', landingDesc:'睡眠、食事、かんしゃく、アクティビティ、日常のご質問に。無料で始める — クレジットカード不要。', landingCta:'お子さまを無料で追加する', landingHow:'使い方', landingStep1:'お子さまのプロフィールを作成', landingStep2:'質問を入力', landingStep3:'あなたの状況に合った回答を受け取る', landingEx1:'3歳の子が毎晩かんしゃくを起こします。', landingEx2:'卵アレルギーがある子は何を食べられますか？', landingEx3:'一人で眠れるようにするにはどうすればいいですか？', landingTrust:'Lovéaは日々の子育てをサポートしますが、医療専門家の代わりにはなりません。お子さまの情報は回答をパーソナライズするためにのみ使用され、第三者と共有されることはありません。', landingExLabel:'例',
       fPrenomParent:'あなたの名前（保護者）',
       fPrenom:'お子さまの名前', fDob:'生年月日',
       fAllergies:'アレルギー・食事制限', fNotes:'メモ',
@@ -1909,6 +1994,7 @@
       inviteSub:'나이, 알레르기, 개인 메모 — 어시스턴트가 자동으로 맞춰드립니다',
       inviteBtn:'＋ 내 아이 추가하기',
       tryBtn:'지금 시도하기', tryAgePre:'아이는', tryAgePost:'살입니다', tryPlaceholder:'질문하세요…', trySend:'보내기 →', tryNudge:'이 답변이 마음에 드셨나요? 아이의 프로필을 만들어 더 맞춤화된 조언을 받아보세요 🌱',
+      landingTitle:'아이를 알아가는 육아 도우미.', landingSubtitle:'나이, 알레르기, 습관, 필요에 맞춘 개인화된 답변.', landingDesc:'수면, 식사, 위기, 활동 및 일상 질문. 무료로 시작하세요 — 신용카드 불필요.', landingCta:'무료로 아이 추가하기', landingHow:'이용 방법', landingStep1:'아이의 프로필 만들기', landingStep2:'질문하기', landingStep3:'상황에 맞는 답변 받기', landingEx1:'3살 아이가 매일 저녁 떼를 씁니다.', landingEx2:'달걀 알레르기가 있는 아이는 무엇을 먹을 수 있나요?', landingEx3:'혼자 잠들 수 있도록 어떻게 도와주나요?', landingTrust:'Lovéa는 일상적인 육아를 지원하지만 의료 전문가를 대체하지 않습니다. 아이의 정보는 답변 개인화에만 사용되며 절대 공유되지 않습니다.', landingExLabel:'예시',
       fPrenomParent:'당신의 이름 (부모)',
       fPrenom:'아이의 이름', fDob:'생년월일',
       fAllergies:'알레르기 / 식이요법', fNotes:'메모',
@@ -1949,6 +2035,7 @@
       inviteSub:'Yaş, alerjiler, kişisel notlar — asistan otomatik olarak uyum sağlar',
       inviteBtn:'＋ Çocuğumu ekle',
       tryBtn:'Şimdi dene', tryAgePre:'Çocuğum', tryAgePost:'yaşında', tryPlaceholder:'Sorunuzu sorun…', trySend:'Gönder →', tryNudge:'Bu yanıtı beğendiniz mi? Daha kişiselleştirilmiş tavsiyeler için çocuğunuzun profilini oluşturun 🌱',
+      landingTitle:'Çocuğunuzu tanımayı öğrenen ebeveyn asistanı.', landingSubtitle:'Yaşına, alerjilerine, alışkanlıklarına ve ihtiyaçlarına göre kişiselleştirilmiş yanıtlar.', landingDesc:'Uyku, yemekler, krizler, aktiviteler ve günlük sorular. Ücretsiz başlayın — kredi kartı gerekmez.', landingCta:'Çocuğumu ücretsiz ekle', landingHow:'Nasıl çalışır', landingStep1:'Çocuğunuzun profilini oluşturun', landingStep2:'Sorunuzu sorun', landingStep3:'Durumunuza uygun yanıt alın', landingEx1:'3 yaşındaki çocuğum her akşam kriz çıkarıyor.', landingEx2:'Yumurta alerjisiyle ne yiyebilir?', landingEx3:'Yalnız uyumasına nasıl yardım edebilirim?', landingTrust:'Lovéa günlük ebeveynlik yolculuğunuzda yanınızdadır, ancak bir sağlık uzmanının yerini tutmaz. Çocuğunuzun bilgileri yalnızca yanıtlarınızı kişiselleştirmek için kullanılır ve asla paylaşılmaz.', landingExLabel:'ÖRNEKLER',
       fPrenomParent:'Adınız (ebeveyn)',
       fPrenom:'Çocuğun adı', fDob:'Doğum tarihi',
       fAllergies:'Alerjiler / diyet', fNotes:'Notlar',
@@ -1989,6 +2076,7 @@
       inviteSub:'Leeftijd, allergieën, persoonlijke notities — de assistent past zich automatisch aan',
       inviteBtn:'＋ Mijn kind toevoegen',
       tryBtn:'Nu proberen', tryAgePre:'Mijn kind is', tryAgePost:'jaar oud', tryPlaceholder:'Stel uw vraag…', trySend:'Verstuur →', tryNudge:'Vond u dit antwoord nuttig? Maak een profiel voor uw kind voor nog meer persoonlijk advies 🌱',
+      landingTitle:'De ouderassistent die uw kind leert kennen.', landingSubtitle:'Gepersonaliseerde antwoorden op basis van leeftijd, allergieën, gewoonten en behoeften.', landingDesc:'Slaap, maaltijden, crises, activiteiten en dagelijkse vragen. Begin gratis — geen creditcard nodig.', landingCta:'Mijn kind gratis toevoegen', landingHow:'Hoe het werkt', landingStep1:'Maak het profiel van uw kind aan', landingStep2:'Stel uw vraag', landingStep3:'Ontvang een antwoord op maat van uw situatie', landingEx1:'Mijn kind van 3 heeft elke avond een driftbui.', landingEx2:'Wat kan het eten met een ei-allergie?', landingEx3:'Hoe help ik het alleen in te slapen?', landingTrust:'Lovéa begeleidt ouders in het dagelijks leven, maar vervangt geen zorgprofessional. De gegevens van uw kind worden uitsluitend gebruikt om uw antwoorden te personaliseren en worden nooit gedeeld.', landingExLabel:'VOORBEELDEN',
       fPrenomParent:'Jouw naam (ouder)',
       fPrenom:'Naam van het kind', fDob:'Geboortedatum',
       fAllergies:'Allergieën / dieet', fNotes:'Notities',
@@ -2029,6 +2117,7 @@
       inviteSub:'Wiek, alergie, notatki — asystent dostosowuje się automatycznie',
       inviteBtn:'＋ Dodaj moje dziecko',
       tryBtn:'Spróbuj teraz', tryAgePre:'Moje dziecko ma', tryAgePost:'lat', tryPlaceholder:'Zadaj pytanie…', trySend:'Wyślij →', tryNudge:'Podobała ci się ta odpowiedź? Stwórz profil dziecka dla jeszcze bardziej spersonalizowanych porad 🌱',
+      landingTitle:'Asystent rodzicielski, który poznaje Twoje dziecko.', landingSubtitle:'Spersonalizowane odpowiedzi uwzględniające wiek, alergie, nawyki i potrzeby.', landingDesc:'Sen, posiłki, kryzysy, aktywności i codzienne pytania. Zacznij za darmo — bez karty kredytowej.', landingCta:'Dodaj moje dziecko za darmo', landingHow:'Jak to działa', landingStep1:'Utwórz profil swojego dziecka', landingStep2:'Zadaj pytanie', landingStep3:'Otrzymaj odpowiedź dostosowaną do Twojej sytuacji', landingEx1:'Moje 3-letnie dziecko urządza awanturę każdego wieczoru.', landingEx2:'Co może jeść przy alergii na jajka?', landingEx3:'Jak pomóc mu zasnąć samemu?', landingTrust:'Lovéa towarzyszy rodzicom w codziennym życiu, ale nie zastępuje specjalisty medycznego. Informacje o Twoim dziecku są używane wyłącznie do personalizacji odpowiedzi i nigdy nie są udostępniane.', landingExLabel:'PRZYKŁADY',
       fPrenomParent:'Twoje imię (rodzic)',
       fPrenom:'Imię dziecka', fDob:'Data urodzenia',
       fAllergies:'Alergie / dieta', fNotes:'Notatki',
@@ -2069,6 +2158,7 @@
       inviteSub:'Vârstă, alergii, notițe personale — asistentul se adaptează automat',
       inviteBtn:'＋ Adaugă copilul meu',
       tryBtn:'Încearcă acum', tryAgePre:'Copilul meu are', tryAgePost:'ani', tryPlaceholder:'Pune-ți întrebarea…', trySend:'Trimite →', tryNudge:'Ți-a plăcut acest răspuns? Creează profilul copilului tău pentru sfaturi și mai personalizate 🌱',
+      landingTitle:'Asistentul parental care învață să-ți cunoască copilul.', landingSubtitle:'Răspunsuri personalizate în funcție de vârstă, alergii, obiceiuri și nevoi.', landingDesc:'Somn, mese, crize, activități și întrebări de zi cu zi. Începeți gratuit — fără card bancar.', landingCta:'Adaugă copilul meu gratuit', landingHow:'Cum funcționează', landingStep1:'Creați profilul copilului dvs.', landingStep2:'Puneți întrebarea', landingStep3:'Primiți un răspuns adaptat situației dvs.', landingEx1:'Copilul meu de 3 ani face o criză în fiecare seară.', landingEx2:'Ce poate mânca cu alergie la ouă?', landingEx3:'Cum îl ajut să adoarmă singur?', landingTrust:'Lovéa însoțește părinții în viața de zi cu zi, dar nu înlocuiește un profesionist medical. Informațiile copilului dvs. sunt folosite doar pentru a personaliza răspunsurile și nu sunt niciodată partajate.', landingExLabel:'EXEMPLE',
       fPrenomParent:'Prenumele tău (părinte)',
       fPrenom:'Prenumele copilului', fDob:'Data nașterii',
       fAllergies:'Alergii / dietă', fNotes:'Notițe',
@@ -2691,22 +2781,34 @@
     const w = WELCOME[lang] || WELCOME.fr;
     const hasChildren = chargerEnfants().length > 0;
     const inviteBanner = hasChildren ? '' : `
-      <div class="invite-enfant" id="invite-enfant">
-        <div class="invite-enfant-emoji">🌱</div>
-        <div class="invite-enfant-titre">${esc(t('inviteTitle')).replace('\n','<br>')}</div>
-        <div class="invite-enfant-sous">${esc(t('inviteSub'))}</div>
-        <div class="invite-btn-row">
-          <button class="btn-invite-enfant" onclick="ouvrirModal()">${esc(t('inviteBtn'))}</button>
-          <button class="btn-invite-try" onclick="toggleTryForm()">${esc(t('tryBtn'))}</button>
+      <div class="landing-block" id="landing-block">
+        <div class="landing-hero">
+          <div class="landing-logo-line">Lovéa</div>
+          <h1 class="landing-title">${esc(t('landingTitle'))}</h1>
+          <p class="landing-subtitle">${esc(t('landingSubtitle'))}</p>
+          <p class="landing-desc">${esc(t('landingDesc'))}</p>
+          <button class="landing-cta-btn" onclick="ouvrirModal()">${esc(t('landingCta'))}</button>
         </div>
-        <div class="invite-try-form" id="invite-try-form">
-          <div class="invite-try-age-row">
-            <span>${esc(t('tryAgePre'))}</span>
-            <input type="number" id="try-age" min="0" max="18" placeholder="2">
-            <span>${esc(t('tryAgePost'))}</span>
+        <div class="landing-body">
+          <div>
+            <div class="landing-section-label">${esc(t('landingHow'))}</div>
+            <div class="landing-steps">
+              <div class="landing-step"><div class="landing-step-num">1</div><div class="landing-step-text">${esc(t('landingStep1'))}</div></div>
+              <div class="landing-step"><div class="landing-step-num">2</div><div class="landing-step-text">${esc(t('landingStep2'))}</div></div>
+              <div class="landing-step"><div class="landing-step-num">3</div><div class="landing-step-text">${esc(t('landingStep3'))}</div></div>
+            </div>
           </div>
-          <textarea id="try-question" class="invite-try-textarea" placeholder="${esc(t('tryPlaceholder'))}" rows="3"></textarea>
-          <button class="btn-invite-send" onclick="envoyerEssai()">${esc(t('trySend'))}</button>
+          <hr class="landing-divider">
+          <div>
+            <div class="landing-section-label">${esc(t('landingExLabel'))}</div>
+            <div class="landing-examples">
+              <div class="landing-ex">${esc(t('landingEx1'))}</div>
+              <div class="landing-ex">${esc(t('landingEx2'))}</div>
+              <div class="landing-ex">${esc(t('landingEx3'))}</div>
+            </div>
+          </div>
+          <hr class="landing-divider">
+          <p class="landing-trust">${esc(t('landingTrust'))}</p>
         </div>
       </div>`;
     return `<div class="accueil" id="accueil">
