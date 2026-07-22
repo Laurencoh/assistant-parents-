@@ -5,21 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- SEO -->
-  <title>Lovéa — Assistant parental IA personnalisé pour votre enfant</title>
-  <meta name="description" content="Posez toutes vos questions de parent et obtenez des réponses adaptées à votre enfant. Lovéa connaît son âge, ses allergies et son profil. Essayez gratuitement.">
-  <meta name="keywords" content="assistant parental, conseils bébé, conseils enfant, IA parents, repas enfant, sommeil bébé, crise enfant, assistant parenting gratuit">
+  <title>Lovéa — L'assistant parental qui apprend à connaître votre enfant</title>
+  <meta name="description" content="Sommeil, repas, crises, activités : Lovéa répond à toutes vos questions de parent avec des conseils adaptés à l'âge, aux allergies et aux habitudes de votre enfant. Gratuit, sans carte bancaire.">
+  <meta name="keywords" content="assistant parental, conseils bébé, conseils enfant, IA parents, repas enfant, sommeil bébé, crise enfant, assistant parenting gratuit, allergie enfant">
+  <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Lovéa — Assistant parental gratuit">
-  <meta property="og:description" content="Posez toutes vos questions de parent. Lovéa vous répond avec des conseils adaptés à l'âge et aux allergies de votre enfant.">
+  <meta property="og:title" content="Lovéa — L'assistant parental qui apprend à connaître votre enfant">
+  <meta property="og:description" content="Sommeil, repas, crises, activités : des réponses personnalisées selon l'âge, les allergies et les habitudes de votre enfant. Essayez gratuitement.">
   <meta property="og:url" content="https://lovea.app">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Lovéa">
 
   <!-- Twitter Card -->
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Lovéa — Assistant parental gratuit">
-  <meta name="twitter:description" content="Conseils parentaux personnalisés grâce à l'IA. Gratuit, en français, disponible 24h/24.">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lovéa — L'assistant parental qui apprend à connaître votre enfant">
+  <meta name="twitter:description" content="Sommeil, repas, crises, activités : des réponses personnalisées selon l'âge et le profil de votre enfant. Gratuit, sans carte bancaire.">
 
   <!-- Langue -->
   <meta http-equiv="content-language" content="fr">
@@ -1210,6 +1212,25 @@
   </style>
 </head>
 <body>
+
+  <!-- SEO static content — visible for crawlers, removed instantly by JS -->
+  <div id="seo-content" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0" aria-hidden="true">
+    <h1>L'assistant parental qui apprend à connaître votre enfant.</h1>
+    <p>Des réponses personnalisées selon son âge, ses allergies, ses habitudes et ses besoins. Sommeil, repas, crises, activités et questions du quotidien. Commencez gratuitement — sans carte bancaire.</p>
+    <h2>Comment ça marche</h2>
+    <ol>
+      <li>Créez le profil de votre enfant</li>
+      <li>Posez votre question</li>
+      <li>Recevez une réponse adaptée à votre situation</li>
+    </ol>
+    <h2>Exemples de questions</h2>
+    <ul>
+      <li>Mon enfant de 3 ans fait une crise chaque soir.</li>
+      <li>Que peut-il manger avec son allergie aux œufs ?</li>
+      <li>Comment l'aider à s'endormir seul ?</li>
+    </ul>
+    <p>Lovéa accompagne les parents au quotidien, mais ne remplace pas un professionnel de santé. Les informations de votre enfant sont utilisées uniquement pour personnaliser vos réponses et ne sont jamais partagées.</p>
+  </div>
 
   <div class="overlay" id="overlay" onclick="fermerSidebar()"></div>
 
@@ -4509,6 +4530,9 @@
   selectedChildId = localStorage.getItem(SEL_KEY) || null;
   // Valider que l'enfant existe encore
   if (selectedChildId && !chargerEnfants().find(e=>e.id===selectedChildId)) selectedChildId=null;
+
+  // Remove SEO-only static block — crawlers saw it, users don't need it
+  document.getElementById('seo-content')?.remove();
 
   setLang(lang);
   renderChildSelector();
