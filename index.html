@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Masque le bloc SEO statique dès que JS est disponible, avant tout rendu -->
+  <script>document.documentElement.classList.add('js-on')</script>
+  <style>.js-on #seo-content { display: none !important; }</style>
 
   <!-- SEO -->
   <title>Lovéa — L'assistant parental qui apprend à connaître votre enfant</title>
@@ -1214,7 +1217,7 @@
 <body>
 
   <!-- SEO static content — visible for crawlers, removed instantly by JS -->
-  <div id="seo-content" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0" aria-hidden="true">
+  <div id="seo-content">
     <h1>L'assistant parental qui apprend à connaître votre enfant.</h1>
     <p>Des réponses personnalisées selon son âge, ses allergies, ses habitudes et ses besoins. Sommeil, repas, crises, activités et questions du quotidien. Commencez gratuitement — sans carte bancaire.</p>
     <h2>Comment ça marche</h2>
